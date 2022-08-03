@@ -1,0 +1,5 @@
+Main idea
+
+Figure out main system frame and using python to do the project. 
+
+Create an UML to determine the main idea of the project. 
