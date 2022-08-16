@@ -1,17 +1,13 @@
 package frontEndView;
 
 import java.awt.Font;
-
 import javax.swing.JPanel;
 
-import methodAndTool.ViewChange;
 import methodAndTool.ProjectVariable;
 
 public class PythonCodeCheckerPage {
 	
-	ProjectVariable PV = new ProjectVariable();
-	ViewChange VC = new ViewChange();
-	
+	ProjectVariable PV = new ProjectVariable();	
 	
 	public void checkerPage (JPanel panel) {
 		
@@ -27,10 +23,11 @@ public class PythonCodeCheckerPage {
 		PV.getPrompt_1().setBounds(50, 10, 600, 50);
 		panel.add(PV.getPrompt_1());
 		
+		// 问题
 		PV.getPrompt_Question().setBounds(50, 60, 900, 50);
 		panel.add(PV.getPrompt_Question());
 		
-		// 
+		// 代码编辑框
 		PV.getArea_1().setFont(myFont1);								// 字体
 		PV.getArea_1().setLineWrap(true);								// 自动换行
 		PV.getArea_1().setBounds(50, 123, 600, 310);

@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import methodAndTool.ProjectVariable;
 import methodAndTool.AnswerWriteTxt;
@@ -36,10 +38,26 @@ public class CodeCheckerController implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
 		if (e.getActionCommand() == "Submit Answer Code") 
 		{
-			AWT.writeAnswerInTxt(); 
+
+//			AWT.writeAnswerInTxt(); 
+			String pyCodeAnswer = PV.getArea_1_String();
+			char[] py_chars = pyCodeAnswer.toCharArray();
+			try {
+				System.out.println("############");
+				AnswerWriteTxt.creatTxtFile("PyCodeAnswer");
+				System.out.println("************");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
+			
 			System.out.println("Submit Button is Working! Submit Answer Code");
+			System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+			System.out.println(ProjectVariable.getFilenameTemp());
 		}
 		
 		else if (e.getActionCommand() == "Run the Code") 

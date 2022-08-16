@@ -1,19 +1,12 @@
 package frontEndView;
 
-import java.awt.Font;
-import java.awt.Frame;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import methodAndTool.ViewChange;
 import methodAndTool.ProjectVariable;
 
 public class HomePage {
 	
-	ViewChange VC = new ViewChange();
 	ProjectVariable PV = new ProjectVariable();
 	PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
 	

@@ -11,6 +11,9 @@ public class ProjectVariable {
 	
 	public static String feedback = "good!!!!!!";
 	
+	public static String filenameTemp;
+	
+
 	//提示语
 	public static JLabel prompt_1 = new JLabel ("Please Input your Python Code in here: ");
 	// 题目
@@ -47,6 +50,18 @@ public class ProjectVariable {
 	}
 	
 	
+	
+	/**
+	 * 
+	 * */
+	public static String getFilenameTemp() {
+		return filenameTemp;
+	}
+
+	public static void setFilenameTemp(String filenameTemp) {
+		ProjectVariable.filenameTemp = filenameTemp;
+	}
+
 	
 	
 	
