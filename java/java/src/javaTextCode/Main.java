@@ -12,6 +12,7 @@ public class Main {
 		ProjectVariable PV = new ProjectVariable();
 		//CodeCheckerController CCC = new CodeCheckerController();
 		
+		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{

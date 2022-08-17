@@ -16,8 +16,12 @@ public class AnswerWriteTxt {
 	
 	public static boolean creatTxtFile (String name) throws IOException {
 		boolean flag = false;
+		System.out.println("printed");
 		// 这个写的是绝对路径，相对路径老报错。我搞不明白。先用结对路径。谁拉到本地后都改一下路径。
-		ProjectVariable.setFilenameTemp("./src/txt/" + name + ".txt");
+		ProjectVariable.setFilenameTemp("./java/src/txt/" + name + ".txt");
+
+		
+
 		File filename = new File(ProjectVariable.getFilenameTemp());
 		if (! filename.exists()) {
 			filename.createNewFile();
@@ -63,7 +67,7 @@ public class AnswerWriteTxt {
 	public static void run_python_code() {
 
 		try{
-			ProcessBuilder pb = new ProcessBuilder("python", "./src/python/" + "PyController.py");
+			ProcessBuilder pb = new ProcessBuilder("python", "./java/src/python/" + "PyController.py");
 			Process p = pb.start();
 			 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -92,7 +96,10 @@ public class AnswerWriteTxt {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return "read text error";
-		}		
+		}
+		
+		
+	    		
 	}
 	
 	
