@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 import methodAndTool.ProjectVariable;
@@ -57,7 +56,6 @@ public class CodeCheckerController implements ActionListener{
 			
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 			
-			
 			AnswerWriteTxt.run_python_code();
 			
 			System.out.println("Submit Button is Working! Submit Answer Code");
@@ -67,14 +65,14 @@ public class CodeCheckerController implements ActionListener{
 		
 		else if (e.getActionCommand() == "Run the Code") 
 		{
-			
 			System.out.println("Submit Button is Working! Run the Code");
 			String pyCodeAnswer = PV.getArea_1_String();
 			char[] py_chars = pyCodeAnswer.toCharArray();
-			try {
+
+			try { 
 				AnswerWriteTxt.creatTxtFile("PyCodeAnswer");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
@@ -83,7 +81,8 @@ public class CodeCheckerController implements ActionListener{
 		
 			//set Text Area_2 as user output
 			try {
-				String try_print = AnswerWriteTxt.readText("./src/txt/user_output.txt");
+				String try_print = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
+				
 				System.out.print(try_print);
 				PV.getArea_2().setText(try_print);
 			} catch (IOException e1) {
