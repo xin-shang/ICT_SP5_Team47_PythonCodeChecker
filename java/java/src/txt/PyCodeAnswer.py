@@ -1,1 +1,1 @@
-dsadasdqweqe
+print("aaa")
