@@ -92,10 +92,7 @@ public class AnswerWriteTxt {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return "read text error";
-		}
-		
-		
-	    		
+		}		
 	}
 	
 	
