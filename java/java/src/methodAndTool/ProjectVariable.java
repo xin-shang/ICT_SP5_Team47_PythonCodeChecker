@@ -1,10 +1,15 @@
 package methodAndTool;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 public class ProjectVariable {
+	
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public static int designWindow_width = 1000;
 	public static int designWindow_heigh = 618;
@@ -13,26 +18,43 @@ public class ProjectVariable {
 	
 	public static String filenameTemp;
 	
+	/**
+	 * Home Page
+	 **/
+	// Home Page 提示语
+	public static JLabel prompt_home = new JLabel ("Welcome to Python Code Chacker");
+	// Home Page 按键
+	public static JButton button_Student = new JButton ("I'm a Student");
+	public static JButton button_Staff = new JButton ("I'm a Staff");
 
-	//提示语
+	// Python Code Checker Page 提示语
 	public static JLabel prompt_1 = new JLabel ("Please Input your Python Code in here: ");
-	// 题目
+	// Python Code Checker Page 题目
 	public static JLabel prompt_Question = new JLabel ("print 'Hello World' ");
-	// 行和列
+	// Python Code Checker Page 行和列
 	public static JTextArea area_1 = new JTextArea (100, 50);				// 行和列
 	
 	// 评语
 	public static JTextArea area_2 = new JTextArea (100, 50);				// 行和列
 	public static JLabel area_3 = new JLabel ();							// 提示语
 	
-	// 按键
+	// Python Code Checker Page 按键
 	public static JButton button_Submit = new JButton ("Submit");
 	public static JButton button_Run = new JButton ("Run");
 	public static JButton button_Score = new JButton ("Show Score");
 	public static JButton button_Feedback = new JButton ("Show Feedback");
 	
 
-
+	public int getScreenWidthSize () {
+		int screenWidth = (int) screenSize.getWidth(); 
+		return screenWidth;
+	}
+	
+	public int getScreenHeighSize () {
+		int  screenHeigh = (int) screenSize.getHeight();
+		return screenHeigh;
+	}
+	
 	public int getDesign_width() {
 		return designWindow_width;
 	}
@@ -69,6 +91,10 @@ public class ProjectVariable {
 	/**
 	 * Getter
 	 * */
+	public JLabel getPrompt_home() {
+		return prompt_home;
+	}
+	
 	public JLabel getPrompt_1() {
 		return prompt_1;
 	}
@@ -90,6 +116,10 @@ public class ProjectVariable {
 	}
 
 	// Setter
+	public void setPrompt_home(JLabel prompt_home) {
+		ProjectVariable.prompt_home = prompt_home;
+	}
+
 	public void setPrompt_1(JLabel prompt_1) {
 		ProjectVariable.prompt_1 = prompt_1;
 	}
@@ -159,6 +189,22 @@ public class ProjectVariable {
 	/**
 	 * Getter & Setter Button
 	 * */
+	public JButton getButton_Student() {
+		return button_Student;
+	}
+
+	public void setButton_Student(JButton button_Student) {
+		ProjectVariable.button_Student = button_Student;
+	}
+
+	public JButton getButton_Staff() {
+		return button_Staff;
+	}
+
+	public void setButton_Staff(JButton button_Staff) {
+		ProjectVariable.button_Staff = button_Staff;
+	}
+
 	public JButton getButton_Submit() {
 		return button_Submit;
 	}

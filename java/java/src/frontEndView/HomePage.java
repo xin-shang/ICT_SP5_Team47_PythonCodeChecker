@@ -2,27 +2,47 @@ package frontEndView;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Font;
 
 import methodAndTool.ProjectVariable;
 
-public class HomePage {
+public class HomePage extends JFrame{
 	
 	ProjectVariable PV = new ProjectVariable();
-	PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
+
+	public HomePage () {
+		init();
+	}
 	
-	public void createWindow () {
+	private void init() {
+
+		// 窗口
+		setTitle("Python Code Checker");				// 窗口名称
+		setSize(PV.getDesign_width(), PV.getDesign_heigh());		// 设置窗口（宽，高）
+		setResizable(false);					// 窗口锁定
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			// 违规操作关闭
+
+		// 版本
+		JPanel homePanel = new JPanel();
+		homePanel.setLayout(null);	
 		
-		JFrame frame = new JFrame ("Python Code Checker");	 			//创建窗口
-		frame.setSize(PV.getDesign_width(), PV.getDesign_heigh());		// 设置窗口(宽, 高)
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 			// 违规操作关闭
+		add(homePanel);											// 添加
+
+		// 字体
+		Font myFont = new Font("Arial", Font.PLAIN, 28);
+
+		PV.getPrompt_home().setFont(myFont);
+		PV.getPrompt_home().setBounds(150, 10, 600, 100);
+		homePanel.add(PV.getPrompt_home());
+
+		PV.getButton_Student().setBounds(150, 200, 200, 200);
+		homePanel.add(PV.getButton_Student());
 		
-		JPanel panel = new JPanel();									// 创建一个视图（有点像div标签）
-		frame.add(panel);												// 添加
+		PV.getButton_Staff().setBounds(600, 200, 200, 200);
+		homePanel.add(PV.getButton_Staff());
 		
-		PCCP.checkerPage(panel);
-		
-		frame.setVisible(true);		//窗口可见
-		
+		setVisible(true);
+
 	}
 
 }

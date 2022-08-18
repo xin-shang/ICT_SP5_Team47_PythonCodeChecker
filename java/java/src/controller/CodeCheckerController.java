@@ -36,7 +36,6 @@ public class CodeCheckerController implements ActionListener{
 	 * */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 		if (e.getActionCommand() == "Submit Answer Code") 
 		{
@@ -86,12 +85,8 @@ public class CodeCheckerController implements ActionListener{
 				System.out.print(try_print);
 				PV.getArea_2().setText(try_print);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-				
-		
 			
 		}
 		
