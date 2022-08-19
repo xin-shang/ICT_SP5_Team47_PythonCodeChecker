@@ -15,27 +15,26 @@ public class HomeController implements ActionListener{
         public HomeController() {
                 
                 PV.getButton_Student().addActionListener(this);
-		PV.getButton_Student().setActionCommand("I am a Student");
-		
-		PV.getButton_Staff().addActionListener(this);
-		PV.getButton_Staff().setActionCommand("I am a Staff");
+                PV.getButton_Student().setActionCommand("I am a Student");
+                
+                PV.getButton_Staff().addActionListener(this);
+                PV.getButton_Staff().setActionCommand("I am a Staff");
         }
 
         @Override
-	public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
                 
                 if (e.getActionCommand() == "I am a Student") 
-		{       
-                        System.out.println("-- ******** --");
+                {       
                         new PythonCodeCheckerPage();
-                        System.out.println("-- ******** --");
                         new CodeCheckerController();
                         System.out.println("-- 'I am a Student' Working --");
                 } 
+                
                 else if (e.getActionCommand() == "I am a Staff")
                 {
-                        new frontEndView.PythonQuestionEditPage();
-                        //new 
+                        new PythonQuestionEditPage();
+                        new EditQuestionController(); 
                         System.out.println("--  'I am a Staff' Working  --");
                 }
         }

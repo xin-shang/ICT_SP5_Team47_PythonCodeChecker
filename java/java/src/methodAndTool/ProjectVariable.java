@@ -19,7 +19,7 @@ public class ProjectVariable {
 	public static String filenameTemp;
 	
 	/**
-	 * Home Page
+	 * Home Page：
 	 **/
 	// Home Page 提示语
 	public static JLabel prompt_home = new JLabel ("Welcome to Python Code Chacker");
@@ -27,10 +27,16 @@ public class ProjectVariable {
 	public static JButton button_Student = new JButton ("I'm a Student");
 	public static JButton button_Staff = new JButton ("I'm a Staff");
 
+	/**
+	 * Python Code Chacker Page：
+	 * */
 	// Python Code Checker Page 提示语
 	public static JLabel prompt_1 = new JLabel ("Please Input your Python Code in here: ");
 	// Python Code Checker Page 题目
 	public static JLabel prompt_Question = new JLabel ("print 'Hello World' ");
+	// Python Code Checker Page 文本框序号
+	public static JLabel lineNumber = new JLabel ();
+	
 	// Python Code Checker Page 行和列
 	public static JTextArea area_1 = new JTextArea (100, 50);				// 行和列
 	
@@ -43,7 +49,25 @@ public class ProjectVariable {
 	public static JButton button_Run = new JButton ("Run");
 	public static JButton button_Score = new JButton ("Show Score");
 	public static JButton button_Feedback = new JButton ("Show Feedback");
+	
+	
+	/**
+	 * Python Question Edit Page
+	 * */
+	// 提示语句
+	public static JLabel prompt_2 = new JLabel ("Welcome to Staff Page ");
+	
+	// 按钮
+	public static JButton button_Add = new JButton ("Add a New Question");
+	public static JButton button_Check = new JButton ("Check the Question Bank");
+	public static JButton button_Change = new JButton ("Change the Question");
+	public static JButton button_Delete = new JButton ("Delete a Question");
+	
+	
 
+	/**
+	 * 
+	 * */
 	// 通用 return HomePage
 	public static JButton button_ReturnHomePage = new JButton("Return HomePage");
 	
@@ -88,8 +112,7 @@ public class ProjectVariable {
 	}
 
 	
-	
-	
+
 	
 	/**
 	 * Getter
@@ -104,6 +127,10 @@ public class ProjectVariable {
 
 	public JLabel getPrompt_Question() {
 		return prompt_Question;
+	}
+
+	public JLabel getLineNumber() {
+		return lineNumber;
 	}
 
 	public JTextArea getArea_1() {
@@ -129,6 +156,10 @@ public class ProjectVariable {
 	
 	public void setPrompt_Question(JLabel prompt_Question) {
 		ProjectVariable.prompt_Question = prompt_Question;
+	}
+
+	public void setLineNumber(JLabel lineNumber) {
+		ProjectVariable.lineNumber = lineNumber;
 	}
 
 	public void setArea_1(JTextArea area_1) {
@@ -163,6 +194,10 @@ public class ProjectVariable {
 	public String getArea_3_String() {
 		return area_3.getText();
 	}
+
+	public String getLineNumber_String() {
+		return lineNumber.getText();
+	}
 	
 	// Setter Show String 
 	public void setPrompt_1_String(String prompt_1) {
@@ -185,6 +220,9 @@ public class ProjectVariable {
 		ProjectVariable.area_3.setText(area_3);;
 	}
 	
+	public void setLineNumber_String(String lineNumber) {
+		ProjectVariable.lineNumber.setText(lineNumber);
+	}
 	
 	
 	
@@ -246,6 +284,53 @@ public class ProjectVariable {
 
 	public void setButton_ReturnHomePage(JButton button_ReturnHomePage) {
 		ProjectVariable.button_ReturnHomePage = button_ReturnHomePage;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 
+	 * */
+	public JLabel getPrompt_2() {
+		return prompt_2;
+	}
+
+	public static void setPrompt_2(JLabel prompt_2) {
+		ProjectVariable.prompt_2 = prompt_2;
+	}
+
+	public JButton getButton_Add() {
+		return button_Add;
+	}
+
+	public static void setButton_Add(JButton button_Add) {
+		ProjectVariable.button_Add = button_Add;
+	}
+
+	public JButton getButton_Check() {
+		return button_Check;
+	}
+
+	public static void setButton_Check(JButton button_Check) {
+		ProjectVariable.button_Check = button_Check;
+	}
+
+	public JButton getButton_Change() {
+		return button_Change;
+	}
+
+	public static void setButton_Change(JButton button_Change) {
+		ProjectVariable.button_Change = button_Change;
+	}
+
+	public JButton getButton_Delete() {
+		return button_Delete;
+	}
+
+	public static void setButton_Delete(JButton button_Delete) {
+		ProjectVariable.button_Delete = button_Delete;
 	}
 	
 }

@@ -108,5 +108,11 @@ public class AnswerWriteTxt {
 	
 	
 	// 方法： getCSVQuestionTitle （-> 传到readQuestion（String））
-	
+
+	// 
+	public String lineNumberString (String number) {
+		String pythonQuestion = "<html>" + "<p>" + number+ "</p>" + "</html>";
+		return pythonQuestion;
+	}
+
 }

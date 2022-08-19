@@ -11,6 +11,8 @@ public class PythonCodeCheckerPage extends JFrame{
 	
 	ProjectVariable PV = new ProjectVariable();
 	AnswerWriteTxt AWT = new AnswerWriteTxt();
+	
+	private String num = "01 02 03 04 05 06 07 08 09 11 12 13 14 15 16 17 18 19 20";
 
 	public PythonCodeCheckerPage() {
 		init();
@@ -33,7 +35,7 @@ public class PythonCodeCheckerPage extends JFrame{
 		//字体
 		Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 		Font myFont2 = new Font("Arial", Font.PLAIN, 20);
-
+		
 		System.out.println("-- ******** --");
 		
 		
@@ -49,11 +51,16 @@ public class PythonCodeCheckerPage extends JFrame{
 		PV.getPrompt_Question().setBounds(50, 20, 900, 100);
 		studentPanel.add(PV.getPrompt_Question());
 
+		// 文档序号
+		PV.setLineNumber_String(AWT.lineNumberString(num));
+		PV.getLineNumber().setFont(myFont1);
+		PV.getLineNumber().setBounds(50,113,25,360);
+		studentPanel.add(PV.getLineNumber());
 
 		// 代码编辑框
 		PV.getArea_1().setFont(myFont1);								// 字体
 		PV.getArea_1().setLineWrap(true);								// 自动换行
-		PV.getArea_1().setBounds(50, 113, 700, 360);
+		PV.getArea_1().setBounds(75, 113, 675, 360);
 		studentPanel.add(PV.getArea_1());
 		
 		PV.getButton_Submit().setBounds(800, 123, 150, 50);
