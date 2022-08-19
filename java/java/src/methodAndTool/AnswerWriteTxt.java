@@ -3,14 +3,11 @@ package methodAndTool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Scanner;
 
 public class AnswerWriteTxt {
 	
@@ -50,7 +47,6 @@ public class AnswerWriteTxt {
 	}
 	
 	
-	
 	public static void create_pythonFile() {
 		try {
 			String python = "import sys\nprint ("+"\"cat\""+")\n";
@@ -63,7 +59,7 @@ public class AnswerWriteTxt {
 		}
 	}
 	
-	
+
 	public static void run_python_code() {
 
 		try{
@@ -87,6 +83,7 @@ public class AnswerWriteTxt {
 		
 	}
 	
+
 	public static String readText(String path) throws IOException {
 		try {
 			String content = new String(Files.readAllBytes(Paths.get(path)));
@@ -102,10 +99,14 @@ public class AnswerWriteTxt {
 	    		
 	}
 	
+
+	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
+	public String readQuestion(String question) {
+		String pythonQuestion = "<html>" + "<p>" + question + "</p>" + "</html>";
+		return pythonQuestion;
+	}
 	
 	
-	
-	
-	
+	// 方法： getCSVQuestionTitle （-> 传到readQuestion（String））
 	
 }

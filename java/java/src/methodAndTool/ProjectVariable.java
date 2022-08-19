@@ -43,6 +43,9 @@ public class ProjectVariable {
 	public static JButton button_Run = new JButton ("Run");
 	public static JButton button_Score = new JButton ("Show Score");
 	public static JButton button_Feedback = new JButton ("Show Feedback");
+
+	// 通用 return HomePage
+	public static JButton button_ReturnHomePage = new JButton("Return HomePage");
 	
 
 	public int getScreenWidthSize () {
@@ -235,6 +238,14 @@ public class ProjectVariable {
 
 	public void setButton_Feedback(JButton button_Feedback) {
 		ProjectVariable.button_Feedback = button_Feedback;
+	}
+
+	public JButton getButton_ReturnHomePage() {
+		return button_ReturnHomePage;
+	}
+
+	public void setButton_ReturnHomePage(JButton button_ReturnHomePage) {
+		ProjectVariable.button_ReturnHomePage = button_ReturnHomePage;
 	}
 	
 }

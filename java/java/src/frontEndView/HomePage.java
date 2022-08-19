@@ -29,7 +29,7 @@ public class HomePage extends JFrame{
 		add(homePanel);											// 添加
 
 		// 字体
-		Font myFont = new Font("Arial", Font.PLAIN, 28);
+		Font myFont = new Font("Arial", Font.PLAIN, 30);
 
 		PV.getPrompt_home().setFont(myFont);
 		PV.getPrompt_home().setBounds(150, 10, 600, 100);

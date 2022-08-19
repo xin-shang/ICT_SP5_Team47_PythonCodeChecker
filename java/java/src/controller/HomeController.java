@@ -30,8 +30,6 @@ public class HomeController implements ActionListener{
                         new PythonCodeCheckerPage();
                         System.out.println("-- ******** --");
                         new CodeCheckerController();
-                        // new frontEndView.PythonCodeCheckerPage();
-                        // new controller.CodeCheckerController();
                         System.out.println("-- 'I am a Student' Working --");
                 } 
                 else if (e.getActionCommand() == "I am a Staff")

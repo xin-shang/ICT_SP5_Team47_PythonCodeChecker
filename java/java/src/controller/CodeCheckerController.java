@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import frontEndView.HomePage;
 import methodAndTool.ProjectVariable;
 import methodAndTool.AnswerWriteTxt;
 
@@ -27,7 +28,10 @@ public class CodeCheckerController implements ActionListener{
 		PV.getButton_Score().setActionCommand("Check the Score");
 		
 		PV.getButton_Feedback().addActionListener(this);
-		PV.getButton_Score().setActionCommand("Show the Feedback");
+		PV.getButton_Feedback().setActionCommand("Show the Feedback");
+
+		PV.getButton_ReturnHomePage().addActionListener(this);
+		PV.getButton_ReturnHomePage().setActionCommand("Return HomePage");
 		
 	}
 
@@ -57,14 +61,13 @@ public class CodeCheckerController implements ActionListener{
 			
 			AnswerWriteTxt.run_python_code();
 			
-			System.out.println("Submit Button is Working! Submit Answer Code");
+			System.out.println("Button is Working! Submit Answer Code");
 			System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
 			System.out.println(ProjectVariable.getFilenameTemp());
 		}
 		
 		else if (e.getActionCommand() == "Run the Code") 
 		{
-			System.out.println("Submit Button is Working! Run the Code");
 			String pyCodeAnswer = PV.getArea_1_String();
 			char[] py_chars = pyCodeAnswer.toCharArray();
 
@@ -76,7 +79,6 @@ public class CodeCheckerController implements ActionListener{
 			}
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 			AnswerWriteTxt.run_python_code();
-			
 		
 			//set Text Area_2 as user output
 			try {
@@ -87,19 +89,26 @@ public class CodeCheckerController implements ActionListener{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			
+			System.out.println("Button is Working! Run the Code");
 		}
 		
 		else if (e.getActionCommand() == "Check the Score") 
 		{
-			System.out.println("Submit Button is Working! Check the Score");
+			System.out.println("Button is Working! Check the Score");
 		}
 		
 		else if (e.getActionCommand() == "Show the Feedback") 
 		{
-			System.out.println("Submit Button is Working! Show the Feedback");
+			System.out.println("Button is Working! Show the Feedback");
 		}
 		
+		else if (e.getActionCommand() == "Return HomePage") 
+		{
+			new HomePage();
+			new HomeController();
+			System.out.println("Button is Working! Return HomePage");
+		}
+
 	}
 
 }
