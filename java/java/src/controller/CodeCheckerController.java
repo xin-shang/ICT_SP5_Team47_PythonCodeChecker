@@ -79,6 +79,8 @@ public class CodeCheckerController implements ActionListener{
 			AnswerWriteTxt.run_python_code();
 			
 		
+			
+			
 			//set Text Area_2 as user output
 			try {
 				String try_print = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
