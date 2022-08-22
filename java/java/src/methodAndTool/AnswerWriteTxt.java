@@ -3,14 +3,11 @@ package methodAndTool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Scanner;
 
 public class AnswerWriteTxt {
 	
@@ -18,7 +15,7 @@ public class AnswerWriteTxt {
 		boolean flag = false;
 		System.out.println("printed");
 		// 这个写的是绝对路径，相对路径老报错。我搞不明白。先用结对路径。谁拉到本地后都改一下路径。
-		ProjectVariable.setFilenameTemp("./src/txt/" + name + ".txt");
+		ProjectVariable.setFilenameTemp("./java/src/txt/" + name + ".txt");
 
 		
 
@@ -50,7 +47,6 @@ public class AnswerWriteTxt {
 	}
 	
 	
-	
 	public static void create_pythonFile() {
 		try {
 			String python = "import sys\nprint ("+"\"cat\""+")\n";
@@ -63,7 +59,7 @@ public class AnswerWriteTxt {
 		}
 	}
 	
-	
+
 	public static void run_python_code() {
 
 		try{
@@ -87,6 +83,7 @@ public class AnswerWriteTxt {
 		
 	}
 	
+
 	public static String readText(String path) throws IOException {
 		try {
 			String content = new String(Files.readAllBytes(Paths.get(path)));
@@ -102,10 +99,20 @@ public class AnswerWriteTxt {
 	    		
 	}
 	
+
+	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
+	public String readQuestion(String question) {
+		String pythonQuestion = "<html>" + "<p>" + question + "</p>" + "</html>";
+		return pythonQuestion;
+	}
 	
 	
-	
-	
-	
-	
+	// 方法： getCSVQuestionTitle （-> 传到readQuestion（String））
+
+	// 
+	public String lineNumberString (String number) {
+		String pythonQuestion = "<html>" + "<p>" + number+ "</p>" + "</html>";
+		return pythonQuestion;
+	}
+
 }

@@ -3,7 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import frontEndView.AddQuestionPage;
+import frontEndView.AddQuestionPage;
 import methodAndTool.ProjectVariable;
 
 public class EditQuestionController implements ActionListener{
@@ -31,7 +31,7 @@ public class EditQuestionController implements ActionListener{
 		
 		if (e.getActionCommand() == "Add") 
 		{
-			//new AddQuestionPage();
+			new AddQuestionPage();
 			System.out.println("--Add Button is Working--");
 		}
 		
