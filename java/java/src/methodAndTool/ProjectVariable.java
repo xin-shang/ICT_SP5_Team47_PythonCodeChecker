@@ -9,105 +9,100 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ProjectVariable {
-	
+
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	
+
 	public static int designWindow_width = 1000;
 	public static int designWindow_heigh = 618;
-	
+
 	public static String feedback = "good!!!!!!";
-	
+
 	public static String filenameTemp;
-	
+
 	/**
 	 * Home Page：
 	 **/
 	// Home Page 提示语
-	public static JLabel prompt_home = new JLabel ("Welcome to Python Code Chacker");
+	public static JLabel prompt_home = new JLabel("Welcome to Python Code Chacker");
 	// Home Page 按键
-	public static JButton button_Student = new JButton ("I'm a Student");
-	public static JButton button_Staff = new JButton ("I'm a Staff");
+	public static JButton button_Student = new JButton("I'm a Student");
+	public static JButton button_Staff = new JButton("I'm a Staff");
 
 	/**
 	 * Python Code Chacker Page：
-	 * */
+	 */
 	// Python Code Checker Page 提示语
-	public static JLabel prompt_1 = new JLabel ("Please Input your Python Code in here: ");
+	public static JLabel prompt_1 = new JLabel("Please Input your Python Code in here: ");
 	// Python Code Checker Page 题目
-	public static JLabel prompt_Question = new JLabel ("print 'Hello World' ");
+	public static JLabel prompt_Question = new JLabel("print 'Hello World' ");
 	// Python Code Checker Page 文本框序号
-	public static JLabel lineNumber = new JLabel ();
-	
+	public static JLabel lineNumber = new JLabel();
+
 	// Python Code Checker Page 行和列
-	public static JTextArea area_1 = new JTextArea (100, 50);				// 行和列
-	
+	public static JTextArea area_1 = new JTextArea(100, 50); // 行和列
+
 	// 评语
-	public static JTextArea area_2 = new JTextArea (100, 50);				// 行和列
-	public static JLabel area_3 = new JLabel ();							// 提示语
-	
+	public static JTextArea area_2 = new JTextArea(100, 50); // 行和列
+	public static JLabel area_3 = new JLabel(); // 提示语
+
 	// Python Code Checker Page 按键
-	public static JButton button_Submit = new JButton ("Submit");
-	public static JButton button_Run = new JButton ("Run");
-	public static JButton button_Score = new JButton ("Show Score");
-	public static JButton button_Feedback = new JButton ("Show Feedback");
-	
-	
+	public static JButton button_Submit = new JButton("Submit");
+	public static JButton button_Run = new JButton("Run");
+	public static JButton button_Score = new JButton("Show Score");
+	public static JButton button_Feedback = new JButton("Show Feedback");
+
 	/**
 	 * Python Question Edit Page
-	 * */
+	 */
 	// 提示语句
-	public static JLabel prompt_2 = new JLabel ("Welcome to Staff Page ");
-	
+	public static JLabel prompt_2 = new JLabel("Welcome to Staff Page ");
+
 	// 按钮
-	public static JButton button_Add = new JButton ("Add a New Question");
-	public static JButton button_Check = new JButton ("Check the Question Bank");
-	public static JButton button_Change = new JButton ("Change the Question");
-	public static JButton button_Delete = new JButton ("Delete a Question");
-	
-	
+	public static JButton button_Add = new JButton("Add a New Question");
+	public static JButton button_Check = new JButton("Check the Question Bank");
+	public static JButton button_Change = new JButton("Change the Question");
+	public static JButton button_Delete = new JButton("Delete a Question");
+
 	/**
 	 * Add a Question Page
-	 * */
+	 */
 	//
-	public static JLabel prompt_3 = new JLabel ("Add a New Question");
-	
+	public static JLabel prompt_3 = new JLabel("Add a New Question");
+
 	// input ID
-	public static JLabel prompt_QuestionID = new JLabel ("Input ID: ");
+	public static JLabel prompt_QuestionID = new JLabel("Input ID: ");
 	public static JTextField area_QuestionID = new JTextField(8);
-	public static JLabel prompt_MaxQuestionID = new JLabel ("Max: " + "MaxID");		//字号小点，换个颜色。要getID。PDF第23页。
-	
+	public static JLabel prompt_MaxQuestionID = new JLabel("Max: " + "MaxID"); // 字号小点，换个颜色。要getID。PDF第23页。
+
 	// input Question
-	public static JLabel prompt_QuestionContent = new JLabel ("Input Question Content: ");
-	public static JTextArea area_QuestionContent = new JTextArea (200, 200);
-	
+	public static JLabel prompt_QuestionContent = new JLabel("Input Question Content: ");
+	public static JTextArea area_QuestionContent = new JTextArea(200, 200);
+
 	// input Scoring Point
-	public static JLabel prompt_ScoringPoint = new JLabel ("Input Scoring Point: ");
-	
+	public static JLabel prompt_ScoringPoint = new JLabel("Input Scoring Point: ");
+
 	// button Scoring Point
 	public static JButton Button_ScoringPoint = new JButton("Add Scoring Point");
 
 	//
 	JButton button_AddQuestionSubmit = new JButton("-- Submit this Question --");
-	
-	
 
 	/**
 	 * 
 	 * */
 	// 通用 return HomePage
 	public static JButton button_ReturnHomePage = new JButton("Return HomePage");
-	
 
-	public int getScreenWidthSize () {
-		int screenWidth = (int) screenSize.getWidth(); 
+	public int getScreenWidthSize() {
+		int screenWidth = (int) screenSize.getWidth();
 		return screenWidth;
 	}
-	
-	public int getScreenHeighSize () {
-		int  screenHeigh = (int) screenSize.getHeight();
+
+	public int getScreenHeighSize() {
+		int screenHeigh = (int) screenSize.getHeight();
 		return screenHeigh;
 	}
-	
+
 	public int getDesign_width() {
 		return designWindow_width;
 	}
@@ -123,9 +118,7 @@ public class ProjectVariable {
 	public static void setDesign_heigh(int design_heigh) {
 		ProjectVariable.designWindow_heigh = design_heigh;
 	}
-	
-	
-	
+
 	/**
 	 * 
 	 * */
@@ -137,16 +130,13 @@ public class ProjectVariable {
 		ProjectVariable.filenameTemp = filenameTemp;
 	}
 
-	
-
-	
 	/**
 	 * Getter
-	 * */
+	 */
 	public JLabel getPrompt_home() {
 		return prompt_home;
 	}
-	
+
 	public JLabel getPrompt_1() {
 		return prompt_1;
 	}
@@ -179,7 +169,7 @@ public class ProjectVariable {
 	public void setPrompt_1(JLabel prompt_1) {
 		ProjectVariable.prompt_1 = prompt_1;
 	}
-	
+
 	public void setPrompt_Question(JLabel prompt_Question) {
 		ProjectVariable.prompt_Question = prompt_Question;
 	}
@@ -199,24 +189,24 @@ public class ProjectVariable {
 	public void setArea_3(JLabel area_3) {
 		ProjectVariable.area_3 = area_3;
 	}
-	
+
 	// Getter Show String
 	public String getPrompt_1_String() {
 		return prompt_1.getText();
 	}
-	
+
 	public String getPrompt_Question_String() {
 		return prompt_Question.getText();
 	}
-	
+
 	public String getArea_1_String() {
 		return area_1.getText();
 	}
-	
+
 	public String getArea_2_String() {
 		return area_2.getText();
 	}
-	
+
 	public String getArea_3_String() {
 		return area_3.getText();
 	}
@@ -224,38 +214,40 @@ public class ProjectVariable {
 	public String getLineNumber_String() {
 		return lineNumber.getText();
 	}
-	
-	// Setter Show String 
+
+	// Setter Show String
 	public void setPrompt_1_String(String prompt_1) {
-		ProjectVariable.prompt_1.setText(prompt_1);;
+		ProjectVariable.prompt_1.setText(prompt_1);
+		;
 	}
-	
+
 	public void setPrompt_Question_String(String prompt_Question) {
-		ProjectVariable.prompt_Question.setText(prompt_Question);;
+		ProjectVariable.prompt_Question.setText(prompt_Question);
+		;
 	}
 
 	public void setArea_1_String(String area_1) {
-		ProjectVariable.area_1.setText(area_1);;
+		ProjectVariable.area_1.setText(area_1);
+		;
 	}
 
 	public void setArea_2_String(String area_2) {
-		ProjectVariable.area_2.setText(area_2);;
+		ProjectVariable.area_2.setText(area_2);
+		;
 	}
 
 	public void setArea_3_String(String area_3) {
-		ProjectVariable.area_3.setText(area_3);;
+		ProjectVariable.area_3.setText(area_3);
+		;
 	}
-	
+
 	public void setLineNumber_String(String lineNumber) {
 		ProjectVariable.lineNumber.setText(lineNumber);
 	}
-	
-	
-	
-	
+
 	/**
 	 * Getter & Setter Button
-	 * */
+	 */
 	public JButton getButton_Student() {
 		return button_Student;
 	}
@@ -311,11 +303,7 @@ public class ProjectVariable {
 	public void setButton_ReturnHomePage(JButton button_ReturnHomePage) {
 		ProjectVariable.button_ReturnHomePage = button_ReturnHomePage;
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * 
 	 * */
@@ -358,12 +346,10 @@ public class ProjectVariable {
 	public static void setButton_Delete(JButton button_Delete) {
 		ProjectVariable.button_Delete = button_Delete;
 	}
-	
-	
-	
+
 	/**
 	 * Add Question Page
-	 * */
+	 */
 	//
 	public JLabel getPrompt_3() {
 		return prompt_3;
@@ -436,5 +422,5 @@ public class ProjectVariable {
 	public void setButton_AddQuestionSubmit(JButton button_AddQuestionSubmit) {
 		this.button_AddQuestionSubmit = button_AddQuestionSubmit;
 	}
-	
+
 }
