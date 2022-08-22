@@ -18,7 +18,7 @@ public class AnswerWriteTxt {
 		boolean flag = false;
 		System.out.println("printed");
 		// 这个写的是绝对路径，相对路径老报错。我搞不明白。先用结对路径。谁拉到本地后都改一下路径。
-		ProjectVariable.setFilenameTemp("./java/src/txt/" + name + ".txt");
+		ProjectVariable.setFilenameTemp("./src/txt/" + name + ".txt");
 
 		
 
