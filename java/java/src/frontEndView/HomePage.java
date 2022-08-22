@@ -17,10 +17,10 @@ public class HomePage extends JFrame{
 	private void init() {
 
 		// 窗口
-		setTitle("Python Code Checker");				// 窗口名称
+		setTitle("Python Code Checker");							// 窗口名称
 		setSize(PV.getDesign_width(), PV.getDesign_heigh());		// 设置窗口（宽，高）
-		setResizable(false);					// 窗口锁定
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			// 违规操作关闭
+		setResizable(false);										// 窗口锁定
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);					// 违规操作关闭
 
 		// 版本
 		JPanel homePanel = new JPanel();

@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class ProjectVariable {
 	
@@ -62,6 +63,31 @@ public class ProjectVariable {
 	public static JButton button_Check = new JButton ("Check the Question Bank");
 	public static JButton button_Change = new JButton ("Change the Question");
 	public static JButton button_Delete = new JButton ("Delete a Question");
+	
+	
+	/**
+	 * Add a Question Page
+	 * */
+	//
+	public static JLabel prompt_3 = new JLabel ("Add a New Question");
+	
+	// input ID
+	public static JLabel prompt_QuestionID = new JLabel ("Input ID: ");
+	public static JTextField area_QuestionID = new JTextField(8);
+	public static JLabel prompt_MaxQuestionID = new JLabel ("Max: " + "MaxID");		//字号小点，换个颜色。要getID。PDF第23页。
+	
+	// input Question
+	public static JLabel prompt_QuestionContent = new JLabel ("Input Question Content: ");
+	public static JTextArea area_QuestionContent = new JTextArea (200, 200);
+	
+	// input Scoring Point
+	public static JLabel prompt_ScoringPoint = new JLabel ("Input Scoring Point: ");
+	
+	// button Scoring Point
+	public static JButton Button_ScoringPoint = new JButton("Add Scoring Point");
+
+	//
+	JButton button_AddQuestionSubmit = new JButton("-- Submit this Question --");
 	
 	
 
@@ -331,6 +357,84 @@ public class ProjectVariable {
 
 	public static void setButton_Delete(JButton button_Delete) {
 		ProjectVariable.button_Delete = button_Delete;
+	}
+	
+	
+	
+	/**
+	 * Add Question Page
+	 * */
+	//
+	public JLabel getPrompt_3() {
+		return prompt_3;
+	}
+
+	public static void setPrompt_3(JLabel prompt_3) {
+		ProjectVariable.prompt_3 = prompt_3;
+	}
+
+	public JLabel getPrompt_QuestionID() {
+		return prompt_QuestionID;
+	}
+
+	public static void setPrompt_QuestionID(JLabel prompt_QuestionID) {
+		ProjectVariable.prompt_QuestionID = prompt_QuestionID;
+	}
+
+	public JTextField getArea_QuestionID() {
+		return area_QuestionID;
+	}
+
+	public static void setArea_QuestionID(JTextField area_QuestionID) {
+		ProjectVariable.area_QuestionID = area_QuestionID;
+	}
+
+	public JLabel getPrompt_MaxQuestionID() {
+		return prompt_MaxQuestionID;
+	}
+
+	public static void setPrompt_MaxQuestionID(JLabel prompt_MaxQuestionID) {
+		ProjectVariable.prompt_MaxQuestionID = prompt_MaxQuestionID;
+	}
+
+	public JLabel getPrompt_QuestionContent() {
+		return prompt_QuestionContent;
+	}
+
+	public static void setPrompt_QuestionContent(JLabel prompt_QuestionContent) {
+		ProjectVariable.prompt_QuestionContent = prompt_QuestionContent;
+	}
+
+	public JTextArea getArea_QuestionContent() {
+		return area_QuestionContent;
+	}
+
+	public static void setArea_QuestionContent(JTextArea area_QuestionContent) {
+		ProjectVariable.area_QuestionContent = area_QuestionContent;
+	}
+
+	public JLabel getPrompt_ScoringPoint() {
+		return prompt_ScoringPoint;
+	}
+
+	public static void setPrompt_ScoringPoint(JLabel prompt_ScoringPoint) {
+		ProjectVariable.prompt_ScoringPoint = prompt_ScoringPoint;
+	}
+
+	public JButton getButton_ScoringPoint() {
+		return Button_ScoringPoint;
+	}
+
+	public static void setButton_ScoringPoint(JButton button_ScoringPoint) {
+		Button_ScoringPoint = button_ScoringPoint;
+	}
+
+	public JButton getButton_AddQuestionSubmit() {
+		return button_AddQuestionSubmit;
+	}
+
+	public void setButton_AddQuestionSubmit(JButton button_AddQuestionSubmit) {
+		this.button_AddQuestionSubmit = button_AddQuestionSubmit;
 	}
 	
 }
