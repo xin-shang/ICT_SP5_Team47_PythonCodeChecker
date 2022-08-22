@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import frontEndView.HomePage;
+import frontEndView.PythonCodeCheckerPage;
 import methodAndTool.ProjectVariable;
 import methodAndTool.AnswerWriteTxt;
 
 public class CodeCheckerController implements ActionListener{
 	
 	ProjectVariable PV = new ProjectVariable();
+	PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
 	AnswerWriteTxt AWT = new AnswerWriteTxt();
 	
 	/**
@@ -49,8 +51,8 @@ public class CodeCheckerController implements ActionListener{
 			try {
 				System.out.println("############");
 				AnswerWriteTxt.creatTxtFile("PyCodeAnswer");
-				
 				System.out.println("************");
+				System.out.println("--Submit Answer Code Button is Working--");
 				
 				
 			} catch (IOException e1) {
@@ -104,8 +106,9 @@ public class CodeCheckerController implements ActionListener{
 		
 		else if (e.getActionCommand() == "Return HomePage") 
 		{
-			new HomePage();
+			//new HomePage();
 			new HomeController();
+			PCCP.setVisible(false);
 			System.out.println("Button is Working! Return HomePage");
 		}
 

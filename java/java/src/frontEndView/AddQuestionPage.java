@@ -72,7 +72,8 @@ public class AddQuestionPage extends JFrame{
 		addQuestionPanel.add(PV.getButton_ScoringPoint());
 		
 		//
-		//PV.getButton_AddQuestionSubmit()
+		PV.getButton_AddQuestionSubmit().setFont(myFont2);
+		//PV.getButton_AddQuestionSubmit().setBounds();
 		
 		setVisible(true);
 		

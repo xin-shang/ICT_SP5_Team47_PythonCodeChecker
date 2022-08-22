@@ -10,7 +10,7 @@ public class HomeController implements ActionListener{
 
         ProjectVariable PV = new ProjectVariable();
         HomePage HP = new HomePage();
-        PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
+        //PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
 
         public HomeController() {
                 
@@ -26,15 +26,17 @@ public class HomeController implements ActionListener{
                 
                 if (e.getActionCommand() == "I am a Student") 
                 {       
-                        new PythonCodeCheckerPage();
+                        // new PythonCodeCheckerPage();
                         new CodeCheckerController();
+                        HP.setVisible(false);
                         System.out.println("-- 'I am a Student' Working --");
                 } 
                 
                 else if (e.getActionCommand() == "I am a Staff")
                 {
-                        new PythonQuestionEditPage();
+                        // new PythonQuestionEditPage();
                         new EditQuestionController(); 
+                        HP.setVisible(false);
                         System.out.println("--  'I am a Staff' Working  --");
                 }
         }

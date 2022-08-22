@@ -4,11 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import frontEndView.AddQuestionPage;
+import frontEndView.PythonQuestionEditPage;
 import methodAndTool.ProjectVariable;
 
 public class EditQuestionController implements ActionListener{
 	
 	ProjectVariable PV = new ProjectVariable();
+	PythonQuestionEditPage PQEP = new PythonQuestionEditPage();
 	
 	public EditQuestionController () {
 		
