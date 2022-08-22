@@ -8,12 +8,18 @@ import frontEndView.*;
 
 public class HomeController implements ActionListener {
 
-        ProjectVariable PV = new ProjectVariable();
+        ProjectVariable PV;
+
         // create main page
-        HomePage HP = new HomePage();
+        HomePage HP;
 
         public HomeController() {
-                HP.setVisible(true);
+                // HP = null;
+                if (this.HP == null) {
+                        System.out.println("renew controller");
+                }
+                PV = new ProjectVariable();
+                HP = new HomePage();
 
                 PV.getButton_Student().addActionListener(this);
                 PV.getButton_Student().setActionCommand("I am a Student");
@@ -31,7 +37,6 @@ public class HomeController implements ActionListener {
                         HP.dispose();
                         HP = null;
                         new CodeCheckerController();
-
                         System.out.println("-- 'I am a Student' Working --");
                 } else if (e.getActionCommand() == "I am a Staff") {
                         // new PythonQuestionEditPage();

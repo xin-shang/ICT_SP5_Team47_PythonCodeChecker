@@ -30,7 +30,7 @@ public class PythonCodeCheckerPage extends JFrame {
 		JPanel studentPanel = new JPanel();
 		studentPanel.setLayout(null);
 
-		add(studentPanel);
+		this.add(studentPanel);
 
 		// 字体
 		Font myFont1 = new Font("Arial", Font.PLAIN, 16);
@@ -88,7 +88,7 @@ public class PythonCodeCheckerPage extends JFrame {
 		// 改变按钮颜色
 		studentPanel.add(PV.getButton_ReturnHomePage());
 
-		// setVisible(true);
+		setVisible(true);
 
 	}
 

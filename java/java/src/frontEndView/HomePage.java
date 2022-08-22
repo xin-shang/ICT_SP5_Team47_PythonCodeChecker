@@ -26,7 +26,7 @@ public class HomePage extends JFrame {
 		// 版本
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(null);
-
+		System.out.print("i am here");
 		add(homePanel); // 添加
 
 		// 字体
@@ -42,7 +42,7 @@ public class HomePage extends JFrame {
 		PV.getButton_Staff().setBounds(600, 200, 200, 200);
 		homePanel.add(PV.getButton_Staff());
 
-		// setVisible(true);
+		setVisible(true);
 
 	}
 

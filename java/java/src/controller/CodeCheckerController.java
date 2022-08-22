@@ -11,16 +11,19 @@ import frontEndView.*;
 
 public class CodeCheckerController implements ActionListener {
 
-	ProjectVariable PV = new ProjectVariable();
-	AnswerWriteTxt AWT = new AnswerWriteTxt();
-	PythonCodeCheckerPage PyChecker_Page = new PythonCodeCheckerPage();
+	ProjectVariable PV;
+	AnswerWriteTxt AWT;
+	PythonCodeCheckerPage PyChecker_Page;
 
 	/**
 	 * Button 监听，响应，
 	 */
 	public CodeCheckerController() {
-
-		PyChecker_Page.setVisible(true);
+		PyChecker_Page = null;
+		PV = new ProjectVariable();
+		AWT = new AnswerWriteTxt();
+		PyChecker_Page = new PythonCodeCheckerPage();
+		System.out.print("studnet page");
 
 		PV.getButton_Submit().addActionListener(this);
 		PV.getButton_Submit().setActionCommand("Submit Answer Code");
@@ -102,15 +105,14 @@ public class CodeCheckerController implements ActionListener {
 		}
 
 		else if (e.getActionCommand() == "Return HomePage") {
-
 			PyChecker_Page.setVisible(false);
 			PyChecker_Page.dispose();
-			PyChecker_Page = null;
+			// PyChecker_Page = null;
+			PV.getArea_1().setText("");
+			PV.getArea_2().setText("");
 			new HomeController();
-			// count++;
-			// System.out.println("times to call this method: " + count);
-
 			System.out.println("Button is Working! Return HomePage");
+
 		}
 
 	}
