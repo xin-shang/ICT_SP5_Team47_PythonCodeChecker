@@ -11,7 +11,7 @@ import re
 
 
 
-QUESTION_PATH = 'question_input.csv'
+QUESTION_PATH = 'E:\GitHub\ICT_SP5_Team47_PythonCodeChecker\java\java\src\python\question_input.csv'
 
 
 #the function will return a boolean when the path is exit
@@ -90,9 +90,9 @@ def TA_Text2csv(text, question_path):
         Result_Check = re.findall(r'Result_Check:(.*?);Result_Score', text)[0]
         Result_Score = re.findall(r'Result_Score:(.*?);Variable_Value_Check', text)[0]
         Variable_Value_Check = re.findall(r'Variable_Value_Check:(.*?);Variable_Value_Score', text)[0]
-        Variable_Value_Score = re.findall(r'Variable_Value_Score:(.*?);KW_Score', text)[0]
-        Function_Check = re.findall(r'Keyword_Check:(.*?);Function_Check', text)[0]
-        Function_Score = re.findall(r'Function_Check:(.*?)$', text)[0]
+        Variable_Value_Score = re.findall(r'Variable_Value_Score:(.*?);Function_Check', text)[0]
+        Function_Check = re.findall(r'Function_Check:(.*?);Function_Score', text)[0]
+        Function_Score = re.findall(r'Function_Score:(.*?)$', text)[0]
 
         with open(question_path, 'r') as f1:
             content = csv.DictReader(f1)
@@ -113,8 +113,8 @@ def TA_Text2csv(text, question_path):
 
 if __name__ == '__main__':
 
-    question = """Title:Define the function F(n) to calculate the sum of the first n digits of the Fibonacci sequence Calculate the sum of the first 10 digits And store the returned result in res and print it out;Keyword_Check:for if def return;KW_Score:20 10 10 10;Result_Check:143;Result_Score:20;Variable_Value_Check:143;Variable_Value_Score:10;Function_Check:F(10):143;Function_Score:20"""
-    question_path = 'question_input.csv'
+    question = """Title:Define the function F(n) to calculate the sum of the first n digits of the Fibonacci sequence Calculate the sum of the first 10 digits And store the returned result in res and print it out;Keyword_Check:for if def return;KW_Score:20 10 10 10;Result_Check:143;Result_Score:20;Variable_Value_Check:res:143;Variable_Value_Score:10;Function_Check:F(10):143;Function_Score:20"""
+    question_path = 'E:\GitHub\ICT_SP5_Team47_PythonCodeChecker\java\java\src\python\question_input.csv'
     with open(question_path, 'r') as f:
         content = f.read()
         print(content)
