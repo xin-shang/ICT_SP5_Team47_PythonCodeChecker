@@ -119,3 +119,12 @@ if __name__ == '__main__':
         content = f.read()
         print(content)
     TA_Text2csv(question, question_path)
+
+    with open(question_path, 'r') as f:
+        content = f.read()
+        print(content)
+    TA_Text2csv(question, question_path)
+    with open(question_path, 'r') as f:
+        content = f.read()
+        print(content)
+    
