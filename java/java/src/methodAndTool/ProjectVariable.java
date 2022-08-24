@@ -64,7 +64,6 @@ public class ProjectVariable {
 	public static JButton button_Change = new JButton ("Change the Question");
 	public static JButton button_Delete = new JButton ("Delete a Question");
 	
-	
 	/**
 	 * Add a Question Page
 	 * */
@@ -87,7 +86,7 @@ public class ProjectVariable {
 	public static JButton Button_ScoringPoint = new JButton("Add Scoring Point");
 
 	//
-	JButton button_AddQuestionSubmit = new JButton("-- Submit this Question --");
+	JButton button_AddQuestionSubmit = new JButton("Submit this Question");
 	
 	
 
@@ -96,6 +95,8 @@ public class ProjectVariable {
 	 * */
 	// 通用 return HomePage
 	public static JButton button_ReturnHomePage = new JButton("Return HomePage");
+	public static JButton button_ReturnEditQuestionPage = new JButton("Previous Page");
+
 	
 
 	public int getScreenWidthSize () {
@@ -435,6 +436,14 @@ public class ProjectVariable {
 
 	public void setButton_AddQuestionSubmit(JButton button_AddQuestionSubmit) {
 		this.button_AddQuestionSubmit = button_AddQuestionSubmit;
+	}
+	
+	public JButton getButton_ReturnEditQuestionPage() {
+		return button_ReturnEditQuestionPage;
+	}
+
+	public static void setButton_ReturnEditQuestionPage(JButton button_ReturnEditQuestionPage) {
+		ProjectVariable.button_ReturnEditQuestionPage = button_ReturnEditQuestionPage;
 	}
 	
 }

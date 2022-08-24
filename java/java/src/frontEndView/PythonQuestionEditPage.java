@@ -39,17 +39,20 @@ public class PythonQuestionEditPage extends JFrame {
             staffPanel.add(PV.getPrompt_2());
             
             // 按钮
-            PV.getButton_Add().setBounds(100, 73, 300, 200);
+            PV.getButton_Add().setBounds(100, 73, 300, 160);
             staffPanel.add(PV.getButton_Add());
     		
-    		PV.getButton_Delete().setBounds(600, 73, 300, 200);
+    		PV.getButton_Delete().setBounds(600, 73, 300, 160);
     		staffPanel.add(PV.getButton_Delete());
     		
-    		PV.getButton_Change().setBounds(100, 323, 300, 200);
+    		PV.getButton_Change().setBounds(100, 283, 300, 160);
     		staffPanel.add(PV.getButton_Change());
     		
-    		PV.getButton_Check().setBounds(600, 323, 300, 200);
+    		PV.getButton_Check().setBounds(600, 283, 300, 160);
     		staffPanel.add(PV.getButton_Check());
+    		
+    		PV.getButton_ReturnHomePage().setBounds(400, 480, 200, 75);
+    		staffPanel.add(PV.getButton_ReturnHomePage());
 
             setVisible(true);
 

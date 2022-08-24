@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import frontEndView.AddQuestionPage;
+import frontEndView.HomePage;
 import frontEndView.PythonQuestionEditPage;
 import methodAndTool.ProjectVariable;
 
@@ -26,6 +27,9 @@ public class EditQuestionController implements ActionListener{
 		PV.getButton_Check().addActionListener(this);
 		PV.getButton_Check().setActionCommand("Check");
 		
+		PV.getButton_ReturnHomePage().addActionListener(this);
+		PV.getButton_ReturnHomePage().setActionCommand("Return Home Page");
+		
 	}
 
 	@Override
@@ -34,6 +38,7 @@ public class EditQuestionController implements ActionListener{
 		if (e.getActionCommand() == "Add") 
 		{
 			new AddQuestionPage();
+			PQEP.setVisible(false);
 			System.out.println("--Add Button is Working--");
 		}
 		
@@ -50,6 +55,13 @@ public class EditQuestionController implements ActionListener{
 		else if (e.getActionCommand() == "Check") 
 		{
 			System.out.println("--Check Button is Working--");
+		}
+		
+		else if (e.getActionCommand() == "Return Home Page") 
+		{
+			new HomePage();
+			PQEP.setVisible(false);
+			System.out.println("--Return Home Page Button is Working--");
 		}
 		
 	}

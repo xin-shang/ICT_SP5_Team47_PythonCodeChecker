@@ -68,14 +68,25 @@ public class AddQuestionPage extends JFrame{
 		addQuestionPanel.add(PV.getPrompt_ScoringPoint());
 		
 		PV.getButton_ScoringPoint().setFont(myFont2);
-		PV.getButton_ScoringPoint().setBounds(750, 70, 150, 50);
+		PV.getButton_ScoringPoint().setBounds(750, 70, 200, 50);
 		addQuestionPanel.add(PV.getButton_ScoringPoint());
 		
 		//
 		PV.getButton_AddQuestionSubmit().setFont(myFont2);
-		//PV.getButton_AddQuestionSubmit().setBounds();
+		PV.getButton_AddQuestionSubmit().setBounds(550, 500, 200, 50);
+		addQuestionPanel.add(PV.getButton_AddQuestionSubmit());
+		
+		PV.getButton_ReturnEditQuestionPage().setFont(myFont2);
+		PV.getButton_ReturnEditQuestionPage().setBounds(800, 500, 150, 50);
+		addQuestionPanel.add(PV.getButton_ReturnEditQuestionPage());
 		
 		setVisible(true);
+		
+	}
+	
+	int YAxis = 120;
+	
+	public static void addScoringPoint() {
 		
 	}
 
