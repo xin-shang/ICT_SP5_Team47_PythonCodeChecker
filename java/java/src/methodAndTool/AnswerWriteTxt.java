@@ -81,10 +81,10 @@ public class AnswerWriteTxt {
 	 * 
 	 * @return User
 	 */
-	public static String getAbsolutePath(String Path) {
+	public static String getAbsolutePath() {
 		try {
-			File f = new File("Path");
-			String absolute = f.getAbsolutePath();
+
+			String absolute = System.getProperty("user.dir");
 			String path_r = Paths.get(absolute).getParent().toString();
 			String new_path_r = path_r.replace('\\', '/');
 
