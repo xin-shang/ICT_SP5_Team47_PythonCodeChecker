@@ -140,11 +140,9 @@ def run():
         
     #printAll()
     
-    
     random_r = return_random_rows()
     active_path()
     question_text = active_path()
-    
     
     
     DB_CreateText_inputValue(question_text,random_r[1])
@@ -164,7 +162,6 @@ def active_path():
     acc = b.replace('\\' , '/')
     bcc = acc + "/txt/question_text.txt"
     return bcc
-
 
 
 if __name__ == '__main__':

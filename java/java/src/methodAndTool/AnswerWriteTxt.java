@@ -76,6 +76,27 @@ public class AnswerWriteTxt {
 
 	}
 
+	/*
+	 * @param
+	 * 
+	 * @return User
+	 */
+	public static String getAbsolutePath(String Path) {
+		try {
+			File f = new File("Path");
+			String absolute = f.getAbsolutePath();
+			String path_r = Paths.get(absolute).getParent().toString();
+			String new_path_r = path_r.replace('\\', '/');
+
+			return new_path_r;
+
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return e.getMessage();
+		}
+
+	}
+
 	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
 	public String readQuestion(String question) {
 		String pythonQuestion = "<html>" + "<p>" + question + "</p>" + "</html>";

@@ -47,8 +47,9 @@ public class PythonCodeCheckerPage extends JFrame {
 
 		// 问题
 		// AnswerWriteTxt.run_python_code("./java/src/dbSqlite/db_splite.py");
-
-		String u_output = AnswerWriteTxt.readText("./scr/dbSqlite/question_text.txt");
+		String a = AnswerWriteTxt.getAbsolutePath("Path");
+		System.out.println(a);
+		String u_output = AnswerWriteTxt.readText(a + "/java/java/scr/dbSqlite/question_text.txt");
 
 		PV.setPrompt_Question_String(AWT.readQuestion(u_output));
 		PV.getPrompt_Question().setFont(myFont1);
