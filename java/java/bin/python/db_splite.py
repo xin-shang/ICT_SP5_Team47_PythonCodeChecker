@@ -4,6 +4,7 @@ from pathlib import Path
 from pickle import TRUE
 import random
 import sqlite3
+import sys
 from  Linked_List import *
 
 #---------Database NAME, change it here---------
@@ -169,6 +170,7 @@ if __name__ == '__main__':
     run()
 
     
+    print("User Current Version:-", sys.version)
     print()
     conn.commit()
     conn.close()

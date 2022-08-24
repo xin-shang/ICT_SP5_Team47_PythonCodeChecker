@@ -42,7 +42,7 @@ public class HomeController implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
                 if (e.getActionCommand() == "I am a Student") {
-                        AnswerWriteTxt.run_python_code("./java/src/python/db_splite.py");
+                        AnswerWriteTxt.run_python_code_TRY("./java/src/python/db_splite.py");
                         HP.setVisible(false);
                         HP.dispose();
                         // HP = null;
