@@ -46,8 +46,9 @@ public class PythonCodeCheckerPage extends JFrame {
 		studentPanel.add(PV.getPrompt_1());
 
 		// 问题
-		AnswerWriteTxt.run_python_code("./java/src/dbSqlite/db_splite.py");
-		String u_output = AnswerWriteTxt.readText("./java/src/dbSqlite/question_text.txt");
+		// AnswerWriteTxt.run_python_code("./java/src/dbSqlite/db_splite.py");
+
+		String u_output = AnswerWriteTxt.readText("./scr/dbSqlite/question_text.txt");
 
 		PV.setPrompt_Question_String(AWT.readQuestion(u_output));
 		PV.getPrompt_Question().setFont(myFont1);

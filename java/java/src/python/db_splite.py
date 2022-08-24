@@ -1,5 +1,6 @@
 from genericpath import exists
 import os
+from pathlib import Path
 from pickle import TRUE
 import random
 import sqlite3
@@ -141,7 +142,8 @@ def run():
     
     
     random_r = return_random_rows()
-    question_text = "./java/java/src/txt/question_text.txt"
+    active_path()
+    question_text = active_path()
     
     
     
@@ -154,8 +156,22 @@ def run():
     print("done")
 
 
+def active_path():
+    fpath = Path('jj.py').absolute()
+    a = fpath.parent.parent.absolute()
+    
+    b = str(a)
+    acc = b.replace('\\' , '/')
+    bcc = acc + "/txt/question_text.txt"
+    return bcc
+
+
+
 if __name__ == '__main__':
 
     run()
+
+    
+    print()
     conn.commit()
     conn.close()
