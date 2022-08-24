@@ -1,0 +1,10 @@
+def get_even_num(begin,end):
+    result = []
+    for item in range (begin, end):
+        if item % 2 == 0:
+            result.append(item)
+    return result
+
+    begin = 1
+    end = 99
+    print(get_even_num(begin,end))

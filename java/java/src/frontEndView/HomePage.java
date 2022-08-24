@@ -43,7 +43,6 @@ public class HomePage extends JFrame {
 		homePanel.add(PV.getButton_Staff());
 
 		setVisible(true);
-
 	}
 
 }

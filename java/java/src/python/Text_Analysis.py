@@ -1,22 +1,9 @@
 from asyncio.windows_events import NULL
-import io
-import sys
 import os
-from io import StringIO
 import subprocess
 from os.path import exists
-from tkinter import E
 
 
-#A private value to save user result
-_user_result = NULL
-
-#A Text path to save the output result
-_text_path_R =  "output.txt"
-
-#value for translating the text file to python(example)
-TransferFilePath_a = r"answer_2.txt"
-TransferFilePath_b = r"answer_2.py"
 
 
 #the function will return a boolean when the path is exit

@@ -1,6 +1,8 @@
 package frontEndView;
 
 import java.awt.Font;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -9,16 +11,16 @@ import methodAndTool.AnswerWriteTxt;
 
 public class PythonCodeCheckerPage extends JFrame {
 
-	ProjectVariable PV = new ProjectVariable();
+	static ProjectVariable PV = new ProjectVariable();
 	AnswerWriteTxt AWT = new AnswerWriteTxt();
 
 	private String num = "01 02 03 04 05 06 07 08 09 11 12 13 14 15 16 17 18 19 20";
 
-	public PythonCodeCheckerPage() {
+	public PythonCodeCheckerPage() throws IOException {
 		init();
 	}
 
-	private void init() {
+	private void init() throws IOException {
 
 		// 窗口
 		this.setTitle("Python Code Checker - Student Page"); // 窗口名称
@@ -44,8 +46,10 @@ public class PythonCodeCheckerPage extends JFrame {
 		studentPanel.add(PV.getPrompt_1());
 
 		// 问题
-		PV.setPrompt_Question_String(AWT.readQuestion(
-				"sgd dsfk dflndsf gtfsk l jgkfd g dgsjgt js gfslfjglks fg g f dd hs  h d  sf g f s g  dfgiytu ii  i i  yttre w  r t  ew tr  wr  ey  t r  e   tytr    e  y t r  ty jjdhjdhfjdkgajkd djhd     fjdghjdhgjdhg gjgjf gfkgfgjd   dhgjfhjg djgjdf fgj gj j jdj jjgfjj djj jhf dfkjjjgdk jksjgreih ureuuehgr nen vn g  gnngn nnngngnn ng  nn gnnengnnfnfnnn ngngn g  df"));
+		AnswerWriteTxt.run_python_code("./java/src/dbSqlite/db_splite.py");
+		String u_output = AnswerWriteTxt.readText("./java/src/dbSqlite/question_text.txt");
+
+		PV.setPrompt_Question_String(AWT.readQuestion(u_output));
 		PV.getPrompt_Question().setFont(myFont1);
 		PV.getPrompt_Question().setBounds(50, 20, 900, 100);
 		studentPanel.add(PV.getPrompt_Question());

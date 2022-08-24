@@ -1,0 +1,2 @@
+Welcome to the zoo, tickets for kids are free, adults need to pay $10.
+Your age is 30, please use input to give a value to the variable age, and then use if to determine whether you are an adult, and finally print' out - you need to pay $10.

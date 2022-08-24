@@ -297,6 +297,7 @@ public class ProjectVariable {
 	}
 
 	public JButton getButton_ReturnHomePage() {
+		System.out.println("called 1");
 		return button_ReturnHomePage;
 	}
 

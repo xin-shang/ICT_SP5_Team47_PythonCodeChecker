@@ -4,14 +4,11 @@ from Text_Analysis import *
 from Feedback import *
 
 
-#example question&solution
-Question1 =  "Print a Cat"
-Question1_solution = "Cat"
+
 
 #path for user input
 path_1 = r"./java/src/txt/PyCodeAnswer.txt"
 path_2 = r"./java/src/txt/PyCodeAnswer.py"
-
 
 #path for user output
 path_output = "./java/src/txt/user_output.txt"

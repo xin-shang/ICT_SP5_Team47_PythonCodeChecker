@@ -14,16 +14,21 @@ public class CodeCheckerController implements ActionListener {
 	ProjectVariable PV;
 	AnswerWriteTxt AWT;
 	PythonCodeCheckerPage PyChecker_Page;
+	HomeController home_c;
 
 	/**
 	 * Button 监听，响应，
+	 * 
+	 * @throws IOException
 	 */
-	public CodeCheckerController() {
-		PyChecker_Page = null;
-		PV = new ProjectVariable();
+	public CodeCheckerController() throws IOException {
+
 		AWT = new AnswerWriteTxt();
 		PyChecker_Page = new PythonCodeCheckerPage();
-		System.out.print("studnet page");
+
+		PyChecker_Page.setVisible(true);
+
+		PV = new ProjectVariable();
 
 		PV.getButton_Submit().addActionListener(this);
 		PV.getButton_Submit().setActionCommand("Submit Answer Code");
@@ -40,6 +45,10 @@ public class CodeCheckerController implements ActionListener {
 		PV.getButton_ReturnHomePage().addActionListener(this);
 		PV.getButton_ReturnHomePage().setActionCommand("Return HomePage");
 
+	}
+
+	public void delete() {
+		home_c = null;
 	}
 
 	/**
@@ -64,7 +73,7 @@ public class CodeCheckerController implements ActionListener {
 
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 
-			AnswerWriteTxt.run_python_code();
+			AnswerWriteTxt.run_python_code("./java/src/python/" + "PyController.py");
 
 			System.out.println("Button is Working! Submit Answer Code");
 			System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
@@ -82,14 +91,14 @@ public class CodeCheckerController implements ActionListener {
 				e1.printStackTrace();
 			}
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
-			AnswerWriteTxt.run_python_code();
+			AnswerWriteTxt.run_python_code("./java/src/python/PyController.py");
 
 			// set Text Area_2 as user output
 			try {
-				String try_print = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
+				String u_output = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
 
-				System.out.print(try_print);
-				PV.getArea_2().setText(try_print);
+				System.out.print(u_output);
+				PV.getArea_2().setText(u_output);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -107,13 +116,16 @@ public class CodeCheckerController implements ActionListener {
 		else if (e.getActionCommand() == "Return HomePage") {
 			PyChecker_Page.setVisible(false);
 			PyChecker_Page.dispose();
-			// PyChecker_Page = null;
+
 			PV.getArea_1().setText("");
 			PV.getArea_2().setText("");
-			new HomeController();
+
+			home_c = new HomeController();
+
 			System.out.println("Button is Working! Return HomePage");
 
 		}
+		PyChecker_Page = null;
 
 	}
 
