@@ -73,7 +73,7 @@ public class CodeCheckerController implements ActionListener {
 
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 
-			AnswerWriteTxt.run_python_code("./java/src/python/" + "PyController.py");
+			AnswerWriteTxt.run_python_code("./java/src/python/PyController.py");
 
 			System.out.println("Button is Working! Submit Answer Code");
 			System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
@@ -107,6 +107,7 @@ public class CodeCheckerController implements ActionListener {
 
 		else if (e.getActionCommand() == "Check the Score") {
 			System.out.println("Button is Working! Check the Score");
+			AnswerWriteTxt.run_python_code("./java/src/python/db_C.py");
 		}
 
 		else if (e.getActionCommand() == "Show the Feedback") {
@@ -116,6 +117,7 @@ public class CodeCheckerController implements ActionListener {
 		else if (e.getActionCommand() == "Return HomePage") {
 			PyChecker_Page.setVisible(false);
 			PyChecker_Page.dispose();
+			PyChecker_Page = null;
 
 			PV.getArea_1().setText("");
 			PV.getArea_2().setText("");
@@ -125,7 +127,6 @@ public class CodeCheckerController implements ActionListener {
 			System.out.println("Button is Working! Return HomePage");
 
 		}
-		PyChecker_Page = null;
 
 	}
 

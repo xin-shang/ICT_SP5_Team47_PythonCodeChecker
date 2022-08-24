@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import methodAndTool.AnswerWriteTxt;
 import methodAndTool.ProjectVariable;
 import frontEndView.*;
 
@@ -30,10 +29,6 @@ public class HomeController implements ActionListener {
                 PV.getButton_Staff().setActionCommand("I am a Staff");
         }
 
-        public void delete() {
-                code_c = null;
-        }
-
         public HomePage getHP() {
                 return HP;
         }
@@ -42,12 +37,13 @@ public class HomeController implements ActionListener {
         public void actionPerformed(ActionEvent e) {
 
                 if (e.getActionCommand() == "I am a Student") {
-                        AnswerWriteTxt.run_python_code_TRY("./java/src/python/db_splite.py");
+
                         HP.setVisible(false);
                         HP.dispose();
-                        // HP = null;
-                        delete();
+                        HP = null;
+
                         try {
+
                                 code_c = new CodeCheckerController();
                         } catch (IOException e1) {
                                 // TODO Auto-generated catch block

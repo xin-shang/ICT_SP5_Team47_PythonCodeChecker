@@ -13,8 +13,6 @@ public class Main {
 		// new HomePage();
 		new HomeController();
 
-		String a = AnswerWriteTxt.getAbsolutePath();
-		System.out.println(a);
 		System.out.println(
 				"Design Window Width: " + PV.getDesign_width() + "Design Window Heigh: " + PV.getDesign_heigh());
 	}

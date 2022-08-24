@@ -2,8 +2,6 @@ package frontEndView;
 
 import java.awt.Font;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,14 +47,8 @@ public class PythonCodeCheckerPage extends JFrame {
 
 		// 问题
 		// AnswerWriteTxt.run_python_code("./java/src/dbSqlite/db_splite.py");
-		String a = AnswerWriteTxt.getAbsolutePath() + "/java/java/src/txt/question_text.txt";
 
-		String filename = "result.csv";
-		Path pathToFile = Paths.get(filename);
-
-		System.out.println(pathToFile.toAbsolutePath());
-
-		String u_output = AnswerWriteTxt.readText(a);
+		String u_output = AnswerWriteTxt.readText("./java/src/txt/question_text.txt");
 
 		PV.setPrompt_Question_String(AWT.readQuestion(u_output));
 		PV.getPrompt_Question().setFont(myFont1);

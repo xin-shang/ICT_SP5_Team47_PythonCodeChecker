@@ -1,6 +1,7 @@
+#! /usr/bin/python
 from genericpath import exists
 import os
-from pathlib import Path
+
 from pickle import TRUE
 import random
 import sqlite3
@@ -142,8 +143,8 @@ def run():
     #printAll()
     
     random_r = return_random_rows()
-    active_path()
-    question_text = active_path()
+    
+    question_text = "./java/src/txt/question_txt.txt"
     
     
     DB_CreateText_inputValue(question_text,random_r[1])
@@ -155,14 +156,7 @@ def run():
     print("done")
 
 
-def active_path():
-    fpath = Path('jj.py').absolute()
-    a = fpath.parent.parent.absolute()
-    
-    b = str(a)
-    acc = b.replace('\\' , '/')
-    bcc = acc + "/txt/question_text.txt"
-    return bcc
+
 
 
 if __name__ == '__main__':
@@ -170,7 +164,7 @@ if __name__ == '__main__':
     run()
 
     
-    print("User Current Version:-", sys.version)
+
     print()
     conn.commit()
     conn.close()

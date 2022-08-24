@@ -1,6 +1,7 @@
 package methodAndTool;
 
 import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,7 +10,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 
 import java.nio.file.Paths;
-import java.util.List;
 
 public class AnswerWriteTxt {
 
@@ -48,6 +48,7 @@ public class AnswerWriteTxt {
 		try {
 			ProcessBuilder pb = new ProcessBuilder("python", python_path);
 			Process p = pb.start();
+			p.waitFor();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
@@ -62,23 +63,6 @@ public class AnswerWriteTxt {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
-	}
-
-	public static void run_python_code_TRY(String python_path) {
-
-		ProcessBuilder processBuilder = new ProcessBuilder("python", ("hello.py"));
-		processBuilder.redirectErrorStream(true);
-
-		Process process = processBuilder.start();
-		List<String> results = process.getInputStream();
-
-		assertThat("Results should not be empty", results, is(not(empty())));
-		assertThat("Results should contain output of script: ", results, hasItem(
-				containsString("Hello Baeldung Readers!!")));
-
-		int exitCode = process.waitFor();
-		assertEquals("No errors should be detected", 0, exitCode);
 
 	}
 
