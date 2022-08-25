@@ -53,7 +53,7 @@ public class HomeController implements ActionListener {
 
                         System.out.println("-- 'I am a Student' Working --");
                 } else if (e.getActionCommand() == "I am a Staff") {
-                        // new PythonQuestionEditPage();
+
                         HP.setVisible(false);
                         HP.dispose();
                         new EditQuestionController();
