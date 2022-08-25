@@ -8,8 +8,6 @@ def DB_CreateText_inputValue(path, input_string):
         output.write(input_string)
 
 
-
-
 #---------TABLE NAME, change it here---------
 table = "qs"
 
@@ -33,8 +31,6 @@ def insert_list(c,question,solution,mark):
     c.executemany("INSERT INTO "+ table +" VALUES(?,?,?)",list)
     
     
-
-
 
 #print all the data in table
 def printAll(c):

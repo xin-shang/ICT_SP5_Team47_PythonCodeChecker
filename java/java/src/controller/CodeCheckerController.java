@@ -95,15 +95,18 @@ public class CodeCheckerController implements ActionListener {
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 			AnswerWriteTxt.run_python_code("./java/src/python/PyController.py");
 
+
 			// set Text Area_2 as user output
 			try {
 				String u_output = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
 
+				
 				System.out.print(u_output);
 				PV.getArea_2().setText(u_output);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+
 			System.out.println("Button is Working! Run the Code");
 		}
 
