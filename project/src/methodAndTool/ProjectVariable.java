@@ -3,7 +3,20 @@ package methodAndTool;
 public class ProjectVariable {
 	
 	public int designWindow_width = 1000;
-	public  int designWindow_heigh = 618;
+	public int designWindow_heigh = 618;
+	
+	public  String filenameTemp;
+	
+	/**
+	 * 临时文件名称
+	 * */
+	public String getFilenameTemp() {
+		return filenameTemp;
+	}
+	
+	public void setFilenameTemp(String filenameTemp) {
+		this.filenameTemp = filenameTemp;
+	}
 	
 	/**
 	 * 窗口大小

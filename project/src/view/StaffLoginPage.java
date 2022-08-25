@@ -34,14 +34,13 @@ public class StaffLoginPage extends LoginPage{
 			e.printStackTrace();
 		}
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		// 违规操作关闭
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		/**
 		 * 设置窗口内容
 		 * */
 		// 面板
 		JPanel LoginPanel = new JPanel();
-		
 		
 		/**
 		 * 组装零件
@@ -50,26 +49,33 @@ public class StaffLoginPage extends LoginPage{
 		
 		// 用户名Box
 		Box User_Box = Box.createHorizontalBox();
+		User_Box.add(Box.createHorizontalStrut(20));
 		
 		User_Box.add(prompt_user);
-		User_Box.add(Box.createHorizontalStrut(20));
 		User_Box.add(area_user);
 		
 		// 密码Box
 		Box Password_Box = Box.createHorizontalBox();
+		Password_Box.add(Box.createHorizontalStrut(20));
 		
 		Password_Box.add(prompt_password);
-		Password_Box.add(Box.createHorizontalStrut(20));
 		Password_Box.add(area_password);
 		
 		// Button Box
 		Box Button_Box = Box.createHorizontalBox();
+		Button_Box.add(Box.createHorizontalStrut(20));
 		
 		Button_Box.add(button_login);		
 		this.Button_Login_Listener(button_login);
-		Button_Box.add(Box.createHorizontalStrut(20));
+		
 		Button_Box.add(button_signin);
 		super.Button_Signin_Listener(button_signin);
+		
+		// Button Box2 Return
+		Box Return_Box = Box.createHorizontalBox();
+				
+		Return_Box.add(button_retuen);
+		this.Button_Retuen_Listener(button_retuen);
 		
 		// 加板面，盒子，零件
 		Vertical_Box.add(Box.createVerticalStrut(60));
@@ -78,6 +84,8 @@ public class StaffLoginPage extends LoginPage{
 		Vertical_Box.add(Password_Box);
 		Vertical_Box.add(Box.createVerticalStrut(40));
 		Vertical_Box.add(Button_Box);
+		Vertical_Box.add(Box.createVerticalStrut(20));
+		Vertical_Box.add(Return_Box);
 		
 		LoginPanel.add(Vertical_Box);
 		
@@ -107,6 +115,18 @@ public class StaffLoginPage extends LoginPage{
 					JOptionPane.showMessageDialog(frame, "The entered account and password are incorrect. Please re-enter them!");
 				}
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
+			}
+		});
+	}
+	
+	private void Button_Retuen_Listener (JButton button) {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 返回主页
+				new HomePage().init();
+				frame.dispose();
+				System.out.println("-- The Return Button is Working --");
 			}
 		});
 	}

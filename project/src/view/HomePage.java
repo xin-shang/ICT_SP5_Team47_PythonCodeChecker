@@ -45,7 +45,7 @@ public class HomePage{
 		}
 		frame.setResizable(false);														// 窗口锁定
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);						// 违规操作关闭
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		/**

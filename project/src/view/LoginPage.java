@@ -3,6 +3,7 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -24,14 +25,11 @@ public class LoginPage {
 	JTextField area_password = new JTextField(15);
 	JButton button_login = new JButton("Log In");
 	JButton button_signin = new JButton("Sign In");
-	
-	// 方法要用的变量：没用的话就删掉
-	boolean StudentN, StudentP, StaffN, StaffP;
+	JButton button_retuen = new JButton("Return");
 	
 	/**
 	 * Button 监听
 	 * */
-	
 	protected void Button_Signin_Listener (JButton button) {
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -43,7 +41,6 @@ public class LoginPage {
 			}
 		});
 	}
-	
 	
 	/**
 	 * 应该有一个方法将用户名和密码产送到后台，用于和已有的用户名和密码进行比较。
