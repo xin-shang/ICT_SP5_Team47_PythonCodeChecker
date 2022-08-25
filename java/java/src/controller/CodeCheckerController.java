@@ -83,6 +83,9 @@ public class CodeCheckerController implements ActionListener {
 		}
 
 		else if (e.getActionCommand() == "Run the Code") {
+			String u_output;
+			String a_output;
+
 			String pyCodeAnswer = PV.getArea_1_String();
 			char[] py_chars = pyCodeAnswer.toCharArray();
 
@@ -95,13 +98,18 @@ public class CodeCheckerController implements ActionListener {
 			AWT.writeAnswerInTxt(py_chars, pyCodeAnswer);
 			AnswerWriteTxt.run_python_code("./java/src/python/PyController.py");
 
-
 			// set Text Area_2 as user output
 			try {
-				String u_output = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
+				u_output = AnswerWriteTxt.readText("./java/src/txt/user_output.txt");
+				a_output = AnswerWriteTxt.readText("./java/src/txt/rightsolution_output.txt");
 
-				
-				System.out.print(u_output);
+				if (u_output.equals(a_output) == true) {
+					JOptionPane.showMessageDialog(PyChecker_Page, "you working well!!");
+				} else {
+					JOptionPane.showMessageDialog(PyChecker_Page, "the answer is wrong");
+				}
+				System.out.println(a_output);
+				System.out.println(u_output);
 				PV.getArea_2().setText(u_output);
 			} catch (IOException e1) {
 				e1.printStackTrace();

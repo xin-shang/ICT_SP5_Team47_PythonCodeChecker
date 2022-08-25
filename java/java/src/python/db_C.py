@@ -24,6 +24,7 @@ def returnDBAnswer():
     TA_rebuildText2Python(right_soultion_txt,right_soultion_py)
     TA_saveOutPut2Text(right_soultion_py, path_output)
     result = TA_getUserInput_Result(path_output)
+    TA_CreateText_inputValue(path_output, result)
     print(result)
 
 

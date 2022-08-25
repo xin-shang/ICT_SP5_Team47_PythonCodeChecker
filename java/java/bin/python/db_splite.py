@@ -139,7 +139,6 @@ def run():
     #solution = readText("solution_3.txt").decode('utf-8')
     #mark =  """for, 50, append, 50"""
     #insert_list(question, solution, mark)
-        
     #printAll()
     
     random_r = return_random_rows()
