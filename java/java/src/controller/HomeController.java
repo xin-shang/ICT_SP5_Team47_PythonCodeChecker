@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import methodAndTool.AnswerWriteTxt;
 import methodAndTool.ProjectVariable;
 import frontEndView.*;
 
@@ -41,7 +42,7 @@ public class HomeController implements ActionListener {
                         HP.setVisible(false);
                         HP.dispose();
                         HP = null;
-
+                        AnswerWriteTxt.run_python_code("./java/src/python/db_C.py");
                         try {
 
                                 code_c = new CodeCheckerController();

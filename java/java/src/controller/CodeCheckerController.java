@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import methodAndTool.ProjectVariable;
 import methodAndTool.AnswerWriteTxt;
 
@@ -111,6 +113,7 @@ public class CodeCheckerController implements ActionListener {
 		}
 
 		else if (e.getActionCommand() == "Show the Feedback") {
+			JOptionPane.showMessageDialog(PyChecker_Page, "thank you for using java");
 			System.out.println("Button is Working! Show the Feedback");
 		}
 

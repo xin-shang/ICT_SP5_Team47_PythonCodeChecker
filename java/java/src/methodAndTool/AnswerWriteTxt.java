@@ -48,7 +48,7 @@ public class AnswerWriteTxt {
 		try {
 			ProcessBuilder pb = new ProcessBuilder("python", python_path);
 			Process p = pb.start();
-			p.waitFor();
+			// p.waitFor();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 

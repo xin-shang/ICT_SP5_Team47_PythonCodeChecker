@@ -7,9 +7,7 @@ import controller.HomeController;
 public class Main {
 
 	public static void main(String[] args) {
-
 		ProjectVariable PV = new ProjectVariable();
-
 		// new HomePage();
 		new HomeController();
 
