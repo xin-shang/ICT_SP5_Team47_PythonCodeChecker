@@ -98,20 +98,22 @@ public class StaffLoginPage extends LoginPage{
 	
 	/**
 	 * Button 监听
-	 * */
-	
+	 * */	
 	private void Button_Login_Listener (JButton button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
-				// 进入员工页面 - Python Question Edit Page
-				String username = area_user.getText().trim();
-				String password = area_password.getText().trim();
-				if (Post_Contrast_Username_Staff(username) == true && Post_Contrast_Password_Staff(password) == true) {
+				String usernameStaff = area_user.getText().trim();
+				String passwordStaff = area_password.getText().trim();
+				if (Post_Contrast_Username_Staff(usernameStaff) == true && Post_Contrast_Password_Staff(passwordStaff) == true) {
+					// 进入员工页面 - Python Question Edit Page
+					new PythonQuestionEditPage().init();
+					frame.dispose();
 					System.out.println("--Go to the Staff page - Python Code Chacker--");
 				}
 				else {
+					// 弹窗提示，帐号和密码错误
 					JOptionPane.showMessageDialog(frame, "The entered account and password are incorrect. Please re-enter them!");
 				}
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
@@ -130,9 +132,16 @@ public class StaffLoginPage extends LoginPage{
 			}
 		});
 	}
-	
+
 	/**
 	 * 内容获取
 	 * */
-
+//	public String getUsername() {
+//		return usernameStaff;
+//	}
+//
+//	public String getPassword() {
+//		return passwordStaff;
+//	}
+	
 }

@@ -46,5 +46,23 @@ public class ScreenUtils {
     public static String getItemPath(String ImgsName){
         return Imgs_PATH + ImgsName + ".png";
     }
+    
+    /**
+     * 菜单栏中间方法
+     * StringBuffer buf = new StringBuffer();
+  		for (int i = 0; i < field.length; ++i) {
+    		buf.append(field[i]);
+  		}
+  		String s = buf.toString();
+     * */
+    public String getBlankSpace(int num) {
+    	StringBuffer addBlankSpace = new StringBuffer();
+    	for(int a = 0; a < num; a++) {
+    		addBlankSpace.append("    ");
+    	}
+    	String BlankSpace = addBlankSpace.toString();
+		return BlankSpace;
+    }
+    
 
 }

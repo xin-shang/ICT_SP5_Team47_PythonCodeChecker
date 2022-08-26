@@ -106,15 +106,16 @@ public class StudentLoginPage extends LoginPage{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
-				String username = area_user.getText().trim();
-				String password = area_password.getText().trim();
-				if (Post_Contrast_Username_Student(username) == true && Post_Contrast_Password_Student(password) == true) {
-					//进入学生页面 - Python Code Checker,当前页面消失
+				String usernameStudent = area_user.getText().trim();
+				String passwordStudent = area_password.getText().trim();
+				if (Post_Contrast_Username_Student(usernameStudent) == true && Post_Contrast_Password_Student(passwordStudent) == true) {
+					// 进入学生页面 - Python Code Checker,当前页面消失
 					new PythonCodeChackerPage().init();
 					frame.dispose();
 					System.out.println("--Go to the Student page - Python Code Chacker--");
 				}
 				else {
+					// 弹窗提示，帐号和密码错误
 					JOptionPane.showMessageDialog(frame, "The entered account and password are incorrect. Please re-enter them!");
 				}
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
@@ -137,6 +138,12 @@ public class StudentLoginPage extends LoginPage{
 	/**
 	 * 内容获取
 	 * */
-	
+//	public String getUsernameStaff() {
+//		return usernameStudent;
+//	}
+//
+//	public String getPasswordStaff() {
+//		return passwordStudent;
+//	}
 
 }
