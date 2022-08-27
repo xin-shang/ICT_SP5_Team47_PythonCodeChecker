@@ -1,1 +1,1 @@
-100
+NameError: name 'RTYFRTY' is not defined

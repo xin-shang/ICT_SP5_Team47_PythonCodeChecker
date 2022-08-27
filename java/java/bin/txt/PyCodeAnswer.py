@@ -1,1 +1,1 @@
-print("100")
+RTYFRTY
