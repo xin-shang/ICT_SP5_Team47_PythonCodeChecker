@@ -12,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
 
 public class PythonQuestionEditPage {
@@ -99,7 +100,11 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2);				//分割线宽度
 		
 		
+		//splitPane Left
+		splitPane.setLeftComponent(new QuestionManagerComponent());
 		
+		//splitPane Right
+	
 		//
 		frame.add(splitPane);
 		// 将菜单栏加入窗口
