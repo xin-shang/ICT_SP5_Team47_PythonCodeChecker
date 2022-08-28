@@ -9,7 +9,6 @@ import methodAndTool.ProjectVariable;
 public class HomePage extends JFrame {
 
 	ProjectVariable PV = new ProjectVariable();
-
 	public HomePage() {
 		init();
 	}
