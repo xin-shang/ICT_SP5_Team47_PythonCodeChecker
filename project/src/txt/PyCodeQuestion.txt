@@ -1,0 +1,1 @@
+Please use a while loop to calculate the sum from 1-100, finally, print out the total value(number only).

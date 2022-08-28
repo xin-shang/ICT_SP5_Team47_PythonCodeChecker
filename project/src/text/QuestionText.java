@@ -1,23 +1,19 @@
 package text;
 
 public class QuestionText {
-	
+
 	private String ID;
 	private String Type;
 	private String QuestionStems;
 	private String Result;
-	
-	public QuestionText(String id, String type, String questionStems, String resule) {	
+
+	public QuestionText(String id, String type, String questionStems, String resule) {
 		this.ID = id;
 		this.Type = type;
 		this.QuestionStems = questionStems;
-		this.Result = resule;	
+		this.Result = resule;
 	}
-	
-	
-	
-	
-	
+
 	public String getID() {
 		return ID;
 	}
@@ -49,8 +45,5 @@ public class QuestionText {
 	public void setResult(String result) {
 		Result = result;
 	}
-	
-	
-	
-	
+
 }
