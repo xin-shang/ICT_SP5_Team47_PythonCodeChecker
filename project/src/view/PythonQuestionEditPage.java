@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +19,7 @@ import methodAndTool.ScreenUtils;
 public class PythonQuestionEditPage {
 
 	ScreenUtils SU = new ScreenUtils();
+	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
 	String ArtUser = SU.getBlankSpace(52);
 
@@ -29,8 +31,8 @@ public class PythonQuestionEditPage {
 	// 设置菜单栏
 	JMenuBar manuBar = new JMenuBar();
 	// 设置菜单名
-	JMenu manu_Operation = new JMenu("OPERATION");
 	JMenu manu_User = new JMenu("USER");
+	JMenu manu_Operation = new JMenu("OPERATION");
 	JMenu manu_Null = new JMenu(ArtUser);
 
 	// 设置菜单中物品 - OPERATION
@@ -43,7 +45,7 @@ public class PythonQuestionEditPage {
 	JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
 
 	// 设置分割面板
-	JSplitPane splitPane = new JSplitPane();
+	public static JSplitPane splitPane = new JSplitPane();
 
 	// 初始化，组装界面
 	public void init() {
@@ -101,7 +103,7 @@ public class PythonQuestionEditPage {
 		// splitPane Left
 		splitPane.setLeftComponent(new QuestionManagerComponent());
 
-		// splitPane Right
+		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
 
 		//
 		frame.add(splitPane);
@@ -115,13 +117,38 @@ public class PythonQuestionEditPage {
 	/**
 	 * Button 监听
 	 */
+	// 切换用户
+	private void Button_Item_ChangeAccount(JMenuItem button) {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//
+				new HomePage().init();
+				frame.dispose();
+				System.out.println("-- The Change Account Manu Button is Working --");
+			}
+		});
+	}
+
+	// 退出程序
+	private void Button_Item_ExitProgram(JMenuItem button) {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//
+				System.exit(0);
+				System.out.println("-- The Exit Manu Button is Working --");
+			}
+		});
+	}
+
 	// 菜单栏按键监听
 	private void Button_Item_AddQuestion(JMenuItem button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-
+				QuestionManagerComponent.tableModel.addRow(new Object[] { "07", "Print", "Print'---'", "---" });
 				System.out.println("-- The Add Manu Button is Working --");
 			}
 		});
@@ -132,7 +159,9 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-
+				int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
+				;
+				QuestionManagerComponent.tableModel.removeRow(selectedRow);
 				System.out.println("-- The Delete Manu Button is Working --");
 			}
 		});
@@ -154,31 +183,9 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-
+				int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
+				PythonQuestionEditPage.splitPane.setRightComponent(new JLabel(selectedRow + 1 + " is good!"));
 				System.out.println("-- The Check Manu Button is Working --");
-			}
-		});
-	}
-
-	private void Button_Item_ChangeAccount(JMenuItem button) {
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				new HomePage().init();
-				frame.dispose();
-				System.out.println("-- The Change Account Manu Button is Working --");
-			}
-		});
-	}
-
-	private void Button_Item_ExitProgram(JMenuItem button) {
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				System.exit(0);
-				System.out.println("-- The Exit Manu Button is Working --");
 			}
 		});
 	}
