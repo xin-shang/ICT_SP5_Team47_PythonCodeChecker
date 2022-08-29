@@ -19,7 +19,6 @@ def runCode(path_user_anwer_Text, path_user_answer_py,path_output):
     TA_saveOutPut2Text(path_user_answer_py, path_output)
     result = TA_getUserInput_Result(path_output)
     TA_CreateText_inputValue(path_output, result)
-    
     TA_Remove_File(path_user_answer_py)
 
 

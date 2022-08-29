@@ -8,10 +8,9 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
@@ -116,7 +115,7 @@ public class StudentLoginPage extends LoginPage {
 
 				char[] usernameStudent_char = usernameStudent.toCharArray();
 				char[] passwordStudent_char = passwordStudent.toCharArray();
-				// 账号写进txt
+				// 账号写进txt: write UI input in txt
 				try {
 					WAR.creatTxtFile("StudentUserName");
 					WAR.writeAnswerInTxt(usernameStudent_char, usernameStudent);
@@ -138,26 +137,29 @@ public class StudentLoginPage extends LoginPage {
 
 				if (Post_Contrast_Username_Student(busernameStudent) == true
 						&& Post_Contrast_Password_Student(bpasswordStudent) == true) {
+					// set an example question 设置样板问题
+					WAR.run_python_code("./src/python/PYDb_QnS.py");
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					new PythonCodeChackerPage().init();
 					frame.dispose();
 					System.out.println("--Go to the Student page - Python Code Chacker--");
 				} else if (Post_Contrast_Username_Student(busernameStudent) == true
 						&& Post_Contrast_Password_Student(bpasswordStudent) == false) {
-					// 账户存在，密码错误
+					// 账户存在，密码错误 accout exit, password incorrect
 					JOptionPane.showMessageDialog(frame,
 							"The entered password is incorrect. Please re-enter again!");
 				} else if (Post_Contrast_Username_Student(busernameStudent) == false
 						&& Post_Contrast_Password_Student(bpasswordStudent) == true) {
-					// 账号错误
+					// 账号错误 password incorrect
 					JOptionPane.showMessageDialog(frame,
 							"The entered account is incorrect. Please re-enter again!");
 				} else {
-					// 弹窗提示，帐号和密码错误
+					// 弹窗提示，帐号和密码错误 account and password both incorrect
 					JOptionPane.showMessageDialog(frame,
 							"The entered account is incorrect. Please re-enter them!");
 				}
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
+
 			}
 
 		});
