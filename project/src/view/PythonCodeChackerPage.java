@@ -177,7 +177,6 @@ public class PythonCodeChackerPage {
 					e1.printStackTrace();
 				}
 				WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-				WAR.run_python_code("./src/python/PYRunCode.py");
 
 				System.out.println("Button is Working! Submit Answer Code");
 				System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);

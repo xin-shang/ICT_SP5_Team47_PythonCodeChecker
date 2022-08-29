@@ -160,8 +160,6 @@ public class StudentLoginPage extends LoginPage {
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
 			}
 
-			private void elseif() {
-			}
 		});
 	}
 
