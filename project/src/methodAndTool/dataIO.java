@@ -11,13 +11,15 @@ public class dataIO {
     public int dblength;
     public int rowlength;
     WriteAndRead WAR;
+    ProjectVariable PV = new ProjectVariable();
+    String pythonName = PV.getPythonName();
 
     public dataIO() {
         WAR = new WriteAndRead();
         dblength = getDBlength();
         rowlength = getRowsLength();
-
         storeDb();
+
     }
 
     private void storeDb() {
@@ -101,7 +103,8 @@ public class dataIO {
     // 运行python代码，返回一个String，String为command 打印出来的结果------这个和WriteAndRead 里面的基本一样
     private String getDBLength_pythonCode_length(String path) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("python3", path);
+            System.out.println(pythonName);
+            ProcessBuilder pb = new ProcessBuilder(pythonName, path);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String value = new String(in.readLine()).toString();
@@ -115,7 +118,6 @@ public class dataIO {
             return null;
         }
     }
-
 
     public Object getData(int x, int y) {
         if (x > dblength) {
@@ -140,7 +142,6 @@ public class dataIO {
             return null;
         }
     }
-
 
     private int getRowsLength() {
         String rowsLength = getDBLength_pythonCode_length("./src/python/PYDb_getRowsLength.py");

@@ -1,1 +1,1 @@
-print basdasdasdaaa
+print baaa

@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 public class WriteAndRead {
 
 	static ProjectVariable PV = new ProjectVariable();
+	String pythonName = PV.getPythonName();
 
 	public boolean creatTxtFile(String name) throws IOException {
 		boolean flag = false;
@@ -58,23 +59,15 @@ public class WriteAndRead {
 	}
 
 	public void run_python_code(String path) {
-
 		try {
-			ProcessBuilder pb = new ProcessBuilder("python3", path);
+			ProcessBuilder pb = new ProcessBuilder(pythonName, path);
 			Process p = pb.start();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-			String value = new String(in.readLine()).toString();
-
-			if (value != null) {
-				System.out.println("Returned Value is : " + value);
-			} else {
-				System.out.println("Returned Value is : empty");
-			}
+			new String(in.readLine()).toString();
 
 		} catch (Exception e) {
-			System.out.println(e);
+			// System.out.println(e);
 		}
 
 	}
@@ -96,8 +89,8 @@ public class WriteAndRead {
 		return pythonQuestion;
 	}
 
-	public String readString(Object sentence){
-		String string = (String)(sentence);
+	public String readString(Object sentence) {
+		String string = (String) (sentence);
 		return string;
 	}
 
