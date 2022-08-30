@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import methodAndTool.dataIO;
 import view.PythonQuestionEditPage;
 
 public class QuestionManagerComponent extends Box {
@@ -36,7 +37,7 @@ public class QuestionManagerComponent extends Box {
 	 * ———
 	 */
 	// 创建一维数组，存储标题
-	Object[] titles = { "ID", "Type", "Question-Stems", "Result" };
+	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer" };
 
 	// 创建二维数组，储存数据内容
 	Object[][] data = {
@@ -60,6 +61,8 @@ public class QuestionManagerComponent extends Box {
 	 * ———
 	 */
 
+	dataIO DIO = new dataIO();
+	
 	// 表格
 	public static JTable questionTable;
 
@@ -96,10 +99,10 @@ public class QuestionManagerComponent extends Box {
 			titlesVector.add(titles[i]);
 		}
 
-		for (int i = 0; i < data.length; i++) {
-			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < data[i].length; j++) { // data[i].length 用来录入每个大数组中子数组的信息
-				t.add(data[i][j]);
+		for (int i = 0; i < DIO.getDblength(); i++) {
+			Vector t = new Vector<>(); 			// <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j < DIO.getRowlength()-1; j++) { 	// data[i].length 用来录入每个大数组中子数组的信息
+				t.add(DIO.getData(i, j));
 			}
 			dataVector.add(t); // 依次把第二维加入一维中
 		}
@@ -140,17 +143,17 @@ public class QuestionManagerComponent extends Box {
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(30);
+		// column1.setMaxWidth(30);
 		column1.setMinWidth(30);
 		// 获取列
 		TableColumn column2 = questionTable.getColumn(titles[1]);
 		// 设置列宽的最大像素
-		column2.setMaxWidth(90);
+		// column2.setMaxWidth(90);
 		column1.setMinWidth(30);
 		// 获取列
 		TableColumn column3 = questionTable.getColumn(titles[2]);
 		// 设置列宽的最大像素
-		column3.setMinWidth(620);
+		// column3.setMinWidth(620);
 		/*
 		 * —————————————————————————————————————————————————————————————————————————————
 		 * ———

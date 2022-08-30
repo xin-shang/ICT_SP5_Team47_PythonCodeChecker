@@ -8,8 +8,8 @@ import java.util.List;
 
 public class dataIO {
     QnS[] qnsDB;
-    int dblength;
-    int rowlength;
+    public int dblength;
+    public int rowlength;
     WriteAndRead WAR;
 
     public dataIO() {
@@ -101,7 +101,7 @@ public class dataIO {
     // 运行python代码，返回一个String，String为command 打印出来的结果------这个和WriteAndRead 里面的基本一样
     private String getDBLength_pythonCode_length(String path) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("python", path);
+            ProcessBuilder pb = new ProcessBuilder("python3", path);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String value = new String(in.readLine()).toString();
@@ -116,19 +116,20 @@ public class dataIO {
         }
     }
 
+
     public Object getData(int x, int y) {
         if (x > dblength) {
-            System.out.println("x is out of index");
+            System.out.println("column is out of index");
             return null;
         }
         if (y > rowlength) {
-            System.out.println("y is out of index");
+            System.out.println("row is out of index");
             return null;
         }
         if (y == 0) {
             return qnsDB[x].getId();
         } else if (y == 1) {
-            return qnsDB[x].getAnswer();
+            return qnsDB[x].getQuestion();
         } else if (y == 2) {
             return qnsDB[x].getSolution();
         } else if (y == 3) {
@@ -139,6 +140,7 @@ public class dataIO {
             return null;
         }
     }
+
 
     private int getRowsLength() {
         String rowsLength = getDBLength_pythonCode_length("./src/python/PYDb_getRowsLength.py");
@@ -163,6 +165,14 @@ public class dataIO {
             System.out.println("db load fail");
             return 0;
         }
+    }
+
+    public int getDblength() {
+        return dblength;
+    }
+
+    public int getRowlength() {
+        return rowlength;
     }
 
 }

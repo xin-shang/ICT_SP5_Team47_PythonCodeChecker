@@ -12,13 +12,11 @@ if __name__ == '__main__':
     #get row by id 
     row = getrow(c,id)
     
-    #get values from the row 获取每一行的数据
     rowQuestion = row[1]
     rowSolution = row[2]
     rowAnswer = row[3]
     makrScheme = row[4]
     
-    #write value in text  把获得的数据写入txt 
     DB_WriteText_inputValue("./src/dbData/dbQuestion.txt",rowQuestion)
     DB_WriteText_inputValue("./src/dbData/dbSolution.txt",rowSolution)
     DB_WriteText_inputValue("./src/dbData/dbAnswer.txt",rowAnswer)

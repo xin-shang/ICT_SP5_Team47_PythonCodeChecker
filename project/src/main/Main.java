@@ -16,7 +16,7 @@ public class Main {
 		new HomePage().init();
 
 		dataIO dio = new dataIO();
-		dio.getDB()[0].getMarkList().get(0).getMarkPoint();
+		// System.out.println(dio.getDB()[0]);
 
 		System.out.println("Design Window Width: " + SU.getDesignWindow_width() + "Design Window Heigh: "
 				+ SU.getDesignWindow_heigh());

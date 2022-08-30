@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 from cmath import exp
 import random
 import sqlite3
@@ -8,7 +8,7 @@ table = "qs"
 #---------TABLE NAME, change it here---------
 
 def DB_WriteText_inputValue(path, input_string):
-    with open(path, "w+",newline="") as output:
+    with open(path, "w+",newline='') as output:
         output.write(input_string)
 
 
