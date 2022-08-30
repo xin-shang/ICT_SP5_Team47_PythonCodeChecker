@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import methodAndTool.WriteAndRead;
 import methodAndTool.dataIO;
 import view.PythonQuestionEditPage;
 
@@ -31,37 +32,11 @@ public class QuestionManagerComponent extends Box {
 	 * Python Question Edit Page - QuestionManagerComponent
 	 */
 
-	/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
-	/*
-	 * —————————————————————————————————————————————————————————————————————————————
-	 * ———
-	 */
-	// 创建一维数组，存储标题
-	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer" };
-
-	// 创建二维数组，储存数据内容
-	Object[][] data = {
-			{ "01", "Print", "Print'Hello World'", "Hello World" },
-			{ "02", "Print", "Print'11'", "11" },
-			{ "03", "Loop", "for loop 1-5", "1\n2\n3\n4\n5" },
-			{ "04", "List", "List[1,2,3,4,5] print List", "1\n2\n3\n4\n5" },
-			{ "05", "Random",
-					"Please write a program to output a random even number between 0 and 10 inclusive using random module and list comprehension.",
-					"----" },
-			{ "06", "Calculate",
-					"Write a program which accepts a sequence of comma separated 4 digit binary numbers as its input and then check whether they are divisible by 5 or not. The numbers that are divisible by 5 are to be printed in a comma separated sequence.'",
-					"----" },
-	};
-	/*
-	 * —————————————————————————————————————————————————————————————————————————————
-	 * ———
-	 */
-	/*
-	 * —————————————————————————————————————————————————————————————————————————————
-	 * ———
-	 */
-
 	dataIO DIO = new dataIO();
+	WriteAndRead WAR = new WriteAndRead();
+
+	// 创建一维数组，存储标题
+	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer", "ScorePoint" };
 	
 	// 表格
 	public static JTable questionTable;
@@ -70,8 +45,10 @@ public class QuestionManagerComponent extends Box {
 	public static DefaultTableModel tableModel;
 
 	// 创建集合 操作集合比操作数组容易
-	private static Vector titlesVector = new Vector(); // 存储标题
-	private static Vector<Vector> dataVector = new Vector<>(); // 存储数据
+	private Vector titlesVector_Table = new Vector(); // 存储标题
+	private static Vector <Vector> dataVector_Table = new Vector<>(); // 存储数据
+
+	private static Vector <Vector> dataVector_Show = new Vector<>(); // 存储数展示用
 
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;
@@ -89,38 +66,28 @@ public class QuestionManagerComponent extends Box {
 		// 现在写的内容都是用来测试程序功能的。接上数据后一部分需要重写
 		// title 暂时写了四个，如果只写ID和题目也可以。评分点暂时看不到。点击查看后才能看到
 		// body 暂时写了6个，用来测试功能。
-		/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
+		/* ——————————————————————————以下为测试用的数据———————————————————————— */
 		// 写入数据
 		for (int i = 0; i < titles.length; i++) {
-			titlesVector.add(titles[i]);
+			titlesVector_Table.add(titles[i]);
 		}
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
-			Vector t = new Vector<>(); 			// <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < DIO.getRowlength()-1; j++) { 	// data[i].length 用来录入每个大数组中子数组的信息
+			Vector t = new Vector<>(); 					// <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j <= DIO.getRowlength(); j++) { 					// data[i].length 用来录入每个大数组中子数组的信息
 				t.add(DIO.getData(i, j));
 			}
-			dataVector.add(t); // 依次把第二维加入一维中
+			dataVector_Table.add(t); // 依次把第二维加入一维中
 		}
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
+
+		/* ———————————————————————————————————————————————————————————————————————————————— */
 
 		// 清空
 
 		// 刷新
 
 		// 整合
-		tableModel = new DefaultTableModel(dataVector, titlesVector);
+		tableModel = new DefaultTableModel(dataVector_Table, titlesVector_Table);
 
 		// 整合 & 让questionTable中的内容不可编辑
 		questionTable = new JTable(tableModel) {
@@ -135,42 +102,25 @@ public class QuestionManagerComponent extends Box {
 		questionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
+		/* ———————————————————————————————————————————————————————————————————————————————— */
 		// 设置列宽
+
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
-		// column1.setMaxWidth(30);
+		column1.setMaxWidth(30);
 		column1.setMinWidth(30);
-		// 获取列
-		TableColumn column2 = questionTable.getColumn(titles[1]);
-		// 设置列宽的最大像素
-		// column2.setMaxWidth(90);
-		column1.setMinWidth(30);
-		// 获取列
-		TableColumn column3 = questionTable.getColumn(titles[2]);
-		// 设置列宽的最大像素
-		// column3.setMinWidth(620);
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
+		
+		// 隐藏列表"Solution" - titles[3], "Answer" - titles[4], "ScorePoint" - titles[5]
+		hiddenList(2, 0);
+		hiddenList(3, 0);
+		hiddenList(4, 0);
+		/* ———————————————————————————————————————————————————————————————————————————————— */
+		/* ———————————————————————————————————————————————————————————————————————————————— */
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(questionTable);
 
-		/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
 		// 按钮
 		buttonPanel = new JPanel();
 		buttonPanel.setMaximumSize(new Dimension(800, 80));
@@ -189,15 +139,6 @@ public class QuestionManagerComponent extends Box {
 		buttonPanel.add(deleteQuestion);
 		buttonPanel.add(changeQuestion);
 		buttonPanel.add(showQuestion);
-
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
-		/*
-		 * —————————————————————————————————————————————————————————————————————————————
-		 * ———
-		 */
 
 		// 添加
 		this.add(scrollPane);
@@ -253,7 +194,7 @@ public class QuestionManagerComponent extends Box {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
 				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
-				System.out.println("-- The Delete Manu Button is Working --");
+				System.out.println("-- The Show Button is Working --");
 			}
 		});
 	}
@@ -261,6 +202,17 @@ public class QuestionManagerComponent extends Box {
 	/**
 	 * 内容获取
 	 */
+	private void hiddenList (int num, int Width) {
+		// 获取列
+		TableColumn column = questionTable.getColumn(titles[num]); 
+		// 设置列宽
+		column.setMaxWidth(0); 
+		column.setMinWidth(0); 
+		column.setWidth(0);
+		column.setPreferredWidth(0);  
+	}
+
+
 	// 请求数据。很重要:get和post
 	public void requestData() {
 	}
@@ -273,32 +225,10 @@ public class QuestionManagerComponent extends Box {
 		QuestionManagerComponent.selectedRow = selectedRow;
 	}
 
-	// 某个单元格中的内容
-	public static Object getValueAt(int rowIndex, int columnIndex) {
-		return dataVector.get(rowIndex).get(columnIndex); // get(int) 返回位于Vector中指定位置的元素。
+	// 某个单元格中的内容 ID，Question 用这个
+	public static Object getValueAt_Table(int rowIndex, int columnIndex) {
+		return dataVector_Table.get(rowIndex).get(columnIndex); // get(int) 返回位于Vector中指定位置的元素。
 	}
 
 }
 
-/// **
-// * 测试
-// * */
-//// body
-// Vector <String> body1 = new Vector<>();
-// Vector <String> body2 = new Vector<>();
-// Vector <String> body3 = new Vector<>();
-// Vector <String> body4 = new Vector<>();
-// Vector <String> body5 = new Vector<>();
-// Vector <String> body6 = new Vector<>();
-// String[] bodyOne1 = {"01", "Print", "Print'Hello World'", "Hello World"};
-// String[] bodyOne2 = {"02", "Print", "Print'11'", "11"};
-// String[] bodyOne3 = {"03", "Loop", "for loop 1-5", "1\n2\n3\n4\n5"};
-// String[] bodyOne4 = {"04", "List, Print", "List[1,2,3,4,5] print List",
-/// "1\n2\n3\n4\n5"};
-// String[] bodyOne5 = {"05", "List, Random", "Please write a program to output
-/// a random even number between 0 and 10 inclusive using random module and list
-/// comprehension.", "----"};
-// String[] bodyOne6 = {"06", "Calculate", "Write a program which accepts a
-/// sequence of comma separated 4 digit binary numbers as its input and then
-/// check whether they are divisible by 5 or not. The numbers that are divisible
-/// by 5 are to be printed in a comma separated sequence.'", "----"};

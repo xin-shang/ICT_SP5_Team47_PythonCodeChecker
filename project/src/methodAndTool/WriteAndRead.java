@@ -91,9 +91,14 @@ public class WriteAndRead {
 	}
 
 	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
-	public String readQuestion(String question) {
-		String pythonQuestion = "<html>" + "<p>" + question + "</p>" + "</html>";
+	public String readQuestion(Object object) {
+		String pythonQuestion = "<html>" + "<p>" + object + "</p>" + "</html>";
 		return pythonQuestion;
+	}
+
+	public String readString(Object sentence){
+		String string = (String)(sentence);
+		return string;
 	}
 
 	// 方法： getCSVQuestionTitle （-> 传到readQuestion（String））

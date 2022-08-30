@@ -58,7 +58,7 @@ public class PythonQuestionEditPage {
 		frame.setSize(SU.getDesignWindow_width(), SU.getDesignWindow_heigh()); // 设置窗口（宽，高）
 		try {
 			frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac 好像不太支持这个，Windows
-																								// 咋样要试试。
+															// 咋样要试试。
 			System.out.println("-- ImageIO is Working --");
 		} catch (IOException e) {
 			e.printStackTrace();
