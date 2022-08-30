@@ -62,7 +62,7 @@ public class QuestionManagerComponent extends Box {
 	 */
 
 	dataIO DIO = new dataIO();
-	
+
 	// 表格
 	public static JTable questionTable;
 
@@ -100,8 +100,8 @@ public class QuestionManagerComponent extends Box {
 		}
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
-			Vector t = new Vector<>(); 			// <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < DIO.getRowlength()-1; j++) { 	// data[i].length 用来录入每个大数组中子数组的信息
+			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j < DIO.getRowlength() - 1; j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(DIO.getData(i, j));
 			}
 			dataVector.add(t); // 依次把第二维加入一维中

@@ -101,7 +101,7 @@ public class dataIO {
     // 运行python代码，返回一个String，String为command 打印出来的结果------这个和WriteAndRead 里面的基本一样
     private String getDBLength_pythonCode_length(String path) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("python3", path);
+            ProcessBuilder pb = new ProcessBuilder("python", path);
             Process p = pb.start();
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String value = new String(in.readLine()).toString();

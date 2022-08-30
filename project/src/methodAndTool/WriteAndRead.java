@@ -60,7 +60,7 @@ public class WriteAndRead {
 	public void run_python_code(String path) {
 
 		try {
-			ProcessBuilder pb = new ProcessBuilder("python3", path);
+			ProcessBuilder pb = new ProcessBuilder("python", path);
 			Process p = pb.start();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
