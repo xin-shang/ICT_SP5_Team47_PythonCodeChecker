@@ -116,7 +116,6 @@ public class dataIO {
         }
     }
 
-
     public Object getData(int x, int y) {
         if (x > dblength) {
             System.out.println("column is out of index");
@@ -140,7 +139,6 @@ public class dataIO {
             return null;
         }
     }
-
 
     private int getRowsLength() {
         String rowsLength = getDBLength_pythonCode_length("./src/python/PYDb_getRowsLength.py");
