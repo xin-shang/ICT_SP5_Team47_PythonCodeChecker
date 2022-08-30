@@ -40,30 +40,28 @@ if __name__ == '__main__':
     
     #-------------------count score--------------------
     #score list
-    scoreList = createScoreList(c,1)
+    #-----------------数据库根据默认值：1，返回评分列表(default rows id: 1)return markscheme list----------------
+    scoreList = getMarkSchemeList(c,1)
+    
     #user input
     user_answer = readText("./src/txt/PyCodeAnswer.txt").decode('utf-8')
     #count the socre before run the result
     final_score = countSocre_inOperator(user_answer,scoreList)
     
-    
-    
     #-------------------run result--------------------
-    #run result
+    #run result(运行学生输入代码，并返回结果记录在PyCodeAnswer.txt上)
     runCode(path_1,path_2,path_output)
     
-    
     executed_answer = readText("./src/txt/PyCodeAnswer.txt").decode('utf-8')
-    right_answer = readText("./src/txt/PyCodeRightAnswer.txt").decode('utf-8')
+    #--------------------- 数据库根据id默认值：1 返回答案(default value:1) return db answer--------------
+    right_answer = getAnswer(c,1)
     
     if executed_answer == right_answer and final_score == 100:
-        DB_CreateText_inputValue("./src/txt/PyCodeScore.txt",str(final_score))
+        DB_WriteText_inputValue("./src/txt/PyCodeScore.txt",str(final_score))
     elif executed_answer == right_answer and final_score != 100:
-        DB_CreateText_inputValue("./src/txt/PyCodeScore.txt",str(0))
-    elif executed_answer != right_answer:
-        DB_CreateText_inputValue("./src/txt/PyCodeScore.txt",str(final_score))
+        DB_WriteText_inputValue("./src/txt/PyCodeScore.txt",str(0))
     else:
-        DB_CreateText_inputValue("./src/txt/PyCodeScore.txt",str(0))
+        DB_WriteText_inputValue("./src/txt/PyCodeScore.txt",str(final_score))
     
     
     conn.commit()

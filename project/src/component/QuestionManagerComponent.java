@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -95,6 +95,7 @@ public class QuestionManagerComponent extends Box {
 		for (int i = 0; i < titles.length; i++) {
 			titlesVector.add(titles[i]);
 		}
+
 		for (int i = 0; i < data.length; i++) {
 			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
 			for (int j = 0; j < data[i].length; j++) { // data[i].length 用来录入每个大数组中子数组的信息

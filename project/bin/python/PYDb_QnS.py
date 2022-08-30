@@ -9,19 +9,19 @@ def manageDb():
     #create_sqlite(c)
     deletAllFromT(c)
 
-def returnDBQuestion():
+def returnDBQuestion(c):
     #retrurn a random rows from db
     random_r = return_random_rows(c)
     
     #return the first element which is question from the row
     row_q = random_r[1]
     question_path = "./src/txt/PyCodeQuestion.txt"
-    DB_CreateText_inputValue(question_path,row_q)
+    DB_WriteText_inputValue(question_path,row_q)
     
     #return the second element which is solution from the row
     right_solution = random_r[2]
     solution_path = "./src/txt/PyCodeRightAnswer.txt"
-    DB_CreateText_inputValue(solution_path,right_solution)
+    DB_WriteText_inputValue(solution_path,right_solution)
     
     #test question
     #print(row_q)
@@ -49,12 +49,18 @@ def returnDBAnswer():
     #print(result)
 
 
-def insertDB_Example():
-    question = readText("./src/sqlite/quz_2.txt").decode('utf-8')
-    solution = readText("./src/sqlite/solution_2.txt").decode('utf-8')
+def insertDB_Example(c):
+    question = readText("./src/example_answer/quz_2.txt").decode('utf-8')
+    question_1 = "print basdasdasdaaa"
     
-    mark = "<= 100, 100"
-    insert_list(c,question,solution,mark)
+    solution = readText("./src/example_answer/solution_2.txt").decode('utf-8')
+    solution_1 = "printacasdasdascccc"
+    
+    answer = "a"
+    mark = "<= 100, 50, while, 50"
+    
+    insert_list(c,question_1,solution_1,answer,mark)
+
 
 
 if __name__ == '__main__':
@@ -65,7 +71,7 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
 
-    returnDBQuestion()
+    returnDBQuestion(c)
     returnDBAnswer()
 
     conn.commit()

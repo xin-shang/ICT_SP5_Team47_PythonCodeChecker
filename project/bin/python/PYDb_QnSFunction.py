@@ -1,4 +1,5 @@
 
+from cmath import exp
 import random
 import sqlite3
 
@@ -6,16 +7,20 @@ table = "qs"
 
 #---------TABLE NAME, change it here---------
 
-def DB_CreateText_inputValue(path, input_string):
+def DB_WriteText_inputValue(path, input_string):
     with open(path, "w+",newline="") as output:
         output.write(input_string)
 
+
+def dropTable(c):
+    c.execute("DROP TABLE "+ table)
 
 #---------TABLE NAME, change it here---------
 def create_sqlite(c):
     C_table = """CREATE TABLE """+ table +"""(
         question text,
         solution text,
+        answer text,
         markScheme text
     )"""
     #create a table
@@ -24,9 +29,9 @@ def create_sqlite(c):
 def deletAllFromT(c):
     c.execute("DELETE FROM "+ table)
     
-def insert_list(c,question,solution,mark):
-    list = [(question,solution,mark)]
-    c.executemany("INSERT INTO "+ table +" VALUES(?,?,?)",list)
+def insert_list(c,question,solution,answer,mark):
+    list = [(question,solution,answer,mark)]
+    c.executemany("INSERT INTO "+ table +" VALUES(?,?,?,?)",list)
     
 #print all the data in table
 def printAll(c):
@@ -52,20 +57,73 @@ def return_random_rows(c):
 
 
 #create Score List
-def createScoreList(c,id):
+def getMarkSchemeList(c,id):
     scoreScheme = ""
     c.execute("SELECT rowid, * FROM " + table)
-    items = c.fetchall()
+    values = c.fetchall()
 
     #only select the markScheme
-    for value in items:
+    for value in values:
         if(value[0] == id):
-            scoreScheme = value[3]
+            scoreScheme = value[4]
 
     stringL = scoreScheme.split(',')
     ls_mark = transferTXT2ScoreList(stringL)
     return ls_mark
 
+
+def getMarkSchemeListByString(String):
+    try:
+        scoreScheme = String
+        stringL = scoreScheme.split(',')
+        ls_mark = transferTXT2ScoreList(stringL)
+        return ls_mark
+    except:
+        print("An exception occurred")
+        
+
+def getQuestion(c,id):
+    question = ""  
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    for value in values:
+        if(value[0] == id):
+            question = value[1]
+    return question
+    
+def getAnswer(c,id):
+    answer = ""  
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    for value in values:
+        if(value[0] == id):
+            answer = value[3]
+    return answer
+
+def getSolution(c,id):
+    solution = ""  
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    for value in values:
+        if(value[0] == id):
+            solution = value[2]
+    return solution
+
+def getTableLength(c):
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    return len(values)
+
+def getrow(c,id):
+    rows = 0
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    for value in values:
+        if(value[0] == id):
+            rows = value
+    return rows
+
+    
 #transfer text to score list
 def transferTXT2ScoreList(score_list):
     count = 0
