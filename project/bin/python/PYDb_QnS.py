@@ -13,13 +13,16 @@ def returnDBQuestion(c):
     #retrurn a random rows from db
     random_r = return_random_rows(c)
     
+    #return default
+    return_r = getrow(c,1)
+    
     #return the first element which is question from the row
-    row_q = random_r[1]
+    row_q = return_r[1]
     question_path = "./src/txt/PyCodeQuestion.txt"
     DB_WriteText_inputValue(question_path,row_q)
     
     #return the second element which is solution from the row
-    right_solution = random_r[2]
+    right_solution = return_r[2]
     solution_path = "./src/txt/PyCodeRightAnswer.txt"
     DB_WriteText_inputValue(solution_path,right_solution)
     
