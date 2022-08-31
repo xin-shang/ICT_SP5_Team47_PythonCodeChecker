@@ -24,7 +24,7 @@ public class ErrorPage {
 	public static int interpretCodesFromPython(String sourceFile, String pythonExecutableFile,
 			List<String> MessageFromPython) {
 		String s = null;
-		int result = 0;
+		int result = -2;
 		try {
 
 			ProcessBuilder processBuilder = new ProcessBuilder(pythonExecutableFile, sourceFile);
@@ -34,16 +34,25 @@ public class ErrorPage {
 
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
-			while ((s = stdInput.readLine()) != null) {
-				MessageFromPython.add(s);
-				result = -1;
-			}
-
 			while ((s = stdError.readLine()) != null) {
 				MessageFromPython.add(s);
 				if (s.contains("No such file or directory")) {
 					result = 1;	
 				}
+			}
+			if (MessageFromPython.size() > 0) { 
+				result = 0;
+				for (String line : MessageFromPython) { 
+					if (line.contains("No such file or directory")) { 
+						result = 1; 
+					}
+				}
+			} else { 
+				while ((s = stdInput.readLine()) != null) { 
+															
+					MessageFromPython.add(s);
+				}
+				result = -1; 
 			}
 		} catch (IOException e) {
 			MessageFromPython.add(e.getMessage());
@@ -61,20 +70,30 @@ public class ErrorPage {
 		int errorNo = 0;
 
 		errorNo = ErrorPage.interpretCodesFromPython(sourceFile, pythonExecutionFile, messageFromPython);
-		System.out.println("The error code: " + errorNo);
+		//System.out.println("The error code: " + errorNo);
 		
 
 		if (errorNo == -1) {
-			System.out.println(
-					"Your program runs without syntax error, the following is the output from console (if any): ");
-			for (String line : messageFromPython) {
-				System.out.println(line);
+			System.out.println("Your program runs without syntax error.");
+			if (messageFromPython.size() > 0) { 
+				System.out.println("The following is the output from console: ");
+				for (String line : messageFromPython) { 
+					System.out.println(line);
+				}
+			} else {
+				System.out.println("Your program does not have any output to console.");
 			}
 		}else if (errorNo == 0) {
 			System.out.println("Your program has some syntax error: ");
-			//messageFromPython.remove(0);
 			for (String line : messageFromPython) {
-				System.out.println(line);
+				if (line.contains("File")) { 
+					int lineNo = line.indexOf("line "); 
+					if (lineNo >= 0) { 
+						System.out.println("In line " + line.substring(lineNo + 5) + " : ");
+					}
+				} else {
+					System.out.println(line);
+				}
 			}
 		} else if (errorNo == 1) {
 			System.out.println("Something wrong with the source file path:");
