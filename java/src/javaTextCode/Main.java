@@ -1,6 +1,7 @@
 package javaTextCode;
 
 import methodAndTool.*;
+import frontEndView.ErrorPage;
 import frontEndView.HomePage;
 
 public class Main {
@@ -22,6 +23,8 @@ public class Main {
 		
 		
 		System.out.println("W: " + VC.getScreenWidthSize() + " H: " + VC.getScreenHeighSize());
+		
+		ErrorPage.printErrorMessageToConsole();
 
 	}
 
