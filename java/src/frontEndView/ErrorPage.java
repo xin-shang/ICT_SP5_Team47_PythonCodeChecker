@@ -61,6 +61,6 @@ public class ErrorPage {
 		int errorNo = 0;
 
 		errorNo = ErrorPage.interpretCodesFromPython(sourceFile, pythonExecutionFile, messageFromPython);
-		System.out.println(errorNo);
+		System.out.println("The error code: " + errorNo);
 	}
 }
