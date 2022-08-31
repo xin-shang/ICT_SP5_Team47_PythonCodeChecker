@@ -62,5 +62,32 @@ public class ErrorPage {
 
 		errorNo = ErrorPage.interpretCodesFromPython(sourceFile, pythonExecutionFile, messageFromPython);
 		System.out.println("The error code: " + errorNo);
+		
+
+		if (errorNo == -1) {
+			System.out.println(
+					"Your program runs without syntax error, the following is the output from console (if any): ");
+			for (String line : messageFromPython) {
+				System.out.println(line);
+			}
+		}else if (errorNo == 0) {
+			System.out.println("Your program has some syntax error: ");
+			//messageFromPython.remove(0);
+			for (String line : messageFromPython) {
+				System.out.println(line);
+			}
+		} else if (errorNo == 1) {
+			System.out.println("Something wrong with the source file path:");
+			for (String line : messageFromPython) {
+				System.out.println(line);
+			}
+		}
+
+		else {
+			System.out.println("Something wrong with the python interpreter path: ");
+			for (String line : messageFromPython) {
+				System.out.println(line);
+			}
+		}
 	}
 }
