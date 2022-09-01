@@ -2,7 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 
 import javax.swing.JLabel;
@@ -47,24 +46,41 @@ public class LoginPage {
 	}
 
 	/**
-	 * 应该有一个方法将用户名和密码产送到后台，用于和已有的用户名和密码进行比较。
-	 * 如果项目用数据库有后台服务器，会有专门的回调方法，可以直接将二者以特殊方式回调（想Josn类型）。
-	 * 现在我会直接向后传送，用String对比的方法测试登陆。
+	 * 前端发送用户名和密码给后端
+	 * 后端返回用户名和密码布尔值
 	 * Student Page：student/student
 	 * Staff Page： staff/staff
 	 */
-	public boolean Post_Contrast_Username_Student(String username) {
+	public void PostStudent_UserName_passowrd(String username, String password) {
+		// 写入用户数据
+		// java write data for python to read
+		WAR.write2TextFileOutStream("./src/txt/StudentUserName.txt", username);
+		WAR.write2TextFileOutStream("./src/txt/StudentUserPassword.txt", password);
 
-		if (username.equals("True")) {
+		// python 阅读 用户数据
+		// python read data from java
+		WAR.run_python_code("./src/python/PYDb_StudentLogin.py");
+	}
+
+	/**
+	 * 获取数据库返回的用户名布尔值
+	 * get boolean for username from database
+	 */
+	public boolean getStudent_DbReturn_userName() {
+		String busernameStudent = WAR.readText("./src/txt/StudentUserName.txt");
+		if (busernameStudent.equals("True"))
 			return true;
-		}
 		return false;
 	}
 
-	public boolean Post_Contrast_Password_Student(String password) {
-		if (password.equals("True")) {
+	/**
+	 * 获取数据库返回的密码布尔值
+	 * get boolean for password from database
+	 */
+	public boolean getStudent_DbReturn_password() {
+		String bpasswordStudent = WAR.readText("./src/txt/StudentUserPassword.txt");
+		if (bpasswordStudent.equals("True"))
 			return true;
-		}
 		return false;
 	}
 

@@ -1,4 +1,5 @@
 from genericpath import exists
+from webbrowser import get
 from PYDb_StudentLoginFunction import *
 from PYTextAnalysis import *
 
@@ -31,12 +32,20 @@ if __name__ == '__main__':
     if bIsStudent_userName == True and bIsStudent_password == True:
         student_userName = readText("./src/txt/StudentUserName.txt").decode('utf-8')
         student_password = readText("./src/txt/StudentUserPassword.txt").decode('utf-8')
-        
-        bUsername = bIsUserNameExit(c,student_userName)
-        bPassword = bIsUserPasswordExit(c,student_password)
-        
+       
+       
+        e_u = "student"
+        e_p = "student"
+        #check userName and password exit
+        bUsername = bCheckUserName(c,student_userName)
+        bPassword = bCheckPassword(c,student_userName,student_password)
+               
         TA_CreateText_inputValue("./src/txt/StudentUserName.txt",str(bUsername))
         TA_CreateText_inputValue("./src/txt/StudentUserPassword.txt",str(bPassword))
+        
+        print (bUsername)
+        print (bPassword)
+        
     else:
         print("passwordTxT or usernameTxT is not exit, check in java!!!!")
 

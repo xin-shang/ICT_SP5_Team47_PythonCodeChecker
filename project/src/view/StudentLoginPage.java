@@ -109,52 +109,37 @@ public class StudentLoginPage extends LoginPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
-
 				String usernameStudent = area_user.getText().trim();
 				String passwordStudent = area_password.getText().trim();
 
-				char[] usernameStudent_char = usernameStudent.toCharArray();
-				char[] passwordStudent_char = passwordStudent.toCharArray();
-				// 账号写进txt: write UI input in txt
-				try {
-					WAR.creatTxtFile("StudentUserName");
-					WAR.writeAnswerInTxt(usernameStudent_char, usernameStudent);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				// 密码写进txt
-				try {
-					WAR.creatTxtFile("StudentUserPassword");
-					WAR.writeAnswerInTxt(passwordStudent_char, passwordStudent);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				// 运行python读取上面的txt
-				WAR.run_python_code("./src/python/PYDb_StudentLogin.py");
+				// 发送用户名和密码去数据库
+				// send username and password to database
+				PostStudent_UserName_passowrd(usernameStudent, passwordStudent);
 
-				String busernameStudent = WAR.readText("./src/txt/StudentUserName.txt");
-				String bpasswordStudent = WAR.readText("./src/txt/StudentUserPassword.txt");
+				Boolean busernameStudent = getStudent_DbReturn_userName();
+				Boolean bpasswordStudent = getStudent_DbReturn_password();
 
-				if (Post_Contrast_Username_Student(busernameStudent) == true
-						&& Post_Contrast_Password_Student(bpasswordStudent) == true) {
-					// set an example question 设置样板问题
+				if (busernameStudent == true
+						&& bpasswordStudent == true) {
+					// 设置样板问题(python 返回一个样板问题，默认值是第一个问题)
+					// set sample question (python return sample question in txt)
 					WAR.run_python_code("./src/python/PYDb_QnS.py");
+
 					// 进入学生页面 - Python Code Checker,当前页面消失
+					// get into python code checker page
 					new PythonCodeChackerPage().init();
 					frame.dispose();
+
 					System.out.println("--Go to the Student page - Python Code Chacker--");
-				} else if (Post_Contrast_Username_Student(busernameStudent) == true
-						&& Post_Contrast_Password_Student(bpasswordStudent) == false) {
-					// 账户存在，密码错误 accout exit, password incorrect
+				} else if (busernameStudent == true
+						&& bpasswordStudent == false) {
+					// 账户存在，密码错误
+					// accout exit, password incorrect(message box)
 					JOptionPane.showMessageDialog(frame,
 							"The entered password is incorrect. Please re-enter again!");
-				} else if (Post_Contrast_Username_Student(busernameStudent) == false
-						&& Post_Contrast_Password_Student(bpasswordStudent) == true) {
-					// 账号错误 password incorrect
-					JOptionPane.showMessageDialog(frame,
-							"The entered account is incorrect. Please re-enter again!");
 				} else {
-					// 弹窗提示，帐号和密码错误 account and password both incorrect
+					// 弹窗提示，帐号和密码错误
+					// account and password both incorrect(message box)
 					JOptionPane.showMessageDialog(frame,
 							"The entered account is incorrect. Please re-enter them!");
 				}

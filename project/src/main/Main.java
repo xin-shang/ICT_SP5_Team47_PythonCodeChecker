@@ -17,6 +17,5 @@ public class Main {
 				+ SU.getDesignWindow_heigh());
 		System.out.println(
 				"Computer Width: " + ScreenUtils.getScreenWidth() + "Computer Heigh: " + ScreenUtils.getScreenHeight());
-
 	}
 }

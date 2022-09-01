@@ -176,7 +176,9 @@ public class PythonCodeChackerPage {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+
 				WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
+
 				WAR.run_python_code("./src/python/PYSubmitCode.py");
 
 				String Score = WAR.readText("./src/txt/PyCodeScore.txt");
@@ -223,7 +225,6 @@ public class PythonCodeChackerPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
 
 				System.out.println("-- The Show Score Button is Working --");
 			}
