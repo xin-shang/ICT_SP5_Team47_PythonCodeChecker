@@ -144,9 +144,7 @@ public class StudentLoginPage extends LoginPage {
 							"The entered account is incorrect. Please re-enter them!");
 				}
 				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
-
 			}
-
 		});
 	}
 
