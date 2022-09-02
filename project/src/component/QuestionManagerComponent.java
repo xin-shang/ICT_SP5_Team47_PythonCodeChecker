@@ -59,7 +59,6 @@ public class QuestionManagerComponent extends Box {
 	public QuestionManagerComponent() {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
-
 		/**
 		 * 组装零件
 		 */
@@ -90,6 +89,7 @@ public class QuestionManagerComponent extends Box {
 		// 刷新
 
 		// 整合
+
 		tableModel = new DefaultTableModel(dataVector_Table, titlesVector_Table);
 
 		// 整合 & 让questionTable中的内容不可编辑

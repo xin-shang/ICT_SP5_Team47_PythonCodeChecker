@@ -54,35 +54,34 @@ def return_random_rows(c):
     return rows
 
 
-def _HearderValueCount(c,header_index,user_input):
+
+def bCheckUserName(c,userName):
     c.execute("SELECT rowid, * FROM " + table)
     items = c.fetchall()
-    count = 0    
+    count = 0
     for item in items:
-        if item[header_index] == user_input:
+        if item[1] == userName:
+           count = count + 1
+           
+    if count >= 1:
+        return True
+    else:
+        return False
+
+
+def bCheckPassword(c,username,password):
+    c.execute("SELECT rowid, * FROM " + table)
+    items = c.fetchall()
+    count = 0
+    for item in items:
+        if item[1] == username and item[2] == password:
             count = count + 1
-    return count
-
-
-
-#return number of user name
-def NumbersOfuserName(c,user_input):
-    return _HearderValueCount(c,1,user_input)
-
-#check user name exit or not
-def bIsUserNameExit(c,user_input):
-    if NumbersOfuserName(c,user_input) > 0:
+    if count >= 1:
         return True
     else:
         return False
 
-#return number of password
-def NumbersOfuserPassword(c,user_input):
-    return _HearderValueCount(c,2,user_input)
 
-#check user name exit or not
-def bIsUserPasswordExit(c,user_input):
-    if NumbersOfuserPassword(c,user_input) > 0:
-        return True
-    else:
-        return False
+
+    
+    

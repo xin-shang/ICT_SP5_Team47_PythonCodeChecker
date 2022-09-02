@@ -1,6 +1,6 @@
 #Please use a while loop to calculate the sum from 1-100, finally, print out the total value(number only).
 
-while loop has risk, the mark scheme is <=100, better to not changing the the while loop for testing
+while loop has risk, the mark scheme is <=100, while,          better to not change the the while loop for testing
 
 sum = 0
 i = 1
