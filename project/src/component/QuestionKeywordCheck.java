@@ -2,7 +2,9 @@ package component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import methodAndTool.WriteAndRead;
 
@@ -10,56 +12,81 @@ import methodAndTool.WriteAndRead;
 public class QuestionKeywordCheck {
     
     WriteAndRead WAR = new WriteAndRead();
-    List<String> keyWords = new ArrayList<>();
+    Map<String, Integer> keyWords = new LinkedHashMap<>();
 
 
     public QuestionKeywordCheck(){
         keyWords = ReadKeywordsList();
-        DeleteKeywordsList("if");
+        AddKeywordsList("if", 1);
+        AddKeywordsList("while", 1);
+        AddKeywordsList("for", 1);
+
+
+
     }   
 
-    private List<String> ReadKeywordsList(){
+    private Map<String, Integer> ReadKeywordsList(){
         //从pykeyword读取key word
         String kw = WAR.readText("./src/txt/PyKeyword.txt");
-        //ba keywords 装进list
-        List<String> kl = Arrays.asList(kw.split(","));
-        return kl;
+        //把 keywords 装进list
+        List<String> kl = Arrays.asList(kw.split("\n"));
         
+        Map<String, Integer> _keyWords = new LinkedHashMap<>();
+
+        for(String k : kl){
+
+            // skip "" value
+            if(k.equals("")) continue;
+
+            // split key, value pair
+            String[] keyValue = k.split(",");
+
+            // add key value to Map
+            _keyWords.put(keyValue[0], Integer.parseInt(keyValue[1]));
+        }
+        return _keyWords;  
     }
 
-    public List<String> GetKeywordsList(){
+    public Map<String, Integer> GetKeywordsList(){
         return keyWords;
     }
 
-    public void AddKeywordsList(String newkeyword){
-        String newkw = "";
-        
-        for(int i= 0; i<keyWords.size();i++) { 
-            newkw =  newkw + keyWords.get(i)+',';
+    public void AddKeywordsList(String newkeyword, int score){
+        //avoid duplicates
+        if(keyWords.containsKey(newkeyword)){
+            return;
         }
-        newkw = newkw + newkeyword;
-        WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt",newkw);
+
+        keyWords.put(newkeyword, score);
+        StringBuilder sb = new StringBuilder();
+        for(String k : keyWords.keySet()){
+            int s = keyWords.get(k);
+            sb.append(k + "," + s);
+            sb.append("\n");
+        }
+
+        WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt", sb.toString().trim());
         //重新读一次
         keyWords = ReadKeywordsList();
               
     }
 
     public void DeleteKeywordsList(String rmvkeyword){
-        String newkw = "";
-        for(int i= 0; i<keyWords.size();i++) { 
-            if(i == keyWords.size()-1){
-                newkw =  newkw + keyWords.get(i);
-            }   
-            else{
-                if(keyWords.get(i) != rmvkeyword){
-                    newkw =  newkw + keyWords.get(i)+',';
-                }
-            } 
+        // String newkw = "";
+        // for(int i= 0; i<keyWords.size();i++) { 
+        //     if(i == keyWords.size()-1){
+        //         newkw =  newkw + keyWords.get(i);
+        //     }   
+        //     else{
+        //         if(keyWords.get(i) != rmvkeyword){
+        //             newkw =  newkw + keyWords.get(i)+',';
+        //         }
+        //     } 
             
                    
-        }
-        WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt",newkw);
-        keyWords = ReadKeywordsList();
+        // }
+        // WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt",newkw);
+        // keyWords = ReadKeywordsList();
     }
     public void ChangeKeywordsList(){
 
@@ -69,12 +96,5 @@ public class QuestionKeywordCheck {
         return null;
 
     }
-
-
-
-
-
-
-
 
 }
