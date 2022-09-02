@@ -15,6 +15,7 @@ public class QuestionKeywordCheck {
 
     public QuestionKeywordCheck(){
         keyWords = ReadKeywordsList();
+        DeleteKeywordsList("if");
     }   
 
     private List<String> ReadKeywordsList(){
@@ -43,10 +44,29 @@ public class QuestionKeywordCheck {
               
     }
 
-    public void DeleteKeywordsList(){
-
+    public void DeleteKeywordsList(String rmvkeyword){
+        String newkw = "";
+        for(int i= 0; i<keyWords.size();i++) { 
+            if(i == keyWords.size()-1){
+                newkw =  newkw + keyWords.get(i);
+            }   
+            else{
+                if(keyWords.get(i) != rmvkeyword){
+                    newkw =  newkw + keyWords.get(i)+',';
+                }
+            } 
+            
+                   
+        }
+        WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt",newkw);
+        keyWords = ReadKeywordsList();
     }
     public void ChangeKeywordsList(){
+
+    }
+    public String GetindexKeywordsList(int index){
+
+        return null;
 
     }
 
