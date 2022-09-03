@@ -40,7 +40,6 @@ public class LoginPage {
 				// 进入注册页
 
 				System.out.println("-- The Login Button is Working --");
-
 			}
 		});
 	}
