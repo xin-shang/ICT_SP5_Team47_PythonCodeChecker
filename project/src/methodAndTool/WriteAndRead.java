@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class WriteAndRead {
+	// set python command as the system return
+	String pythonName = PV.getPythonName();
 
 	static ProjectVariable PV = new ProjectVariable();
 
@@ -60,7 +62,7 @@ public class WriteAndRead {
 	public void run_python_code(String path) {
 
 		try {
-			ProcessBuilder pb = new ProcessBuilder("python3", path);
+			ProcessBuilder pb = new ProcessBuilder(pythonName, path);
 			Process p = pb.start();
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -77,6 +79,23 @@ public class WriteAndRead {
 			System.out.println(e);
 		}
 
+	}
+
+	public String getPythonOutPut(String path) {
+		try {
+			ProcessBuilder pb = new ProcessBuilder(pythonName, path);
+			Process p = pb.start();
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String value = new String(in.readLine()).toString();
+			if (value != null) {
+				return value;
+			} else {
+				return value;
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
 	}
 
 	public String readText(String path) {
@@ -96,8 +115,8 @@ public class WriteAndRead {
 		return pythonQuestion;
 	}
 
-	public String readString(Object sentence){
-		String string = (String)(sentence);
+	public String readString(Object sentence) {
+		String string = (String) (sentence);
 		return string;
 	}
 

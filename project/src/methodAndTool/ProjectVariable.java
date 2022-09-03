@@ -38,7 +38,18 @@ public class ProjectVariable {
 	}
 
 	/**
-	 * 	
+	 * set python command for mac os and windows
 	 */
+	private String getOSName() {
+		String OS = System.getProperty("os.name");
+		return OS;
+	}
+
+	public String getPythonName() {
+		if (getOSName().startsWith("Windows")) {
+			return "python";
+		}
+		return "python3";
+	}
 
 }
