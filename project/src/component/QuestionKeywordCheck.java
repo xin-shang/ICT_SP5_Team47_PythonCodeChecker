@@ -17,12 +17,42 @@ public class QuestionKeywordCheck {
 
     public QuestionKeywordCheck(){
         keyWords = ReadKeywordsList();
-        AddKeywordsList("if", 1);
-        AddKeywordsList("while", 1);
+        AddKeywordsList("False", 1);
+        AddKeywordsList("None", 1);
+        AddKeywordsList("True", 1);
+        AddKeywordsList("and", 1);
+        AddKeywordsList("as", 1);
+        AddKeywordsList("assert", 1);
+        AddKeywordsList("async", 1);
+        AddKeywordsList("await", 1);
+        AddKeywordsList("break", 1);
+        AddKeywordsList("class", 1);
+        AddKeywordsList("continue", 1);
+        AddKeywordsList("def", 1);
+        AddKeywordsList("del", 1);
+        AddKeywordsList("elif", 1);
+        AddKeywordsList("else", 1);
+        AddKeywordsList("except", 1);
+        AddKeywordsList("finally", 1);
         AddKeywordsList("for", 1);
-
-
-
+        AddKeywordsList("from", 1);
+        AddKeywordsList("global", 1);
+        AddKeywordsList("if", 1);
+        AddKeywordsList("import", 1);
+        AddKeywordsList("in", 1);
+        AddKeywordsList("is", 1);
+        AddKeywordsList("lambda", 1);
+        AddKeywordsList("nonlocal", 1);
+        AddKeywordsList("not", 1);
+        AddKeywordsList("or", 1);
+        AddKeywordsList("pass", 1);
+        AddKeywordsList("raise", 1);
+        AddKeywordsList("return", 1);
+        AddKeywordsList("try", 1);
+        AddKeywordsList("while", 1);
+        AddKeywordsList("with", 1);
+        AddKeywordsList("yield", 1);
+        AddKeywordsList("print", 1);
     }   
 
     private Map<String, Integer> ReadKeywordsList(){
