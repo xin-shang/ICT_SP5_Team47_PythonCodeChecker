@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,6 +34,7 @@ public class QuestionManagerComponent extends Box {
 
 	dataIO DIO = new dataIO();
 	WriteAndRead WAR = new WriteAndRead();
+	JFrame frame = null;
 
 	// 创建一维数组，存储标题
 	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer", "ScorePoint" };
@@ -56,10 +57,10 @@ public class QuestionManagerComponent extends Box {
 	public static int selectedRow = 0;
 
 	// 代参构造，确定布局。本次是纵向布局
-	public QuestionManagerComponent() {
+	public QuestionManagerComponent(JFrame frame) {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
-
+		this.frame = frame;
 		/**
 		 * 组装零件
 		 */
@@ -67,6 +68,9 @@ public class QuestionManagerComponent extends Box {
 		// title 暂时写了四个，如果只写ID和题目也可以。评分点暂时看不到。点击查看后才能看到
 		// body 暂时写了6个，用来测试功能。
 		/* ——————————————————————————以下为测试用的数据———————————————————————— */
+		// 清空原有数据，保证列表中无内容
+		dataVector_Table.clear();
+		
 		// 写入数据
 		for (int i = 0; i < titles.length; i++) {
 			titlesVector_Table.add(titles[i]);
@@ -154,7 +158,7 @@ public class QuestionManagerComponent extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
-				tableModel.addRow(new Object[] { "07", "Print", "Print'---'", "---" });
+				new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
 				System.out.println("-- The Add Manu Button is Working --");
 			}
 		});

@@ -101,7 +101,7 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2); // 分割线宽度
 
 		// splitPane Left
-		splitPane.setLeftComponent(new QuestionManagerComponent());
+		splitPane.setLeftComponent(new QuestionManagerComponent(frame));
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
 

@@ -37,4 +37,8 @@ public class ProjectVariable {
 		this.designWindow_heigh = designWindow_heigh;
 	}
 
+	/**
+	 * 	
+	 */
+
 }
