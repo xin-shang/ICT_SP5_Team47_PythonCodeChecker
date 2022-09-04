@@ -53,6 +53,10 @@ public class QuestionKeywordCheck {
         AddKeywordsList("with", 1);
         AddKeywordsList("yield", 1);
         AddKeywordsList("print", 1);
+        
+
+        //DeleteKeywordsList("lambda");
+        
     }   
 
     private Map<String, Integer> ReadKeywordsList(){
@@ -102,28 +106,26 @@ public class QuestionKeywordCheck {
     }
 
     public void DeleteKeywordsList(String rmvkeyword){
-        // String newkw = "";
-        // for(int i= 0; i<keyWords.size();i++) { 
-        //     if(i == keyWords.size()-1){
-        //         newkw =  newkw + keyWords.get(i);
-        //     }   
-        //     else{
-        //         if(keyWords.get(i) != rmvkeyword){
-        //             newkw =  newkw + keyWords.get(i)+',';
-        //         }
-        //     } 
-            
-                   
-        // }
-        // WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt",newkw);
-        // keyWords = ReadKeywordsList();
+        //remove key from map
+        keyWords.remove(rmvkeyword);
+        StringBuilder sb = new StringBuilder();
+
+        for(String k : keyWords.keySet()){
+            int s = keyWords.get(k);
+            sb.append(k + "," + s);
+            sb.append("\n");
+        }
+        
+        WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt", sb.toString().trim());
+        keyWords = ReadKeywordsList();
     }
     public void ChangeKeywordsList(){
 
     }
     public String GetindexKeywordsList(int index){
-
-        return null;
+        // convert list key to array list
+        List<String> listKeys = new ArrayList<String>(keyWords.keySet());
+        return listKeys.get(index);
 
     }
 
