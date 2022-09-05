@@ -9,6 +9,7 @@ if __name__ == '__main__':
     c = conn.cursor()
     
     l =  getTableLength(c)
+    
     print(l)
     conn.commit()
     conn.close()

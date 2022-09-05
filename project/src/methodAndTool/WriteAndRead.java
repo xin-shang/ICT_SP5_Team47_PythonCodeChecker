@@ -30,18 +30,6 @@ public class WriteAndRead {
 		return flag;
 	}
 
-	public void write2TextFileOutStream(String path, String content) {
-		File f = new File(path);
-		try {
-			FileOutputStream outStr = new FileOutputStream(f);
-			BufferedOutputStream buf = new BufferedOutputStream(outStr);
-			buf.write(content.getBytes());
-			buf.flush();
-			buf.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public void writeAnswerInTxt(char[] chars, String string) {
 		try {
@@ -53,6 +41,20 @@ public class WriteAndRead {
 			code_0.close();
 			System.out.println("Write in txt Successful");
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	public void write2TextFileOutStream(String path, String content) {
+		File f = new File(path);
+		try {
+			FileOutputStream outStr = new FileOutputStream(f);
+			BufferedOutputStream buf = new BufferedOutputStream(outStr);
+			buf.write(content.getBytes());
+			buf.flush();
+			buf.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
