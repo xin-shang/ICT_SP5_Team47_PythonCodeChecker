@@ -1,0 +1,55 @@
+from cmath import exp
+import sqlite3
+
+table = "keyWords"
+
+#---------TABLE NAME, change it here---------
+
+def DB_WriteText_inputValue(path, input_string):
+    with open(path, "w+",newline='') as output:
+        output.write(input_string)
+
+
+def dropTable(c):
+    c.execute("DROP TABLE "+ table)
+
+#---------TABLE NAME, change it here---------
+def createTable(c):
+    C_table = """CREATE TABLE """+ table +"""(
+        keyWords txt NOT NULL,
+        point txt NOT NULL
+    )"""
+    #create a table
+    c.execute(C_table)
+
+def deleteTable(c):
+    c.execute("DELETE FROM "+ table)
+    
+def insertRows(c,markPoints,point):
+    list = [(markPoints,point)]
+    c.executemany("INSERT INTO "+ table +" VALUES(?,?)",list)
+    
+#print all the data in table
+def printAll(c):
+    c.execute("SELECT rowid, * FROM " + table)
+    items = c.fetchall()    
+    for item in items:
+        print(str(item))
+
+def readText(path):
+    with open(path, 'rb') as file:
+        data = file.read().rstrip()
+        return data
+
+def getUserName(c,id):
+    userName = ""  
+    c.execute("SELECT rowid, * FROM " + table)
+    values = c.fetchall()
+    for value in values:
+        if(value[0] == id):
+            userName = value[1]
+    return userName
+
+def getRow(c,id):
+    row = c.execute("SELECT * FROM "+ table +" WHERE rowid = " + id)
+    return row
