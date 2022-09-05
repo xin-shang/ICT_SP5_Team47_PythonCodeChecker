@@ -1,8 +1,11 @@
 package methodAndTool;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import component.AddQuestionComponent;
 
 public class dataIO {
     QnS[] qnsDB;
@@ -10,6 +13,11 @@ public class dataIO {
     public int rowlength;
     WriteAndRead WAR;
 
+    /**
+     * Get database. Post is sent to the front end.     Get 数据库。 Post 传送到 前端。
+    */
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
     public dataIO() {
         WAR = new WriteAndRead();
         dblength = getDBlength();
@@ -152,5 +160,55 @@ public class dataIO {
     public int getRowlength() {
         return rowlength;
     }
+
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get Front-end data. Post to the database.    Get 前端数据。 Post 传送到数据库。
+    */
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
+    // Pass the New Question to the database 将New Question传送到数据库
+    public void PostNewQuestionString() {
+		char[] pyCharsNewQuestionString = AddQuestionComponent.getNewQuestionString().toCharArray();
+
+        try {
+            WAR.creatTxtFileDBData("dbQuestion");
+            System.out.println("_______________");
+        } catch (IOException w) {
+            w.printStackTrace();
+        }
+        WAR.writeAnswerInTxt(pyCharsNewQuestionString, AddQuestionComponent.getNewQuestionString());
+    }
+
+    // Transfer the New Solution to the database 将New Solution传送到数据库
+    public void PostNewSolutionString() {
+		char[] pyNewSolutionString = AddQuestionComponent.getNewSolutionString().toCharArray();
+
+        try {
+            WAR.creatTxtFileDBData("dbSolution");
+            System.out.println("_______________");
+        } catch (IOException w) {
+            w.printStackTrace();
+        }
+        WAR.writeAnswerInTxt(pyNewSolutionString, AddQuestionComponent.getNewSolutionString());
+    }
+
+    // Transfer the New Score Point to the database 将New Score Point传送到数据库
+    public void PostNewScorePointString() {
+		char[] pyNewScorePointString = AddQuestionComponent.getScorePointString().toCharArray();
+
+        try {
+            WAR.creatTxtFileDBData("dbScorePoint");
+            System.out.println("_______________");
+        } catch (IOException w) {
+            w.printStackTrace();
+        }
+        WAR.writeAnswerInTxt(pyNewScorePointString, AddQuestionComponent.getScorePointString());
+    }
+
+    /*------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------*/
 
 }

@@ -9,7 +9,6 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,7 +33,7 @@ public class QuestionManagerComponent extends Box {
 
 	dataIO DIO = new dataIO();
 	WriteAndRead WAR = new WriteAndRead();
-	JFrame frame = null;
+	// JFrame frameQMC = null;
 
 	// 创建一维数组，存储标题
 	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer", "ScorePoint" };
@@ -49,18 +48,15 @@ public class QuestionManagerComponent extends Box {
 	private Vector titlesVector_Table = new Vector(); // 存储标题
 	private static Vector <Vector> dataVector_Table = new Vector<>(); // 存储数据
 
-	private static Vector <Vector> dataVector_Show = new Vector<>(); // 存储数展示用
-
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;
 
-	public static int selectedRow = 0;
+	private static int selectedRow = 0;
 
 	// 代参构造，确定布局。本次是纵向布局
-	public QuestionManagerComponent(JFrame frame) {
+	public QuestionManagerComponent() {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
-		this.frame = frame;
 		/**
 		 * 组装零件
 		 */
@@ -86,8 +82,6 @@ public class QuestionManagerComponent extends Box {
 
 		/* ———————————————————————————————————————————————————————————————————————————————— */
 
-		// 清空
-
 		// 刷新
 
 		// 整合
@@ -108,7 +102,6 @@ public class QuestionManagerComponent extends Box {
 		/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
 		/* ———————————————————————————————————————————————————————————————————————————————— */
 		// 设置列宽
-
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
@@ -158,7 +151,8 @@ public class QuestionManagerComponent extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
-				new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
+				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
+				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent());
 				System.out.println("-- The Add Manu Button is Working --");
 			}
 		});
@@ -220,7 +214,8 @@ public class QuestionManagerComponent extends Box {
 	// 请求数据。很重要:get和post
 	public void requestData() {
 	}
-
+	
+	// 获取数据
 	public static int getSelectedRow() {
 		return selectedRow;
 	}

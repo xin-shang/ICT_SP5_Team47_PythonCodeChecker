@@ -31,6 +31,20 @@ public class WriteAndRead {
 		return flag;
 	}
 
+	public boolean creatTxtFileDBData(String name) throws IOException {
+		boolean flag = false;
+		System.out.println("printed");
+		// 数据流统一在dbData里
+		PV.setFilenameTemp("./src/dbData/" + name + ".txt");
+
+		File filename = new File(PV.getFilenameTemp());
+		if (!filename.exists()) {
+			filename.createNewFile();
+			flag = true;
+		}
+		return flag;
+	}
+
 	public void write2TextFileOutStream(String path, String content) {
 		File f = new File(path);
 		try {

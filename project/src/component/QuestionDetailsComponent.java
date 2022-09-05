@@ -20,14 +20,14 @@ public class QuestionDetailsComponent extends Box{
 	public QuestionDetailsComponent() {
 		super(BoxLayout.Y_AXIS);
 		
-		showID = new JLabel("ID: " + (QuestionManagerComponent.selectedRow + 1));
-		showQuestion = new JLabel(WAR.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.selectedRow, 1)));
+		showID = new JLabel("ID: " + (QuestionManagerComponent.getSelectedRow() + 1));
+		showQuestion = new JLabel(WAR.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)));
 
 		showSolution = new JLabel("SOLUTION");
-		showSolution0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.selectedRow, 2)));
+		showSolution0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 2)));
 		
 		showAnswer = new JLabel("ANSWER");
-		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.selectedRow, 3)));
+		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
 		
 		showScorePoint = new JLabel("SCORE POINTS");
 		showScorePoint0 = new JTextArea("NULL");

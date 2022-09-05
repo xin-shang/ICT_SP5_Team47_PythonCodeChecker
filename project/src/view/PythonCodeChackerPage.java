@@ -256,50 +256,50 @@ public class PythonCodeChackerPage {
 	/**
 	 * 内容获取, 好些个用不上，项目最后后底线还是黄色，就删掉。
 	 */
-	private String getPrompt_Question_String() {
+	public String getPrompt_Question_String() {
 		return prompt_Question.getText();
 	}
 
-	private String getArea_1_String() {
+	public String getArea_1_String() {
 		return area_1.getText();
 	}
 
-	private String getArea_2_String() {
+	public String getArea_2_String() {
 		return area_2.getText();
 	}
 
-	private String getArea_3_String() {
+	public String getArea_3_String() {
 		return area_3.getText();
 	}
 
-	private String getLineNumber_String() {
+	public String getLineNumber_String() {
 		return lineNumber.getText();
 	}
 
-	private void setPrompt_1_String(String prompt_1) {
-		this.prompt_1.setText(prompt_1);
-		;
-	}
+	// private void setPrompt_1_String(String prompt_1) {
+	// 	this.prompt_1.setText(prompt_1);
+	// 	;
+	// }
 
 	private void setPrompt_Question_String(String prompt_Question) {
 		this.prompt_Question.setText(prompt_Question);
 		;
 	}
 
-	private void setArea_1_String(String area_1) {
-		this.area_1.setText(area_1);
-		;
-	}
+	// private void setArea_1_String(String area_1) {
+	// 	this.area_1.setText(area_1);
+	// 	;
+	// }
 
-	private void setArea_2_String(String area_2) {
-		this.area_2.setText(area_2);
-		;
-	}
+	// private void setArea_2_String(String area_2) {
+	// 	this.area_2.setText(area_2);
+	// 	;
+	// }
 
-	private void setArea_3_String(String area_3) {
-		this.area_3.setText(area_3);
-		;
-	}
+	// private void setArea_3_String(String area_3) {
+	// 	this.area_3.setText(area_3);
+	// 	;
+	// }
 
 	private void setLineNumber_String(String lineNumber) {
 		this.lineNumber.setText(lineNumber);

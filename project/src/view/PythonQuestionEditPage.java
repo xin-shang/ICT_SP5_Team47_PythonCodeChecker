@@ -7,12 +7,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import component.KeywordManagerComponent;
 import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
 
@@ -21,7 +21,7 @@ public class PythonQuestionEditPage {
 	ScreenUtils SU = new ScreenUtils();
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
-	String ArtUser = SU.getBlankSpace(52);
+	String ArtUser = SU.getBlankSpace(54);
 
 	/**
 	 * Python Question Edit Page
@@ -32,14 +32,13 @@ public class PythonQuestionEditPage {
 	JMenuBar manuBar = new JMenuBar();
 	// 设置菜单名
 	JMenu manu_User = new JMenu("USER");
-	JMenu manu_Operation = new JMenu("OPERATION");
+	JMenu manu_Show = new JMenu("SHOW");
 	JMenu manu_Null = new JMenu(ArtUser);
 
 	// 设置菜单中物品 - OPERATION
-	JMenuItem item_AddQuestion = new JMenuItem("Add a New Question");
-	JMenuItem item_DeleteQuestion = new JMenuItem("Delete a New Question");
-	JMenuItem item_ChangeQuestion = new JMenuItem("Change a New Question");
-	JMenuItem item_CheckQuestion = new JMenuItem("Check a New Question");
+	JMenuItem item_ShowQuestionTable = new JMenuItem("Show Question Table");
+	JMenuItem item_ShowKeywordTable = new JMenuItem("Show Keyword Table");
+
 	// 设置菜单中物品 - USER
 	JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
 	JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
@@ -76,14 +75,10 @@ public class PythonQuestionEditPage {
 		 */
 		// 菜单
 		// 菜单子件加入对用的菜单名
-		Button_Item_AddQuestion(item_AddQuestion);
-		Button_Item_DeleteQuestion(item_DeleteQuestion);
-		Button_Item_ChangeQuestion(item_ChangeQuestion);
-		Button_Item_CheckQuestion(item_CheckQuestion);
-		manu_Operation.add(item_AddQuestion);
-		manu_Operation.add(item_DeleteQuestion);
-		manu_Operation.add(item_ChangeQuestion);
-		manu_Operation.add(item_CheckQuestion);
+		Button_Item_ShowQuestionTable(item_ShowQuestionTable);
+		Button_Item_ShowKeyWordTable(item_ShowKeywordTable);
+		manu_Show.add(item_ShowQuestionTable);
+		manu_Show.add(item_ShowKeywordTable);
 
 		Button_Item_ChangeAccount(item_ChangeAccount);
 		Button_Item_ExitProgram(item_ExitProgram);
@@ -91,7 +86,7 @@ public class PythonQuestionEditPage {
 		manu_User.add(item_ExitProgram);
 
 		// 菜单名加入菜单组
-		manuBar.add(manu_Operation);
+		manuBar.add(manu_Show);
 		manuBar.add(manu_Null);
 		manuBar.add(manu_User);
 
@@ -101,7 +96,7 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2); // 分割线宽度
 
 		// splitPane Left
-		splitPane.setLeftComponent(new QuestionManagerComponent(frame));
+		splitPane.setLeftComponent(new QuestionManagerComponent());
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
 
@@ -143,48 +138,24 @@ public class PythonQuestionEditPage {
 	}
 
 	// 菜单栏按键监听
-	private void Button_Item_AddQuestion(JMenuItem button) {
+	private void Button_Item_ShowQuestionTable(JMenuItem button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				QuestionManagerComponent.tableModel.addRow(new Object[] { "07", "Print", "Print'---'", "---" });
-				System.out.println("-- The Add Manu Button is Working --");
+				splitPane.setLeftComponent(new QuestionManagerComponent());
+				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
 	}
 
-	private void Button_Item_DeleteQuestion(JMenuItem button) {
+	private void Button_Item_ShowKeyWordTable(JMenuItem button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
-				;
-				QuestionManagerComponent.tableModel.removeRow(selectedRow);
-				System.out.println("-- The Delete Manu Button is Working --");
-			}
-		});
-	}
-
-	private void Button_Item_ChangeQuestion(JMenuItem button) {
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-
-				System.out.println("-- The Change Manu Button is Working --");
-			}
-		});
-	}
-
-	private void Button_Item_CheckQuestion(JMenuItem button) {
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
-				PythonQuestionEditPage.splitPane.setRightComponent(new JLabel(selectedRow + 1 + " is good!"));
+				// int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
+				splitPane.setLeftComponent(new KeywordManagerComponent());
 				System.out.println("-- The Check Manu Button is Working --");
 			}
 		});
