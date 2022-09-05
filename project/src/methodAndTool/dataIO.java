@@ -1,7 +1,5 @@
 package methodAndTool;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,25 +96,6 @@ public class dataIO {
         return this.qnsDB;
     }
 
-    // 运行python代码，返回一个String，String为command 打印出来的结果------这个和WriteAndRead 里面的基本一样
-    private String getDBLength_pythonCode_length(String path) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder("python3", path);
-            Process p = pb.start();
-            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String value = new String(in.readLine()).toString();
-            if (value != null) {
-                return value;
-            } else {
-                return value;
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-    }
-
-
     public Object getData(int x, int y) {
         if (x > dblength) {
             System.out.println("column is out of index");
@@ -141,9 +120,8 @@ public class dataIO {
         }
     }
 
-
     private int getRowsLength() {
-        String rowsLength = getDBLength_pythonCode_length("./src/python/PYDb_getRowsLength.py");
+        String rowsLength = WAR.getPythonOutPut("./src/python/PYDb_getRowsLength.py");
         try {
             int number = Integer.parseInt(rowsLength);
             return number;
@@ -156,7 +134,7 @@ public class dataIO {
 
     // 获取db 的长度
     private int getDBlength() {
-        String length = getDBLength_pythonCode_length("./src/python/PYDb_getLength.py");
+        String length = WAR.getPythonOutPut("./src/python/PYDb_getLength.py");
         try {
             int number = Integer.parseInt(length);
             return number;

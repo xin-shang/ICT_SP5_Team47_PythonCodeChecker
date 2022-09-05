@@ -24,6 +24,9 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
     
+    
+    
+    
     #insertDB_Example()
     bIsStudent_userName = IsFile_Exit("./src/txt/StudentUserName.txt")
     bIsStudent_password = IsFile_Exit("./src/txt/StudentUserPassword.txt")
