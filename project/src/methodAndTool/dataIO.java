@@ -14,10 +14,11 @@ public class dataIO {
     WriteAndRead WAR;
 
     /**
-     * Get database. Post is sent to the front end.     Get 数据库。 Post 传送到 前端。
-    */
+     * Get database. Post is sent to the front end. Get 数据库。 Post 传送到 前端。
+     */
     /*------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------*/
+
     public dataIO() {
         WAR = new WriteAndRead();
         dblength = getDBlength();
@@ -165,13 +166,13 @@ public class dataIO {
     /*------------------------------------------------------------------------------------------*/
 
     /**
-     * Get Front-end data. Post to the database.    Get 前端数据。 Post 传送到数据库。
-    */
+     * Get Front-end data. Post to the database. Get 前端数据。 Post 传送到数据库。
+     */
     /*------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------*/
     // Pass the New Question to the database 将New Question传送到数据库
     public void PostNewQuestionString() {
-		char[] pyCharsNewQuestionString = AddQuestionComponent.getNewQuestionString().toCharArray();
+        char[] pyCharsNewQuestionString = AddQuestionComponent.getNewQuestionString().toCharArray();
 
         try {
             WAR.creatTxtFileDBData("dbQuestion");
@@ -184,7 +185,7 @@ public class dataIO {
 
     // Transfer the New Solution to the database 将New Solution传送到数据库
     public void PostNewSolutionString() {
-		char[] pyNewSolutionString = AddQuestionComponent.getNewSolutionString().toCharArray();
+        char[] pyNewSolutionString = AddQuestionComponent.getNewSolutionString().toCharArray();
 
         try {
             WAR.creatTxtFileDBData("dbSolution");
@@ -197,7 +198,7 @@ public class dataIO {
 
     // Transfer the New Score Point to the database 将New Score Point传送到数据库
     public void PostNewScorePointString() {
-		char[] pyNewScorePointString = AddQuestionComponent.getScorePointString().toCharArray();
+        char[] pyNewScorePointString = AddQuestionComponent.getScorePointString().toCharArray();
 
         try {
             WAR.creatTxtFileDBData("dbScorePoint");

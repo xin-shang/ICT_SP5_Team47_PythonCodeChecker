@@ -8,46 +8,47 @@ import javax.swing.JTextArea;
 
 import methodAndTool.WriteAndRead;
 
-public class QuestionDetailsComponent extends Box{
-	
+public class QuestionDetailsComponent extends Box {
+
 	WriteAndRead WAR = new WriteAndRead();
-	
+
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
-	
+
 	// 不确定用提示组件好还是文本框组件好
 	public static JTextArea showQuestion0, showSolution0, showAnswer0, showScorePoint0;
-	
+
 	public QuestionDetailsComponent() {
 		super(BoxLayout.Y_AXIS);
-		
+
 		showID = new JLabel("ID: " + (QuestionManagerComponent.getSelectedRow() + 1));
-		showQuestion = new JLabel(WAR.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)));
+		showQuestion = new JLabel(WAR
+				.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)));
 
 		showSolution = new JLabel("SOLUTION");
-		showSolution0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 2)));
-		
+		showSolution0 = new JTextArea(WAR
+				.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 2)));
+
 		showAnswer = new JLabel("ANSWER");
-		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
-		
+		showAnswer0 = new JTextArea(WAR
+				.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
+
 		showScorePoint = new JLabel("SCORE POINTS");
 		showScorePoint0 = new JTextArea("NULL");
 
 		// 设置
-		showSolution0.setEditable(false);	// 设置不可编辑
-		showAnswer0.setEditable(false);	// 设置不可编辑
-		showScorePoint0.setEditable(false);	// 设置不可编辑
+		showSolution0.setEditable(false); // 设置不可编辑
+		showAnswer0.setEditable(false); // 设置不可编辑
+		showScorePoint0.setEditable(false); // 设置不可编辑
 
+		// 分区
 
-		//分区
-		
 		Box box_Question = Box.createHorizontalBox();
 		box_Question.add(showQuestion);
 
-		
 		Box box_Solution = Box.createHorizontalBox();
 		JScrollPane scrollPane_Solution = new JScrollPane(showSolution0);
 		box_Solution.add(scrollPane_Solution);
-		
+
 		Box box_Answer = Box.createHorizontalBox();
 		JScrollPane scrollPane_Answer = new JScrollPane(showAnswer0);
 		box_Answer.add(scrollPane_Answer);
@@ -56,7 +57,6 @@ public class QuestionDetailsComponent extends Box{
 		JScrollPane scrollPane_ScorePoint = new JScrollPane(showScorePoint0);
 		box_ScorePoint.add(scrollPane_ScorePoint);
 		box_ScorePoint.add(scrollPane_ScorePoint);
-
 
 		Box box1 = Box.createVerticalBox();
 		box1.add(showID);
@@ -90,11 +90,8 @@ public class QuestionDetailsComponent extends Box{
 
 }
 
-
-
-
 // //分区
-                
+
 // Box box_ID = Box.createHorizontalBox();
 // box_ID.add(showID);
 // box_ID.add(Box.createHorizontalStrut(400));
@@ -126,7 +123,6 @@ public class QuestionDetailsComponent extends Box{
 // JScrollPane scrollPane_ScorePoint = new JScrollPane(showScorePoint0);
 // box_ScorePoint0.add(scrollPane_ScorePoint);
 // // box_ScorePoint.add(scrollPane_ScorePoint);
-
 
 // Box box1 = Box.createVerticalBox();
 
