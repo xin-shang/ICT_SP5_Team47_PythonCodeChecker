@@ -38,7 +38,7 @@ public class LoginPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 进入注册页
-
+				new SignupPage().init();
 				System.out.println("-- The Login Button is Working --");
 
 			}
