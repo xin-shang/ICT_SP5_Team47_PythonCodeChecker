@@ -1,2 +1,1 @@
-XinShang -- Text ICT
-Write down a New Question
+print basdasdasdaaa
