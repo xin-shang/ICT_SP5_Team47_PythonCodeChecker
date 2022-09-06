@@ -108,18 +108,37 @@ public class StaffLoginPage extends LoginPage {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
 				String usernameStaff = area_user.getText().trim();
 				String passwordStaff = area_password.getText().trim();
-				if (Post_Contrast_Username_Staff(usernameStaff) == true
-						&& Post_Contrast_Password_Staff(passwordStaff) == true) {
-					// 进入员工页面 - Python Question Edit Page
+
+				// 发送用户名和密码去数据库
+				// send username and password to database
+				PostStaff_UserName_passowrd(usernameStaff, passwordStaff);
+
+				Boolean busernameStudent = getStaff_DbReturn_userName();
+				Boolean bpasswordStudent = getStaff_DbReturn_password();
+
+				if (busernameStudent == true
+						&& bpasswordStudent == true) {
+
+					// 进入学生页面 - Python Code Checker,当前页面消失
+					// get into python code checker page
 					new PythonQuestionEditPage().init();
 					frame.dispose();
-					System.out.println("--Go to the Staff page - Python Code Chacker--");
+
+					System.out.println("--Go to the edit page - Python Code Chacker--");
+				} else if (busernameStudent == true
+						&& bpasswordStudent == false) {
+					// 账户存在，密码错误
+					// accout exit, password incorrect(message box)
+					JOptionPane.showMessageDialog(frame,
+							"The entered password is incorrect. Please re-enter again!");
 				} else {
 					// 弹窗提示，帐号和密码错误
+					// account and password both incorrect(message box)
 					JOptionPane.showMessageDialog(frame,
-							"The entered account and password are incorrect. Please re-enter them!");
+							"The entered account is incorrect. Please re-enter them!");
 				}
-				System.out.println("-- The Login Button is Working in StudentLoginPage Class --");
+				System.out.println("-- The Login Button is Working in StaffLoginPage Class --");
+
 			}
 		});
 	}

@@ -35,7 +35,7 @@ public class WriteAndRead {
 		boolean flag = false;
 		System.out.println("printed");
 		// 数据流统一在dbData里
-		PV.setFilenameTemp("./src/dbData/" + name + ".txt");
+		PV.setFilenameTemp("./src/dbData/POST/" + name + ".txt");
 
 		File filename = new File(PV.getFilenameTemp());
 		if (!filename.exists()) {

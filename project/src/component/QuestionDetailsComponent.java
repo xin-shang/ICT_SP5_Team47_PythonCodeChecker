@@ -1,5 +1,7 @@
 package component;
 
+import java.util.List;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -7,10 +9,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import methodAndTool.WriteAndRead;
+import methodAndTool.dataIO;
+import methodAndTool.markScheme;
 
 public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
+	dataIO DIO = new dataIO();
 
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
 
@@ -20,7 +25,27 @@ public class QuestionDetailsComponent extends Box {
 	public QuestionDetailsComponent() {
 		super(BoxLayout.Y_AXIS);
 
-		showID = new JLabel("ID: " + (QuestionManagerComponent.getSelectedRow() + 1));
+		// 暴露选择问题的id--------------------------------------------------------------
+
+		String question_id = (String) QuestionManagerComponent
+				.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
+
+		int markLength = DIO.getSelectedMarkSchemeY(question_id);
+		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(markLength);
+
+		String markShcemes = "";
+
+		for (markScheme ms : markSchemeList) {
+			String keywordid = ms.getkeywordID();
+			String keyword = ms.getKeyword();
+			int score = ms.getScore();
+
+			markShcemes = markShcemes + keywordid + ", " + keyword + ", " + String.valueOf(score) + "\n";
+		}
+		// -----------------------------------------------------------------------------
+
+		showID = new JLabel(
+				"ID: " + question_id);
 		showQuestion = new JLabel(WAR
 				.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)));
 
@@ -33,7 +58,7 @@ public class QuestionDetailsComponent extends Box {
 				.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
 
 		showScorePoint = new JLabel("SCORE POINTS");
-		showScorePoint0 = new JTextArea("NULL");
+		showScorePoint0 = new JTextArea(markShcemes);
 
 		// 设置
 		showSolution0.setEditable(false); // 设置不可编辑

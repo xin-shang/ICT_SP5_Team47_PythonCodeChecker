@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-from ast import keyword
-from PYDb_question import *
-from PYDb_solution import *
+from questionDB.PYDb_question import *
+from questionDB.PYDb_solution import *
 
-from PYDb_keywords import *
-from PYDb_staff import *
-from PYDb_markPoint import *
+from questionDB.PYDb_keywords import *
+from login.PYDb_staff import *
+from questionDB.PYDb_markPoint import *
 
 
 #根据userID 来返回值
 def getUserQuestionRows(c,userID):
     userID = str(userID)
     c.execute('''SELECT 
-                    question.user_id,
+                    question.id,
                     question.question,
                     solution.solution,
                     solution.answer 
@@ -25,7 +24,7 @@ def getUserQuestionRows(c,userID):
 def getQestionMarkScheme(c,questionID):
     questionID = str(questionID)
     c.execute('''SELECT 
-                    question.question,
+                    keywords.id,
                     keywords.keywords,
                     markPoint.score
                 FROM markPoint 

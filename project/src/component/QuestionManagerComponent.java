@@ -36,8 +36,8 @@ public class QuestionManagerComponent extends Box {
 	// JFrame frameQMC = null;
 
 	// 创建一维数组，存储标题
-	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer", "ScorePoint" };
-	
+	Object[] titles = { "ID", "Question-Stems", "Solution", "Answer" };
+
 	// 表格
 	public static JTable questionTable;
 
@@ -46,7 +46,7 @@ public class QuestionManagerComponent extends Box {
 
 	// 创建集合 操作集合比操作数组容易
 	private Vector titlesVector_Table = new Vector(); // 存储标题
-	private static Vector <Vector> dataVector_Table = new Vector<>(); // 存储数据
+	private static Vector<Vector> dataVector_Table = new Vector<>(); // 存储数据
 
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;
@@ -66,21 +66,24 @@ public class QuestionManagerComponent extends Box {
 		/* ——————————————————————————以下为测试用的数据———————————————————————— */
 		// 清空原有数据，保证列表中无内容
 		dataVector_Table.clear();
-		
+
 		// 写入数据
 		for (int i = 0; i < titles.length; i++) {
 			titlesVector_Table.add(titles[i]);
 		}
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
-			Vector t = new Vector<>(); 					// <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j <= DIO.getRowlength(); j++) { 					// data[i].length 用来录入每个大数组中子数组的信息
+			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j <= DIO.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(DIO.getData(i, j));
 			}
 			dataVector_Table.add(t); // 依次把第二维加入一维中
 		}
 
-		/* ———————————————————————————————————————————————————————————————————————————————— */
+		/*
+		 * —————————————————————————————————————————————————————————————————————————————
+		 * ———
+		 */
 
 		// 刷新
 
@@ -100,20 +103,28 @@ public class QuestionManagerComponent extends Box {
 		questionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		/* ——————————————————————————以下为测试用的数据，连接数据库后删除———————————————————————— */
-		/* ———————————————————————————————————————————————————————————————————————————————— */
+		/*
+		 * —————————————————————————————————————————————————————————————————————————————
+		 * ———
+		 */
 		// 设置列宽
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(30);
-		column1.setMinWidth(30);
-		
+		column1.setMaxWidth(60);
+		column1.setMinWidth(60);
+
 		// 隐藏列表"Solution" - titles[3], "Answer" - titles[4], "ScorePoint" - titles[5]
 		hiddenList(2, 0);
 		hiddenList(3, 0);
-		hiddenList(4, 0);
-		/* ———————————————————————————————————————————————————————————————————————————————— */
-		/* ———————————————————————————————————————————————————————————————————————————————— */
+		/*
+		 * —————————————————————————————————————————————————————————————————————————————
+		 * ———
+		 */
+		/*
+		 * —————————————————————————————————————————————————————————————————————————————
+		 * ———
+		 */
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(questionTable);
@@ -200,21 +211,20 @@ public class QuestionManagerComponent extends Box {
 	/**
 	 * 内容获取
 	 */
-	private void hiddenList (int num, int Width) {
+	private void hiddenList(int num, int Width) {
 		// 获取列
-		TableColumn column = questionTable.getColumn(titles[num]); 
+		TableColumn column = questionTable.getColumn(titles[num]);
 		// 设置列宽
-		column.setMaxWidth(0); 
-		column.setMinWidth(0); 
+		column.setMaxWidth(0);
+		column.setMinWidth(0);
 		column.setWidth(0);
-		column.setPreferredWidth(0);  
+		column.setPreferredWidth(0);
 	}
-
 
 	// 请求数据。很重要:get和post
 	public void requestData() {
 	}
-	
+
 	// 获取数据
 	public static int getSelectedRow() {
 		return selectedRow;
@@ -230,4 +240,3 @@ public class QuestionManagerComponent extends Box {
 	}
 
 }
-

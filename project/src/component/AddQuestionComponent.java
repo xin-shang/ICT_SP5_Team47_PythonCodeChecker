@@ -3,7 +3,6 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.Vector;
 import java.awt.BorderLayout;
 
@@ -31,7 +30,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
         static JTextArea newQuestion0;
         static JTextArea newSolution0;
-        JTextArea newAnswer0;
+        static JTextArea newAnswer0;
         JTextArea text0_SP;
 
         // 表格
@@ -198,17 +197,19 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         }
                         System.out.println("-- The Create New Question is Working --");
                 } else if (actionCommand.equals("Create New Question")) {
-                        System.out.println("X: " + getScorePointRowCount());
-                        System.out.println("Y: " + getScorePointColumnCount());
-                        System.out.println("To String: " + dataScorePoint.toString());
-                        System.out.println("To Array: " + dataScorePoint.toArray());
+                        // System.out.println("X: " + getScorePointRowCount());
+                        // System.out.println("Y: " + getScorePointColumnCount());
+                        // System.out.println("To String: " + dataScorePoint.toString());
+                        // System.out.println("To Array: " + dataScorePoint.toArray());
 
                         DIO.PostNewQuestionString();
                         DIO.PostNewSolutionString();
-                        DIO.PostNewScorePointString();
+                        DIO.PostNewAnswerString();
+                        getScorePointStringList();
+
+                        // WAR.run_python_code("./src/pythonDB/PYDb_createQuestion.py");
                         System.out.println("-- The Create New Question is Working --");
                 }
-
         }
 
         /**
@@ -228,6 +229,11 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 return newSolutionString;
         }
 
+        public static String getNewAnswerString() {
+                String newAnswerString = newAnswer0.getText().trim();
+                return newAnswerString;
+        }
+
         // Object[][] questionScorePoint V<V> dataScorePoint
         // Getting Number of String 获取字符串
         public static String getScorePointString() {
@@ -236,14 +242,35 @@ public class AddQuestionComponent extends Box implements ActionListener {
         }
 
         // Getting Number of Row 获取行数
-        public int getScorePointRowCount() {
+        public static int getScorePointRowCount() {
                 return dataScorePoint.size();
         }
 
         // Getting Number of Columns 获取列数
-        public int getScorePointColumnCount() {
+        public static int getScorePointColumnCount() {
                 int dataScorePointColumnCount = dataScorePoint.firstElement().size();
                 return dataScorePointColumnCount;
+        }
+
+        public void getScorePointStringList() {
+                for (int i = 0; i < getScorePointRowCount(); i++) {
+                        for (int j = 0; j < getScorePointColumnCount(); j++) {
+                                if (j == 1) {
+                                        Object keyword = getValueAt(i, j);
+                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbKeyWord_POST.txt",
+                                                        keyword.toString());
+                                } else if (j == 2) {
+                                        Object score = (int) getValueAt(i, j);
+                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
+                                                        score.toString());
+                                }
+                        }
+                }
+        }
+
+        // 获取指定格子中的数据
+        public static Object getValueAt(int row, int column) {
+                return dataScorePoint.get(row).get(column);
         }
 
         // public void Button_Add_ScorePoint(JButton button) {

@@ -1,9 +1,11 @@
-from PYDb_keywords import *
+from questionDB.PYDb_keywords import *
 
-from PYDb_question import *
-from PYDb_solution import *
-from PYDb_staff import *
-from PYDb_markPoint import *
+from questionDB.PYDb_question import *
+from questionDB.PYDb_solution import *
+from login.PYDb_staff import *
+
+from login.PYDb_Student import*
+from questionDB.PYDb_markPoint import *
 
 from PYDb_qnsController import *
 
@@ -37,10 +39,6 @@ if __name__ == '__main__':
     conn = sqlite3.connect(db_pth)
     #create a cursor
     c = conn.cursor()
-    
-
-
-    
     
     
     conn.commit()

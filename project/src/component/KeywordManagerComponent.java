@@ -16,9 +16,9 @@ import methodAndTool.WriteAndRead;
 import methodAndTool.dataIO;
 import view.PythonQuestionEditPage;
 
-public class KeywordManagerComponent extends Box{
+public class KeywordManagerComponent extends Box {
 
-        /**
+	/**
 	 * Python Question Edit Page - KeyWordManagerComponent
 	 */
 
@@ -26,55 +26,57 @@ public class KeywordManagerComponent extends Box{
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameKMC = null;
 
-        // Create a one-dimensional array to store the titles 创建一维数组，存储标题
+	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };
-        Object[][] datas = {
-                {1, "Keyword1", 1},
-                {2, "Keyword2", 5},
-                {3, "Keyword3", 2},
-                {4, "Keyword4", 1},
-        };
+	Object[][] datas = {
+			{ 1, "Keyword1", 1 },
+			{ 2, "Keyword2", 5 },
+			{ 3, "Keyword3", 2 },
+			{ 4, "Keyword4", 1 },
+	};
 
-        // Creating Collections Manipulating collections is easier than manipulating arrays 创建集合 操作集合比操作数组容易
+	// Creating Collections Manipulating collections is easier than manipulating
+	// arrays 创建集合 操作集合比操作数组容易
 	private Vector title = new Vector(); // Store the title 存储标题
-	private static Vector <Vector> data = new Vector<>(); // Store the data 存储数据
+	private static Vector<Vector> data = new Vector<>(); // Store the data 存储数据
 	private static int selectedRow = 0;
 	private static int[] selectedRows = {};
-	
-        //
-        JPanel buttonPanel;
-        JButton addKeyword, deleteKeyword, ChangeKeyword;
-        
+
+	//
+	JPanel buttonPanel;
+	JButton addKeyword, deleteKeyword, ChangeKeyword;
+
 	// table
 	public static JTable keywordTable;
 
 	// With a database, you need to create a data model.
 	public static DefaultTableModel tableModel;
 
-        public KeywordManagerComponent() {
-                super(BoxLayout.Y_AXIS);
-                
-                //
-                PythonQuestionEditPage.splitPane.setDividerLocation(500); // 左右分屏初始位置
+	public KeywordManagerComponent() {
+		super(BoxLayout.Y_AXIS);
+
+		//
+		PythonQuestionEditPage.splitPane.setDividerLocation(500); // 左右分屏初始位置
 		PythonQuestionEditPage.splitPane.setDividerSize(2); // 分割线宽度
 
-                // Clear the original data to ensure that there is no content in the list 清空原有数据，保证列表中无内容
+		// Clear the original data to ensure that there is no content in the list
+		// 清空原有数据，保证列表中无内容
 		data.clear();
 
-                // read-in data 写入数据
+		// read-in data 写入数据
 		for (int i = 0; i < titles.length; i++) {
 			title.add(titles[i]);
 		}
 
 		for (int i = 0; i < datas.length; i++) {
-			Vector t = new Vector<>(); 					// <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < datas[i].length; j++) { 		// data[i].length 用来录入每个大数组中子数组的信息
+			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j < datas[i].length; j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(datas[i][j]);
 			}
-			data.add(t);                                        // 依次把第二维加入一维中
+			data.add(t); // 依次把第二维加入一维中
 		}
 
-                // 整合
+		// 整合
 		tableModel = new DefaultTableModel(data, title);
 
 		// 整合 & 让questionTable中的内容不可编辑
@@ -86,10 +88,10 @@ public class KeywordManagerComponent extends Box{
 			}
 		};
 
-                // 每次选中一行
+		// 每次选中一行
 		keywordTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-                // 滚动条 套 列表 （questionTable）
+		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(keywordTable);
 
 		// 设置列宽
@@ -104,16 +106,14 @@ public class KeywordManagerComponent extends Box{
 		column2.setMaxWidth(50);
 		column2.setMinWidth(50);
 
+		// 添加
+		this.add(scrollPane);
 
-                // 添加
-                this.add(scrollPane);
-
-        }
-
+	}
 
 	/**
 	 * 数据获取
-	*/
+	 */
 	// 获取数据
 	public static int getSelectedRow() {
 		return selectedRow;
@@ -135,5 +135,5 @@ public class KeywordManagerComponent extends Box{
 	public static Object getValueAt_Table(int rowIndex, int columnIndex) {
 		return data.get(rowIndex).get(columnIndex); // get(int) 返回位于Vector中指定位置的元素。
 	}
-        
+
 }

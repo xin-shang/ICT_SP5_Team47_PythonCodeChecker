@@ -4,22 +4,21 @@ import java.util.List;
 
 public class QnS {
 
-    String id;
+    String question_id;
     String question;
     String solution;
     String answer;
     List<markScheme> mark;
 
-    public QnS(String id, String question, String solution, String answer, List<markScheme> mark) {
-        this.id = id;
+    public QnS(String question_id, String question, String solution, String answer) {
+        this.question_id = question_id;
         this.question = question;
         this.solution = solution;
         this.answer = answer;
-        this.mark = mark;
     }
 
-    public String getId() {
-        return this.id;
+    public String getQuestionID() {
+        return this.question_id;
     }
 
     public String getQuestion() {
