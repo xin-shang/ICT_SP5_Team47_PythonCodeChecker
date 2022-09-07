@@ -1,11 +1,7 @@
 import sqlite3
 from PYDb_qnsController import *
 
-
-def _readText(path):
-    with open(path, 'rb') as file:
-        data = file.read().rstrip()
-        return data
+from PYDB_ToolsMethod import *
 
 
 if __name__ == '__main__':
@@ -15,10 +11,10 @@ if __name__ == '__main__':
     conn = sqlite3.connect(db_pth)
     #create a cursor
     c = conn.cursor()
-    user_id = _readText("./src/txt/Login_StaffUserName.txt").decode('utf-8')
-    question = _readText("./src/dbData/dbQuestion_POST.txt").decode('utf-8')
-    solution = _readText("./src/dbData/dbSolution_POST.txt").decode('utf-8')
-    answer = _readText("./src/dbData/dbAnswer_POST.txt").decode('utf-8')
+    user_id = DB_readText("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt").decode('utf-8')
+    question = DB_readText("./src/dbData/POST/dbQuestion_POST.txt").decode('utf-8')
+    solution = DB_readText("./src/dbData/POST/dbSolution_POST.txt").decode('utf-8')
+    answer = DB_readText("./src/dbData/POST/dbAnswer_POST.txt").decode('utf-8')
     
     addQuestion(c,user_id,question,solution,answer)
     
