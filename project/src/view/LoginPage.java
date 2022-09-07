@@ -37,8 +37,8 @@ public class LoginPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 进入注册页
-
+				// 进入注册页,
+				new SignupPage().init();
 				System.out.println("-- The Login Button is Working --");
 			}
 		});
