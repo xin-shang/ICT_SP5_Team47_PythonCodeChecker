@@ -177,7 +177,16 @@ public class QuestionManagerComponent extends Box {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
 				// int selectedRow = questionTable.getSelectedRow();
+				int questionInt = questionTable.getSelectedRow();
+
+				String question = (String) getValueAt_Table(questionInt, 1);
+				System.out.println(question);
+
+				WAR.write2TextFileOutStream("./src/dbData/POST/dbQuestion_POST.txt", question);
+
+				WAR.run_python_code("./src/pythonDB/PYDb_deleteQuestion.py");
 				tableModel.removeRow(getSelectedRow());
+
 				System.out.println("-- The Delete Manu Button is Working --");
 			}
 		});

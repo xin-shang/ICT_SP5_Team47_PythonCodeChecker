@@ -1,1 +1,1 @@
-print dog
+print o
