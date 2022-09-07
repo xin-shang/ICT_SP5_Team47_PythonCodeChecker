@@ -207,10 +207,10 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 DIO.PostNewQuestionString();
                                 DIO.PostNewSolutionString();
                                 DIO.PostNewAnswerString();
+                                // WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
                                 getScorePointStringList();
                         }
 
-                        // WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
                         System.out.println("-- The Create New Question is Working --");
                 }
         }

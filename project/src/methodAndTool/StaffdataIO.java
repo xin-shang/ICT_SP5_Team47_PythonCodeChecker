@@ -54,19 +54,7 @@ public class StaffdataIO {
 
     }
 
-    private int StringToInt(String string_int) {
-        try {
-            String str = string_int;
-            int number = Integer.parseInt(str);
-            return number;
-        } catch (NumberFormatException ex) {
-
-            return 0;
-        }
-    }
-
     public int getSelectedMarkSchemeY(String question_id) {
-
         WAR.write2TextFileOutStream("./src/dbData/POST/questionID_POST.txt", question_id);
         String rowsLength = WAR.getPythonOutPut("./src/pythonDB/PYDb_getSelectedMarkYLength.py");
         try {
@@ -75,6 +63,16 @@ public class StaffdataIO {
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             System.out.println("db load fail");
+            return 0;
+        }
+    }
+
+    private int StringToInt(String string_int) {
+        try {
+            String str = string_int;
+            int number = Integer.parseInt(str);
+            return number;
+        } catch (NumberFormatException ex) {
             return 0;
         }
     }
