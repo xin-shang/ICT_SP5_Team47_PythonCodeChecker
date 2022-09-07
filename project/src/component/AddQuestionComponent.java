@@ -78,9 +78,10 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 boxSolution0.add(scrollPane_Solution0);
 
                 //
-                newAnswer = new JLabel("Please Write down Answer of Qiestion");
+                newAnswer = new JLabel("Please Write down Answer of Question");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
+                newAnswer0.setEditable(false);
 
                 Box boxAnswer0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Answer0 = new JScrollPane(newAnswer0);
@@ -88,7 +89,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                 //
                 Box ScorePointLabel = Box.createHorizontalBox();
-                newScorePoint = new JLabel("Please Write down Score Point of Qiestion");
+                newScorePoint = new JLabel("Please Write down Score Point of Question");
                 ScorePointLabel.add(newScorePoint);
 
                 Box ScorePointTable = Box.createHorizontalBox();
@@ -218,21 +219,16 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 boolean bmarkShceme = bcheckMarkSchemeEmpty();
                 boolean question = getNewQuestionString().isEmpty();
                 boolean solution = getNewSolutionString().isEmpty();
-                System.out.println(question);
-                System.out.println(solution);
 
                 if (bmarkShceme == true && question == false && solution == false) {
                         JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
                         return false;
-
                 } else if (bmarkShceme == false && question == true && solution == false) {
                         JOptionPane.showMessageDialog(this, "Please Insert Question");
                         return false;
-
                 } else if (bmarkShceme == false && question == false && solution == true) {
                         JOptionPane.showMessageDialog(this, "Please Insert Solution");
                         return false;
-
                 } else if (bmarkShceme == true && question == true && solution == true) {
                         JOptionPane.showMessageDialog(this, "Please Insert Question");
                         return false;
