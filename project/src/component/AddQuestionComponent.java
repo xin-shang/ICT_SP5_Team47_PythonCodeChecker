@@ -111,7 +111,12 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 showScorePoint = new JTable(tableModelScorePoint) {
                         @Override
                         public boolean isCellEditable(int row, int column) {
-                                return false;
+                                if(column == 2){
+                                        return true;
+                                }
+                                else{
+                                        return false;
+                                }
                         }
                 };
                 /*

@@ -13,6 +13,23 @@ public class QuestionKeywordCheck {
     WriteAndRead WAR = new WriteAndRead();
     Map<String, Integer> keyWords = new LinkedHashMap<>();
 
+    /**
+     * 固定的预选关键词。
+    */
+
+    // 方法一
+    // 直接储存至数据库。教会后直接一个一个加。
+
+    // 方法二：直接用[][]二维数组， 这个直接能连到前端。
+    // Object[][] datas = {
+    //     { 1, "print", 1 },
+    //     { 2, "while", 5 },
+    //     { 3, "try", 2 },
+    //     { 4, "catch", 1 },
+    // };  
+
+
+    // 方法三：还是用Map，配套方法需要重新开发。
     public QuestionKeywordCheck() {
         keyWords = ReadKeywordsList();
         AddKeywordsList("False", 1);
