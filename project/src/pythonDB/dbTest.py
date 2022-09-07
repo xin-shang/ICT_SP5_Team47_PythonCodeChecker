@@ -40,6 +40,6 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
     
-    question_printAll(c)
+    markPoint_printAll(c)
     conn.commit()
     conn.close()

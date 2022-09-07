@@ -4,7 +4,6 @@ import sqlite3
 markTable = "keywords"
 
 #---------TABLE NAME, change it here---------
-
 def keywords_dropTable(c):
     c.execute("DROP TABLE "+ markTable)
 

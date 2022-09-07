@@ -31,6 +31,8 @@ public class QuestionDetailsComponent extends Box {
 				.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
 
 		int markLength = DIO.getSelectedMarkSchemeY(question_id);
+
+		// list
 		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(markLength);
 
 		String markShcemes = "";

@@ -8,9 +8,9 @@ import component.AddQuestionComponent;
 
 public class StaffdataIO {
     QnS[] qnsDB;
-    public int dblength;
+    public static int dblength;
     public int rowlength;
-    WriteAndRead WAR;
+    static WriteAndRead WAR;
 
     /**
      * Get database. Post is sent to the front end. Get 数据库。 Post 传送到 前端。
@@ -149,7 +149,7 @@ public class StaffdataIO {
 
     // 长度会在创造 dataio 时候获取一次，获取后存为定值
     // get db y size, the value was quoting from getYlength()
-    public int getDblength() {
+    public static int getDblength() {
         return dblength;
     }
 
@@ -167,7 +167,7 @@ public class StaffdataIO {
     /*------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------*/
     // Pass the New Question to the database 将New Question传送到数据库
-    public void PostNewQuestionString() {
+    public static void PostNewQuestionString() {
         char[] pyCharsNewQuestionString = AddQuestionComponent.getNewQuestionString().toCharArray();
         try {
             WAR.creatTxtFileDBData("dbQuestion_POST");
@@ -179,7 +179,7 @@ public class StaffdataIO {
     }
 
     // Transfer the New Solution to the database 将New Solution传送到数据库
-    public void PostNewSolutionString() {
+    public static void PostNewSolutionString() {
         char[] pyNewSolutionString = AddQuestionComponent.getNewSolutionString().toCharArray();
         try {
             WAR.creatTxtFileDBData("dbSolution_POST");
@@ -191,7 +191,7 @@ public class StaffdataIO {
     }
 
     // Transfer the New Score Point to the database 将New Score Point传送到数据库
-    public void PostNewScorePointString() {
+    public static void PostNewScorePointString() {
         char[] pyNewScorePointString = AddQuestionComponent.getScorePointString().toCharArray();
         try {
             WAR.creatTxtFileDBData("dbScorePoint_POST");
@@ -202,7 +202,7 @@ public class StaffdataIO {
         WAR.writeAnswerInTxt(pyNewScorePointString, AddQuestionComponent.getScorePointString());
     }
 
-    public void PostNewAnswerString() {
+    public static void PostNewAnswerString() {
         char[] pyNewAnswerString = AddQuestionComponent.getNewAnswerString().toCharArray();
         try {
             WAR.creatTxtFileDBData("dbAnswer_POST");

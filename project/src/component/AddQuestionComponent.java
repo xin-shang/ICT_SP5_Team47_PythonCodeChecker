@@ -23,7 +23,6 @@ import methodAndTool.StaffdataIO;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
-        StaffdataIO DIO = new StaffdataIO();
         WriteAndRead WAR = new WriteAndRead();
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
@@ -52,12 +51,11 @@ public class AddQuestionComponent extends Box implements ActionListener {
         public AddQuestionComponent() {
 
                 super(BoxLayout.Y_AXIS);
-
                 /**
                  * 设置窗口内容
                  */
                 //
-                newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
+                newID = new JLabel("Add a New Question ID:" + (StaffdataIO.getDblength() + 1));
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
@@ -204,11 +202,23 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 } else if (actionCommand.equals("Create New Question")) {
 
                         if (bcheckUserInputValue() == true) {
-                                DIO.PostNewQuestionString();
-                                DIO.PostNewSolutionString();
-                                DIO.PostNewAnswerString();
-                                // WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
-                                getScorePointStringList();
+                                String solution = getNewSolutionString();
+                                boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
+
+                                if (bsyntaxError == true) {
+                                        String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        JOptionPane.showMessageDialog(this,
+                                                        "Your Solution has SyntaxError: " + syntaxError);
+                                        newAnswer0.setText(syntaxError);
+                                } else {
+                                        StaffdataIO.PostNewQuestionString();
+                                        StaffdataIO.PostNewSolutionString();
+                                        StaffdataIO.PostNewAnswerString();
+                                        WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
+                                        getScorePointStringList();
+                                        JOptionPane.showMessageDialog(this, "Upload Successful");
+                                }
+
                         }
 
                         System.out.println("-- The Create New Question is Working --");
@@ -233,7 +243,6 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         JOptionPane.showMessageDialog(this, "Please Insert Question");
                         return false;
                 } else if (bmarkShceme == false && question == false && solution == false) {
-                        JOptionPane.showMessageDialog(this, "Upload Successful");
                         return true;
                 } else if (bmarkShceme == true && question == true && solution == false) {
                         JOptionPane.showMessageDialog(this, "Please Insert Question");
@@ -303,6 +312,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
 
                         }
+                        WAR.run_python_code("./src/pythonDB/PYDb_addMarkScheme.py");
                 }
         }
 

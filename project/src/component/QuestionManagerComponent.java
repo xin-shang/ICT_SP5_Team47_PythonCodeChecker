@@ -66,12 +66,10 @@ public class QuestionManagerComponent extends Box {
 		/* ——————————————————————————以下为测试用的数据———————————————————————— */
 		// 清空原有数据，保证列表中无内容
 		dataVector_Table.clear();
-
 		// 写入数据
 		for (int i = 0; i < titles.length; i++) {
 			titlesVector_Table.add(titles[i]);
 		}
-
 		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
 			for (int j = 0; j <= DIO.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
@@ -164,6 +162,8 @@ public class QuestionManagerComponent extends Box {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
 				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
 				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent());
+				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
+
 				System.out.println("-- The Add Manu Button is Working --");
 			}
 		});

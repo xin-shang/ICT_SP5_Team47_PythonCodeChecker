@@ -1,6 +1,6 @@
 import sqlite3
 from PYTextAnalysis import *
-from PYDb_QnSFunction import *
+
 
 
 def countSocre_inOperator(userinput, ScoreList):

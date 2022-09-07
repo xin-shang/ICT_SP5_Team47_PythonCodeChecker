@@ -16,7 +16,8 @@ if __name__ == '__main__':
     solution = DB_readText("./src/dbData/POST/dbSolution_POST.txt").decode('utf-8')
     answer = DB_readText("./src/dbData/POST/dbAnswer_POST.txt").decode('utf-8')
     
-    addQuestion(c,user_id,question,solution,answer)
+    rows = addQuestion(c,user_id,question,solution,answer)
+    print(rows)
     
     conn.commit()
     conn.close()

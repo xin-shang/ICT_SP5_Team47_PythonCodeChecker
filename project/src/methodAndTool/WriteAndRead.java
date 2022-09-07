@@ -142,4 +142,19 @@ public class WriteAndRead {
 		return pythonQuestion;
 	}
 
+	// /**
+	// * 返回是否有语法错误的同时，还会存储在./src/txt/sytaxError_b.txt 里面
+	// * return true for syntaxError, fasle for no syntaxError, if systaxError,
+	// * the result will save in ./src/txt/PyCodeAnswer.txt
+	// */
+	public boolean checkSolutionSytaxError(String solution) {
+		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
+		run_python_code("./src/python/PYRunPythonCode.py");
+		String errorResult = readText("./src/txt/sytaxError_b.txt");
+		if (errorResult.equals("True")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
