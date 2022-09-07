@@ -18,6 +18,5 @@ if __name__ == '__main__':
     
     addQuestion(c,user_id,question,solution,answer)
     
-    
     conn.commit()
     conn.close()

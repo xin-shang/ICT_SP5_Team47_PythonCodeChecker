@@ -45,32 +45,27 @@ def student_getlen(c):
     return len(items)
 
 
-def student_bcheckUserID(c,username):
-    c.execute("SELECT user_id FROM "+studentTable+" WHERE user_id = ?", (username,))
-    data=len(c.fetchall())
-
-    if data != 0:
-        return True
-    else:
-        return False
-    
 def student_readText(path):
     with open(path, 'rb') as file:
         data = file.read().rstrip()
         return data
 
-
-def student_bCheckUserName(c,userName):
-    c.execute("SELECT rowid, * FROM " + studentTable)
-    items = c.fetchall()
-    count = 0
-    for item in items:
-        if item[1] == userName:
-           count = count + 1
-    if count >= 1:
+def student_bCheckUserName(c,username):
+    c.execute("SELECT user_id FROM "+studentTable+" WHERE user_id = ? ", (username,))
+    data=len(c.fetchall())
+    if data != 0:
         return True
     else:
         return False
+
+def question_bcheckQuestion(c,question):
+    c.execute("SELECT question FROM "+studentTable+" WHERE question = ?", (question,))
+    data=len(c.fetchall())
+    #这里判断可能要改成相似率
+    if data != 0:
+        return True
+    else:
+        return False  
 
 
 def student_bCheckPassword(c,username,password):

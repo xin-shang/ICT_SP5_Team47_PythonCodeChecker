@@ -19,11 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.dataIO;
+import methodAndTool.StaffdataIO;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
-        dataIO DIO = new dataIO();
+        StaffdataIO DIO = new StaffdataIO();
         WriteAndRead WAR = new WriteAndRead();
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
@@ -177,14 +177,18 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         try {
                                 KeywordManagerComponent
                                                 .setSelectedRow(KeywordManagerComponent.keywordTable.getSelectedRow());
-                                System.out.println(KeywordManagerComponent.getSelectedRow());
-                                tableModelScorePoint.addRow(new Object[1]);
+
+                                // System.out.println(KeywordManagerComponent.getSelectedRow());
+
                                 Vector t = new Vector<>();
+
                                 for (int j = 0; j < titleScorePoint.size(); j++) {
                                         t.add(KeywordManagerComponent
                                                         .getValueAt_Table(KeywordManagerComponent.getSelectedRow(), j));
                                 }
-                                dataScorePoint.add(t);
+                                tableModelScorePoint.addRow(t);
+
+                                // dataScorePoint.add(t);
                         } catch (Exception w) {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
@@ -197,18 +201,55 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         }
                         System.out.println("-- The Create New Question is Working --");
                 } else if (actionCommand.equals("Create New Question")) {
-                        // System.out.println("X: " + getScorePointRowCount());
-                        // System.out.println("Y: " + getScorePointColumnCount());
-                        // System.out.println("To String: " + dataScorePoint.toString());
-                        // System.out.println("To Array: " + dataScorePoint.toArray());
 
-                        DIO.PostNewQuestionString();
-                        DIO.PostNewSolutionString();
-                        DIO.PostNewAnswerString();
-                        getScorePointStringList();
+                        if (bcheckUserInputValue() == true) {
+                                DIO.PostNewQuestionString();
+                                DIO.PostNewSolutionString();
+                                DIO.PostNewAnswerString();
+                                getScorePointStringList();
+                        }
 
-                        WAR.run_python_code("./src/pythonDB/PYDb_createQuestion.py");
+                        // WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
                         System.out.println("-- The Create New Question is Working --");
+                }
+        }
+
+        public boolean bcheckUserInputValue() {
+                boolean bmarkShceme = bcheckMarkSchemeEmpty();
+                boolean question = getNewQuestionString().isEmpty();
+                boolean solution = getNewSolutionString().isEmpty();
+                System.out.println(question);
+                System.out.println(solution);
+
+                if (bmarkShceme == true && question == false && solution == false) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
+                        return false;
+
+                } else if (bmarkShceme == false && question == true && solution == false) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Question");
+                        return false;
+
+                } else if (bmarkShceme == false && question == false && solution == true) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Solution");
+                        return false;
+
+                } else if (bmarkShceme == true && question == true && solution == true) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Question");
+                        return false;
+                } else if (bmarkShceme == false && question == false && solution == false) {
+                        JOptionPane.showMessageDialog(this, "Upload Successful");
+                        return true;
+                } else if (bmarkShceme == true && question == true && solution == false) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Question");
+                        return false;
+                } else if (bmarkShceme == true && question == false && solution == true) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Solution");
+                        return false;
+                } else if (bmarkShceme == false && question == true && solution == true) {
+                        JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
+                        return false;
+                } else {
+                        return false;
                 }
         }
 
@@ -264,6 +305,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                         WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
                                                         score.toString());
                                 }
+
                         }
                 }
         }
@@ -271,6 +313,16 @@ public class AddQuestionComponent extends Box implements ActionListener {
         // 获取指定格子中的数据
         public static Object getValueAt(int row, int column) {
                 return dataScorePoint.get(row).get(column);
+        }
+
+        // 通过列表的长度来判断用户是否有输入markScheme 没有：返回False， 有：返回True
+        public boolean bcheckMarkSchemeEmpty() {
+                int rows = tableModelScorePoint.getRowCount();
+                if (rows > 0) {
+                        return false;
+                } else {
+                        return true;
+                }
         }
 
         // public void Button_Add_ScorePoint(JButton button) {

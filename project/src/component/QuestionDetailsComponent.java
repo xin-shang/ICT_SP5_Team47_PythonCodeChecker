@@ -9,13 +9,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.dataIO;
+import methodAndTool.StaffdataIO;
 import methodAndTool.markScheme;
 
 public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
-	dataIO DIO = new dataIO();
+	StaffdataIO DIO = new StaffdataIO();
 
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
 

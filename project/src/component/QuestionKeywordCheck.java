@@ -8,14 +8,12 @@ import java.util.Map;
 
 import methodAndTool.WriteAndRead;
 
-
 public class QuestionKeywordCheck {
-    
+
     WriteAndRead WAR = new WriteAndRead();
     Map<String, Integer> keyWords = new LinkedHashMap<>();
 
-
-    public QuestionKeywordCheck(){
+    public QuestionKeywordCheck() {
         keyWords = ReadKeywordsList();
         AddKeywordsList("False", 1);
         AddKeywordsList("None", 1);
@@ -53,24 +51,24 @@ public class QuestionKeywordCheck {
         AddKeywordsList("with", 1);
         AddKeywordsList("yield", 1);
         AddKeywordsList("print", 1);
-        
 
-        //DeleteKeywordsList("lambda");
-        
-    }   
+        // DeleteKeywordsList("lambda");
 
-    private Map<String, Integer> ReadKeywordsList(){
-        //从pykeyword读取key word
+    }
+
+    private Map<String, Integer> ReadKeywordsList() {
+        // 从pykeyword读取key word
         String kw = WAR.readText("./src/txt/PyKeyword.txt");
-        //把 keywords 装进list
+        // 把 keywords 装进list
         List<String> kl = Arrays.asList(kw.split("\n"));
-        
+
         Map<String, Integer> _keyWords = new LinkedHashMap<>();
 
-        for(String k : kl){
+        for (String k : kl) {
 
             // skip "" value
-            if(k.equals("")) continue;
+            if (k.equals(""))
+                continue;
 
             // split key, value pair
             String[] keyValue = k.split(",");
@@ -78,51 +76,53 @@ public class QuestionKeywordCheck {
             // add key value to Map
             _keyWords.put(keyValue[0], Integer.parseInt(keyValue[1]));
         }
-        return _keyWords;  
+        return _keyWords;
     }
 
-    public Map<String, Integer> GetKeywordsList(){
+    public Map<String, Integer> GetKeywordsList() {
         return keyWords;
     }
 
-    public void AddKeywordsList(String newkeyword, int score){
-        //avoid duplicates
-        if(keyWords.containsKey(newkeyword)){
+    public void AddKeywordsList(String newkeyword, int score) {
+        // avoid duplicates
+        if (keyWords.containsKey(newkeyword)) {
             return;
         }
 
         keyWords.put(newkeyword, score);
         StringBuilder sb = new StringBuilder();
-        for(String k : keyWords.keySet()){
+        for (String k : keyWords.keySet()) {
             int s = keyWords.get(k);
             sb.append(k + "," + s);
             sb.append("\n");
         }
 
         WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt", sb.toString().trim());
-        //重新读一次
+        // 重新读一次
         keyWords = ReadKeywordsList();
-              
+
     }
 
-    public void DeleteKeywordsList(String rmvkeyword){
-        //remove key from map
+    public void DeleteKeywordsList(String rmvkeyword) {
+        // remove key from map
         keyWords.remove(rmvkeyword);
         StringBuilder sb = new StringBuilder();
 
-        for(String k : keyWords.keySet()){
+        for (String k : keyWords.keySet()) {
             int s = keyWords.get(k);
             sb.append(k + "," + s);
             sb.append("\n");
         }
-        
+
         WAR.write2TextFileOutStream("./src/txt/PyKeyword.txt", sb.toString().trim());
         keyWords = ReadKeywordsList();
     }
-    public void ChangeKeywordsList(){
+
+    public void ChangeKeywordsList() {
 
     }
-    public String GetindexKeywordsList(int index){
+
+    public String GetindexKeywordsList(int index) {
         // convert list key to array list
         List<String> listKeys = new ArrayList<String>(keyWords.keySet());
         return listKeys.get(index);

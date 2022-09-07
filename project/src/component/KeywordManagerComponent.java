@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.dataIO;
+import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
 
 public class KeywordManagerComponent extends Box {
@@ -22,17 +22,17 @@ public class KeywordManagerComponent extends Box {
 	 * Python Question Edit Page - KeyWordManagerComponent
 	 */
 
-	dataIO DIO = new dataIO();
+	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameKMC = null;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };
 	Object[][] datas = {
-			{ 1, "Keyword1", 1 },
-			{ 2, "Keyword2", 5 },
-			{ 3, "Keyword3", 2 },
-			{ 4, "Keyword4", 1 },
+			{ 1, "print", 1 },
+			{ 2, "while", 5 },
+			{ 3, "try", 2 },
+			{ 4, "catch", 1 },
 	};
 
 	// Creating Collections Manipulating collections is easier than manipulating

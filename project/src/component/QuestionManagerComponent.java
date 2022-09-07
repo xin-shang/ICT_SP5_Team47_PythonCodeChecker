@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.dataIO;
+import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
 
 public class QuestionManagerComponent extends Box {
@@ -31,7 +31,7 @@ public class QuestionManagerComponent extends Box {
 	 * Python Question Edit Page - QuestionManagerComponent
 	 */
 
-	dataIO DIO = new dataIO();
+	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameQMC = null;
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 import component.AddQuestionComponent;
 
-public class dataIO {
+public class StaffdataIO {
     QnS[] qnsDB;
     public int dblength;
     public int rowlength;
@@ -18,7 +18,7 @@ public class dataIO {
     /*------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------*/
 
-    public dataIO() {
+    public StaffdataIO() {
         WAR = new WriteAndRead();
         dblength = getYlength();
         rowlength = getXLength();
