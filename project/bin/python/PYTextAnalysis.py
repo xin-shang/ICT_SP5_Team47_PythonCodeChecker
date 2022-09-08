@@ -51,7 +51,6 @@ def TA_rebuildText2Python(TransferFilePath_a, TransferFilePath_b):
 
 
 
-
 #the function will return user input answer
 def TA_getUserInput_Result(_text_path_R):
     
