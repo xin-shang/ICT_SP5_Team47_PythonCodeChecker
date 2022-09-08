@@ -14,7 +14,7 @@ if __name__ == '__main__':
     user_id = DB_readText("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt").decode('utf-8')
     question = DB_readText("./src/dbData/POST/dbQuestion_POST.txt").decode('utf-8')
     solution = DB_readText("./src/dbData/POST/dbSolution_POST.txt").decode('utf-8')
-    answer = DB_readText("./src/dbData/POST/dbAnswer_POST.txt").decode('utf-8')
+    answer = DB_readText("./src/txt/dbAnswer_POST.txt").decode('utf-8')
     
     rows = addQuestion(c,user_id,question,solution,answer)
     print(rows)

@@ -211,6 +211,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                                         "Your Solution has SyntaxError: " + syntaxError);
                                         newAnswer0.setText(syntaxError);
                                 } else {
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        WAR.write2TextFileOutStream("./src/dbData/POST/dbAnswer_POST.txt", answer);
+
                                         StaffdataIO.PostNewQuestionString();
                                         StaffdataIO.PostNewSolutionString();
                                         StaffdataIO.PostNewAnswerString();
