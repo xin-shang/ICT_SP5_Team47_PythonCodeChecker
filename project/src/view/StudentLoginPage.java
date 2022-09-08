@@ -97,7 +97,6 @@ public class StudentLoginPage extends LoginPage {
 
 		// 窗口可见
 		frame.setVisible(true);
-
 	}
 
 	/**

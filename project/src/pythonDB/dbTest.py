@@ -40,6 +40,9 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
     
-    markPoint_printAll(c)
+    staff_printAll(c)
+
+
+    #staff_deleteUser(c,"shaxy")
     conn.commit()
     conn.close()
