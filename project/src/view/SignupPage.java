@@ -135,7 +135,10 @@ public class SignupPage extends LoginPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO implement sign up logic 
+				// TODO implement sign up logic
+                
+                
+                
 			}
 		});
 	}

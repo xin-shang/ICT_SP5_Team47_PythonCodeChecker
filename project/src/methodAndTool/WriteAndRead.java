@@ -124,7 +124,7 @@ public class WriteAndRead {
 	}
 
 	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
-	public String readQuestion(Object object) {
+	public static String readQuestion(Object object) {
 		String pythonQuestion = "<html>" + "<p>" + object + "</p>" + "</html>";
 		return pythonQuestion;
 	}

@@ -4,8 +4,8 @@ import java.awt.Toolkit;
 
 public class ScreenUtils {
 
-	public final int designWindow_width = 1000;
-	public final int designWindow_heigh = 618;
+	public static final int designWindow_width = 1000;
+	public static final int designWindow_heigh = 618;
 
 	/**
 	 * 图片路径
@@ -13,6 +13,7 @@ public class ScreenUtils {
 	private static final String Imgs_PATH = "./src/imgs/";
 
 	// 如果需要随意调整窗口大小的功能，启用这个方法，如果不需要，这个方法可以弃用。
+	
 	/**
 	 * 获取当前电脑屏幕的宽度
 	 */
@@ -30,11 +31,11 @@ public class ScreenUtils {
 	/**
 	 * 窗口大小
 	 */
-	public int getDesignWindow_width() {
+	public static int getDesignWindow_width() {
 		return designWindow_width;
 	}
 
-	public int getDesignWindow_heigh() {
+	public static int getDesignWindow_heigh() {
 		return designWindow_heigh;
 	}
 
@@ -53,7 +54,7 @@ public class ScreenUtils {
 	 * }
 	 * String s = buf.toString();
 	 */
-	public String getBlankSpace(int num) {
+	public static String getBlankSpace(int num) {
 		StringBuffer addBlankSpace = new StringBuffer();
 		for (int a = 0; a < num; a++) {
 			addBlankSpace.append("    ");

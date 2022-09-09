@@ -26,7 +26,8 @@ public class QuestionKeywordCheck {
     //     { 2, "while", 5 },
     //     { 3, "try", 2 },
     //     { 4, "catch", 1 },
-    // };  
+    // }; 
+    
 
 
     // 方法三：还是用Map，配套方法需要重新开发。

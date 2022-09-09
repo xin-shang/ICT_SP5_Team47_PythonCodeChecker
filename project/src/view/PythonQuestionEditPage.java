@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
 import component.KeywordManagerComponent;
+import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
 
@@ -21,7 +22,7 @@ public class PythonQuestionEditPage {
 	ScreenUtils SU = new ScreenUtils();
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
-	String ArtUser = SU.getBlankSpace(54);
+	String ArtUser = ScreenUtils.getBlankSpace(54);
 
 	/**
 	 * Python Question Edit Page
@@ -52,9 +53,9 @@ public class PythonQuestionEditPage {
 		/**
 		 * 设置窗口属性
 		 */
-		frame.setLocation((ScreenUtils.getScreenWidth() - SU.getDesignWindow_width()) / 2,
-				(ScreenUtils.getScreenHeight() - SU.getDesignWindow_heigh()) / 2); // 窗口位置
-		frame.setSize(SU.getDesignWindow_width(), SU.getDesignWindow_heigh()); // 设置窗口（宽，高）
+		frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
+				(ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
+		frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
 		try {
 			frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac 好像不太支持这个，Windows
 			// 咋样要试试。
@@ -99,6 +100,7 @@ public class PythonQuestionEditPage {
 		splitPane.setLeftComponent(new QuestionManagerComponent());
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
+		splitPane.setRightComponent(new QuestionDetailsComponent());
 
 		//
 		frame.add(splitPane);
