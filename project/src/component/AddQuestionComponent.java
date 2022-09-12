@@ -111,10 +111,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 showScorePoint = new JTable(tableModelScorePoint) {
                         @Override
                         public boolean isCellEditable(int row, int column) {
-                                if(column == 2){
+                                if (column == 2) {
                                         return true;
-                                }
-                                else{
+                                } else {
                                         return false;
                                 }
                         }
@@ -335,46 +334,5 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         return true;
                 }
         }
-
-        // public void Button_Add_ScorePoint(JButton button) {
-        // button.addActionListener(new ActionListener() {
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        // KeywordManagerComponent.setSelectedRow(KeywordManagerComponent.keywordTable.getSelectedRow());
-        // System.out.println(KeywordManagerComponent.getSelectedRow());
-        // // forLoopSelectedRows();
-        // // addScorePointInTable();
-        // System.out.println("-- The Add ScorePoint Button is Working --");
-        // }
-        // });
-        // }
-
-        /**
-         * 数据获取
-         */
-        // 用在ScorePointInTable
-        // private int num = 0;
-
-        // public void addScorePointInTable(){
-        // Vector t = new Vector<>();
-        // for(int i = 0; i < KeywordManagerComponent.getSelectedRows().length; i++){
-        // for(int j = 0; j < titleScorePoint.size(); j++){
-        // t.add(KeywordManagerComponent.getValueAt_Table(KeywordManagerComponent.getSelectedRows()[i],
-        // j));
-        // System.out.println("Y"+j);
-        // }
-        // System.out.println("X"+i);
-        // }
-        // dataScorePoint.add(t);
-        // // num = num + 1;
-        // }
-
-        // public void forLoopSelectedRows(){
-        // for(int i = 0; i < KeywordManagerComponent.getSelectedRows().length; i++){
-        // num = KeywordManagerComponent.getSelectedRows()[i];
-        // System.out.println(num);
-        // }
-        // System.out.println("----------");
-        // }
 
 }

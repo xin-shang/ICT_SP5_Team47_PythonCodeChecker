@@ -15,7 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
+import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
+import view.PythonCodeChackerPage;
 
 public class StudentWorkingComponent extends Box {
 
@@ -23,7 +25,7 @@ public class StudentWorkingComponent extends Box {
          * 
         */
         Box box, midBox, topBox, downBox, editBox, lastBox;
-        JScrollPane numListScrollPane,editScrollPane, terminalScrollPane;
+        JScrollPane numListScrollPane, editScrollPane, terminalScrollPane;
         JLabel questionLabel;
         private static JTextArea editArea;
         public static JTextArea terminalArea;
@@ -43,9 +45,14 @@ public class StudentWorkingComponent extends Box {
 
                 //
                 Font myFont1 = new Font("Arial", Font.PLAIN, 16);
-                Font myFont2 = new Font("Arial", Font.PLAIN, 14);
+
+                ProjectVariable pv = new ProjectVariable();
+
+                Font myFont2 = pv.getUserTextfieldFontSize();
 
                 //
+                PythonCodeChackerPage.splitPane.setDividerLocation(900);
+
                 topBox = Box.createHorizontalBox();
                 // questionLabel = new
                 // JLabel(WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(ChooseQuestionComponent.getSelectedRow(),
@@ -53,7 +60,7 @@ public class StudentWorkingComponent extends Box {
                 questionLabel = new JLabel();
                 questionLabel.setText(getQusetionString());
                 questionLabel.setFont(myFont1);
-                questionLabel.setPreferredSize(new Dimension(900,50));
+                questionLabel.setPreferredSize(new Dimension(900, 50));
                 topBox.add(questionLabel);
 
                 //
@@ -75,30 +82,29 @@ public class StudentWorkingComponent extends Box {
                 editArea.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyTyped(KeyEvent e) {
-                                if((char)e.getKeyChar()==KeyEvent.VK_ENTER) {
+                                if ((char) e.getKeyChar() == KeyEvent.VK_ENTER) {
                                         setNum(num + 1);
                                         addItem();
                                 }
-                  
+
                                 // 想写一个监听删除按钮后，对比文本框中的行数和变量num的值。List减掉最后一个数。
-                                else if ((char)e.getKeyChar()==KeyEvent.VK_DELETE){
-                                        if(editArea.getLineCount() < getNum()){
+                                else if ((char) e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                                        System.out.println("--Delete--");
+                                        if (editArea.getLineCount() < getNum()) {
+
                                                 setNum(num - 1);
                                                 deleteItem();
                                                 System.out.println("--Delete--");
                                         }
-                                        System.out.println("--Delete--");
+
                                 }
                         }
                 });
-                
+
                 editScrollPane = new JScrollPane(editArea);
-                
 
                 midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
-
-                
 
                 this.add(midBox);
 
@@ -107,7 +113,7 @@ public class StudentWorkingComponent extends Box {
                 downBox = Box.createHorizontalBox();
                 terminalArea = new JTextArea(8, 40);
                 terminalArea.setLineWrap(true); // 自动换行
-                terminalArea.setEditable(false);//不可编辑
+                terminalArea.setEditable(false);// 不可编辑
 
                 terminalScrollPane = new JScrollPane(terminalArea);
                 terminalScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -132,18 +138,18 @@ public class StudentWorkingComponent extends Box {
          * 数据获取
          */
         // private void setQuestionLabelString(String question) {
-        //         this.questionLabel.setText(question);
+        // this.questionLabel.setText(question);
         // }
 
         // private String getQuestionString() {
-        //         return this.questionLabel.getText();
+        // return this.questionLabel.getText();
         // }
 
-        public static void setQuestionString(String question){
+        public static void setQuestionString(String question) {
                 StudentWorkingComponent.questionString = question;
         }
 
-        public String getQusetionString(){
+        public String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
 
@@ -161,20 +167,20 @@ public class StudentWorkingComponent extends Box {
         }
 
         private void deleteItem() {
-                numListModel.remove(getNum()-1);
+                numListModel.remove(getNum());
                 numList.setModel(numListModel);
         }
 
         public static String getEditAnswerString() {
-		return editArea.getText();
-	}
+                return editArea.getText();
+        }
 
         // public static String getTerminalString() {
-	// 	return terminalArea.getText();
-	// }
+        // return terminalArea.getText();
+        // }
 
         // public static void setTerminalString(String userOutput) {
-	// 	StudentWorkingComponent.terminalArea.setText(userOutput);
-	// }
+        // StudentWorkingComponent.terminalArea.setText(userOutput);
+        // }
 
 }

@@ -1,5 +1,7 @@
 package methodAndTool;
 
+import java.awt.Font;
+
 public class ProjectVariable {
 
 	public int designWindow_width = 1000;
@@ -43,6 +45,17 @@ public class ProjectVariable {
 	private String getOSName() {
 		String OS = System.getProperty("os.name");
 		return OS;
+	}
+
+	public Font getUserTextfieldFontSize() {
+		if (getOSName().startsWith("Windows")) {
+
+			Font myFont3 = new Font("Arial", Font.PLAIN, 15);
+			return myFont3;
+		} else {
+			Font myFont2 = new Font("Arial", Font.PLAIN, 14);
+			return myFont2;
+		}
 	}
 
 	public String getPythonName() {
