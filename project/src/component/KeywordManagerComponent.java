@@ -24,16 +24,11 @@ public class KeywordManagerComponent extends Box {
 
 	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
+	QuestionKeywordCheck QKC = new QuestionKeywordCheck();
 	// JFrame frameKMC = null;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };
-	Object[][] datas = {
-			{ 1, "print", 1 },
-			{ 2, "while", 5 },
-			{ 3, "try", 2 },
-			{ 4, "catch", 1 },
-	};
 
 	// Creating Collections Manipulating collections is easier than manipulating
 	// arrays 创建集合 操作集合比操作数组容易
@@ -68,10 +63,10 @@ public class KeywordManagerComponent extends Box {
 			title.add(titles[i]);
 		}
 
-		for (int i = 0; i < datas.length; i++) {
+		for (int i = 0; i < QuestionKeywordCheck.getDblength(); i++) {
 			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < datas[i].length; j++) { // data[i].length 用来录入每个大数组中子数组的信息
-				t.add(datas[i][j]);
+			for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
+				t.add(QKC.getData(i, j));
 			}
 			data.add(t); // 依次把第二维加入一维中
 		}

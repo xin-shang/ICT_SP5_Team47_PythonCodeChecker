@@ -14,22 +14,10 @@ public class QuestionKeywordCheck {
     /**
      * 固定的预选关键词。
     */
-
-    // 方法一
-    // 直接储存至数据库。教会后直接一个一个加。
-
-    // 方法二：直接用[][]二维数组， 这个直接能连到前端。
-    // Object[][] datas = {
-    //     { 1, "print", 1 },
-    //     { 2, "while", 5 },
-    //     { 3, "try", 2 },
-    //     { 4, "catch", 1 },
-    // }; 
-    
     
     Map<Integer,String > keyWordsList;
 
-    int dblength;
+    static int dblength;
     // 方法三：还是用Map，配套方法需要重新开发。
     public QuestionKeywordCheck() {
 
@@ -93,6 +81,10 @@ public class QuestionKeywordCheck {
             System.out.println("db load fail");
             return 0;
         }
+    }
+
+    public static int getDblength() {
+        return dblength;
     }
 
 
