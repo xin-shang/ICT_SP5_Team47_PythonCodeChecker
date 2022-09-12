@@ -81,16 +81,10 @@ public class WriteAndRead {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-			String value = new String(in.readLine()).toString();
-
-			if (value != null) {
-				System.out.println("Returned Value is : " + value);
-			} else {
-				System.out.println("Returned Value is : empty");
-			}
+			new String(in.readLine()).toString();
 
 		} catch (Exception e) {
-			System.out.println(e);
+			// System.out.println(e);
 		}
 
 	}
