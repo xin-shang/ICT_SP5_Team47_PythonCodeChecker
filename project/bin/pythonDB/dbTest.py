@@ -8,28 +8,11 @@ from login.PYDb_Student import*
 from questionDB.PYDb_markPoint import *
 
 from PYDb_qnsController import *
+from questionDB.PYDb_keywordAlternative import *
 
 
 
 
-
-def markpoint(c):
-    qs_id = "pt1_094709"
-    ks_id = "pt1"
-    score = 100
-    
-    
-
-def addQuestion_test(c):
-    username = "staff"
-    question = "print dog"
-    solution = "print('dog')"
-    answer = "dog"
-    
-    #addQuestion(c,username,question,solution,answer)
-    #addQuestionMarkSheme(c,question,"print",100)
-    
-    deleteQuestion(c,question)
 
 
 if __name__ == '__main__':
@@ -40,6 +23,12 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
     
-    markPoint_printAll(c)
+
+    #打印检查
+    KeywordAl_printAll(c)
+
+
+
+    #打印
     conn.commit()
     conn.close()

@@ -4,6 +4,7 @@ package main;
 import view.HomePage;
 import methodAndTool.ScreenUtils;
 
+
 public class Main {
 
 	// 程序入口
@@ -12,6 +13,8 @@ public class Main {
 		ScreenUtils SU = new ScreenUtils();
 
 		new HomePage().init();
+
+		
 
 		System.out.println("Design Window Width: " + SU.getDesignWindow_width() + "Design Window Heigh: "
 				+ SU.getDesignWindow_heigh());
