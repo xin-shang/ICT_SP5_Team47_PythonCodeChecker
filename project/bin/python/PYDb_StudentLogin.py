@@ -33,9 +33,6 @@ if __name__ == '__main__':
         student_userName = readText("./src/txt/StudentUserName.txt").decode('utf-8')
         student_password = readText("./src/txt/StudentUserPassword.txt").decode('utf-8')
        
-       
-        e_u = "student"
-        e_p = "student"
         #check userName and password exit
         bUsername = bCheckUserName(c,student_userName)
         bPassword = bCheckPassword(c,student_userName,student_password)
