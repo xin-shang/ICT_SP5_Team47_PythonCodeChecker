@@ -54,6 +54,8 @@ public class PythonCodeChackerPage {
 
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
+        
+        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
         // 初始化，组装界面
         public void init() {
@@ -123,9 +125,15 @@ public class PythonCodeChackerPage {
                 frame.add(splitPane);
                 // 窗口可见
                 frame.setVisible(true);
-
+                
+              //Feedback Page Settings
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width()/2, ScreenUtils.getDesignWindow_heigh()-50);
+                feedbackPage.setLocationRelativeTo(frame);
+                
         }
-
+        
+      
+        
         /**
          * Button 监听
          */
@@ -219,6 +227,7 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
+                        		feedbackPage.setVisible(true);
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });
@@ -239,6 +248,8 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
+        
+        
 
         // Next Question
         private void Button_Item_NextQuestion(JMenuItem button) {
