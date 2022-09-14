@@ -15,7 +15,7 @@ import javax.swing.table.TableColumn;
 import methodAndTool.WriteAndRead;
 import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
-import JDBC.keywordAlternative;
+import JDBC.keywordAlternative_T;
 
 public class KeywordManagerComponent extends Box {
 
@@ -25,7 +25,7 @@ public class KeywordManagerComponent extends Box {
 
 	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
-	keywordAlternative QKC = new keywordAlternative();
+	keywordAlternative_T QKC = new keywordAlternative_T();
 
 	// JFrame frameKMC = null;
 

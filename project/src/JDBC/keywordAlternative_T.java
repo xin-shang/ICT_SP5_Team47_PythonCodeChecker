@@ -7,14 +7,14 @@ import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class keywordAlternative {
+public class keywordAlternative_T {
     Connection conn = null;
     Statement stmt = null;
     String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
     static int dblength;
     Map<Integer, String> keyWordsList;
 
-    public keywordAlternative() {
+    public keywordAlternative_T() {
         keyWordsList = getKeywordsList();
     }
 
@@ -23,7 +23,7 @@ public class keywordAlternative {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection(URL);
-            System.out.println("Opened database successfully!");
+            // System.out.println("Opened database successfully!");
             String sql = "select rowid, * From keywordAlternative";
             stmt = (Statement) conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);

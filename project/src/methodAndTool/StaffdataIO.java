@@ -78,8 +78,6 @@ public class StaffdataIO {
         }
     }
 
-
-    
     public List<markScheme> getSelectedMarkScheme(int length) {
         List<markScheme> mks = new ArrayList<markScheme>();
         markScheme mk;
