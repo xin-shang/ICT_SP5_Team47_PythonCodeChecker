@@ -15,6 +15,7 @@ import javax.swing.table.TableColumn;
 import methodAndTool.WriteAndRead;
 import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
+import JDBC.keywordAlternative;
 
 public class KeywordManagerComponent extends Box {
 
@@ -24,7 +25,8 @@ public class KeywordManagerComponent extends Box {
 
 	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
-	QuestionKeywordCheck QKC = new QuestionKeywordCheck();
+	keywordAlternative QKC = new keywordAlternative();
+
 	// JFrame frameKMC = null;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
@@ -63,7 +65,7 @@ public class KeywordManagerComponent extends Box {
 			title.add(titles[i]);
 		}
 
-		for (int i = 0; i < QuestionKeywordCheck.getDblength(); i++) {
+		for (int i = 0; i < QKC.getDblength(); i++) {
 			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
 			for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(QKC.getData(i, j));
