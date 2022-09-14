@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 public class WriteAndRead {
 	// set python command as the system return
 	String pythonName = PV.getPythonName();
-
 	static ProjectVariable PV = new ProjectVariable();
 
 	public boolean creatTxtFile(String name) throws IOException {
@@ -114,7 +113,6 @@ public class WriteAndRead {
 			e1.printStackTrace();
 			return "read text error";
 		}
-
 	}
 
 	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
