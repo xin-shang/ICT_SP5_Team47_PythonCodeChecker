@@ -148,6 +148,7 @@ public class StudentWorkingComponent extends Box {
                 StudentWorkingComponent.questionString = question;
         }
 
+        //学生做的题目(用这个找keyword评分标准，和下面学生写的答案对比)
         public String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
@@ -170,6 +171,7 @@ public class StudentWorkingComponent extends Box {
                 numList.setModel(numListModel);
         }
 
+        //学生写的答案
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
