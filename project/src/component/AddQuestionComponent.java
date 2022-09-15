@@ -75,7 +75,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                //
+                
                 newAnswer = new JLabel("Please Write down Answer of Question");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
@@ -131,7 +131,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 buttonPanel = new JPanel();
                 buttonPanel.setMaximumSize(new Dimension(500, 80));
 
-                createNewQuestion = new JButton("Create New Question");
+                createNewQuestion = new JButton("Submit Question");
                 createNewQuestion.addActionListener(this);
 
                 addScorePoint = new JButton("Add Score Point");
@@ -203,7 +203,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Create New Question")) {
+                } else if (actionCommand.equals("Submit Question")) {
 
                         if (bcheckUserInputValue() == true) {
                                 String solution = getNewSolutionString();

@@ -24,6 +24,7 @@ public class staffQns_T extends Qns_T {
         // load the username first, then get staff qns
         userid = staffLogin_T.getUsername_exit();
         qnsDB = getStaffQns(userid);
+        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt", userid);
     }
 
     public List<QnS> getdb() {

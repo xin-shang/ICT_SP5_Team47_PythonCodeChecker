@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -110,8 +111,8 @@ public class QuestionManagerComponent extends Box {
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(60);
-		column1.setMinWidth(60);
+		column1.setMaxWidth(90);
+		column1.setMinWidth(90);
 
 		// 隐藏列表"Solution" - titles[3], "Answer" - titles[4], "ScorePoint" - titles[5]
 		hiddenList(2, 0);
@@ -212,7 +213,8 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
-				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent()); 
+				
 				System.out.println("-- The Show Button is Working --");
 			}
 		});
