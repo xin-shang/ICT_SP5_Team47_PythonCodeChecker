@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -122,7 +123,6 @@ public class SignupPage extends LoginPage {
         // 窗口可见
         frame.add(Box.createVerticalGlue());
         frame.setVisible(true);
-
     }
 
     /**
@@ -132,7 +132,27 @@ public class SignupPage extends LoginPage {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO implement sign up logic
+
+                System.out.print(bConfirmPasswords());
+
+                if (bConfirmPasswords() == true) {
+                    if (getUserTypeString().equals("student")) {
+                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserName.txt",
+                                getUserNameString());
+                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserPassword.txt",
+                                getUserPasswardString());
+                        WAR.run_python_code("./src/pythonDB/PYDb_addStudent.py");
+                        JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                    } else {
+                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffUserName.txt", getUserNameString());
+                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffPassword.txt",
+                                getUserPasswardString());
+                        WAR.run_python_code("./src/pythonDB/PYDb_addStaff.py");
+                        JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(frame, "The entered passwords are inconsistent");
+                }
 
             }
         });
@@ -148,6 +168,30 @@ public class SignupPage extends LoginPage {
                 System.out.println("-- The Return Button is Working --");
             }
         });
+    }
+
+    private String getUserNameString() {
+        return username.getText();
+    }
+
+    private String getUserPasswardString() {
+        return password.getText();
+    }
+
+    private String getUserTypeString() {
+        return (String) userType.getSelectedItem();
+    }
+
+    private String getConfirmPasswordString() {
+        return confirmPassword.getText();
+    }
+
+    private Boolean bConfirmPasswords() {
+        if (getUserPasswardString().equals(getConfirmPasswordString())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

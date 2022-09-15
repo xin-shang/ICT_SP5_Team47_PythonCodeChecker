@@ -95,7 +95,6 @@ public class StaffLoginPage extends LoginPage {
 
 		// 窗口可见
 		frame.setVisible(true);
-
 	}
 
 	/**
@@ -154,18 +153,5 @@ public class StaffLoginPage extends LoginPage {
 			}
 		});
 	}
-
-	
-
-	/**
-	 * 内容获取
-	 */
-	// public String getUsername() {
-	// return usernameStaff;
-	// }
-	//
-	// public String getPassword() {
-	// return passwordStaff;
-	// }
 
 }

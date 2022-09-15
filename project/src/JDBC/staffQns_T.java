@@ -2,6 +2,7 @@ package JDBC;
 
 import methodAndTool.QnS;
 import methodAndTool.WriteAndRead;
+import methodAndTool.markScheme;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,68 +20,109 @@ public class staffQns_T {
 
     Connection conn = null;
     Statement stmt = null;
+    PreparedStatement PreStmt = null;
+
     String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
     List<QnS> qnsDB;
+    String userid;
 
     public static int dblength;
-
     public static int rowlength = 4;
 
     static WriteAndRead WAR = new WriteAndRead();
 
     public staffQns_T() {
-        qnsDB = getStaffQns();
+        // load the username first, then get staff qns
+        userid = WAR.readText("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt");
+        qnsDB = getStaffQns(userid);
+
     }
 
     public List<QnS> getdb() {
         return this.qnsDB;
     }
 
-    private List<QnS> getStaffQns() {
-        List<QnS> qnsDB = new ArrayList<QnS>();
-        String userid = WAR.readText("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt");
-        System.out.println(userid);
-
+    public void connectDB() {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection(URL);
+        } catch (Exception e) {
+            System.out.println("connect fail");
+        }
+    }
+
+    public void disConnectDB() {
+        try {
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(" disconnect fail");
+        }
+    }
+
+    private List<QnS> getStaffQns(String staffID) {
+        List<QnS> qnsDB = new ArrayList<QnS>();
+        try {
+            connectDB();
             // System.out.println("Opened database successfully!");
             String sql = "SELECT question.id, " +
                     "question.question, " +
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ?";
-
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, userid);
-
+            statement.setString(1, staffID);
             ResultSet res = statement.executeQuery();
-
-            // System.out.println("Results:");
             int num = 0;
-
             while (res.next()) {
                 num++;
                 String question_id = res.getString(1);
-                // System.out.println(question_id);
                 String question = res.getString(2);
-                // System.out.println(question);
                 String solution = res.getString(3);
-                // System.out.println(solution);
                 String answer = res.getString(4);
-                // System.out.println(answer);
-                // System.out.println();
                 QnS qns = new QnS(question_id, question, solution, answer);
                 qnsDB.add(qns);
             }
             dblength = num;
             statement.close();
-            conn.close();
+            disConnectDB();
             return qnsDB;
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());
             System.exit(0);
+            return null;
+        }
+    }
+
+    public List<markScheme> getSelectedMarkScheme(String questionID) {
+        try {
+            connectDB();
+            List<markScheme> mks = new ArrayList<markScheme>();
+            String sql = "SELECT keywords.id, " +
+                    "keywords.keywords, " +
+                    "markPoint.score " +
+                    "FROM markPoint INNER JOIN question ON markPoint.question_id = question.id " +
+                    "LEFT JOIN keywords ON markPoint.keyword_id = keywords.id " +
+                    "WHERE question.id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, questionID);
+            ResultSet res = statement.executeQuery();
+
+            while (res.next()) {
+                String keyword_id = res.getString("id");
+                System.out.println(keyword_id);
+                String keyword = res.getString("keywords");
+                System.out.println(keyword);
+                int markPoint = WAR.StringToInt(res.getString("score"));
+                System.out.println(markPoint);
+                markScheme mk = new markScheme(keyword_id, keyword, markPoint);
+                mks.add(mk);
+            }
+            disConnectDB();
+            return mks;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ":" + e.getMessage());
+            System.out.print("check the question id, which is exit or not");
             return null;
         }
     }

@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
 import JDBC.keywordAlternative_T;
 
@@ -23,7 +22,6 @@ public class KeywordManagerComponent extends Box {
 	 * Python Question Edit Page - KeyWordManagerComponent
 	 */
 
-	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
 	keywordAlternative_T QKC = new keywordAlternative_T();
 
@@ -34,7 +32,7 @@ public class KeywordManagerComponent extends Box {
 
 	// Creating Collections Manipulating collections is easier than manipulating
 	// arrays 创建集合 操作集合比操作数组容易
-	private Vector title = new Vector(); // Store the title 存储标题
+	private Vector<Object> title = new Vector<Object>(); // Store the title 存储标题
 	private static Vector<Vector> data = new Vector<>(); // Store the data 存储数据
 	private static int selectedRow = 0;
 	private static int[] selectedRows = {};
@@ -66,7 +64,7 @@ public class KeywordManagerComponent extends Box {
 		}
 
 		for (int i = 0; i < QKC.getDblength(); i++) {
-			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
 			for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(QKC.getData(i, j));
 			}

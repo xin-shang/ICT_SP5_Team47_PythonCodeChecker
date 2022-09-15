@@ -6,11 +6,11 @@ import java.util.List;
 
 import component.AddQuestionComponent;
 
-public class StaffdataIO {
+public class staffQns {
     QnS[] qnsDB;
     public static int dblength;
     public int rowlength;
-    static WriteAndRead WAR;
+    static WriteAndRead WAR = new WriteAndRead();
 
     /**
      * Get database. Post is sent to the front end. Get 数据库。 Post 传送到 前端。
@@ -18,7 +18,7 @@ public class StaffdataIO {
     /*------------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------*/
 
-    public StaffdataIO() {
+    public staffQns() {
         WAR = new WriteAndRead();
         dblength = getYlength();
         rowlength = getXLength();

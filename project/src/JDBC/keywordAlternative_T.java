@@ -38,6 +38,7 @@ public class keywordAlternative_T {
 
             stmt.close();
             conn.close();
+
             return keyWords;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());

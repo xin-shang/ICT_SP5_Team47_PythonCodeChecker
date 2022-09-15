@@ -25,7 +25,7 @@ if __name__ == '__main__':
     
     c.fetchone
     #打印检查
-
+    staff_printAll(c)
 
 
     #打印

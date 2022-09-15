@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
+import methodAndTool.staffQns;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
@@ -55,7 +55,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 设置窗口内容
                  */
                 //
-                newID = new JLabel("Add a New Question ID:" + (StaffdataIO.getDblength() + 1));
+                newID = new JLabel("Add a New Question ID:" + (staffQns.getDblength() + 1));
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
@@ -215,9 +215,12 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                                         "Your Solution has SyntaxError: " + syntaxError);
                                         newAnswer0.setText(syntaxError);
                                 } else {
-                                        StaffdataIO.PostNewQuestionString();
-                                        StaffdataIO.PostNewSolutionString();
-                                        StaffdataIO.PostNewAnswerString();
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        newAnswer0.setText(answer);
+
+                                        staffQns.PostNewQuestionString();
+                                        staffQns.PostNewSolutionString();
+                                        staffQns.PostNewAnswerString();
                                         WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
                                         getScorePointStringList();
                                         JOptionPane.showMessageDialog(this, "Upload Successful");
@@ -255,7 +258,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         JOptionPane.showMessageDialog(this, "Please Insert Solution");
                         return false;
                 } else if (bmarkShceme == false && question == true && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
+                        JOptionPane.showMessageDialog(this, "Please Insert Question");
                         return false;
                 } else {
                         return false;
@@ -302,6 +305,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 return dataScorePointColumnCount;
         }
 
+        // Push score list to db
         public void getScorePointStringList() {
                 for (int i = 0; i < getScorePointRowCount(); i++) {
                         for (int j = 0; j < getScorePointColumnCount(); j++) {
@@ -310,7 +314,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                         WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbKeyWord_POST.txt",
                                                         keyword.toString());
                                 } else if (j == 2) {
-                                        Object score = (int) getValueAt(i, j);
+                                        Object score = getValueAt(i, j);
                                         WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
                                                         score.toString());
                                 }
