@@ -1,62 +1,33 @@
-package JDBC;
+package JDBC.Staff;
 
 import methodAndTool.QnS;
-import methodAndTool.WriteAndRead;
-import methodAndTool.markScheme;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import JDBC.Qns_T;
+import JDBC.Login.STAFF.staffLogin_T;
 import component.AddQuestionComponent;
 
-public class staffQns_T {
+public class staffQns_T extends Qns_T {
 
-    Connection conn = null;
-    Statement stmt = null;
-    PreparedStatement PreStmt = null;
-
-    String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
     List<QnS> qnsDB;
     String userid;
 
     public static int dblength;
     public static int rowlength = 4;
 
-    static WriteAndRead WAR = new WriteAndRead();
-
     public staffQns_T() {
         // load the username first, then get staff qns
-        userid = WAR.readText("./src/dbData/LOGIN/STAFF/Login_StaffUserName.txt");
+        userid = staffLogin_T.getUsername_exit();
         qnsDB = getStaffQns(userid);
-
     }
 
     public List<QnS> getdb() {
         return this.qnsDB;
-    }
-
-    public void connectDB() {
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection(URL);
-        } catch (Exception e) {
-            System.out.println("connect fail");
-        }
-    }
-
-    public void disConnectDB() {
-        try {
-            conn.close();
-        } catch (Exception e) {
-            System.out.println(" disconnect fail");
-        }
     }
 
     private List<QnS> getStaffQns(String staffID) {
@@ -94,39 +65,6 @@ public class staffQns_T {
         }
     }
 
-    public List<markScheme> getSelectedMarkScheme(String questionID) {
-        try {
-            connectDB();
-            List<markScheme> mks = new ArrayList<markScheme>();
-            String sql = "SELECT keywords.id, " +
-                    "keywords.keywords, " +
-                    "markPoint.score " +
-                    "FROM markPoint INNER JOIN question ON markPoint.question_id = question.id " +
-                    "LEFT JOIN keywords ON markPoint.keyword_id = keywords.id " +
-                    "WHERE question.id = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, questionID);
-            ResultSet res = statement.executeQuery();
-
-            while (res.next()) {
-                String keyword_id = res.getString("id");
-                System.out.println(keyword_id);
-                String keyword = res.getString("keywords");
-                System.out.println(keyword);
-                int markPoint = WAR.StringToInt(res.getString("score"));
-                System.out.println(markPoint);
-                markScheme mk = new markScheme(keyword_id, keyword, markPoint);
-                mks.add(mk);
-            }
-            disConnectDB();
-            return mks;
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ":" + e.getMessage());
-            System.out.print("check the question id, which is exit or not");
-            return null;
-        }
-    }
-
     public Object getData(int y, int x) {
         if (y > dblength) {
             System.out.println("column is out of index");
@@ -138,6 +76,7 @@ public class staffQns_T {
         }
         if (x == 0) {
             return qnsDB.get(y).getQuestionID();
+            // return y;
         } else if (x == 1) {
             return qnsDB.get(y).getQuestion();
         } else if (x == 2) {
@@ -149,11 +88,11 @@ public class staffQns_T {
         }
     }
 
-    public static int getDblength() {
+    public int getDblength() {
         return dblength;
     }
 
-    public static int getRowlength() {
+    public int getRowlength() {
         return rowlength;
     }
 

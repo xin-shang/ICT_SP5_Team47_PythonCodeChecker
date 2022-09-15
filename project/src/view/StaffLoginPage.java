@@ -12,11 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import JDBC.Login.STAFF.staffLogin_T;
 import methodAndTool.ScreenUtils;
 
 public class StaffLoginPage extends LoginPage {
 
 	JFrame frame = new JFrame("Python Code Chacker - Staff Login Page");
+	staffLogin_T SL = new staffLogin_T();
 
 	// 初始化，组装界面
 	public void init() {
@@ -108,15 +110,9 @@ public class StaffLoginPage extends LoginPage {
 				String usernameStaff = area_user.getText().trim();
 				String passwordStaff = area_password.getText().trim();
 
-				// 发送用户名和密码去数据库
-				// send username and password to database
-				PostStaff_UserName_passowrd(usernameStaff, passwordStaff);
+				int busername_password = SL.checkUserID(usernameStaff, passwordStaff);
 
-				Boolean busernameStudent = getStaff_DbReturn_userName();
-				Boolean bpasswordStudent = getStaff_DbReturn_password();
-
-				if (busernameStudent == true
-						&& bpasswordStudent == true) {
+				if (busername_password == 2) {
 
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
@@ -124,8 +120,7 @@ public class StaffLoginPage extends LoginPage {
 					frame.dispose();
 
 					System.out.println("--Go to the edit page - Python Code Chacker--");
-				} else if (busernameStudent == true
-						&& bpasswordStudent == false) {
+				} else if (busername_password == 1) {
 					// 账户存在，密码错误
 					// accout exit, password incorrect(message box)
 					JOptionPane.showMessageDialog(frame,

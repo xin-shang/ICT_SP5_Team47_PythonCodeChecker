@@ -1,14 +1,15 @@
-package JDBC;
+package JDBC.Student;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import JDBC.Qns_T;
 import methodAndTool.QnS;
 
-public class studentQns_T extends staffQns_T {
+public class studentQns_T extends Qns_T {
+
     List<QnS> qnsDB;
     public static int dblength;
     public static int rowlength = 4;
@@ -27,8 +28,8 @@ public class studentQns_T extends staffQns_T {
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet res = statement.executeQuery();
+            PreStmt = conn.prepareStatement(sql);
+            ResultSet res = PreStmt.executeQuery();
             int num = 0;
             while (res.next()) {
                 num++;
@@ -40,7 +41,7 @@ public class studentQns_T extends staffQns_T {
                 qnsDB.add(qns);
             }
             dblength = num;
-            statement.close();
+            PreStmt.close();
             disConnectDB();
             return qnsDB;
 
@@ -61,7 +62,8 @@ public class studentQns_T extends staffQns_T {
             return null;
         }
         if (x == 0) {
-            return qnsDB.get(y).getQuestionID();
+            // return qnsDB.get(y).getQuestionID();
+            return y + 1;
         } else if (x == 1) {
             return qnsDB.get(y).getQuestion();
         } else if (x == 2) {
@@ -73,11 +75,11 @@ public class studentQns_T extends staffQns_T {
         }
     }
 
-    public static int getDblength() {
+    public int getDblength() {
         return dblength;
     }
 
-    public static int getRowlength() {
+    public int getRowlength() {
         return rowlength;
     }
 

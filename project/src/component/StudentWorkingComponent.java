@@ -16,7 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
-import methodAndTool.WriteAndRead;
 import view.PythonCodeChackerPage;
 
 public class StudentWorkingComponent extends Box {

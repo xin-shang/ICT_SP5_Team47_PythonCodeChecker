@@ -16,8 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.staffQns_T;
-import JDBC.studentQns_T;
+import JDBC.Student.studentQns_T;
 import methodAndTool.WriteAndRead;
 import view.PythonCodeChackerPage;
 
@@ -58,9 +57,9 @@ public class ChooseQuestionComponent extends Box {
 			titlesChooseQuestion_Table.add(titlesChooseQuestion[i]);
 		}
 
-		for (int i = 0; i < studentQns_T.getDblength(); i++) {
+		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
-			for (int j = 0; j < studentQns_T.getRowlength(); j++) {
+			for (int j = 0; j < DIO.getRowlength(); j++) {
 				t.add(DIO.getData(i, j));
 			}
 			dataChooseQuestion_Table.add(t);

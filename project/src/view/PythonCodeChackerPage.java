@@ -57,7 +57,6 @@ public class PythonCodeChackerPage {
 
         // 初始化，组装界面
         public void init() {
-
                 /**
                  * 设置窗口属性
                  */

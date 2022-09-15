@@ -16,7 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.staffQns_T;
+import JDBC.Staff.staffQns_T;
 import methodAndTool.WriteAndRead;
 import view.PythonQuestionEditPage;
 
@@ -46,7 +46,7 @@ public class QuestionManagerComponent extends Box {
 	public static DefaultTableModel tableModel;
 
 	// 创建集合 操作集合比操作数组容易
-	private Vector titlesVector_Table = new Vector(); // 存储标题
+	private Vector<Object> titlesVector_Table = new Vector<Object>(); // 存储标题
 	private static Vector<Vector> dataVector_Table = new Vector<>(); // 存储数据
 
 	JPanel buttonPanel;
@@ -71,9 +71,9 @@ public class QuestionManagerComponent extends Box {
 		for (int i = 0; i < titles.length; i++) {
 			titlesVector_Table.add(titles[i]);
 		}
-		for (int i = 0; i < staffQns_T.getDblength(); i++) {
-			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < staffQns_T.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
+		for (int i = 0; i < DIO.getDblength(); i++) {
+			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j < DIO.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(DIO.getData(i, j));
 			}
 			dataVector_Table.add(t); // 依次把第二维加入一维中

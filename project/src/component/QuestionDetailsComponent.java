@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import JDBC.staffQns_T;
+import JDBC.Staff.staffQns_T;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 

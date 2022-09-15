@@ -43,7 +43,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         Object[][] questionScorePoint = new Object[0][3];
 
         //
-        private Vector titleScorePoint = new Vector(); // Store the title 存储标题
+        private Vector<Object> titleScorePoint = new Vector<Object>(); // Store the title 存储标题
         private static Vector<Vector> dataScorePoint = new Vector<>(); // Store the data 存储数据
 
         public static DefaultTableModel tableModelScorePoint;
@@ -183,7 +183,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                 // System.out.println(KeywordManagerComponent.getSelectedRow());
 
-                                Vector t = new Vector<>();
+                                Vector<Object> t = new Vector<Object>();
 
                                 for (int j = 0; j < titleScorePoint.size(); j++) {
                                         t.add(KeywordManagerComponent
