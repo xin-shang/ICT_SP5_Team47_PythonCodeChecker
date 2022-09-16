@@ -9,7 +9,6 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,7 +47,7 @@ public class QuestionManagerComponent extends Box {
 
 	// 创建集合 操作集合比操作数组容易
 	private Vector<Object> titlesVector_Table = new Vector<Object>(); // 存储标题
-	private static Vector<Vector> dataVector_Table = new Vector<>(); // 存储数据
+	private static Vector<Vector<Object>> dataVector_Table = new Vector<>(); // 存储数据
 
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;

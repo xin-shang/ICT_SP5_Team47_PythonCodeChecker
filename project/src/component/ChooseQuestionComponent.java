@@ -34,7 +34,7 @@ public class ChooseQuestionComponent extends Box {
 
 	// 创建集合 操作集合比操作数组容易
 	private static Vector<Object> titlesChooseQuestion_Table = new Vector<Object>(); // 存储标题
-	private static Vector<Vector> dataChooseQuestion_Table = new Vector<>(); // 存储数据
+	private static Vector<Vector<Object>> dataChooseQuestion_Table = new Vector<>(); // 存储数据
 
 	// 是不是可以在下面写一个左箭头一个右箭头？用来切换题目？
 

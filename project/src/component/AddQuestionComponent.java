@@ -46,7 +46,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         //
         private Vector<Object> titleScorePoint = new Vector<Object>(); // Store the title 存储标题
-        private static Vector<Vector> dataScorePoint = new Vector<>(); // Store the data 存储数据
+        private static Vector<Vector<Object>> dataScorePoint = new Vector<>(); // Store the data 存储数据
 
         public static DefaultTableModel tableModelScorePoint;
 

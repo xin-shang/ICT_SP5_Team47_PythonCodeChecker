@@ -33,7 +33,7 @@ public class KeywordManagerComponent extends Box {
 	// Creating Collections Manipulating collections is easier than manipulating
 	// arrays 创建集合 操作集合比操作数组容易
 	private Vector<Object> title = new Vector<Object>(); // Store the title 存储标题
-	private static Vector<Vector> data = new Vector<>(); // Store the data 存储数据
+	private static Vector<Vector<Object>> data = new Vector<>(); // Store the data 存储数据
 	private static int selectedRow = 0;
 	private static int[] selectedRows = {};
 

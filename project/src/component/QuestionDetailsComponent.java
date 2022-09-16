@@ -1,6 +1,7 @@
 package component;
 
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,6 +17,10 @@ public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
 	staffQns_T DIO = new staffQns_T();
+
+	static Object[] titles = { "ID", "Keyword", "Score" };
+	private Vector<Object> titlesVector_Table = new Vector<Object>(); // 存储标题
+	private static Vector<Vector<Object>> dataVector_Table = new Vector<>(); // 存储数据
 
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
 
@@ -41,6 +46,27 @@ public class QuestionDetailsComponent extends Box {
 			int score = ms.getScore();
 
 			markShcemes = markShcemes + keywordid + ", " + keyword + ", " + String.valueOf(score) + "\n";
+		}
+
+		// 清空原有数据，保证列表中无内容
+		dataVector_Table.clear();
+		// 写入数据
+		for (int i = 0; i < titles.length; i++) {
+			titlesVector_Table.add(titles[i]);
+		}
+		for (int i = 0; i < markSchemeList.size(); i++) {
+			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j <= 2; j++) {
+				// data[i].length 用来录入每个大数组中子数组的信息
+				if (j == 0) {
+					t.add(markSchemeList.get(i).getkeywordID());
+				} else if (j == 1) {
+					t.add(markSchemeList.get(i).getKeyword());
+				} else if (j == 2) {
+					t.add(markSchemeList.get(i).getScore());
+				}
+			}
+			dataVector_Table.add(t); // 依次把第二维加入一维中
 		}
 
 		// -----------------------------------------------------------------------------
