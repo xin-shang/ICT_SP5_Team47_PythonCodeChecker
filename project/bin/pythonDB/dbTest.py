@@ -27,8 +27,8 @@ if __name__ == '__main__':
     #打印检查
     #markPoint_printAll(c)
     #r = getUserQuestionRows(c,"staff")
-    r = getQestionMarkScheme(c,"po1_212034")
-    print(r)
+    
+    question_printAll(c)
     #打印
     conn.commit()
     conn.close()
