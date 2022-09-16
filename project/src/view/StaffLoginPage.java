@@ -113,7 +113,6 @@ public class StaffLoginPage extends LoginPage {
 				int busername_password = SL.checkUserID(usernameStaff, passwordStaff);
 
 				if (busername_password == 2) {
-
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
 					new PythonQuestionEditPage().init();

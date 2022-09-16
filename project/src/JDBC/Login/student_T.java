@@ -1,6 +1,7 @@
 package JDBC.Login;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import JDBC.dbConnection.PythonCodeChecker_db;
 
@@ -9,12 +10,15 @@ public class student_T extends PythonCodeChecker_db {
     // return 1, when userid correct,
     // return 2, when both correct,
     // return 0, when both incorrect
+
+    String table = "student";
+
     public int checkUserID(String userID_u, String Password_u) {
         try {
             String userID = "";
             String password = "";
             connectDB();
-            String sql = "SELECT user_id, password FROM student WHERE user_id = ?";
+            String sql = "SELECT user_id, password FROM " + table + " WHERE user_id = ?";
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, userID_u);
             PreStmt.executeQuery();
@@ -38,6 +42,25 @@ public class student_T extends PythonCodeChecker_db {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());
             System.exit(0);
             return 0;
+        }
+    }
+
+    public boolean inserRows(String username, String password) {
+        try {
+            connectDB();
+            String sql = "INSERT INTO " + table + " VALUES(?,?)";
+            PreStmt = conn.prepareStatement(sql);
+            // insert value
+            PreStmt.setString(1, username);
+            PreStmt.setString(2, password);
+
+            PreStmt.executeUpdate();
+            PreStmt.close();
+            disConnectDB();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
         }
     }
 

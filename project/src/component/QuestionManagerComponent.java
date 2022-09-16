@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -179,13 +179,13 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
-				// int selectedRow = questionTable.getSelectedRow();
 				int questionInt = questionTable.getSelectedRow();
-
 				String question = (String) getValueAt_Table(questionInt, 1);
-
 				DIO.deleteQuestion(question);
 				tableModel.removeRow(getSelectedRow());
+
+				// set to selected index 0
+				setSelectedRow(0);
 
 				System.out.println("-- The Delete Manu Button is Working --");
 			}

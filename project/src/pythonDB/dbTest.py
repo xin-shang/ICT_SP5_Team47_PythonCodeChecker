@@ -25,9 +25,10 @@ if __name__ == '__main__':
     
     c.fetchone
     #打印检查
-    markPoint_printAll(c)
+    #markPoint_printAll(c)
     #r = getUserQuestionRows(c,"staff")
-    #print(r)
+    r = getQestionMarkScheme(c,"po1_212034")
+    print(r)
     #打印
     conn.commit()
     conn.close()

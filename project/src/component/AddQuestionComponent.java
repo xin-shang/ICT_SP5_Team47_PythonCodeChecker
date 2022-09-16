@@ -307,18 +307,21 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         // Push score list to db
         public void getScorePointStringList() {
-
+                Object keyword = null;
+                Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {
-                        Object keyword;
-                        Object score;
+
                         for (int j = 0; j < getScorePointColumnCount(); j++) {
                                 if (j == 1) {
                                         keyword = getValueAt(i, j);
                                 } else if (j == 2) {
                                         score = getValueAt(i, j);
                                 }
-
                         }
+                        String keyword_s = (String) keyword;
+                        int score_i = (int) score;
+
+                        DIO.insertQuestionMarkSheme(getNewQuestionString(), keyword_s, score_i);
 
                 }
         }
