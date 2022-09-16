@@ -54,7 +54,7 @@ public class PythonCodeChackerPage {
 
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
-        
+
         FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
         // 初始化，组装界面
@@ -125,17 +125,15 @@ public class PythonCodeChackerPage {
                 frame.add(splitPane);
                 // 窗口可见
                 frame.setVisible(true);
-                
-              //Feedback Page Settings
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width()/2, ScreenUtils.getDesignWindow_heigh()-50);
+
+                // Feedback Page Settings
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width() / 2, ScreenUtils.getDesignWindow_heigh() - 50);
                 feedbackPage.setLocationRelativeTo(frame);
-                
+
                 frame.setVisible(true);
-                
+
         }
-        
-      
-        
+
         /**
          * Button 监听
          */
@@ -227,34 +225,33 @@ public class PythonCodeChackerPage {
         private void Button_Item_ShowFeedback(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {                        	                                                
-                        	
-                        	String solution = StudentWorkingComponent.getEditAnswerString();
-                        	
-                        	if(solution.length()>0) {
-                        		boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
-                        		feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
-                        		
-                        		
-                        		String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                        		feedbackPage.setRunResultMessage(runResultMessage);
-                        		
-                        		feedbackPage.updateMessageTextArea();
-                        		
-                        		System.out.println("Has Syntax Error or not: " + hasSyntaxError);
-                        		System.out.println("Output or error from Python: " + runResultMessage);
-                        		                        		
-                        	}else {
-                        		feedbackPage.setTextMessageTextArea("The editor window is empty.");
-                        		System.out.println("The editor window is empty");
-                        	}
-                        	
-                        	feedbackPage.setLocationRelativeTo(frame);
-                        	
-                        	feedbackPage.setVisible(true);
-                        	System.out.println("-- The Show Feedback Button is Working --");
+                        public void actionPerformed(ActionEvent e) {
+
+                                String solution = StudentWorkingComponent.getEditAnswerString();
+
+                                if (solution.length() > 0) {
+                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
+                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
+
+                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        feedbackPage.setRunResultMessage(runResultMessage);
+
+                                        feedbackPage.updateMessageTextArea();
+
+                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
+                                        System.out.println("Output or error from Python: " + runResultMessage);
+
+                                } else {
+                                        feedbackPage.setTextMessageTextArea("The editor window is empty.");
+                                        System.out.println("The editor window is empty");
+                                }
+
+                                feedbackPage.setLocationRelativeTo(frame);
+
+                                feedbackPage.setVisible(true);
+                                System.out.println("-- The Show Feedback Button is Working --");
                         }
-                                                                                                                  
+
                 });
         }
 
@@ -273,8 +270,6 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
-        
-        
 
         // Next Question
         private void Button_Item_NextQuestion(JMenuItem button) {
