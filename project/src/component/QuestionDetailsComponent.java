@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import JDBC.Staff.staffQns_T;
+import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 
@@ -59,7 +59,7 @@ public class QuestionDetailsComponent extends Box {
 				.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
 
 		showScorePoint = new JLabel("SCORE POINTS");
-		showScorePoint0 = new JTextArea(markShcemes);
+		showScorePoint0 = new JTextArea("aa");
 
 		// 设置
 		showSolution0.setEditable(false); // 设置不可编辑

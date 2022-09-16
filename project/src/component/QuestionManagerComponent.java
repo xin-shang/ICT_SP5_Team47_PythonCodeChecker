@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.Staff.staffQns_T;
+import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.WriteAndRead;
 import view.PythonQuestionEditPage;
 
@@ -59,6 +59,7 @@ public class QuestionManagerComponent extends Box {
 	public QuestionManagerComponent() {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
+
 		/**
 		 * 组装零件
 		 */
@@ -182,11 +183,8 @@ public class QuestionManagerComponent extends Box {
 				int questionInt = questionTable.getSelectedRow();
 
 				String question = (String) getValueAt_Table(questionInt, 1);
-				System.out.println(question);
 
-				WAR.write2TextFileOutStream("./src/dbData/POST/dbQuestion_POST.txt", question);
-
-				WAR.run_python_code("./src/pythonDB/PYDb_deleteQuestion.py");
+				DIO.deleteQuestion(question);
 				tableModel.removeRow(getSelectedRow());
 
 				System.out.println("-- The Delete Manu Button is Working --");
@@ -213,8 +211,8 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
-				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent()); 
-				
+				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+
 				System.out.println("-- The Show Button is Working --");
 			}
 		});

@@ -12,7 +12,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.Staff.keywordAlternative_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
 import view.PythonQuestionEditPage;
 

@@ -1,21 +1,10 @@
-package JDBC.Login.STAFF;
+package JDBC.Login;
 
 import java.sql.ResultSet;
 
-import JDBC.PythonCodeChecker_db;
+import JDBC.dbConnection.PythonCodeChecker_db;
 
-public class staffLogin_T extends PythonCodeChecker_db {
-
-    static String Username_exit;
-
-    public staffLogin_T() {
-        Username_exit = null;
-
-    }
-
-    public static String getUsername_exit() {
-        return Username_exit;
-    }
+public class student_T extends PythonCodeChecker_db {
 
     // return 1, when userid correct,
     // return 2, when both correct,
@@ -25,7 +14,7 @@ public class staffLogin_T extends PythonCodeChecker_db {
             String userID = "";
             String password = "";
             connectDB();
-            String sql = "SELECT user_id, password FROM staff WHERE user_id = ?";
+            String sql = "SELECT user_id, password FROM student WHERE user_id = ?";
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, userID_u);
             PreStmt.executeQuery();
@@ -42,7 +31,6 @@ public class staffLogin_T extends PythonCodeChecker_db {
             } else if (!userID.equals(userID_u) && !password.equals(Password_u)) {
                 return 0;
             } else {
-                Username_exit = userID_u;
                 return 2;
             }
         } catch (Exception e) {

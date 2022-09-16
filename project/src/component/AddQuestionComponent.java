@@ -18,12 +18,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.WriteAndRead;
-import methodAndTool.staffQns;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
+
+        staffQns_T DIO = new staffQns_T();
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
         JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
@@ -55,7 +57,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 设置窗口内容
                  */
                 //
-                newID = new JLabel("Add a New Question ID:" + (staffQns.getDblength() + 1));
+                newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
@@ -75,7 +77,6 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                
                 newAnswer = new JLabel("Please Write down Answer of Question");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
@@ -218,10 +219,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                         String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                         newAnswer0.setText(answer);
 
-                                        staffQns.PostNewQuestionString();
-                                        staffQns.PostNewSolutionString();
-                                        staffQns.PostNewAnswerString();
-                                        WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
+                                        DIO.insertQuestion(this.getNewQuestionString(), this.getNewSolutionString(),
+                                                        answer);
+
                                         getScorePointStringList();
                                         JOptionPane.showMessageDialog(this, "Upload Successful");
                                 }
@@ -271,18 +271,18 @@ public class AddQuestionComponent extends Box implements ActionListener {
         // String newAnswerString = newAnswer0.getText().trim();
 
         // Get New Questions 获取新问题
-        public static String getNewQuestionString() {
+        public String getNewQuestionString() {
                 String newQuestionString = newQuestion0.getText().trim();
                 return newQuestionString;
         }
 
         // Get New Solution 获取新解决方案
-        public static String getNewSolutionString() {
+        public String getNewSolutionString() {
                 String newSolutionString = newSolution0.getText().trim();
                 return newSolutionString;
         }
 
-        public static String getNewAnswerString() {
+        public String getNewAnswerString() {
                 String newAnswerString = newAnswer0.getText().trim();
                 return newAnswerString;
         }
@@ -307,20 +307,19 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         // Push score list to db
         public void getScorePointStringList() {
+
                 for (int i = 0; i < getScorePointRowCount(); i++) {
+                        Object keyword;
+                        Object score;
                         for (int j = 0; j < getScorePointColumnCount(); j++) {
                                 if (j == 1) {
-                                        Object keyword = getValueAt(i, j);
-                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbKeyWord_POST.txt",
-                                                        keyword.toString());
+                                        keyword = getValueAt(i, j);
                                 } else if (j == 2) {
-                                        Object score = getValueAt(i, j);
-                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
-                                                        score.toString());
+                                        score = getValueAt(i, j);
                                 }
 
                         }
-                        WAR.run_python_code("./src/pythonDB/PYDb_addMarkScheme.py");
+
                 }
         }
 

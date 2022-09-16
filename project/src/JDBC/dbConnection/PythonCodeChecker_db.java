@@ -1,16 +1,18 @@
-package JDBC;
+package JDBC.dbConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class PythonCodeChecker_db {
 
     protected Connection conn = null;
-    Statement stmt = null;
-    String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
+    protected Statement stmt = null;
     protected PreparedStatement PreStmt = null;
+    protected ResultSet res = null;
+    String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
 
     public void connectDB() {
         try {

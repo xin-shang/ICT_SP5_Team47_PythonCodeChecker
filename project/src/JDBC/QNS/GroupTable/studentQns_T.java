@@ -1,11 +1,10 @@
-package JDBC.Student;
+package JDBC.QNS.GroupTable;
 
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import JDBC.Qns_T;
 import methodAndTool.QnS;
 
 public class studentQns_T extends Qns_T {

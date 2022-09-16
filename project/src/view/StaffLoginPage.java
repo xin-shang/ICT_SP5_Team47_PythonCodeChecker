@@ -12,13 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import JDBC.Login.STAFF.staffLogin_T;
+import JDBC.Login.staff_T;
 import methodAndTool.ScreenUtils;
 
 public class StaffLoginPage extends LoginPage {
 
 	JFrame frame = new JFrame("Python Code Chacker - Staff Login Page");
-	staffLogin_T SL = new staffLogin_T();
+	staff_T SL = new staff_T();
 
 	// 初始化，组装界面
 	public void init() {

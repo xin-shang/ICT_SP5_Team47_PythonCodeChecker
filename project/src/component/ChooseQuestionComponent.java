@@ -16,7 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.Student.studentQns_T;
+import JDBC.QNS.GroupTable.studentQns_T;
 import methodAndTool.WriteAndRead;
 import view.PythonCodeChackerPage;
 

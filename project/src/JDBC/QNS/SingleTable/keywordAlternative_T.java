@@ -1,16 +1,14 @@
-package JDBC.Staff;
+package JDBC.QNS.SingleTable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class keywordAlternative_T {
-    Connection conn = null;
-    Statement stmt = null;
-    String URL = "jdbc:sqlite:./src/sqlite/PYCodeChecker.db";
+import JDBC.dbConnection.PythonCodeChecker_db;
+
+public class keywordAlternative_T extends PythonCodeChecker_db {
+
     static int dblength;
     Map<Integer, String> keyWordsList;
 
@@ -18,16 +16,14 @@ public class keywordAlternative_T {
         keyWordsList = getKeywordsList();
     }
 
+    // get table list
     private Map<Integer, String> getKeywordsList() {
         Map<Integer, String> keyWords = new LinkedHashMap<>();
         try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection(URL);
-            // System.out.println("Opened database successfully!");
+            connectDB();
             String sql = "select rowid, * From keywordAlternative";
             stmt = (Statement) conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);
-            System.out.println("Results:");
 
             int num = 0;
             while (res.next()) {
@@ -37,8 +33,7 @@ public class keywordAlternative_T {
             dblength = num;
 
             stmt.close();
-            conn.close();
-
+            disConnectDB();
             return keyWords;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());
@@ -48,20 +43,20 @@ public class keywordAlternative_T {
 
     }
 
-    public Object getData(int x, int y) {
-        if (x > dblength) {
+    public Object getData(int y, int x) {
+        if (y > dblength) {
             System.out.println("column is out of index");
             return null;
         }
-        if (y > 3) {
+        if (x > 3) {
             System.out.println("row is out of index");
             return null;
         }
-        if (y == 0) {
-            return x;
-        } else if (y == 1) {
-            return keyWordsList.get(x + 1);
-        } else if (y == 2) {
+        if (x == 0) {
+            return y;
+        } else if (x == 1) {
+            return keyWordsList.get(y + 1);
+        } else if (x == 2) {
             return 0;
         } else {
             return null;
