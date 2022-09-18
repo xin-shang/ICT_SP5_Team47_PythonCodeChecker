@@ -140,15 +140,21 @@ public class SignupPage extends LoginPage {
                     return;
                 }
 
+                //define the rule for the password
+                //at least one number
+                //at least one lower case letter and one upper case letter
+                //password length must be between 8-20 characters
                 String regex = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=\\S+$).{8,20}$";
 
                 Pattern p = Pattern.compile(regex);
 
+                //valid the password
                 Matcher m = p.matcher(getUserPasswardString());
 
+                //if password does not match the rule
                 if(!m.matches()){
                     JOptionPane.showMessageDialog(frame, 
-                        "Failed!!! The password must be set according to the following rules:\n 1. at least one lower case letter and one upper case letter\n 2. at least one number\n 3. password length must be between 8-20 characters");
+                        "Failed!!!\nThe password must be set according to the following rules:\n 1. at least one lower case letter and one upper case letter\n 2. at least one number\n 3. password length must be between 8-20 characters");
                     return;
                 }
 
