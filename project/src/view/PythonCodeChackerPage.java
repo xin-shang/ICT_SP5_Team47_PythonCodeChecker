@@ -168,15 +168,6 @@ public class PythonCodeChackerPage {
                                         e1.printStackTrace();
                                 }
                                 WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYSubmitCode.py");
-
-                                String Score = WAR.readText("./src/txt/PyCodeScore.txt");
-
-                                System.out.println("your score is: " + Score);
-
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
 
                                 System.out.println("Button is Working! Submit Answer Code");
                                 System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
@@ -193,20 +184,10 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 //
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                } catch (IOException e1) {
-
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYRunCode.py");
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
+                                String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
+                                WAR.checkSolutionSytaxError(pyCodeSolution);
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
                                 System.out.println("-- The Run Code Button is Working --");
                         }
                 });

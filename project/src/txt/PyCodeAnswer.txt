@@ -1,1 +1,1 @@
-cccc
+NameError: name 'asdasd' is not defined
