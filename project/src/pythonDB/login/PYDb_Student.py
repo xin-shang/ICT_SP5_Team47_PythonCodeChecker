@@ -83,3 +83,8 @@ def student_bCheckPassword(c,username,password):
 def student_CreateText_inputValue(path, input_string):
     with open(path, "w+",newline="") as output:
         output.write(input_string)
+
+def student_deleteUser(c,user_id):
+    bUserName = student_bCheckUserName(c,user_id)
+    if bUserName == True:
+        c.execute('''DELETE from student where user_id = ?''',(user_id,))

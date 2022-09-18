@@ -23,10 +23,9 @@ if __name__ == '__main__':
     #create a cursor
     c = conn.cursor()
     
-
+    c.fetchone
     #打印检查
-    KeywordAl_printAll(c)
-
+    staff_printAll(c)
 
 
     #打印

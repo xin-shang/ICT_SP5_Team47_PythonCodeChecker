@@ -52,14 +52,20 @@ def KeywordAl_getID(c,keyword):
     return id
 
 
+
+
+
 def KeywordAl_getKeyword(c,id):
-    keyword = ""
-    c.execute("SELECT rowid, * FROM " + markTableAL)
-    items = c.fetchall()    
-    for item in items:
-        if item[0] == id:
-            keyword = item[1]
-    return keyword
+    c.execute('''SELECT keywordAlternative.keywords from keywordAlternative where rowid = ?''',(id,))
+    item = c.fetchone()
+    return item[0]
+    
+    
+    
+
+
+
+
 
         
 def KeywordAl_bcheckKeyword(c,keyword):
