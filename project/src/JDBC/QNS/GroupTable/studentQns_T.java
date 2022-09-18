@@ -17,6 +17,10 @@ public class studentQns_T extends Qns_T {
         qnsDB = getStudentQns();
     }
 
+    public List<QnS> getQNS() {
+        return this.qnsDB;
+    }
+
     private List<QnS> getStudentQns() {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {

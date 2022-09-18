@@ -24,6 +24,10 @@ public class staffQns_T extends Qns_T {
         System.out.println(dblength);
     }
 
+    public List<QnS> getQNS() {
+        return this.qnsDB;
+    }
+
     private List<QnS> getStaffQns(String staffID) {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -18,6 +19,7 @@ import javax.swing.table.TableColumn;
 
 import JDBC.QNS.GroupTable.studentQns_T;
 import methodAndTool.WriteAndRead;
+import methodAndTool.markScheme;
 import view.PythonCodeChackerPage;
 
 public class ChooseQuestionComponent extends Box {
@@ -107,6 +109,18 @@ public class ChooseQuestionComponent extends Box {
 
 		this.add(scrollPane);
 		this.add(buttonStudentPanel, BorderLayout.SOUTH);
+
+	}
+
+	public List<markScheme> getSelectedMarkScheme() {
+		List<markScheme> mk = null;
+
+		int rowIndex = chooseQuestionTable.getSelectedRow();
+
+		String selectedQuestionID = DIO.getQNS().get(rowIndex).getQuestionID();
+
+		mk = DIO.getSelectedMarkScheme(selectedQuestionID);
+		return mk;
 
 	}
 
