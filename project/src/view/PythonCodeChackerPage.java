@@ -153,6 +153,13 @@ public class PythonCodeChackerPage {
                 });
         }
 
+        public boolean detectWhileLoop(String path) {
+                String code = WAR.readText(path);
+                String UPcode = code.toUpperCase();
+                boolean bWHile = UPcode.contains("WHILE");
+                return bWHile;
+        }
+
         // Submit Answer
         private void Button_Item_SubmitAnswer(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
@@ -160,17 +167,13 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                        System.out.println("--Submit Answer Code Button is Working--");
-                                } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
+                                WAR.write2TextFileOutStream("./src/txt/test.txt", pyCodeAnswer);
+
+                                boolean a = detectWhileLoop("./src/txt/test.txt");
+                                System.out.println(a);
 
                                 System.out.println("Button is Working! Submit Answer Code");
-                                System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+                                // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
 
                                 System.out.println("-- The Submit Answer Button is Working --");
                         }
