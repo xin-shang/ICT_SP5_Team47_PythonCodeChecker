@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.studentQns_T;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.ScreenUtils;
@@ -22,6 +23,7 @@ import methodAndTool.WriteAndRead;
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
+        studentQns_T DIO = new studentQns_T();
 
         /**
          * Python Code Checker Page
@@ -168,9 +170,13 @@ public class PythonCodeChackerPage {
                                 // TODO Auto-generated method stub
                                 String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
                                 WAR.write2TextFileOutStream("./src/txt/test.txt", pyCodeAnswer);
+                                // boolean a = detectWhileLoop("./src/txt/test.txt");
 
-                                boolean a = detectWhileLoop("./src/txt/test.txt");
-                                System.out.println(a);
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                String solution = (String) DIO.getData(selectedRow, 2);
+                                System.out.println(solution);
+
+                                // System.out.println(squestion);
 
                                 System.out.println("Button is Working! Submit Answer Code");
                                 // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
@@ -249,20 +255,5 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
-
-        // // Show This Question
-        // private void Button_Item_ShowThisQuestion (JMenuItem button) {
-        // button.addActionListener (new ActionListener() {
-        // @Override
-        // public void actionPerformed (ActionEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("-- The Show This Question Button is Working --");
-        // }
-        // });
-        // }
-
-        /*
-         * 内容获取
-         */
 
 }

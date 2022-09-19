@@ -148,7 +148,7 @@ public class StudentWorkingComponent extends Box {
                 StudentWorkingComponent.questionString = question;
         }
 
-        public String getQusetionString() {
+        public static String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
 

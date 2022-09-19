@@ -3,6 +3,7 @@ package JDBC.Login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import JDBC.QNS.SingleTable.question_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 
 public class student_T extends PythonCodeChecker_db {
@@ -12,6 +13,7 @@ public class student_T extends PythonCodeChecker_db {
     // return 0, when both incorrect
 
     String table = "student";
+    question_T qt = new question_T();
 
     public int checkUserID(String userID_u, String Password_u) {
         try {
