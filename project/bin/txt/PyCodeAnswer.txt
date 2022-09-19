@@ -1,1 +1,1 @@
-cat
+NameError: name 'printsss' is not defined

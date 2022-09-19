@@ -8,14 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import JDBC.Staff.staffQns_T;
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
 import methodAndTool.markScheme;
 
 public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
-	StaffdataIO DIO = new StaffdataIO();
+	staffQns_T DIO = new staffQns_T();
 
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
 
@@ -30,10 +30,8 @@ public class QuestionDetailsComponent extends Box {
 		String question_id = (String) QuestionManagerComponent
 				.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
 
-		int markLength = DIO.getSelectedMarkSchemeY(question_id);
-
 		// list
-		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(markLength);
+		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(question_id);
 
 		String markShcemes = "";
 
@@ -44,11 +42,12 @@ public class QuestionDetailsComponent extends Box {
 
 			markShcemes = markShcemes + keywordid + ", " + keyword + ", " + String.valueOf(score) + "\n";
 		}
+
 		// -----------------------------------------------------------------------------
 
 		showID = new JLabel(
 				"ID: " + question_id);
-		showQuestion = new JLabel(WAR
+		showQuestion = new JLabel(WriteAndRead
 				.readQuestion(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)));
 
 		showSolution = new JLabel("SOLUTION");

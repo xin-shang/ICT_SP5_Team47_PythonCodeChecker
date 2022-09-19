@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
+import methodAndTool.staffQns;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
@@ -43,7 +43,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         Object[][] questionScorePoint = new Object[0][3];
 
         //
-        private Vector titleScorePoint = new Vector(); // Store the title 存储标题
+        private Vector<Object> titleScorePoint = new Vector<Object>(); // Store the title 存储标题
         private static Vector<Vector> dataScorePoint = new Vector<>(); // Store the data 存储数据
 
         public static DefaultTableModel tableModelScorePoint;
@@ -55,7 +55,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 设置窗口内容
                  */
                 //
-                newID = new JLabel("Add a New Question ID:" + (StaffdataIO.getDblength() + 1));
+                newID = new JLabel("Add a New Question ID:" + (staffQns.getDblength() + 1));
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
@@ -75,7 +75,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                //
+                
                 newAnswer = new JLabel("Please Write down Answer of Question");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
@@ -131,7 +131,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 buttonPanel = new JPanel();
                 buttonPanel.setMaximumSize(new Dimension(500, 80));
 
-                createNewQuestion = new JButton("Create New Question");
+                createNewQuestion = new JButton("Submit Question");
                 createNewQuestion.addActionListener(this);
 
                 addScorePoint = new JButton("Add Score Point");
@@ -183,7 +183,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                 // System.out.println(KeywordManagerComponent.getSelectedRow());
 
-                                Vector t = new Vector<>();
+                                Vector<Object> t = new Vector<Object>();
 
                                 for (int j = 0; j < titleScorePoint.size(); j++) {
                                         t.add(KeywordManagerComponent
@@ -203,7 +203,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Create New Question")) {
+                } else if (actionCommand.equals("Submit Question")) {
 
                         if (bcheckUserInputValue() == true) {
                                 String solution = getNewSolutionString();
@@ -215,9 +215,12 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                                         "Your Solution has SyntaxError: " + syntaxError);
                                         newAnswer0.setText(syntaxError);
                                 } else {
-                                        StaffdataIO.PostNewQuestionString();
-                                        StaffdataIO.PostNewSolutionString();
-                                        StaffdataIO.PostNewAnswerString();
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        newAnswer0.setText(answer);
+
+                                        staffQns.PostNewQuestionString();
+                                        staffQns.PostNewSolutionString();
+                                        staffQns.PostNewAnswerString();
                                         WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
                                         getScorePointStringList();
                                         JOptionPane.showMessageDialog(this, "Upload Successful");
@@ -255,7 +258,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         JOptionPane.showMessageDialog(this, "Please Insert Solution");
                         return false;
                 } else if (bmarkShceme == false && question == true && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
+                        JOptionPane.showMessageDialog(this, "Please Insert Question");
                         return false;
                 } else {
                         return false;
@@ -302,6 +305,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 return dataScorePointColumnCount;
         }
 
+        // Push score list to db
         public void getScorePointStringList() {
                 for (int i = 0; i < getScorePointRowCount(); i++) {
                         for (int j = 0; j < getScorePointColumnCount(); j++) {
@@ -310,7 +314,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                         WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbKeyWord_POST.txt",
                                                         keyword.toString());
                                 } else if (j == 2) {
-                                        Object score = (int) getValueAt(i, j);
+                                        Object score = getValueAt(i, j);
                                         WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
                                                         score.toString());
                                 }

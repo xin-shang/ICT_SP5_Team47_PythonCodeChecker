@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 public class WriteAndRead {
 	// set python command as the system return
 	String pythonName = PV.getPythonName();
-
 	static ProjectVariable PV = new ProjectVariable();
 
 	public boolean creatTxtFile(String name) throws IOException {
@@ -81,16 +80,10 @@ public class WriteAndRead {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-			String value = new String(in.readLine()).toString();
-
-			if (value != null) {
-				System.out.println("Returned Value is : " + value);
-			} else {
-				System.out.println("Returned Value is : empty");
-			}
+			new String(in.readLine()).toString();
 
 		} catch (Exception e) {
-			System.out.println(e);
+			// System.out.println(e);
 		}
 
 	}
@@ -120,7 +113,6 @@ public class WriteAndRead {
 			e1.printStackTrace();
 			return "read text error";
 		}
-
 	}
 
 	// 问题如果太长，直接使用JLabel，没法换行。需要添加<html></html>才能换行。
@@ -155,6 +147,17 @@ public class WriteAndRead {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	// method to transfer string to int
+	public int StringToInt(String string_int) {
+		try {
+			String str = string_int;
+			int number = Integer.parseInt(str);
+			return number;
+		} catch (NumberFormatException ex) {
+			return 0;
 		}
 	}
 }
