@@ -67,6 +67,7 @@ public class ProjectVariable {
 		return "python3";
 	}
 
+	// create an ID base on the user string
 	public String getID(String question, int length) {
 		String id = "";
 		String rowID = Integer.toString(length + 1);

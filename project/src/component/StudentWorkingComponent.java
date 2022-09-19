@@ -29,8 +29,8 @@ public class StudentWorkingComponent extends Box {
         private static JTextArea editArea;
         public static JTextArea terminalArea;
         String[] data;
-        JList numList = new JList<Integer>();
-        DefaultListModel numListModel = new DefaultListModel();
+        JList<Object> numList = new JList<Object>();
+        DefaultListModel<Object> numListModel = new DefaultListModel<Object>();
 
         int num = 1;
         public static String questionString = "<html><p>Are You Ready? Please Choose a Python Code Question: </p></html>";

@@ -168,15 +168,21 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                WAR.write2TextFileOutStream("./src/txt/test.txt", pyCodeAnswer);
-                                // boolean a = detectWhileLoop("./src/txt/test.txt");
+                                String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
 
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                String solution = (String) DIO.getData(selectedRow, 2);
-                                System.out.println(solution);
+                                WAR.write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", pyCodeAnswer);
 
-                                // System.out.println(squestion);
+                                boolean isWHile = detectWhileLoop("./src/txt/PyCodeAnswer.txt");
+
+                                if (isWHile == true) {
+                                        WAR.run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
+                                }
+                                String solution = WAR.readText("./src/txt/PyCodeAnswer.txt");
+
+                                WAR.checkSolutionSytaxError(solution);
+
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
 
                                 System.out.println("Button is Working! Submit Answer Code");
                                 // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
