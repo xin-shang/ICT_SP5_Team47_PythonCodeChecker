@@ -1,6 +1,5 @@
 package methodAndTool;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class keywordAnalysis {
@@ -25,27 +24,29 @@ public class keywordAnalysis {
 
         //false = no syntaxerror
         if(c==false){
+            //mkl loop each markscheme(mk)
             for(markScheme mk: mkl){
             String keyword = mk.getKeyword();
             boolean bcheck = answer.contains(keyword);
                 if(bcheck==true){
 
                     score += mk.getScore();
+                    //delete keyword after checked
                     String deleteKw = answer.replaceFirst(mk.getKeyword(), "");
+
                     answer = deleteKw;
-                    System.out.println(answer);
                 }
                 else{
                     score+=0;
                 }
                 
-                }
-                return score;
             }
-            else{
-                return score;
-            }
+             return score;
         }
+        else{
+            return score;
+        }
+    }
 
 
 }

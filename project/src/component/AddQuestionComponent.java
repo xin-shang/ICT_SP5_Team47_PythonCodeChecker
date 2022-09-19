@@ -319,7 +319,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                         String keyword_s = (String) keyword;
-                        int score_i = (int) score;
+                        String score_string = (String) score;
+                        int score_i = WAR.StringToInt(score_string);
+
 
                         DIO.insertQuestionMarkSheme(getNewQuestionString(), keyword_s, score_i);
 
