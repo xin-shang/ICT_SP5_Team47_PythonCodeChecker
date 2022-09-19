@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -19,11 +21,14 @@ import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
+import methodAndTool.keywordAnalysis;
+import methodAndTool.markScheme;
 
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
         studentQns_T DIO = new studentQns_T();
+        keywordAnalysis KA = new keywordAnalysis();
 
         /**
          * Python Code Checker Page
@@ -167,13 +172,31 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+                                //get student input code
                                 String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
 
                                 WAR.checkSolutionSytaxError(pyCodeAnswer);
+                                
 
                                 String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                 StudentWorkingComponent.terminalArea.setText(answer);
+
+                                //get row index id; 选择question
+                                int y = ChooseQuestionComponent.getSelectedRow();
+                                //get question id；把选择的question id抓出来
+                                String id = (String) DIO.getData(y, 0);
+                               
+                                //select the mark scheme by question id(empty list)
+                                List<markScheme> mkl =  new ArrayList<markScheme>();
+                                //input the marking scheme into 'mkl'
+                                mkl = DIO.getSelectedMarkScheme(id);
+
+                                //System.out.println(mkl.get(0).getScore());
+                                
+                                int score = KA.getKeyWordSocre(pyCodeAnswer, mkl);
+
+                                System.out.println(score);
+                                
 
                                 System.out.println("Button is Working! Submit Answer Code");
                                 // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
