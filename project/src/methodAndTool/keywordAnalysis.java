@@ -12,19 +12,7 @@ public class keywordAnalysis {
 
     public keywordAnalysis(){
 
-        //测试用
-        // String answer = "printsss('cat')";
-
-
-		// markScheme mk = new markScheme("1", "print", 100);
-		// List<markScheme> mkl = new ArrayList<markScheme>();
-		// mkl.add(mk);
-
-		
-
-		// keywordAnalysis ka = new keywordAnalysis();
-		// int score = ka.getKeyWordSocre(answer, mkl);
-		// System.out.println(score);
+      
     }
 
 
@@ -43,12 +31,15 @@ public class keywordAnalysis {
                 if(bcheck==true){
 
                     score += mk.getScore();
+                    String deleteKw = answer.replaceFirst(mk.getKeyword(), "");
+                    answer = deleteKw;
+                    System.out.println(answer);
                 }
                 else{
                     score+=0;
                 }
+                
                 }
-
                 return score;
             }
             else{
