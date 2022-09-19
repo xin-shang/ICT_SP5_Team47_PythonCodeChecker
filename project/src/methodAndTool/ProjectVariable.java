@@ -1,6 +1,8 @@
 package methodAndTool;
 
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ProjectVariable {
 
@@ -63,6 +65,25 @@ public class ProjectVariable {
 			return "python";
 		}
 		return "python3";
+	}
+
+	// create an ID base on the user string
+	public String getID(String question, int length) {
+		String id = "";
+		String rowID = Integer.toString(length + 1);
+		if (question.length() != 0) {
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter myFormatObj_time = DateTimeFormatter.ofPattern("HHmmss");
+
+			String currentTime = now.format(myFormatObj_time);
+			id += question.substring(0, 1) + question.substring(question.length() - 2, question.length() - 1) + rowID
+					+ "_" + currentTime;
+
+			return id;
+		} else {
+			return id;
+		}
+
 	}
 
 }

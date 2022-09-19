@@ -12,13 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import JDBC.Login.STAFF.staffLogin_T;
+import JDBC.Login.staff_T;
 import methodAndTool.ScreenUtils;
 
 public class StaffLoginPage extends LoginPage {
 
 	JFrame frame = new JFrame("Python Code Chacker - Staff Login Page");
-	staffLogin_T SL = new staffLogin_T();
+	staff_T SL = new staff_T();
 
 	// 初始化，组装界面
 	public void init() {
@@ -113,7 +113,6 @@ public class StaffLoginPage extends LoginPage {
 				int busername_password = SL.checkUserID(usernameStaff, passwordStaff);
 
 				if (busername_password == 2) {
-
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
 					new PythonQuestionEditPage().init();

@@ -14,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.studentQns_T;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.ScreenUtils;
@@ -22,6 +23,7 @@ import methodAndTool.WriteAndRead;
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
+        studentQns_T DIO = new studentQns_T();
 
         /**
          * Python Code Checker Page
@@ -153,13 +155,28 @@ public class PythonCodeChackerPage {
                 });
         }
 
+        public boolean detectWhileLoop(String path) {
+                String code = WAR.readText(path);
+                String UPcode = code.toUpperCase();
+                boolean bWHile = UPcode.contains("WHILE");
+                return bWHile;
+        }
+
         // Submit Answer
         private void Button_Item_SubmitAnswer(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                
-                        
+                                // TODO Auto-generated method stub
+                                String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
+
+                                WAR.checkSolutionSytaxError(pyCodeAnswer);
+
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
+
+                                System.out.println("Button is Working! Submit Answer Code");
+                                // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
 
                                 System.out.println("-- The Submit Answer Button is Working --");
                         }
@@ -173,20 +190,10 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 //
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                } catch (IOException e1) {
-
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYRunCode.py");
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
+                                String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
+                                WAR.checkSolutionSytaxError(pyCodeSolution);
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
                                 System.out.println("-- The Run Code Button is Working --");
                         }
                 });
@@ -245,20 +252,5 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
-
-        // // Show This Question
-        // private void Button_Item_ShowThisQuestion (JMenuItem button) {
-        // button.addActionListener (new ActionListener() {
-        // @Override
-        // public void actionPerformed (ActionEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("-- The Show This Question Button is Working --");
-        // }
-        // });
-        // }
-
-        /*
-         * 内容获取
-         */
 
 }

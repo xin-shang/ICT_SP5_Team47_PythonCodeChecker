@@ -7,11 +7,11 @@ public class QuestionText {
 	private String QuestionStems;
 	private String Result;
 
-	public QuestionText(String id, String type, String questionStems, String resule) {
+	public QuestionText(String id, String type, String questionStems, String result) {
 		this.ID = id;
 		this.Type = type;
 		this.QuestionStems = questionStems;
-		this.Result = resule;
+		this.Result = result;
 	}
 
 	public String getID() {
