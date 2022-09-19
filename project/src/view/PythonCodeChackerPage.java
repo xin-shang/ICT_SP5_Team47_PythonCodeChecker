@@ -170,16 +170,7 @@ public class PythonCodeChackerPage {
                                 // TODO Auto-generated method stub
                                 String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
 
-                                WAR.write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", pyCodeAnswer);
-
-                                boolean isWHile = detectWhileLoop("./src/txt/PyCodeAnswer.txt");
-
-                                if (isWHile == true) {
-                                        WAR.run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
-                                }
-                                String solution = WAR.readText("./src/txt/PyCodeAnswer.txt");
-
-                                WAR.checkSolutionSytaxError(solution);
+                                WAR.checkSolutionSytaxError(pyCodeAnswer);
 
                                 String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                 StudentWorkingComponent.terminalArea.setText(answer);
