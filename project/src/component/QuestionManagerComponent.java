@@ -197,6 +197,10 @@ public class QuestionManagerComponent extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
+				setSelectedRow(questionTable.getSelectedRow());
+
+				PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent());
+				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
 
 				System.out.println("-- The Change Manu Button is Working --");
 			}

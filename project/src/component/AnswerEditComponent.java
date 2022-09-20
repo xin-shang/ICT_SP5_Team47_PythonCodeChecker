@@ -35,6 +35,7 @@ public class AnswerEditComponent extends Box {
 
                 editArea = new JTextArea(60, 400);
                 editArea.setLineWrap(true); // 自动换行
+                editArea.setTabSize(1);
                 editArea.setColumns(400);
 
                 box.add(numList);

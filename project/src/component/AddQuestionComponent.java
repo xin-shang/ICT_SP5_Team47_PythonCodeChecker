@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
@@ -37,7 +36,6 @@ public class AddQuestionComponent extends Box implements ActionListener {
         // 表格
         JTable showScorePoint;
 
-        JTextField score;
         JPanel buttonPanel;
         JButton createNewQuestion, addScorePoint, deleteScorePoint;
 
@@ -87,9 +85,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 boxAnswer0.add(scrollPane_Answer0);
 
                 //
-                Box ScorePointLabel = Box.createHorizontalBox();
                 newScorePoint = new JLabel("Please Write down Score Point of Question");
-                ScorePointLabel.add(newScorePoint);
 
                 Box ScorePointTable = Box.createHorizontalBox();
                 /*
@@ -125,8 +121,10 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 /*
                  * _________________________________________________________________________________
                  */
+
                 JScrollPane scrollPane_ScoreTable = new JScrollPane(showScorePoint);
                 ScorePointTable.add(scrollPane_ScoreTable);
+
 
                 //
                 buttonPanel = new JPanel();
@@ -156,7 +154,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 box.add(newAnswer);
                 box.add(boxAnswer0);
                 box.add(Box.createVerticalStrut(10));
-                box.add(ScorePointLabel);
+                box.add(newScorePoint);
                 box.add(ScorePointTable);
 
                 // JScrollPane scrollPane = new JScrollPane(box);
@@ -171,9 +169,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         }
 
-        // /**
-        // * 按钮监听
-        // */
+        /**
+        * 按钮监听
+        */
         @Override
         public void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
@@ -197,14 +195,18 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Delete Score Point")) {
+                } 
+                
+                else if (actionCommand.equals("Delete Score Point")) {
                         try {
                                 tableModelScorePoint.removeRow(showScorePoint.getSelectedRow());
                         } catch (Exception w) {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Submit Question")) {
+                } 
+                
+                else if (actionCommand.equals("Submit Question")) {
 
                         if (bcheckUserInputValue() == true) {
                                 String solution = getNewSolutionString();
