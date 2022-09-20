@@ -176,16 +176,20 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				setSelectedRow(questionTable.getSelectedRow());
-				int questionInt = questionTable.getSelectedRow();
-				String question = (String) getValueAt_Table(questionInt, 1);
-				DIO.deleteQuestion(question);
-				tableModel.removeRow(getSelectedRow());
-
-				// set to selected index 0
-				setSelectedRow(0);
-
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
+					int questionInt = questionTable.getSelectedRow();
+					String question = (String) getValueAt_Table(questionInt, 1);
+					DIO.deleteQuestion(question);
+					tableModel.removeRow(getSelectedRow());
+					
+					// set to selected index 0
+					setSelectedRow(0);
+				} 
+				catch (Exception w) {
+					
+				}
 				System.out.println("-- The Delete Manu Button is Working --");
 			}
 		});
@@ -196,12 +200,16 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				setSelectedRow(questionTable.getSelectedRow());
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
 
-				PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent());
-				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
+					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent());
+					PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
 
+				} catch (Exception w) {
+					
+				}
 				System.out.println("-- The Change Manu Button is Working --");
 			}
 		});
@@ -212,10 +220,13 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				setSelectedRow(questionTable.getSelectedRow());
-				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
-
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
+					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+				} catch (Exception w) {
+					
+				}
 				System.out.println("-- The Show Button is Working --");
 			}
 		});

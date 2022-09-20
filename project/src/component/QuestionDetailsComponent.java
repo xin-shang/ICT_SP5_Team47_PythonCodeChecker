@@ -49,20 +49,15 @@ public class QuestionDetailsComponent extends Box {
 		// -----------------------------------------------------------------------------
 
 		showID = new JLabel("ID: " + question_id);
-
 		showQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10, 10);
 
 		showSolution = new JLabel("SOLUTION");
-
 		showSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20, 10);
 
 		showAnswer = new JLabel("ANSWER");
-		
 		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)), 10, 10);
 
 		showScorePoint = new JLabel("SCORE POINTS");
-		
-		// showScorePoint0 = new JTextArea("");
 
 		// 设置
 		showQuestion0.setEditable(false); // 设置不可编辑
