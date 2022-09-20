@@ -12,12 +12,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import JDBC.Login.student_T;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 
 public class StudentLoginPage extends LoginPage {
 	JFrame frame = new JFrame("Python Code Chacker - Student Login Page");
 	WriteAndRead WAR = new WriteAndRead();
+
+	student_T SL = new student_T();
 
 	// 初始化，组装界面
 	public void init() {
@@ -97,7 +100,6 @@ public class StudentLoginPage extends LoginPage {
 
 		// 窗口可见
 		frame.setVisible(true);
-
 	}
 
 	/**
@@ -112,27 +114,16 @@ public class StudentLoginPage extends LoginPage {
 				String usernameStudent = area_user.getText().trim();
 				String passwordStudent = area_password.getText().trim();
 
-				// 发送用户名和密码去数据库
-				// send username and password to database
-				PostStudent_UserName_passowrd(usernameStudent, passwordStudent);
+				int bUsername_password = SL.checkUserID(usernameStudent, passwordStudent);
 
-				Boolean busernameStudent = getStudent_DbReturn_userName();
-				Boolean bpasswordStudent = getStudent_DbReturn_password();
-
-				if (busernameStudent == true
-						&& bpasswordStudent == true) {
-					// 设置样板问题(python 返回一个样板问题，默认值是第一个问题)
-					// set sample question (python return sample question in txt)
-					WAR.run_python_code("./src/python/PYDb_QnS.py");
-
+				if (bUsername_password == 2) {
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
 					new PythonCodeChackerPage().init();
 					frame.dispose();
 
 					System.out.println("--Go to the Student page - Python Code Chacker--");
-				} else if (busernameStudent == true
-						&& bpasswordStudent == false) {
+				} else if (bUsername_password == 1) {
 					// 账户存在，密码错误
 					// accout exit, password incorrect(message box)
 					JOptionPane.showMessageDialog(frame,
@@ -159,18 +150,5 @@ public class StudentLoginPage extends LoginPage {
 			}
 		});
 	}
-
-	
-
-	/**
-	 * 内容获取
-	 */
-	// public String getUsernameStaff() {
-	// return usernameStudent;
-	// }
-	//
-	// public String getPasswordStaff() {
-	// return passwordStudent;
-	// }
 
 }

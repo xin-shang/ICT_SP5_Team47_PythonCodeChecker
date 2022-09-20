@@ -35,9 +35,9 @@ public class HomePage {
 		/**
 		 * 设置窗口属性
 		 */
-		frame.setLocation((ScreenUtils.getScreenWidth() - SU.getDesignWindow_width()) / 2,
-				(ScreenUtils.getScreenHeight() - SU.getDesignWindow_heigh()) / 2); // 窗口位置
-		frame.setSize(SU.getDesignWindow_width(), SU.getDesignWindow_heigh()); // 设置窗口（宽，高）
+		frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
+				(ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
+		frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
 		try {
 			frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac 好像不太支持这个，Windows
 																								// 咋样要试试。

@@ -16,8 +16,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
 
 public class QuestionManagerComponent extends Box {
@@ -31,7 +31,8 @@ public class QuestionManagerComponent extends Box {
 	 * Python Question Edit Page - QuestionManagerComponent
 	 */
 
-	StaffdataIO DIO = new StaffdataIO();
+	// StaffdataIO DIO = new StaffdataIO();
+	staffQns_T DIO = new staffQns_T();
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameQMC = null;
 
@@ -45,8 +46,8 @@ public class QuestionManagerComponent extends Box {
 	public static DefaultTableModel tableModel;
 
 	// 创建集合 操作集合比操作数组容易
-	private Vector titlesVector_Table = new Vector(); // 存储标题
-	private static Vector<Vector> dataVector_Table = new Vector<>(); // 存储数据
+	private Vector<Object> titlesVector_Table = new Vector<Object>(); // 存储标题
+	private static Vector<Vector<Object>> dataVector_Table = new Vector<>(); // 存储数据
 
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;
@@ -57,6 +58,7 @@ public class QuestionManagerComponent extends Box {
 	public QuestionManagerComponent() {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
+
 		/**
 		 * 组装零件
 		 */
@@ -71,8 +73,8 @@ public class QuestionManagerComponent extends Box {
 			titlesVector_Table.add(titles[i]);
 		}
 		for (int i = 0; i < DIO.getDblength(); i++) {
-			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j <= DIO.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
+			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j < DIO.getRowlength(); j++) { // data[i].length 用来录入每个大数组中子数组的信息
 				t.add(DIO.getData(i, j));
 			}
 			dataVector_Table.add(t); // 依次把第二维加入一维中
@@ -109,8 +111,8 @@ public class QuestionManagerComponent extends Box {
 		// 获取列
 		TableColumn column1 = questionTable.getColumn(titles[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(60);
-		column1.setMinWidth(60);
+		column1.setMaxWidth(90);
+		column1.setMinWidth(90);
 
 		// 隐藏列表"Solution" - titles[3], "Answer" - titles[4], "ScorePoint" - titles[5]
 		hiddenList(2, 0);
@@ -176,16 +178,13 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
-				// int selectedRow = questionTable.getSelectedRow();
 				int questionInt = questionTable.getSelectedRow();
-
 				String question = (String) getValueAt_Table(questionInt, 1);
-				System.out.println(question);
-
-				WAR.write2TextFileOutStream("./src/dbData/POST/dbQuestion_POST.txt", question);
-
-				WAR.run_python_code("./src/pythonDB/PYDb_deleteQuestion.py");
+				DIO.deleteQuestion(question);
 				tableModel.removeRow(getSelectedRow());
+
+				// set to selected index 0
+				setSelectedRow(0);
 
 				System.out.println("-- The Delete Manu Button is Working --");
 			}
@@ -212,6 +211,7 @@ public class QuestionManagerComponent extends Box {
 				//
 				setSelectedRow(questionTable.getSelectedRow());
 				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+
 				System.out.println("-- The Show Button is Working --");
 			}
 		});

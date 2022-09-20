@@ -8,12 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.studentQns_T;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.ScreenUtils;
@@ -22,6 +23,7 @@ import methodAndTool.WriteAndRead;
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
+        studentQns_T DIO = new studentQns_T();
 
         /**
          * Python Code Checker Page
@@ -55,11 +57,11 @@ public class PythonCodeChackerPage {
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
 
+        //Create feedback page dialog
         FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
         // 初始化，组装界面
         public void init() {
-
                 /**
                  * 设置窗口属性
                  */
@@ -124,15 +126,16 @@ public class PythonCodeChackerPage {
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
                 // 窗口可见
-                frame.setVisible(true);
+                
 
-                // Feedback Page Settings
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width() / 2, ScreenUtils.getDesignWindow_heigh() - 50);
+                //Feedback Page Setting
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width()/2, ScreenUtils.getDesignWindow_heigh()-50);
                 feedbackPage.setLocationRelativeTo(frame);
 
                 frame.setVisible(true);
 
         }
+        
 
         /**
          * Button 监听
@@ -162,6 +165,13 @@ public class PythonCodeChackerPage {
                 });
         }
 
+        public boolean detectWhileLoop(String path) {
+                String code = WAR.readText(path);
+                String UPcode = code.toUpperCase();
+                boolean bWHile = UPcode.contains("WHILE");
+                return bWHile;
+        }
+
         // Submit Answer
         private void Button_Item_SubmitAnswer(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
@@ -169,26 +179,17 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                        System.out.println("--Submit Answer Code Button is Working--");
-                                } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYSubmitCode.py");
+                                WAR.write2TextFileOutStream("./src/txt/test.txt", pyCodeAnswer);
+                                // boolean a = detectWhileLoop("./src/txt/test.txt");
 
-                                String Score = WAR.readText("./src/txt/PyCodeScore.txt");
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                String solution = (String) DIO.getData(selectedRow, 2);
+                                System.out.println(solution);
 
-                                System.out.println("your score is: " + Score);
-
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
+                                // System.out.println(squestion);
 
                                 System.out.println("Button is Working! Submit Answer Code");
-                                System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+                                // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
 
                                 System.out.println("-- The Submit Answer Button is Working --");
                         }
@@ -202,20 +203,10 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 //
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                } catch (IOException e1) {
-
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYRunCode.py");
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
+                                String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
+                                WAR.checkSolutionSytaxError(pyCodeSolution);
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
                                 System.out.println("-- The Run Code Button is Working --");
                         }
                 });
@@ -225,15 +216,14 @@ public class PythonCodeChackerPage {
         private void Button_Item_ShowFeedback(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
-
+                        public void actionPerformed(ActionEvent e) {  
                                 String solution = StudentWorkingComponent.getEditAnswerString();
 
-                                if (solution.length() > 0) {
+                                if(solution.length()>0){
                                         boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
                                         feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
 
-                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        String runResultMessage = WAR.readText(".src/txt/PyCodeAnswer.txt");
                                         feedbackPage.setRunResultMessage(runResultMessage);
 
                                         feedbackPage.updateMessageTextArea();
@@ -241,17 +231,17 @@ public class PythonCodeChackerPage {
                                         System.out.println("Has Syntax Error or not: " + hasSyntaxError);
                                         System.out.println("Output or error from Python: " + runResultMessage);
 
-                                } else {
-                                        feedbackPage.setTextMessageTextArea("The editor window is empty.");
-                                        System.out.println("The editor window is empty");
+                                }else{
+                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
+                                        System.out.println("The editor window's empty");
                                 }
-
+                                
+                                //Make the pop up dialog center align to parent window
                                 feedbackPage.setLocationRelativeTo(frame);
-
+                                //Show the feedback dialog
                                 feedbackPage.setVisible(true);
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
-
                 });
         }
 
@@ -297,20 +287,5 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
-
-        // // Show This Question
-        // private void Button_Item_ShowThisQuestion (JMenuItem button) {
-        // button.addActionListener (new ActionListener() {
-        // @Override
-        // public void actionPerformed (ActionEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("-- The Show This Question Button is Working --");
-        // }
-        // });
-        // }
-
-        /*
-         * 内容获取
-         */
 
 }

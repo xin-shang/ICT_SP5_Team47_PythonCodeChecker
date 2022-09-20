@@ -12,8 +12,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
-import methodAndTool.StaffdataIO;
 import view.PythonQuestionEditPage;
 
 public class KeywordManagerComponent extends Box {
@@ -22,23 +22,18 @@ public class KeywordManagerComponent extends Box {
 	 * Python Question Edit Page - KeyWordManagerComponent
 	 */
 
-	StaffdataIO DIO = new StaffdataIO();
 	WriteAndRead WAR = new WriteAndRead();
+	keywordAlternative_T QKC = new keywordAlternative_T();
+
 	// JFrame frameKMC = null;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };
-	Object[][] datas = {
-			{ 1, "print", 1 },
-			{ 2, "while", 5 },
-			{ 3, "try", 2 },
-			{ 4, "catch", 1 },
-	};
 
 	// Creating Collections Manipulating collections is easier than manipulating
 	// arrays 创建集合 操作集合比操作数组容易
-	private Vector title = new Vector(); // Store the title 存储标题
-	private static Vector<Vector> data = new Vector<>(); // Store the data 存储数据
+	private Vector<Object> title = new Vector<Object>(); // Store the title 存储标题
+	private static Vector<Vector<Object>> data = new Vector<>(); // Store the data 存储数据
 	private static int selectedRow = 0;
 	private static int[] selectedRows = {};
 
@@ -68,10 +63,10 @@ public class KeywordManagerComponent extends Box {
 			title.add(titles[i]);
 		}
 
-		for (int i = 0; i < datas.length; i++) {
-			Vector t = new Vector<>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j < datas[i].length; j++) { // data[i].length 用来录入每个大数组中子数组的信息
-				t.add(datas[i][j]);
+		for (int i = 0; i < QKC.getDblength(); i++) {
+			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+			for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
+				t.add(QKC.getData(i, j));
 			}
 			data.add(t); // 依次把第二维加入一维中
 		}

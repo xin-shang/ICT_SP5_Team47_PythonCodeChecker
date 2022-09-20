@@ -16,7 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
-import methodAndTool.WriteAndRead;
 import view.PythonCodeChackerPage;
 
 public class StudentWorkingComponent extends Box {
@@ -29,8 +28,8 @@ public class StudentWorkingComponent extends Box {
         JLabel questionLabel;
         private static JTextArea editArea;
         public static JTextArea terminalArea;
-
-        JList numList = new JList();
+        String[] data;
+        JList numList = new JList<Integer>();
         DefaultListModel numListModel = new DefaultListModel();
 
         int num = 1;
@@ -69,7 +68,7 @@ public class StudentWorkingComponent extends Box {
                 numListModel.clear();
                 numListModel.addElement(1);
                 numList.setModel(numListModel);
-                numList = new JList<Integer>();
+                // numList = new JList<Integer>();
                 numList.setPreferredSize(new Dimension(2, 500));
                 numList.setFixedCellWidth(25);
                 numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
@@ -149,7 +148,7 @@ public class StudentWorkingComponent extends Box {
                 StudentWorkingComponent.questionString = question;
         }
 
-        public String getQusetionString() {
+        public static String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
 

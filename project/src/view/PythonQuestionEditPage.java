@@ -7,11 +7,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.staffQns_T;
 import component.KeywordManagerComponent;
 import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
@@ -20,6 +22,7 @@ import methodAndTool.ScreenUtils;
 public class PythonQuestionEditPage {
 
 	ScreenUtils SU = new ScreenUtils();
+	staffQns_T DIO;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
 	String ArtUser = ScreenUtils.getBlankSpace(54);
@@ -49,6 +52,7 @@ public class PythonQuestionEditPage {
 
 	// 初始化，组装界面
 	public void init() {
+		DIO = new staffQns_T();
 
 		/**
 		 * 设置窗口属性
@@ -100,7 +104,12 @@ public class PythonQuestionEditPage {
 		splitPane.setLeftComponent(new QuestionManagerComponent());
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
-		splitPane.setRightComponent(new QuestionDetailsComponent());
+		if (DIO.getDblength() > 0) {
+			PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+		} else {
+			PythonQuestionEditPage.splitPane.setRightComponent(new JLabel(
+					"There are no Python questions in the question bank. Please add a topic as soon as possible."));
+		}
 
 		//
 		frame.add(splitPane);

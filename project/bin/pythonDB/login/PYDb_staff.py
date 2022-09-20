@@ -88,3 +88,8 @@ def staff_bCheckPassword(c,username,password):
 def staff_CreateText_inputValue(path, input_string):
     with open(path, "w+",newline="") as output:
         output.write(input_string)
+
+def staff_deleteUser(c,user_id):
+    bUserName = staff_bCheckUserName(c,user_id)
+    if bUserName == True:
+        c.execute('''DELETE from staff where user_id = ?''',(user_id,))
