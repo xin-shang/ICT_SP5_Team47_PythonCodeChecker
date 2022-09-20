@@ -216,9 +216,49 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
                 }
         }
 
-        // // 新加的数
-        // private void setNum(int num) {
-        //         this.num = num;
-        // }
+        /**
+         * 内容获取
+         */
+        public String getUpdateQuestionString() {
+                String newQuestionString = cQuestion0.getText().trim();
+                return newQuestionString;
+        }
+
+        // Get New Solution 获取新解决方案
+        public String getUpdateSolutionString() {
+                String newSolutionString = cSolution0.getText().trim();
+                return newSolutionString;
+        }
+
+        public String getUpdateAnswerString() {
+                String newAnswerString = cAnswer0.getText().trim();
+                return newAnswerString;
+        }
+
+        // Getting Number of Row 获取行数
+        public static int getScorePointRowCount() {
+                return cDataScorePoint.size();
+        }
+
+        // Getting Number of Columns 获取列数
+        public static int getScorePointColumnCount() {
+                int dataScorePointColumnCount = cDataScorePoint.firstElement().size();
+                return dataScorePointColumnCount;
+        }
+
+        // 获取指定格子中的数据
+        public static Object getValueAt(int row, int column) {
+                return cDataScorePoint.get(row).get(column);
+        }
+
+        // 通过列表的长度来判断用户是否有输入markScheme 没有：返回False， 有：返回True
+        public boolean bcheckMarkSchemeEmpty() {
+                int rows = cTableModelScorePoint.getRowCount();
+                if (rows > 0) {
+                        return false;
+                } else {
+                        return true;
+                }
+        }
 
 }
