@@ -17,11 +17,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.PlainDocument;
 
 import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
+import methodAndTool.ChangeTabToSpacesFilter;
 
 public class ChangeQuestionComponent extends Box implements ActionListener {
 
@@ -69,6 +71,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 /**
                  * 设置窗口内容
                  */
+                
 
                 // ID
                 cID = new JLabel("Question ID: " + (question_id));
@@ -88,6 +91,9 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 cSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)),
                                 20, 10);
                 cSolution0.setLineWrap(true); // 自动换行
+                int spaceCount = 4;
+                ((PlainDocument) cSolution0.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
 
                 Box boxSolution0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Solution0 = new JScrollPane(cSolution0);

@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import JDBC.Login.staff_T;
@@ -31,8 +32,8 @@ public class SignupPage extends LoginPage {
 
     // define the inputs
     JTextField username = new JTextField(15);
-    JTextField password = new JTextField(15);
-    JTextField confirmPassword = new JTextField(15);
+    JPasswordField password = new JPasswordField(15);
+    JPasswordField confirmPassword = new JPasswordField(15);
 
     // define usertype selector
     JComboBox<String> userType = new JComboBox<String>(new String[] { "student", "staff" });
@@ -207,7 +208,7 @@ public class SignupPage extends LoginPage {
     }
 
     private String getUserPasswardString() {
-        return password.getText();
+        return new String(password.getPassword());
     }
 
     private String getUserTypeString() {
@@ -215,7 +216,7 @@ public class SignupPage extends LoginPage {
     }
 
     private String getConfirmPasswordString() {
-        return confirmPassword.getText();
+        return new String(confirmPassword.getPassword());
     }
 
     private Boolean bConfirmPasswords() {

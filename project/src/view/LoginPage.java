@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import methodAndTool.ScreenUtils;
@@ -23,7 +24,8 @@ public class LoginPage {
 	JLabel prompt_user = new JLabel("User Name :");
 	JLabel prompt_password = new JLabel(" Password  :");
 	JTextField area_user = new JTextField(15);
-	JTextField area_password = new JTextField(15);
+	// JTextField area_password = new JTextField(15);
+	JPasswordField area_password = new JPasswordField(15);
 	JButton button_login = new JButton("Log In");
 	JButton button_signin = new JButton("Sign In");
 	JButton button_retuen = new JButton("Return");
@@ -42,69 +44,6 @@ public class LoginPage {
 				System.out.println("-- The Login Button is Working --");
 			}
 		});
-	}
-
-	/**
-	 * 前端发送用户名和密码给后端
-	 * 后端返回用户名和密码布尔值
-	 * Student Page：student/student
-	 * Staff Page： staff/staff
-	 */
-	public void PostStudent_UserName_passowrd(String username, String password) {
-		// 写入用户数据
-		// java write data for python to read
-		WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserName.txt", username);
-		WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserPassword.txt", password);
-
-		// python 阅读 用户数据
-		// python read data from java
-		WAR.run_python_code("./src/pythonDB/PYDb_StudentLogin.py");
-	}
-
-	/**
-	 * 获取数据库返回的用户名布尔值
-	 * get boolean for username from database
-	 */
-	public boolean getStudent_DbReturn_userName() {
-		String busernameStudent = WAR.readText("./src/dbData/LOGIN/STUDENT/StudentUserName.txt");
-		if (busernameStudent.equals("True"))
-			return true;
-		return false;
-	}
-
-	/**
-	 * 获取数据库返回的密码布尔值
-	 * get boolean for password from database
-	 */
-	public boolean getStudent_DbReturn_password() {
-		String bpasswordStudent = WAR.readText("./src/dbData/LOGIN/STUDENT/StudentUserPassword.txt");
-		if (bpasswordStudent.equals("True"))
-			return true;
-		return false;
-	}
-
-	public void PostStaff_UserName_passowrd(String username, String password) {
-		// 写入用户数据
-		// java write data for python to read
-		WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffUserName.txt", username);
-		WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffPassword.txt", password);
-		// python 阅读 用户数据
-		// python read data from java
-		WAR.run_python_code("./src/pythonDB/PYDb_staffLogin.py");
-	}
-
-	public boolean getStaff_DbReturn_userName() {
-		String busernameStudent = WAR.readText("./src/dbData/LOGIN/STAFF/StaffUserName.txt");
-		if (busernameStudent.equals("True"))
-			return true;
-		return false;
-	}
-
-	public boolean getStaff_DbReturn_password() {
-		String bpasswordStudent = WAR.readText("./src/dbData/LOGIN/STAFF/StaffPassword.txt");
-		if (bpasswordStudent.equals("True"))
-			return true;
-		return false;
 	}
 
 }

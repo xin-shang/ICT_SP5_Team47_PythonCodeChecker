@@ -7,18 +7,22 @@ import java.awt.Dimension;
 import java.awt.*;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ChangeTabToSpacesFilter;
 import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.Element;
+import javax.swing.text.PlainDocument;
 
 public class StudentWorkingComponent extends Box {
 
@@ -40,9 +44,11 @@ public class StudentWorkingComponent extends Box {
         JButton buttonRunCode = new JButton("Run Code");
         JButton buttonShowFeedback = new JButton("Show Feedback");
         private static JTextArea editArea;
-        public static JTextArea terminalArea;
 
+        public static JTextArea terminalArea;
         String[] data;
+        JList<Integer> numList = new JList<Integer>(); // 改好了
+        DefaultListModel<Integer> numListModel = new DefaultListModel<Integer>();
 
         int num = 1;
         public static String questionString = "<html><p>Are You Ready? Please Choose a Python Code Question: </p></html>";
@@ -81,11 +87,22 @@ public class StudentWorkingComponent extends Box {
                 //
                 midBox = Box.createHorizontalBox();
 
+                numListModel.clear();
+                numListModel.addElement(1);
+                numList.setModel(numListModel);
+                numList = new JList<Integer>(); // 之前数字列不出现，这行被备注了。
+                numList.setPreferredSize(new Dimension(2, 500));
+                numList.setFixedCellWidth(25);
+                numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
+                numListScrollPane = new JScrollPane(numList);
+                numListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
                 editArea = new JTextArea();
+                int spaceCount = 4;
+                ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
                 // editArea.setPreferredSize(new Dimension(700, 500));
-
-                editArea.setLineWrap(true); // 自动换行
-
+                editArea.setTabSize(1);
                 editArea.setFont(myFont2);
                 lines.setFont(myFont2);
 
@@ -119,6 +136,7 @@ public class StudentWorkingComponent extends Box {
                 editScrollPane.getViewport().add(editArea);
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.setPreferredSize(new Dimension(700, 500));
+                // midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
 
                 this.add(midBox);
@@ -187,13 +205,5 @@ public class StudentWorkingComponent extends Box {
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
-
-        // public static String getTerminalString() {
-        // return terminalArea.getText();
-        // }
-
-        // public static void setTerminalString(String userOutput) {
-        // StudentWorkingComponent.terminalArea.setText(userOutput);
-        // }
 
 }

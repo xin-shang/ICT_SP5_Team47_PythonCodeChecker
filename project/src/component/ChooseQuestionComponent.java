@@ -29,7 +29,6 @@ public class ChooseQuestionComponent extends Box {
 	 * Python Code Checker Page - ChooseQuestionComponent
 	 */
 	// 创建一维数组，存储标题
-
 	Object[] titlesChooseQuestion = { "QuestionID", "Question-Stems" };
 
 	// 表格
@@ -54,18 +53,15 @@ public class ChooseQuestionComponent extends Box {
 		 */
 		// 清空原有数据，保证列表中无内容
 		dataChooseQuestion_Table.clear();
-		titlesChooseQuestion_Table.clear();
 
 		// 写入数据
-		System.out.println(DIO.getRowlength());
-
 		for (int i = 0; i < titlesChooseQuestion.length; i++) {
 			titlesChooseQuestion_Table.add(titlesChooseQuestion[i]);
 		}
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
-			for (int j = 0; j < DIO.getRowlength() - 2; j++) {
+			for (int j = 0; j < DIO.getRowlength(); j++) {
 				t.add(DIO.getData(i, j));
 			}
 			dataChooseQuestion_Table.add(t);
@@ -90,16 +86,12 @@ public class ChooseQuestionComponent extends Box {
 		// 获取列
 		TableColumn column1 = chooseQuestionTable.getColumn(titlesChooseQuestion[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(90);
-		column1.setMinWidth(90);
+		column1.setMaxWidth(50);
+		column1.setMinWidth(50);
 
 		// 获取列
-		TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
-		// 设置列宽
-		column2.setMaxWidth(0);
-		column2.setMinWidth(0);
-		column2.setWidth(0);
-		column2.setPreferredWidth(0);
+		// TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
+		
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);

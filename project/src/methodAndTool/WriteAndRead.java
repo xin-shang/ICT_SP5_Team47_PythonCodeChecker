@@ -150,7 +150,7 @@ public class WriteAndRead {
 		boolean bdetectWhileLoop = detectWhileLoop(solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
 		if (bdetectWhileLoop == true) {
-			run_python_code("./src/python/PYQnsDetectWhile.py");
+			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
 		}
 		run_python_code("./src/python/PYRunPythonCode.py");
 		String errorResult = readText("./src/txt/sytaxError_b.txt");
