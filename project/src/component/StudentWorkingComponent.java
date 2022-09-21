@@ -9,8 +9,10 @@ import java.awt.event.KeyEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
@@ -23,14 +25,24 @@ public class StudentWorkingComponent extends Box {
         /**
          * 
         */
+        PythonCodeChackerPage PCCP = new PythonCodeChackerPage();
+
+        /**
+         * 
+        */
         Box box, midBox, topBox, downBox, editBox, lastBox;
         JScrollPane numListScrollPane, editScrollPane, terminalScrollPane;
         JLabel questionLabel;
+        // 设置按钮
+        JPanel studnetButtonPanel;
+	JButton buttonSubmitAnswer = new JButton("Submit Answer");
+        JButton buttonRunCode = new JButton("Run Code");
+        JButton buttonShowFeedback = new JButton("Show Feedback");
         private static JTextArea editArea;
         public static JTextArea terminalArea;
         String[] data;
-        JList<Object> numList = new JList<Object>();
-        DefaultListModel<Object> numListModel = new DefaultListModel<Object>();
+        JList<Integer> numList = new JList<Integer>(); // 改好了
+        DefaultListModel<Integer> numListModel = new DefaultListModel<Integer>();
 
         int num = 1;
         public static String questionString = "<html><p>Are You Ready? Please Choose a Python Code Question: </p></html>";
@@ -68,7 +80,7 @@ public class StudentWorkingComponent extends Box {
                 numListModel.clear();
                 numListModel.addElement(1);
                 numList.setModel(numListModel);
-                // numList = new JList<Integer>();
+                numList = new JList<Integer>(); // 之前数字列不出现，这行被备注了。
                 numList.setPreferredSize(new Dimension(2, 500));
                 numList.setFixedCellWidth(25);
                 numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
@@ -130,6 +142,20 @@ public class StudentWorkingComponent extends Box {
                 lastBox.add(box);
 
                 this.add(lastBox);
+
+                // 按键栏
+                studnetButtonPanel = new JPanel();
+		studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+
+                PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
+                PCCP.Button_Item_RunCode(buttonRunCode);
+                PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
+
+                studnetButtonPanel.add(buttonSubmitAnswer);
+		studnetButtonPanel.add(buttonRunCode);
+		studnetButtonPanel.add(buttonShowFeedback);
+
+                this.add(studnetButtonPanel, BorderLayout.SOUTH);
 
         }
 
