@@ -1,3 +1,4 @@
+from ast import While
 import string
 
 def TA_readText(Text_path):
@@ -46,7 +47,7 @@ def reWriteString(stringCode_List):
                 line = "import time" + "\n" + "start_time = time.time()" + "\n" + writeText() + "\n" + line 
             else:
                 line = line + "\n" + "import time" + "\n" + "start_time = time.time()" + "\n" + writeText()
-        elif "while" in line:
+        elif "while" in line or "for" in line :
             index = line.find("while")
             count = 0
             for i in range(0,index):
