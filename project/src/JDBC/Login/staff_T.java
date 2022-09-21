@@ -3,13 +3,15 @@ package JDBC.Login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+
 import JDBC.dbConnection.PythonCodeChecker_db;
 
 public class staff_T extends PythonCodeChecker_db {
 
     static String Username_exit;
-
     String table = "staff";
+    JFrame frame = new JFrame();
 
     public staff_T() {
         Username_exit = null;

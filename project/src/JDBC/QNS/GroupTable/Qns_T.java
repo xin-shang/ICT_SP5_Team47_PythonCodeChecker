@@ -52,4 +52,9 @@ public class Qns_T extends PythonCodeChecker_db {
             return null;
         }
     }
+
+    public String getQuestionID(String question) {
+        String questionID = qt.getQuestionID(question);
+        return questionID;
+    }
 }

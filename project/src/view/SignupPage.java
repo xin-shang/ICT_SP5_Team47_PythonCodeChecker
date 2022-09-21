@@ -166,11 +166,20 @@ public class SignupPage extends LoginPage {
 
                 if (bConfirmPasswords() == true) {
                     if (getUserTypeString().equals("student")) {
-                        student.inserRows(getUserNameString(), getUserPasswardString());
-                        JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                        boolean bCheckAcountExit = student.inserRows(getUserNameString(), getUserPasswardString());
+                        if (bCheckAcountExit == true) {
+                            JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Username Eixt!!");
+                        }
+
                     } else {
-                        staff.inserRows(getUserNameString(), getUserPasswardString());
-                        JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                        boolean bCheckAcountExit = staff.inserRows(getUserNameString(), getUserPasswardString());
+                        if (bCheckAcountExit == true) {
+                            JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Username Eixt!!");
+                        }
                     }
 
                 } else {

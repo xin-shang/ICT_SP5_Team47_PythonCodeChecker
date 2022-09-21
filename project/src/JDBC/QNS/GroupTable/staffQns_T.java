@@ -63,13 +63,16 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public void insertQuestion(String question, String solution, String answer) {
+    public boolean insertQuestion(String question, String solution, String answer) {
         String user_id = staff_T.getUsername();
         if (user_id != null) {
             qt.inserRows(user_id, question);
             String qs_id = qt.getQuestionID(question);
             sl.inserRows(qs_id, solution, answer);
             System.out.println("insert question successful");
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -22,14 +22,15 @@ import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 
-public class ChangeQuestionComponent extends Box implements ActionListener{
+public class ChangeQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
-	staffQns_T DIO = new staffQns_T();
+        staffQns_T DIO = new staffQns_T();
 
         // int num = 0;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
+        String question_id;
         JLabel cID, cQuestion, cSolution, cAnswer, cScorePoint;
         static JTextArea cQuestion0;
         static JTextArea cSolution0;
@@ -50,13 +51,19 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
 
         public static DefaultTableModel cTableModelScorePoint;
 
+        // value to compare
+        final String question_before;
+        final String solution_before;
+        final List<markScheme> markSchemeList_before;
+
         public ChangeQuestionComponent() {
 
                 super(BoxLayout.Y_AXIS);
 
-                String question_id = (String) QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
+                question_id = (String) QuestionManagerComponent
+                                .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
                 List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(question_id);
-                
+
                 /**
                  * 设置窗口内容
                  */
@@ -66,7 +73,8 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
 
                 // 问题
                 cQuestion = new JLabel("Question Stem: ");
-                cQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10, 10);
+                cQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)),
+                                10, 10);
                 cQuestion0.setLineWrap(true); // 自动换行
 
                 Box boxQuestion0 = Box.createHorizontalBox();
@@ -75,7 +83,8 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
 
                 // 解决方法
                 cSolution = new JLabel("Solution of Question: ");
-                cSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20, 10);
+                cSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)),
+                                20, 10);
                 cSolution0.setLineWrap(true); // 自动换行
 
                 Box boxSolution0 = Box.createHorizontalBox();
@@ -84,7 +93,10 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
 
                 // 答案
                 cAnswer = new JLabel("Answer of Question: ");
-                cAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)), 10, 10);
+                cAnswer0 = new JTextArea(
+                                WAR.readString(QuestionManagerComponent
+                                                .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
+                                10, 10);
                 cAnswer0.setLineWrap(true); // 自动换行
                 cAnswer0.setEditable(false);
 
@@ -104,19 +116,19 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
                 }
 
                 for (int i = 0; i < markSchemeList.size(); i++) {
-			Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
-			for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
-				if (j == 0) {
-					t.add(i + 1);
-				} else if (j == 1) {
-					t.add(markSchemeList.get(i).getKeyword());
-				} else if (j == 2) {
-					t.add(markSchemeList.get(i).getScore());
-				}
+                        Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+                        for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
+                                if (j == 0) {
+                                        t.add(i + 1);
+                                } else if (j == 1) {
+                                        t.add(markSchemeList.get(i).getKeyword());
+                                } else if (j == 2) {
+                                        t.add(markSchemeList.get(i).getScore());
+                                }
 
-			}
-			cDataScorePoint.add(t); // 依次把第二维加入一维中
-		}
+                        }
+                        cDataScorePoint.add(t); // 依次把第二维加入一维中
+                }
 
                 // 整合
                 cTableModelScorePoint = new DefaultTableModel(cDataScorePoint, cTitleScorePoint);
@@ -173,25 +185,30 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
 
                 this.add(box);
                 this.add(buttonPanel, BorderLayout.SOUTH);
-        
+
+                question_before = cQuestion0.getText().trim();
+                solution_before = cSolution0.getText().trim();
+                markSchemeList_before = markSchemeList;
         }
 
         /**
-        * 按钮监听ActionEvent e
-        */
+         * 按钮监听ActionEvent e
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
-                
+
                 String actionCommand = e.getActionCommand();
-                
+
                 if (actionCommand.equals("Add Score Point")) {
                         try {
-                                KeywordManagerComponent.setSelectedRow(KeywordManagerComponent.keywordTable.getSelectedRow());
+                                KeywordManagerComponent
+                                                .setSelectedRow(KeywordManagerComponent.keywordTable.getSelectedRow());
 
                                 Vector<Object> t = new Vector<Object>();
 
                                 for (int j = 0; j < cTitleScorePoint.size(); j++) {
-                                        t.add(KeywordManagerComponent.getValueAt_Table(KeywordManagerComponent.getSelectedRow(), j));
+                                        t.add(KeywordManagerComponent
+                                                        .getValueAt_Table(KeywordManagerComponent.getSelectedRow(), j));
                                 }
                                 cTableModelScorePoint.addRow(t);
 
@@ -212,8 +229,18 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
                 }
 
                 else if (actionCommand.equals("Update Question")) {
+                        System.out.println(question_before);
+                }
+        }
+
+        public void ComfirmeChangedValue() {
+                if (!this.question_before.equals(getUpdateQuestionString())) {
 
                 }
+                if (!this.solution_before.equals(getUpdateSolutionString())) {
+
+                }
+
         }
 
         /**
@@ -222,6 +249,10 @@ public class ChangeQuestionComponent extends Box implements ActionListener{
         public String getUpdateQuestionString() {
                 String newQuestionString = cQuestion0.getText().trim();
                 return newQuestionString;
+        }
+
+        public String getUpdateQuestionID() {
+                return this.question_id;
         }
 
         // Get New Solution 获取新解决方案
