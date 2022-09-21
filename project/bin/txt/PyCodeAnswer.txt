@@ -1,1 +1,1 @@
-dog
+SyntaxError: invalid syntax
