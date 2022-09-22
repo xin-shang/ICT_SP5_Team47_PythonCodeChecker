@@ -199,24 +199,6 @@ public class StudentWorkingComponent extends Box {
                 return StudentWorkingComponent.questionString;
         }
 
-        private void setNum(int num) {
-                this.num = num;
-        }
-
-        private int getNum() {
-                return this.num;
-        }
-
-        private void addItem() {
-                numListModel.addElement(getNum());
-                numList.setModel(numListModel);
-        }
-
-        private void deleteItem() {
-                numListModel.remove(getNum());
-                numList.setModel(numListModel);
-        }
-
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
