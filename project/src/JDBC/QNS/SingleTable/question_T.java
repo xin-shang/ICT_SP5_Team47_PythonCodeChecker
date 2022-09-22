@@ -32,6 +32,25 @@ public class question_T extends STable_P {
         }
     }
 
+    public boolean inserRows(String id, String user_id, String question) {
+        try {
+            connectDB();
+            String sql = "INSERT INTO " + table + " VALUES(?,?,?)";
+            PreStmt = conn.prepareStatement(sql);
+            // insert value
+            PreStmt.setString(1, id);
+            PreStmt.setString(2, user_id);
+            PreStmt.setString(3, question);
+            PreStmt.executeUpdate();
+            PreStmt.close();
+            disConnectDB();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
     public boolean deletRows(String id) {
         try {
             connectDB();

@@ -23,7 +23,6 @@ public class AnswerEditComponent extends Box {
         JList<String> numList;
 
         JScrollPane editScrollPane;
-
         int num = 0;
 
         public AnswerEditComponent() {

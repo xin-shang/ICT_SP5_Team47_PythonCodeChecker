@@ -57,7 +57,7 @@ public class keywordAlternative_T extends PythonCodeChecker_db {
         } else if (x == 1) {
             return keyWordsList.get(y + 1);
         } else if (x == 2) {
-            return 0;
+            return "0";
         } else {
             return null;
         }
