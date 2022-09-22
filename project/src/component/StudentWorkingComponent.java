@@ -7,14 +7,12 @@ import java.awt.Dimension;
 import java.awt.*;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
 import view.PythonCodeChackerPage;
@@ -42,11 +40,9 @@ public class StudentWorkingComponent extends Box {
         JButton buttonRunCode = new JButton("Run Code");
         JButton buttonShowFeedback = new JButton("Show Feedback");
         private static JTextArea editArea;
-
         public static JTextArea terminalArea;
+
         String[] data;
-        JList<Integer> numList = new JList<Integer>(); // 改好了
-        DefaultListModel<Integer> numListModel = new DefaultListModel<Integer>();
 
         int num = 1;
         public static String questionString = "<html><p>Are You Ready? Please Choose a Python Code Question: </p></html>";
@@ -84,16 +80,6 @@ public class StudentWorkingComponent extends Box {
 
                 //
                 midBox = Box.createHorizontalBox();
-
-                numListModel.clear();
-                numListModel.addElement(1);
-                numList.setModel(numListModel);
-                numList = new JList<Integer>(); // 之前数字列不出现，这行被备注了。
-                numList.setPreferredSize(new Dimension(2, 500));
-                numList.setFixedCellWidth(25);
-                numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
-                numListScrollPane = new JScrollPane(numList);
-                numListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
                 editArea = new JTextArea();
                 // editArea.setPreferredSize(new Dimension(700, 500));
@@ -133,7 +119,6 @@ public class StudentWorkingComponent extends Box {
                 editScrollPane.getViewport().add(editArea);
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.setPreferredSize(new Dimension(700, 500));
-                // midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
 
                 this.add(midBox);

@@ -29,6 +29,7 @@ public class ChooseQuestionComponent extends Box {
 	 * Python Code Checker Page - ChooseQuestionComponent
 	 */
 	// 创建一维数组，存储标题
+
 	Object[] titlesChooseQuestion = { "QuestionID", "Question-Stems" };
 
 	// 表格
@@ -53,15 +54,18 @@ public class ChooseQuestionComponent extends Box {
 		 */
 		// 清空原有数据，保证列表中无内容
 		dataChooseQuestion_Table.clear();
+		titlesChooseQuestion_Table.clear();
 
 		// 写入数据
+		System.out.println(DIO.getRowlength());
+
 		for (int i = 0; i < titlesChooseQuestion.length; i++) {
 			titlesChooseQuestion_Table.add(titlesChooseQuestion[i]);
 		}
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
-			for (int j = 0; j < DIO.getRowlength(); j++) {
+			for (int j = 0; j < DIO.getRowlength() - 2; j++) {
 				t.add(DIO.getData(i, j));
 			}
 			dataChooseQuestion_Table.add(t);

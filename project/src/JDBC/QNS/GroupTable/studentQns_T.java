@@ -59,12 +59,10 @@ public class studentQns_T extends Qns_T {
         if (y > dblength) {
             System.out.println("column is out of index");
             return null;
-        }
-        else{
+        } else {
             return qnsDB.get(y).getQuestionID();
         }
     }
-
 
     public Object getData(int y, int x) {
         if (y > dblength) {
@@ -76,7 +74,7 @@ public class studentQns_T extends Qns_T {
             return null;
         }
         if (x == 0) {
-            //return qnsDB.get(y).getQuestionID();
+            // return qnsDB.get(y).getQuestionID();
             return y + 1;
         } else if (x == 1) {
             return qnsDB.get(y).getQuestion();
