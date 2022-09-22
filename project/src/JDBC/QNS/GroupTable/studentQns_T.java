@@ -86,9 +86,4 @@ public class studentQns_T extends Qns_T {
         return rowlength;
     }
 
-    public String getQuestionID(String question) {
-        String questionID = qt.getQuestionID(question);
-        return questionID;
-    }
-
 }

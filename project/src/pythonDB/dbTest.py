@@ -29,6 +29,9 @@ if __name__ == '__main__':
     #r = getUserQuestionRows(c,"staff")
     
     question_printAll(c)
+   
+
+    #solution_printAll(c)
     #打印
     conn.commit()
     conn.close()

@@ -3,6 +3,8 @@ package JDBC.Login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+
 import JDBC.QNS.SingleTable.question_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 
@@ -14,6 +16,7 @@ public class student_T extends PythonCodeChecker_db {
 
     String table = "student";
     question_T qt = new question_T();
+    JFrame frame = new JFrame();
 
     public int checkUserID(String userID_u, String Password_u) {
         try {

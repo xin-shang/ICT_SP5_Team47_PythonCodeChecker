@@ -23,7 +23,6 @@ public class AnswerEditComponent extends Box {
         JList<String> numList;
 
         JScrollPane editScrollPane;
-
         int num = 0;
 
         public AnswerEditComponent() {
@@ -35,6 +34,7 @@ public class AnswerEditComponent extends Box {
 
                 editArea = new JTextArea(60, 400);
                 editArea.setLineWrap(true); // 自动换行
+                editArea.setTabSize(1);
                 editArea.setColumns(400);
 
                 box.add(numList);

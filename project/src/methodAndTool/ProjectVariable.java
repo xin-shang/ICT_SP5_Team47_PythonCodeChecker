@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class ProjectVariable {
 
 	public int designWindow_width = 1000;
@@ -84,6 +87,61 @@ public class ProjectVariable {
 			return id;
 		}
 
+	}
+
+	// method to transfer string to int
+	public int StringToInt(String string_int) {
+		try {
+			String str = string_int;
+			int number = Integer.parseInt(str);
+			return number;
+		} catch (NumberFormatException ex) {
+			return 0;
+		}
+	}
+
+	public int castObjectToInt(Object number) {
+		if (number instanceof Integer) {
+			return (int) number;
+		} else if (number instanceof String) {
+			int num = StringToInt((String) number);
+			return num;
+		} else {
+			return 0;
+		}
+
+	}
+
+	public boolean bcheckUserInputValue(boolean bmarkShceme, boolean question, boolean solution) {
+
+		JFrame jf = new JFrame();
+
+		if (bmarkShceme == true && question == false && solution == false) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Mark Scheme");
+			return false;
+		} else if (bmarkShceme == false && question == true && solution == false) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Question");
+			return false;
+		} else if (bmarkShceme == false && question == false && solution == true) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Solution");
+			return false;
+		} else if (bmarkShceme == true && question == true && solution == true) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Question");
+			return false;
+		} else if (bmarkShceme == false && question == false && solution == false) {
+			return true;
+		} else if (bmarkShceme == true && question == true && solution == false) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Question");
+			return false;
+		} else if (bmarkShceme == true && question == false && solution == true) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Solution");
+			return false;
+		} else if (bmarkShceme == false && question == true && solution == true) {
+			JOptionPane.showMessageDialog(jf, "Please Insert Question");
+			return false;
+		} else {
+			return false;
+		}
 	}
 
 }

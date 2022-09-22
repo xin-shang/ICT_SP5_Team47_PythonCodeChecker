@@ -37,7 +37,7 @@ public class staffQns_T extends Qns_T {
                     "question.question, " +
                     "solution.solution, " +
                     "solution.answer " +
-                    "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ?";
+                    "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ? ORDER BY question.question ASC";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, staffID);
             ResultSet res = statement.executeQuery();
@@ -63,13 +63,39 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public void insertQuestion(String question, String solution, String answer) {
+    public boolean insertQuestion(String question, String solution, String answer) {
         String user_id = staff_T.getUsername();
         if (user_id != null) {
-            qt.inserRows(user_id, question);
-            String qs_id = qt.getQuestionID(question);
-            sl.inserRows(qs_id, solution, answer);
-            System.out.println("insert question successful");
+            boolean b_qt = qt.inserRows(user_id, question);
+
+            if (b_qt == true) {
+                String qs_id = qt.getQuestionID(question);
+                sl.inserRows(qs_id, solution, answer);
+                System.out.println("insert question successful");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean insertQuestion_id(String question_id, String question, String solution, String answer) {
+        String user_id = staff_T.getUsername();
+        if (user_id != null) {
+            boolean b_qt = qt.inserRows(question_id, user_id, question);
+            System.out.println(b_qt);
+            if (b_qt == true) {
+                sl.inserRows(question_id, solution, answer);
+                System.out.println("insert question successful");
+                return true;
+
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 
@@ -90,6 +116,36 @@ public class staffQns_T extends Qns_T {
         } else {
             return false;
         }
+    }
+
+    public boolean insertQuestionMarkSheme_id(String question_id, String keyword, int Point) {
+        String keywordID = kw.getKeywordID(keyword);
+
+        if (keywordID != null) {
+            boolean b_add_mk = mk.inserRows(question_id, keywordID, Point);
+            if (b_add_mk == true) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            kw.inserRows(keyword);
+            keywordID = kw.getKeywordID(keyword);
+            boolean b_add_mk = mk.inserRows(question_id, keywordID, Point);
+            if (b_add_mk == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public void deleteQuestion_id(String question_id) {
+
+        qt.deletRows(question_id);
+        sl.deletRows(question_id);
+        mk.deletRows(question_id);
     }
 
     public void deleteQuestion(String question) {

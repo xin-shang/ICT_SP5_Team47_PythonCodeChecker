@@ -3,8 +3,9 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,93 +21,121 @@ import javax.swing.table.DefaultTableModel;
 import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
+import methodAndTool.markScheme;
 
-public class AddQuestionComponent extends Box implements ActionListener {
+public class ChangeQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
-        ProjectVariable PV = new ProjectVariable();
         staffQns_T DIO = new staffQns_T();
+        ProjectVariable PV = new ProjectVariable();
+
+        // int num = 0;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
-        JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
-        static JTextArea newQuestion0;
-        static JTextArea newSolution0;
-        static JTextArea newAnswer0;
-        JTextArea text0_SP;
+        String question_id;
+        JLabel cID, cQuestion, cSolution, cAnswer, cScorePoint;
+        static JTextArea cQuestion0;
+        static JTextArea cSolution0;
+        static JTextArea cAnswer0;
 
         // 表格
-        JTable showScorePoint;
+        JTable cShowScorePoint;
 
         JPanel buttonPanel;
-        JButton createNewQuestion, addScorePoint, deleteScorePoint;
+        JButton updateQuestion, addScorePoint, deleteScorePoint;
 
         //
         Object[][] questionScorePoint = new Object[0][3];
 
         //
-        private Vector<Object> titleScorePoint = new Vector<Object>(); // Store the title 存储标题
-        private static Vector<Vector<Object>> dataScorePoint = new Vector<>(); // Store the data 存储数据
+        private Vector<Object> cTitleScorePoint = new Vector<Object>(); // Store the title 存储标题
+        private static Vector<Vector<Object>> cDataScorePoint = new Vector<>(); // Store the data 存储数据
 
-        public static DefaultTableModel tableModelScorePoint;
+        public static DefaultTableModel cTableModelScorePoint;
 
-        public AddQuestionComponent() {
+        // value to compare
+        final String question_before;
+        final String solution_before;
+        final List<markScheme> markSchemeList_before;
+
+        public ChangeQuestionComponent() {
 
                 super(BoxLayout.Y_AXIS);
+
+                question_id = (String) QuestionManagerComponent
+                                .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
+                List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(question_id);
+
                 /**
                  * 设置窗口内容
                  */
-                //
-                newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
 
-                //
-                newQuestion = new JLabel("Please Write down Question Stem");
-                newQuestion0 = new JTextArea(10, 10);
-                newQuestion0.setLineWrap(true); // 自动换行
+                // ID
+                cID = new JLabel("Question ID: " + (question_id));
+
+                // 问题
+                cQuestion = new JLabel("Question Stem: ");
+                cQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)),
+                                10, 10);
+                cQuestion0.setLineWrap(true); // 自动换行
 
                 Box boxQuestion0 = Box.createHorizontalBox();
-                JScrollPane scrollPane_Question0 = new JScrollPane(newQuestion0);
+                JScrollPane scrollPane_Question0 = new JScrollPane(cQuestion0);
                 boxQuestion0.add(scrollPane_Question0);
 
-                //
-                newSolution = new JLabel("Please Write down Solution of Question");
-                newSolution0 = new JTextArea(20, 10);
-                newSolution0.setLineWrap(true); // 自动换行
+                // 解决方法
+                cSolution = new JLabel("Solution of Question: ");
+                cSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)),
+                                20, 10);
+                cSolution0.setLineWrap(true); // 自动换行
 
                 Box boxSolution0 = Box.createHorizontalBox();
-                JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
+                JScrollPane scrollPane_Solution0 = new JScrollPane(cSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                newAnswer = new JLabel("Please Write down Answer of Question");
-                newAnswer0 = new JTextArea(10, 10);
-                newAnswer0.setLineWrap(true); // 自动换行
-                newAnswer0.setEditable(false);
+                // 答案
+                cAnswer = new JLabel("Answer of Question: ");
+                cAnswer0 = new JTextArea(
+                                WAR.readString(QuestionManagerComponent
+                                                .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
+                                10, 10);
+                cAnswer0.setLineWrap(true); // 自动换行
+                cAnswer0.setEditable(false);
 
                 Box boxAnswer0 = Box.createHorizontalBox();
-                JScrollPane scrollPane_Answer0 = new JScrollPane(newAnswer0);
+                JScrollPane scrollPane_Answer0 = new JScrollPane(cAnswer0);
                 boxAnswer0.add(scrollPane_Answer0);
 
-                //
-                newScorePoint = new JLabel("Please Write down Score Point of Question");
+                // 得分点
+                cScorePoint = new JLabel("Score Point of Question: ");
 
                 Box ScorePointTable = Box.createHorizontalBox();
-                /*
-                 * _________________________________________________________________________________
-                 */
-                /*
-                 * _________________________________________________________________________________
-                 */
-                dataScorePoint.clear();
+
+                cDataScorePoint.clear();
 
                 for (int i = 0; i < KeywordManagerComponent.titles.length; i++) {
-                        titleScorePoint.add(KeywordManagerComponent.titles[i]);
+                        cTitleScorePoint.add(KeywordManagerComponent.titles[i]);
                 }
 
-                // Button_Add_ScorePoint(addScorePoint);
+                for (int i = 0; i < markSchemeList.size(); i++) {
+                        Vector<Object> t = new Vector<Object>(); // <Vector> 用来接收二维数组中第二个维度的信息
+                        for (int j = 0; j <= 2; j++) { // data[i].length 用来录入每个大数组中子数组的信息
+                                if (j == 0) {
+                                        t.add(i + 1);
+                                } else if (j == 1) {
+                                        t.add(markSchemeList.get(i).getKeyword());
+                                } else if (j == 2) {
+                                        t.add(markSchemeList.get(i).getScore());
+                                }
+
+                        }
+                        cDataScorePoint.add(t); // 依次把第二维加入一维中
+                }
 
                 // 整合
-                tableModelScorePoint = new DefaultTableModel(dataScorePoint, titleScorePoint);
+                cTableModelScorePoint = new DefaultTableModel(cDataScorePoint, cTitleScorePoint);
                 // 整合 & 让questionTable中的内容不可编辑
-                showScorePoint = new JTable(tableModelScorePoint) {
+                cShowScorePoint = new JTable(cTableModelScorePoint) {
                         @Override
                         public boolean isCellEditable(int row, int column) {
                                 if (column == 2) {
@@ -116,22 +145,17 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 };
-                /*
-                 * _________________________________________________________________________________
-                 */
-                /*
-                 * _________________________________________________________________________________
-                 */
 
-                JScrollPane scrollPane_ScoreTable = new JScrollPane(showScorePoint);
+                JScrollPane scrollPane_ScoreTable = new JScrollPane(cShowScorePoint);
                 ScorePointTable.add(scrollPane_ScoreTable);
 
                 //
+                // JButton updateQuestion, addScorePoint, deleteScorePoint;
                 buttonPanel = new JPanel();
                 buttonPanel.setMaximumSize(new Dimension(500, 80));
 
-                createNewQuestion = new JButton("Submit Question");
-                createNewQuestion.addActionListener(this);
+                updateQuestion = new JButton("Update Question");
+                updateQuestion.addActionListener(this);
 
                 addScorePoint = new JButton("Add Score Point");
                 addScorePoint.addActionListener(this);
@@ -143,52 +167,52 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 组装零件
                  */
                 Box box = Box.createVerticalBox();
-                box.add(newID);
+                box.add(cID);
                 box.add(Box.createVerticalStrut(10));
-                box.add(newQuestion);
+                box.add(cQuestion);
                 box.add(boxQuestion0);
                 box.add(Box.createVerticalStrut(10));
-                box.add(newSolution);
+                box.add(cSolution);
                 box.add(boxSolution0);
                 box.add(Box.createVerticalStrut(10));
-                box.add(newAnswer);
+                box.add(cAnswer);
                 box.add(boxAnswer0);
                 box.add(Box.createVerticalStrut(10));
-                box.add(newScorePoint);
+                box.add(cScorePoint);
                 box.add(ScorePointTable);
 
-                // JScrollPane scrollPane = new JScrollPane(box);
-
                 buttonPanel.add(addScorePoint);
-                buttonPanel.add(createNewQuestion);
+                buttonPanel.add(updateQuestion);
                 buttonPanel.add(deleteScorePoint);
 
                 this.add(box);
-                // this.add(scrollPane);
                 this.add(buttonPanel, BorderLayout.SOUTH);
 
+                question_before = cQuestion0.getText().trim();
+                solution_before = cSolution0.getText().trim();
+                markSchemeList_before = markSchemeList;
         }
 
         /**
-         * 按钮监听
+         * 按钮监听ActionEvent e
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+
                 String actionCommand = e.getActionCommand();
+
                 if (actionCommand.equals("Add Score Point")) {
                         try {
                                 KeywordManagerComponent
                                                 .setSelectedRow(KeywordManagerComponent.keywordTable.getSelectedRow());
 
-                                // System.out.println(KeywordManagerComponent.getSelectedRow());
-
                                 Vector<Object> t = new Vector<Object>();
 
-                                for (int j = 0; j < titleScorePoint.size(); j++) {
+                                for (int j = 0; j < cTitleScorePoint.size(); j++) {
                                         t.add(KeywordManagerComponent
                                                         .getValueAt_Table(KeywordManagerComponent.getSelectedRow(), j));
                                 }
-                                tableModelScorePoint.addRow(t);
+                                cTableModelScorePoint.addRow(t);
 
                                 // dataScorePoint.add(t);
                         } catch (Exception w) {
@@ -199,89 +223,49 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                 else if (actionCommand.equals("Delete Score Point")) {
                         try {
-                                tableModelScorePoint.removeRow(showScorePoint.getSelectedRow());
+                                cTableModelScorePoint.removeRow(cShowScorePoint.getSelectedRow());
                         } catch (Exception w) {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
                 }
 
-                else if (actionCommand.equals("Submit Question")) {
+                else if (actionCommand.equals("Update Question")) {
+                        DIO.deleteQuestion_id(question_id);
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
-                        boolean b_question = getNewQuestionString().isEmpty();
-                        boolean b_solution = getNewSolutionString().isEmpty();
+                        boolean b_question = getUpdateQuestionString().isEmpty();
+                        boolean b_solution = getUpdateSolutionString().isEmpty();
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
-                                String solution = getNewSolutionString();
+                                String solution = getUpdateSolutionString();
                                 boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
 
                                 if (bsyntaxError == true) {
                                         String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                         JOptionPane.showMessageDialog(this,
                                                         "Your Solution has SyntaxError: " + syntaxError);
-                                        newAnswer0.setText(syntaxError);
+                                        cAnswer0.setText(syntaxError);
                                 } else {
                                         String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        newAnswer0.setText(answer);
+                                        cAnswer0.setText(answer);
 
                                         boolean b_score = checkSocre();
                                         if (b_score == true) {
-                                                boolean b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
-                                                                this.getNewSolutionString(),
+                                                boolean b_add_q = DIO.insertQuestion_id(this.getUpdateQuestionID(),
+                                                                this.getUpdateQuestionString(),
+                                                                this.getUpdateSolutionString(),
                                                                 answer);
+
                                                 if (b_add_q == true) {
                                                         getScorePointStringList();
-                                                        JOptionPane.showMessageDialog(this, "Add Successful");
-
+                                                        JOptionPane.showMessageDialog(this, "Update Successful");
                                                 } else {
                                                         JOptionPane.showMessageDialog(this, "Question is already exit");
                                                 }
                                         }
+
                                 }
-
                         }
-
-                        System.out.println("-- The Create New Question is Working --");
                 }
-        }
-
-        /**
-         * 内容获取
-         */
-        // String newAnswerString = newAnswer0.getText().trim();
-
-        // Get New Questions 获取新问题
-        public String getNewQuestionString() {
-                String newQuestionString = newQuestion0.getText().trim();
-                return newQuestionString;
-        }
-
-        // Get New Solution 获取新解决方案
-        public String getNewSolutionString() {
-                String newSolutionString = newSolution0.getText().trim();
-                return newSolutionString;
-        }
-
-        public String getNewAnswerString() {
-                String newAnswerString = newAnswer0.getText().trim();
-                return newAnswerString;
-        }
-
-        // Object[][] questionScorePoint V<V> dataScorePoint
-        // Getting Number of String 获取字符串
-        public static String getScorePointString() {
-                String newDataScorePoint = dataScorePoint.toString().trim();
-                return newDataScorePoint;
-        }
-
-        // Getting Number of Row 获取行数
-        public static int getScorePointRowCount() {
-                return dataScorePoint.size();
-        }
-
-        // Getting Number of Columns 获取列数
-        public static int getScorePointColumnCount() {
-                int dataScorePointColumnCount = dataScorePoint.firstElement().size();
-                return dataScorePointColumnCount;
         }
 
         public boolean checkSocre() {
@@ -322,19 +306,62 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                         int score_int = PV.castObjectToInt(score);
 
-                        DIO.insertQuestionMarkSheme(getNewQuestionString(), keyword_s, score_int);
+                        DIO.insertQuestionMarkSheme_id(question_id, keyword_s, score_int);
 
                 }
         }
 
+        public void ComfirmeChangedValue() {
+                if (!this.question_before.equals(getUpdateQuestionString())) {
+
+                }
+                if (!this.solution_before.equals(getUpdateSolutionString())) {
+
+                }
+        }
+
+        /**
+         * 内容获取
+         */
+        public String getUpdateQuestionString() {
+                String newQuestionString = cQuestion0.getText().trim();
+                return newQuestionString;
+        }
+
+        public String getUpdateQuestionID() {
+                return this.question_id;
+        }
+
+        // Get New Solution 获取新解决方案
+        public String getUpdateSolutionString() {
+                String newSolutionString = cSolution0.getText().trim();
+                return newSolutionString;
+        }
+
+        public String getUpdateAnswerString() {
+                String newAnswerString = cAnswer0.getText().trim();
+                return newAnswerString;
+        }
+
+        // Getting Number of Row 获取行数
+        public static int getScorePointRowCount() {
+                return cDataScorePoint.size();
+        }
+
+        // Getting Number of Columns 获取列数
+        public static int getScorePointColumnCount() {
+                int dataScorePointColumnCount = cDataScorePoint.firstElement().size();
+                return dataScorePointColumnCount;
+        }
+
         // 获取指定格子中的数据
         public static Object getValueAt(int row, int column) {
-                return dataScorePoint.get(row).get(column);
+                return cDataScorePoint.get(row).get(column);
         }
 
         // 通过列表的长度来判断用户是否有输入markScheme 没有：返回False， 有：返回True
         public boolean bcheckMarkSchemeEmpty() {
-                int rows = tableModelScorePoint.getRowCount();
+                int rows = cTableModelScorePoint.getRowCount();
                 if (rows > 0) {
                         return false;
                 } else {

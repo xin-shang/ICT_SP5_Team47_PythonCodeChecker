@@ -161,14 +161,4 @@ public class WriteAndRead {
 		}
 	}
 
-	// method to transfer string to int
-	public int StringToInt(String string_int) {
-		try {
-			String str = string_int;
-			int number = Integer.parseInt(str);
-			return number;
-		} catch (NumberFormatException ex) {
-			return 0;
-		}
-	}
 }

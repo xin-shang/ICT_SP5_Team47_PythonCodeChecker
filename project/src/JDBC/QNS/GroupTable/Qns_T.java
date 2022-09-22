@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JDBC.dbConnection.PythonCodeChecker_db;
+import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 import JDBC.QNS.SingleTable.markPoint_T;
@@ -14,6 +15,7 @@ import JDBC.QNS.SingleTable.solution_T;
 
 public class Qns_T extends PythonCodeChecker_db {
     protected static WriteAndRead WAR = new WriteAndRead();
+    ProjectVariable PV = new ProjectVariable();
     markPoint_T mk = new markPoint_T();
     question_T qt = new question_T();
     solution_T sl = new solution_T();
@@ -38,7 +40,7 @@ public class Qns_T extends PythonCodeChecker_db {
                 // System.out.println(keyword_id);
                 String keyword = res.getString("keywords");
                 // System.out.println(keyword);
-                int markPoint = WAR.StringToInt(res.getString("score"));
+                int markPoint = PV.StringToInt(res.getString("score"));
                 // System.out.println(markPoint);
                 markScheme mk = new markScheme(keyword_id, keyword, markPoint);
                 mks.add(mk);
@@ -51,5 +53,10 @@ public class Qns_T extends PythonCodeChecker_db {
             System.out.print("check the question id, which is exit or not");
             return null;
         }
+    }
+
+    public String getQuestionID(String question) {
+        String questionID = qt.getQuestionID(question);
+        return questionID;
     }
 }

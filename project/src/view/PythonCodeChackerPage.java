@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
 import javax.swing.JMenu;
@@ -56,6 +57,12 @@ public class PythonCodeChackerPage {
         // 设置菜单中物品 - USER
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
+
+        // // 设置按钮
+        // JPanel studnetButtonPanel;
+        // JButton buttonSubmitAnswer = new JButton("Submit Answer");
+        // JButton buttonRunCode = new JButton("Run Code");
+        // JButton buttonShowFeedback = new JButton("Show Feedback");
 
         Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
@@ -127,8 +134,22 @@ public class PythonCodeChackerPage {
                 // 将菜单栏加入窗口
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
+
+                // // 按键栏
+                // studnetButtonPanel = new JPanel();
+                // studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+
+                // Button_Item_SubmitAnswer(buttonSubmitAnswer);
+                // Button_Item_RunCode(buttonRunCode);
+                // Button_Item_ShowFeedback(buttonShowFeedback);
+
+                // studnetButtonPanel.add(buttonSubmitAnswer);
+                // studnetButtonPanel.add(buttonRunCode);
+                // studnetButtonPanel.add(buttonShowFeedback);
+
                 // 窗口可见
                 frame.setVisible(true);
+                // frame.add(studnetButtonPanel, BorderLayout.SOUTH);
 
         }
 
@@ -168,35 +189,33 @@ public class PythonCodeChackerPage {
         }
 
         // Submit Answer
-        private void Button_Item_SubmitAnswer(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_SubmitAnswer(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                //get student input code
+                                // get student input code
                                 String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
 
                                 WAR.checkSolutionSytaxError(pyCodeAnswer);
-                                
 
                                 String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                 StudentWorkingComponent.terminalArea.setText(answer);
 
-                                //get row index id; 选择question
+                                // get row index id; 选择question
                                 int y = ChooseQuestionComponent.getSelectedRow();
-                                //get question id；把选择的question id抓出来
+                                // get question id；把选择的question id抓出来
                                 String id = (String) DIO.getData(y, 0);
-                               
-                                //select the mark scheme by question id(empty list)
-                                List<markScheme> mkl =  new ArrayList<markScheme>();
-                                //input the marking scheme into 'mkl'
+
+                                // select the mark scheme by question id(empty list)
+                                List<markScheme> mkl = new ArrayList<markScheme>();
+                                // input the marking scheme into 'mkl'
                                 mkl = DIO.getSelectedMarkScheme(id);
 
-                                //System.out.println(mkl.get(0).getScore());
-                                
+                                // System.out.println(mkl.get(0).getScore());
+
                                 int score = KA.getKeyWordSocre(pyCodeAnswer, mkl);
 
                                 System.out.println(score);
-                                
 
                                 System.out.println("Button is Working! Submit Answer Code");
                                 // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
@@ -207,8 +226,8 @@ public class PythonCodeChackerPage {
         }
 
         // Run Code
-        private void Button_Item_RunCode(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_RunCode(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
@@ -223,8 +242,8 @@ public class PythonCodeChackerPage {
         }
 
         // Show Feedback
-        private void Button_Item_ShowFeedback(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_ShowFeedback(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub

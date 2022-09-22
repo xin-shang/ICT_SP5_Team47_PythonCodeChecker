@@ -35,44 +35,34 @@ public class QuestionDetailsComponent extends Box {
 	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
 
 	// 不确定用提示组件好还是文本框组件好
-	public static JTextArea showQuestion0, showSolution0, showAnswer0, showScorePoint0;
+	public static JTextArea showQuestion0, showSolution0, showAnswer0;
 
 	public QuestionDetailsComponent() {
 		super(BoxLayout.Y_AXIS);
 
 		// 暴露选择问题的id--------------------------------------------------------------
-
-		String question_id = (String) QuestionManagerComponent
-				.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
+		String question_id = (String) QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
 
 		// list
 		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(question_id);
 
 		// -----------------------------------------------------------------------------
 
-		showID = new JLabel(
-				"ID: " + question_id);
-
-		showQuestion0 = new JTextArea(WAR
-				.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)));
-		showQuestion0.setSize(50, 50);
+		showID = new JLabel("ID: " + question_id);
+		showQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10, 10);
 
 		showSolution = new JLabel("SOLUTION");
-		showSolution0 = new JTextArea(WAR
-				.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)));
+		showSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20, 10);
 
 		showAnswer = new JLabel("ANSWER");
-		showAnswer0 = new JTextArea(WAR
-				.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)));
+		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)), 10, 10);
 
 		showScorePoint = new JLabel("SCORE POINTS");
-		showScorePoint0 = new JTextArea("");
 
 		// 设置
-		showQuestion0.setEditable(false);
+		showQuestion0.setEditable(false); // 设置不可编辑
 		showSolution0.setEditable(false); // 设置不可编辑
 		showAnswer0.setEditable(false); // 设置不可编辑
-		showScorePoint0.setEditable(false); // 设置不可编辑
 
 		// 分区
 

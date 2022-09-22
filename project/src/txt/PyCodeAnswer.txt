@@ -1,1 +1,1 @@
-10
+the output is empty
