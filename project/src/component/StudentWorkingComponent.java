@@ -17,10 +17,12 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ChangeTabToSpacesFilter;
 import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.Element;
+import javax.swing.text.PlainDocument;
 
 public class StudentWorkingComponent extends Box {
 
@@ -96,10 +98,11 @@ public class StudentWorkingComponent extends Box {
                 numListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
                 editArea = new JTextArea();
+                int spaceCount = 4;
+                ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
                 // editArea.setPreferredSize(new Dimension(700, 500));
-
-                editArea.setLineWrap(true); // 自动换行
-
+                editArea.setTabSize(1);
                 editArea.setFont(myFont2);
                 lines.setFont(myFont2);
 
@@ -202,13 +205,5 @@ public class StudentWorkingComponent extends Box {
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
-
-        // public static String getTerminalString() {
-        // return terminalArea.getText();
-        // }
-
-        // public static void setTerminalString(String userOutput) {
-        // StudentWorkingComponent.terminalArea.setText(userOutput);
-        // }
 
 }

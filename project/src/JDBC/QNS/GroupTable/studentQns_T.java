@@ -15,6 +15,7 @@ public class studentQns_T extends Qns_T {
 
     public studentQns_T() {
         qnsDB = getStudentQns();
+        System.out.println("____________");
     }
 
     public List<QnS> getQNS() {

@@ -86,16 +86,12 @@ public class ChooseQuestionComponent extends Box {
 		// 获取列
 		TableColumn column1 = chooseQuestionTable.getColumn(titlesChooseQuestion[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(90);
-		column1.setMinWidth(90);
+		column1.setMaxWidth(50);
+		column1.setMinWidth(50);
 
 		// 获取列
-		TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
-		// 设置列宽
-		column2.setMaxWidth(0);
-		column2.setMinWidth(0);
-		column2.setWidth(0);
-		column2.setPreferredWidth(0);
+		// TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
+		
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);

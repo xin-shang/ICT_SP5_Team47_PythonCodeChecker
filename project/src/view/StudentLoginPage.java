@@ -112,7 +112,7 @@ public class StudentLoginPage extends LoginPage {
 			public void actionPerformed(ActionEvent e) {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
 				String usernameStudent = area_user.getText().trim();
-				String passwordStudent = area_password.getText().trim();
+				String passwordStudent = new String (area_password.getPassword());
 
 				int bUsername_password = SL.checkUserID(usernameStudent, passwordStudent);
 
