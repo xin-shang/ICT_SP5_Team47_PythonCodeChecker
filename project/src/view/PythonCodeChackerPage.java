@@ -204,7 +204,7 @@ public class PythonCodeChackerPage {
                                 // get row index id; 选择question
                                 int y = ChooseQuestionComponent.getSelectedRow();
                                 // get question id；把选择的question id抓出来
-                                String id = (String) DIO.getData(y, 0);
+                                String id = (String) DIO.getData_id(y);
 
                                 // select the mark scheme by question id(empty list)
                                 List<markScheme> mkl = new ArrayList<markScheme>();
