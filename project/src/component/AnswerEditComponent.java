@@ -1,12 +1,10 @@
 package component;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -23,7 +21,6 @@ public class AnswerEditComponent extends Box {
         JList<String> numList;
 
         JScrollPane editScrollPane;
-
         int num = 0;
 
         public AnswerEditComponent() {
@@ -35,6 +32,7 @@ public class AnswerEditComponent extends Box {
 
                 editArea = new JTextArea(60, 400);
                 editArea.setLineWrap(true); // 自动换行
+                editArea.setTabSize(1);
                 editArea.setColumns(400);
 
                 box.add(numList);
@@ -46,25 +44,7 @@ public class AnswerEditComponent extends Box {
 
         }
 
-        // 理想按一下回车响应一下， int num + 1
-        private void Button_Item_EnterChecker(JButton enterCheck2) {
-                enterCheck2.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
 
-                        }
-                });
-        }
-
-        // 获取当前行数，
-        private int getNowNumber() {
-
-                System.out.println("ENTER  ::  ");
-                return 0;
-        }
-
-        // 返还Sting 行数到列表
 
 }
 

@@ -58,17 +58,24 @@ def TA_getUserInput_Result(_text_path_R):
     
     # If the answer text is exit, run the below code(Safe)
     if(_IsFile_Exit(_text_path_R) == True):
-        #return the first lines of text file
-        if(len(TA_readText(_text_path_R))==1):
-            _user_result = TA_readText(_text_path_R)[0][:-1]
-            TA_CreateText_inputValue("./src/txt/sytaxError_b.txt","False")
-            return _user_result
-        elif(len(TA_readText(_text_path_R)) > 1):
-            select_index = len(TA_readText(_text_path_R)) - 1
-            _user_result = TA_readText(_text_path_R)[select_index][:-1]
+        
+        if(_IsFile_Exit("./src/txt/loopError.txt")==True):
             TA_CreateText_inputValue("./src/txt/sytaxError_b.txt","True")
-            return _user_result
+            TA_Remove_File("./src/txt/loopError.txt")
+            return "Error: Infinity Loop"
+            
         else:
-            return "the output is empty"
+            #return the first lines of text file
+            if(len(TA_readText(_text_path_R))==1):
+                _user_result = TA_readText(_text_path_R)[0][:-1]
+                TA_CreateText_inputValue("./src/txt/sytaxError_b.txt","False")
+                return _user_result
+            elif(len(TA_readText(_text_path_R)) > 1):
+                select_index = len(TA_readText(_text_path_R)) - 1
+                _user_result = TA_readText(_text_path_R)[select_index][:-1]
+                TA_CreateText_inputValue("./src/txt/sytaxError_b.txt","True")
+                return _user_result
+            else:
+                return "the output is empty"
     else:
          return "The " + _text_path_R + " is not exit"

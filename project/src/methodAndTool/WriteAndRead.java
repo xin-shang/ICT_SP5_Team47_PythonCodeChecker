@@ -134,13 +134,24 @@ public class WriteAndRead {
 		return pythonQuestion;
 	}
 
+	public boolean detectWhileLoop(String code) {
+		String UPcode = code.toUpperCase();
+		boolean bWHile = UPcode.contains("WHILE");
+		return bWHile;
+	}
+
 	// /**
 	// * 返回是否有语法错误的同时，还会存储在./src/txt/sytaxError_b.txt 里面
 	// * return true for syntaxError, fasle for no syntaxError, if systaxError,
 	// * the result will save in ./src/txt/PyCodeAnswer.txt
 	// */
 	public boolean checkSolutionSytaxError(String solution) {
+
+		boolean bdetectWhileLoop = detectWhileLoop(solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
+		if (bdetectWhileLoop == true) {
+			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
+		}
 		run_python_code("./src/python/PYRunPythonCode.py");
 		String errorResult = readText("./src/txt/sytaxError_b.txt");
 		if (errorResult.equals("True")) {
@@ -150,14 +161,4 @@ public class WriteAndRead {
 		}
 	}
 
-	// method to transfer string to int
-	public int StringToInt(String string_int) {
-		try {
-			String str = string_int;
-			int number = Integer.parseInt(str);
-			return number;
-		} catch (NumberFormatException ex) {
-			return 0;
-		}
-	}
 }

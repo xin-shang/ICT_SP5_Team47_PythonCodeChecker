@@ -1,7 +1,6 @@
 from PYTextAnalysis import *
 
 
-
 #path for user input
 path_1 = r"./src/txt/PyCodeAnswer.txt"
 path_2 = r"./src/txt/PyCodeAnswer.py"

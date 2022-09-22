@@ -1,6 +1,5 @@
 package methodAndTool;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class keywordAnalysis {
@@ -12,19 +11,7 @@ public class keywordAnalysis {
 
     public keywordAnalysis(){
 
-        //测试用
-        // String answer = "printsss('cat')";
-
-
-		// markScheme mk = new markScheme("1", "print", 100);
-		// List<markScheme> mkl = new ArrayList<markScheme>();
-		// mkl.add(mk);
-
-		
-
-		// keywordAnalysis ka = new keywordAnalysis();
-		// int score = ka.getKeyWordSocre(answer, mkl);
-		// System.out.println(score);
+      
     }
 
 
@@ -37,24 +24,29 @@ public class keywordAnalysis {
 
         //false = no syntaxerror
         if(c==false){
+            //mkl loop each markscheme(mk)
             for(markScheme mk: mkl){
             String keyword = mk.getKeyword();
             boolean bcheck = answer.contains(keyword);
                 if(bcheck==true){
 
                     score += mk.getScore();
+                    //delete keyword after checked
+                    String deleteKw = answer.replaceFirst(mk.getKeyword(), "");
+
+                    answer = deleteKw;
                 }
                 else{
                     score+=0;
                 }
-                }
-
-                return score;
+                
             }
-            else{
-                return score;
-            }
+             return score;
         }
+        else{
+            return score;
+        }
+    }
 
 
 }
