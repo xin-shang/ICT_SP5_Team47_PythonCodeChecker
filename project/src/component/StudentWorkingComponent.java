@@ -28,8 +28,8 @@ public class StudentWorkingComponent extends Box {
         JLabel questionLabel;
         private static JTextArea editArea;
         public static JTextArea terminalArea;
-
-        JList numList = new JList();
+        String[] data;
+        JList numList = new JList<Integer>();
         DefaultListModel numListModel = new DefaultListModel();
 
         int num = 1;
@@ -68,7 +68,7 @@ public class StudentWorkingComponent extends Box {
                 numListModel.clear();
                 numListModel.addElement(1);
                 numList.setModel(numListModel);
-                numList = new JList<Integer>();
+                // numList = new JList<Integer>();
                 numList.setPreferredSize(new Dimension(2, 500));
                 numList.setFixedCellWidth(25);
                 numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
@@ -148,8 +148,7 @@ public class StudentWorkingComponent extends Box {
                 StudentWorkingComponent.questionString = question;
         }
 
-        //学生做的题目(用这个找keyword评分标准，和下面学生写的答案对比)
-        public String getQusetionString() {
+        public static String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
 
@@ -171,7 +170,6 @@ public class StudentWorkingComponent extends Box {
                 numList.setModel(numListModel);
         }
 
-        //学生写的答案
         public static String getEditAnswerString() {
                 return editArea.getText();
         }

@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import JDBC.Login.STUDENT.studentLogin_T;
+import JDBC.Login.student_T;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 
@@ -20,7 +20,7 @@ public class StudentLoginPage extends LoginPage {
 	JFrame frame = new JFrame("Python Code Chacker - Student Login Page");
 	WriteAndRead WAR = new WriteAndRead();
 
-	studentLogin_T SL = new studentLogin_T();
+	student_T SL = new student_T();
 
 	// 初始化，组装界面
 	public void init() {
