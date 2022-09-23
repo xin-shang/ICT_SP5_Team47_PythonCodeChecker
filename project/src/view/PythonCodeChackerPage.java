@@ -57,6 +57,9 @@ public class PythonCodeChackerPage {
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
 
+        // Create feedback page dialog
+        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
+
         // 初始化，组装界面
         public void init() {
                 /**
@@ -122,6 +125,11 @@ public class PythonCodeChackerPage {
                 // 将菜单栏加入窗口
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
+
+                // Feedback Page Setting
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh());
+                feedbackPage.setLocationRelativeTo(frame);
+
                 // 窗口可见
                 frame.setVisible(true);
 
@@ -207,7 +215,30 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+                                String solution = StudentWorkingComponent.getEditAnswerString();
+                                feedbackPage.setStudentAnswerTextArea(solution);
+
+                                if (solution.length() > 0) {
+                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
+                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
+
+                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        feedbackPage.setRunResultMessage(runResultMessage);
+
+                                        feedbackPage.updateMessageTextArea();
+
+                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
+                                        System.out.println("Output or error from Python: " + runResultMessage);
+
+                                } else {
+                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
+                                        System.out.println("The editor window's empty");
+                                }
+
+                                // Make the pop up dialog center align to parent window
+                                feedbackPage.setLocationRelativeTo(frame);
+                                // Show the feedback dialog
+                                feedbackPage.setVisible(true);
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });
