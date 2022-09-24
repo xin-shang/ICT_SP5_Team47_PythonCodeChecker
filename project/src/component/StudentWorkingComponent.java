@@ -131,6 +131,7 @@ public class StudentWorkingComponent extends Box {
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editArea);
                 editScrollPane.setPreferredSize(new Dimension(700, 500));
+                editScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
                 // midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
 
