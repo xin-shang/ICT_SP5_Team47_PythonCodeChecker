@@ -203,15 +203,15 @@ public class PythonCodeChackerPage {
 
                                 } else {
                                         // get student input code
-                                        String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
-
-                                        WAR.checkSolutionSytaxError(pyCodeAnswer);
+                                        String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
+                                        WAR.checkSolutionSytaxError(pyCodeSolution);
 
                                         String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                         StudentWorkingComponent.terminalArea.setText(answer);
 
                                         // get question id；把选择的question id抓出来
                                         String id = (String) DIO.getData_id(y);
+                                        String correctAnswer = (String) DIO.getData(y, 3);
 
                                         // select the mark scheme by question id(empty list)
                                         List<markScheme> mkl = new ArrayList<markScheme>();
@@ -220,7 +220,7 @@ public class PythonCodeChackerPage {
 
                                         // System.out.println(mkl.get(0).getScore());
 
-                                        int score = KA.getKeyWordSocre(pyCodeAnswer, mkl);
+                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
 
                                         System.out.println(score);
 
