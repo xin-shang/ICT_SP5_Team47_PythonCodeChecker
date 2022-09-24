@@ -1,11 +1,14 @@
 package JDBC.QNS.SingleTable;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import methodAndTool.ProjectVariable;
 
 public class solution_T extends STable_P {
     ProjectVariable PV = new ProjectVariable();
     String table = "solution";
+    PreparedStatement PreStmt;
 
     public solution_T() {
 
@@ -15,8 +18,9 @@ public class solution_T extends STable_P {
 
         try {
             String id = PV.getID(solution, getRowsLength(table));
-            connectDB();
+
             String sql = "INSERT INTO " + table + " VALUES(?,?,?,?)";
+            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             // insert value
             PreStmt.setString(1, id);
@@ -25,7 +29,7 @@ public class solution_T extends STable_P {
             PreStmt.setString(4, answer);
             PreStmt.executeUpdate();
             PreStmt.close();
-            disConnectDB();
+            // conn.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e);
@@ -35,13 +39,14 @@ public class solution_T extends STable_P {
 
     public boolean deletRows(String question_id) {
         try {
-            connectDB();
+
             String sql = "DELETE from " + table + " where question_id = ?";
+            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, question_id);
             PreStmt.executeUpdate();
             PreStmt.close();
-            disConnectDB();
+            // conn.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

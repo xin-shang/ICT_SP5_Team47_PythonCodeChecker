@@ -1,11 +1,16 @@
 package JDBC.QNS.SingleTable;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import methodAndTool.*;
 
 public class question_T extends STable_P {
     ProjectVariable PV = new ProjectVariable();
     String table = "question";
+    PreparedStatement PreStmt;
+    ResultSet res;
 
     public question_T() {
 
@@ -15,8 +20,9 @@ public class question_T extends STable_P {
 
         try {
             String id = PV.getID(question, getRowsLength(table));
-            connectDB();
+
             String sql = "INSERT INTO " + table + " VALUES(?,?,?)";
+            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             // insert value
             PreStmt.setString(1, id);
@@ -24,7 +30,7 @@ public class question_T extends STable_P {
             PreStmt.setString(3, question);
             PreStmt.executeUpdate();
             PreStmt.close();
-            disConnectDB();
+            conn.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e);
@@ -34,8 +40,9 @@ public class question_T extends STable_P {
 
     public boolean inserRows(String id, String user_id, String question) {
         try {
-            connectDB();
+
             String sql = "INSERT INTO " + table + " VALUES(?,?,?)";
+            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             // insert value
             PreStmt.setString(1, id);
@@ -43,7 +50,7 @@ public class question_T extends STable_P {
             PreStmt.setString(3, question);
             PreStmt.executeUpdate();
             PreStmt.close();
-            disConnectDB();
+            conn.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e);
@@ -53,14 +60,15 @@ public class question_T extends STable_P {
 
     public boolean deletRows(String id) {
         try {
-            connectDB();
+
             String sql = "DELETE FROM " + table + " where id = ?";
+            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, id);
 
             PreStmt.executeUpdate();
             PreStmt.close();
-            disConnectDB();
+            conn.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,14 +79,15 @@ public class question_T extends STable_P {
     public String getQuestionID(String question) {
         try {
             String question_id = null;
-            connectDB();
+
             String sql = "SELECT id FROM " + table + " WHERE question = ?";
-            PreStmt = conn.prepareStatement(sql);
+            conn = pb.get_connection();
+            conn.prepareStatement(sql);
             PreStmt.setString(1, question);
             res = PreStmt.executeQuery();
             question_id = res.getString(1);
             PreStmt.close();
-            disConnectDB();
+            // conn.close();
             return question_id;
 
         } catch (SQLException e) {
@@ -90,13 +99,14 @@ public class question_T extends STable_P {
     public boolean bCheckQuestion(String question) {
         try {
             boolean bQuestion;
-            connectDB();
+
             String sql = "SELECT question FROM " + table + " WHERE question = ?";
-            PreStmt = conn.prepareStatement(sql);
+            conn = pb.get_connection();
+            conn.prepareStatement(sql);
             PreStmt.setString(1, question);
             res = PreStmt.executeQuery();
             bQuestion = res.next();
-            disConnectDB();
+            // conn.close();
             return bQuestion;
 
         } catch (SQLException e) {

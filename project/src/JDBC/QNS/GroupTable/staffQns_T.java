@@ -16,6 +16,7 @@ public class staffQns_T extends Qns_T {
 
     public static int dblength;
     public static int rowlength = 4;
+    PreparedStatement PreStmt;
 
     public staffQns_T() {
         // load the username first, then get staff qns
@@ -31,13 +32,14 @@ public class staffQns_T extends Qns_T {
     private List<QnS> getStaffQns(String staffID) {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {
-            connectDB();
+
             // System.out.println("Opened database successfully!");
             String sql = "SELECT question.id, " +
                     "question.question, " +
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ? ORDER BY question.question ASC";
+            conn = pb.get_connection();
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, staffID);
             ResultSet res = statement.executeQuery();
@@ -53,7 +55,7 @@ public class staffQns_T extends Qns_T {
             }
             dblength = num;
             statement.close();
-            disConnectDB();
+            conn.close();
             return qnsDB;
 
         } catch (Exception e) {
