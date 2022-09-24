@@ -9,7 +9,7 @@ import methodAndTool.ProjectVariable;
 
 public class STable_P {
     ProjectVariable PV = new ProjectVariable();
-    PreparedStatement PreStmt;
+    PreparedStatement PreStmt = null;
     ResultSet res;
 
     Connection conn;
@@ -25,7 +25,8 @@ public class STable_P {
             res = PreStmt.executeQuery();
             res.next();
             int rowsLength = res.getInt("count(*)");
-            // conn.close();
+            PreStmt.close();
+            conn.close();
             return rowsLength;
 
         } catch (Exception e) {

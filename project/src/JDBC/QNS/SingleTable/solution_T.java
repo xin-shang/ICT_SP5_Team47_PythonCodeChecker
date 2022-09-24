@@ -1,5 +1,6 @@
 package JDBC.QNS.SingleTable;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -14,13 +15,15 @@ public class solution_T extends STable_P {
 
     }
 
-    public boolean inserRows(String questionID, String solution, String answer) {
+    public boolean inserRows(Connection conn, String questionID, String solution, String answer) {
 
         try {
             String id = PV.getID(solution, getRowsLength(table));
 
+            System.out.println(questionID);
+
             String sql = "INSERT INTO " + table + " VALUES(?,?,?,?)";
-            conn = pb.get_connection();
+
             PreStmt = conn.prepareStatement(sql);
             // insert value
             PreStmt.setString(1, id);
@@ -29,7 +32,6 @@ public class solution_T extends STable_P {
             PreStmt.setString(4, answer);
             PreStmt.executeUpdate();
             PreStmt.close();
-            // conn.close();
             return true;
         } catch (SQLException e) {
             System.out.println(e);
@@ -37,16 +39,14 @@ public class solution_T extends STable_P {
         }
     }
 
-    public boolean deletRows(String question_id) {
+    public boolean deletRows(Connection conn, String question_id) {
         try {
 
             String sql = "DELETE from " + table + " where question_id = ?";
-            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, question_id);
             PreStmt.executeUpdate();
             PreStmt.close();
-            // conn.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

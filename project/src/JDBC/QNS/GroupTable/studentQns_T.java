@@ -34,6 +34,7 @@ public class studentQns_T extends Qns_T {
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id";
             conn = pb.get_connection();
+            // System.out.println("student_qns");
             PreStmt = conn.prepareStatement(sql);
             ResultSet res = PreStmt.executeQuery();
             int num = 0;

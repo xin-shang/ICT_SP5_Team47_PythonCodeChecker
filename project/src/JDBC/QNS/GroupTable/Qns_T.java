@@ -25,6 +25,7 @@ public class Qns_T {
 
     PreparedStatement PreStmt;
     Connection conn;
+
     PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
     public List<markScheme> getSelectedMarkScheme(String questionID) {
@@ -60,10 +61,5 @@ public class Qns_T {
             System.out.print("check the question id, which is exit or not");
             return null;
         }
-    }
-
-    public String getQuestionID(String question) {
-        String questionID = qt.getQuestionID(question);
-        return questionID;
     }
 }

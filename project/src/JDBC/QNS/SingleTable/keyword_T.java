@@ -1,5 +1,6 @@
 package JDBC.QNS.SingleTable;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,17 +52,15 @@ public class keyword_T extends STable_P {
         }
     }
 
-    public boolean bCheckKeyword(String keyword) {
+    public boolean bCheckKeyword(Connection conn, String keyword) {
         try {
             boolean bKeyword;
 
             String sql = "SELECT question FROM " + table + " WHERE keywords = ?";
-            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, keyword);
             res = PreStmt.executeQuery();
             bKeyword = res.next();
-            conn.close();
             return bKeyword;
 
         } catch (SQLException e) {
@@ -69,18 +68,19 @@ public class keyword_T extends STable_P {
         }
     }
 
-    public String getKeywordID(String keyword) {
+    public String getKeywordID(Connection conn, String keyword) {
         try {
             String keyword_id = null;
 
             String sql = "SELECT id FROM " + table + " WHERE keywords = ?";
-            conn = pb.get_connection();
+
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, keyword);
             res = PreStmt.executeQuery();
-            keyword_id = res.getString(1);
+            while (res.next()) {
+                keyword_id = res.getString(1);
+            }
             PreStmt.close();
-            conn.close();
             return keyword_id;
 
         } catch (SQLException e) {

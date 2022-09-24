@@ -3,6 +3,7 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.BorderLayout;
 
@@ -59,7 +60,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 设置窗口内容
                  */
                 //
-                
+
                 //
                 newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
 
@@ -233,16 +234,24 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                         boolean b_score = checkSocre();
                                         if (b_score == true) {
-                                                boolean b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
-                                                                this.getNewSolutionString(),
-                                                                answer);
-                                                if (b_add_q == true) {
-                                                        getScorePointStringList();
-                                                        JOptionPane.showMessageDialog(this, "Add Successful");
+                                                boolean b_add_q;
+                                                try {
+                                                        b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
+                                                                        this.getNewSolutionString(),
+                                                                        answer);
+                                                        if (b_add_q == true) {
+                                                                getScorePointStringList();
+                                                                JOptionPane.showMessageDialog(this, "Add Successful");
 
-                                                } else {
-                                                        JOptionPane.showMessageDialog(this, "Question is already exit");
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Question is already exit");
+                                                        }
+                                                } catch (SQLException e1) {
+                                                        // TODO Auto-generated catch block
+                                                        e1.printStackTrace();
                                                 }
+
                                         }
                                 }
 
@@ -314,7 +323,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         }
 
         // Push score list to db
-        public void getScorePointStringList() {
+        public void getScorePointStringList() throws SQLException {
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {

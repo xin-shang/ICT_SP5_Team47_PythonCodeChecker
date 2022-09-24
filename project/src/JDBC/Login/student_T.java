@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
-import JDBC.QNS.SingleTable.question_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 
 public class student_T {
@@ -17,7 +16,6 @@ public class student_T {
     // return 0, when both incorrect
 
     String table = "student";
-    question_T qt = new question_T();
     JFrame frame = new JFrame();
     PreparedStatement PreStmt;
     Connection conn;
@@ -31,6 +29,7 @@ public class student_T {
             String sql = "SELECT user_id, password FROM " + table + " WHERE user_id = ?";
             conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
+            System.out.print("connected");
             PreStmt.setString(1, userID_u);
             PreStmt.executeQuery();
             ResultSet res = PreStmt.executeQuery();

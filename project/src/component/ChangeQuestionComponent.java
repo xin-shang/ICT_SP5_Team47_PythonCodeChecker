@@ -3,6 +3,7 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.Vector;
@@ -71,7 +72,6 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 /**
                  * 设置窗口内容
                  */
-                
 
                 // ID
                 cID = new JLabel("Question ID: " + (question_id));
@@ -93,7 +93,6 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 cSolution0.setLineWrap(true); // 自动换行
                 int spaceCount = 4;
                 ((PlainDocument) cSolution0.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
-
 
                 Box boxSolution0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Solution0 = new JScrollPane(cSolution0);
@@ -237,7 +236,12 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 }
 
                 else if (actionCommand.equals("Update Question")) {
-                        DIO.deleteQuestion_id(question_id);
+                        try {
+                                DIO.deleteQuestion_id(question_id);
+                        } catch (SQLException e2) {
+
+                                e2.printStackTrace();
+                        }
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
                         boolean b_question = getUpdateQuestionString().isEmpty();
                         boolean b_solution = getUpdateSolutionString().isEmpty();
@@ -256,17 +260,25 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                                         boolean b_score = checkSocre();
                                         if (b_score == true) {
-                                                boolean b_add_q = DIO.insertQuestion_id(this.getUpdateQuestionID(),
-                                                                this.getUpdateQuestionString(),
-                                                                this.getUpdateSolutionString(),
-                                                                answer);
-
-                                                if (b_add_q == true) {
-                                                        getScorePointStringList();
-                                                        JOptionPane.showMessageDialog(this, "Update Successful");
-                                                } else {
-                                                        JOptionPane.showMessageDialog(this, "Question is already exit");
+                                                boolean b_add_q;
+                                                try {
+                                                        b_add_q = DIO.insertQuestion_id(this.getUpdateQuestionID(),
+                                                                        this.getUpdateQuestionString(),
+                                                                        this.getUpdateSolutionString(),
+                                                                        answer);
+                                                        if (b_add_q == true) {
+                                                                getScorePointStringList();
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Update Successful");
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Question is already exit");
+                                                        }
+                                                } catch (SQLException e1) {
+                                                        // TODO Auto-generated catch block
+                                                        e1.printStackTrace();
                                                 }
+
                                         }
 
                                 }
@@ -296,7 +308,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         }
 
         // Push score list to db
-        public void getScorePointStringList() {
+        public void getScorePointStringList() throws SQLException {
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {

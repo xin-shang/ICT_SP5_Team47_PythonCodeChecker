@@ -4,6 +4,7 @@ import methodAndTool.QnS;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,99 +66,124 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestion(String question, String solution, String answer) {
+    public boolean insertQuestion(String question, String solution, String answer) throws SQLException {
+        conn = pb.get_connection();
         String user_id = staff_T.getUsername();
         if (user_id != null) {
-            boolean b_qt = qt.inserRows(user_id, question);
+            boolean b_qt = qt.inserRows(conn, user_id, question);
 
             if (b_qt == true) {
-                String qs_id = qt.getQuestionID(question);
-                sl.inserRows(qs_id, solution, answer);
+                System.out.println(question);
+                String qs_id = qt.getQuestionID(conn, question);
+                sl.inserRows(conn, qs_id, solution, answer);
                 System.out.println("insert question successful");
+                conn.close();
                 return true;
             } else {
+                conn.close();
                 return false;
             }
         } else {
+            conn.close();
             return false;
         }
     }
 
-    public boolean insertQuestion_id(String question_id, String question, String solution, String answer) {
+    public boolean insertQuestion_id(String question_id, String question, String solution, String answer)
+            throws SQLException {
+        conn = pb.get_connection();
         String user_id = staff_T.getUsername();
         if (user_id != null) {
-            boolean b_qt = qt.inserRows(question_id, user_id, question);
+            boolean b_qt = qt.inserRows(conn, question_id, user_id, question);
             System.out.println(b_qt);
             if (b_qt == true) {
-                sl.inserRows(question_id, solution, answer);
+                sl.inserRows(conn, question_id, solution, answer);
                 System.out.println("insert question successful");
+                conn.close();
                 return true;
 
             } else {
+                conn.close();
                 return false;
             }
         } else {
+            conn.close();
             return false;
         }
     }
 
-    public boolean insertQuestionMarkSheme(String question, String keyword, int Point) {
-        String qs_id = qt.getQuestionID(question);
+    public boolean insertQuestionMarkSheme(String question, String keyword, int Point) throws SQLException {
+        conn = pb.get_connection();
+        String qs_id = qt.getQuestionID(conn, question);
+
         if (qs_id != null) {
-            String keywordID = kw.getKeywordID(keyword);
+            String keywordID = kw.getKeywordID(conn, keyword);
 
             if (keywordID != null) {
-                mk.inserRows(qs_id, keywordID, Point);
+                mk.inserRows(conn, qs_id, keywordID, Point);
+                conn.close();
                 return true;
             } else {
                 kw.inserRows(keyword);
-                keywordID = kw.getKeywordID(keyword);
-                mk.inserRows(qs_id, keywordID, Point);
+                keywordID = kw.getKeywordID(conn, keyword);
+                mk.inserRows(conn, qs_id, keywordID, Point);
+                conn.close();
                 return true;
             }
         } else {
+            conn.close();
             return false;
         }
     }
 
-    public boolean insertQuestionMarkSheme_id(String question_id, String keyword, int Point) {
-        String keywordID = kw.getKeywordID(keyword);
+    public boolean insertQuestionMarkSheme_id(String question_id, String keyword, int Point) throws SQLException {
+        conn = pb.get_connection();
+        String keywordID = kw.getKeywordID(conn, keyword);
 
         if (keywordID != null) {
-            boolean b_add_mk = mk.inserRows(question_id, keywordID, Point);
+            boolean b_add_mk = mk.inserRows(conn, question_id, keywordID, Point);
             if (b_add_mk == true) {
+                conn.close();
                 return true;
             } else {
+                conn.close();
                 return false;
             }
 
         } else {
             kw.inserRows(keyword);
-            keywordID = kw.getKeywordID(keyword);
-            boolean b_add_mk = mk.inserRows(question_id, keywordID, Point);
+            keywordID = kw.getKeywordID(conn, keyword);
+            boolean b_add_mk = mk.inserRows(conn, question_id, keywordID, Point);
             if (b_add_mk == true) {
+                conn.close();
                 return true;
             } else {
+                conn.close();
                 return false;
             }
         }
+
     }
 
-    public void deleteQuestion_id(String question_id) {
-
-        qt.deletRows(question_id);
-        sl.deletRows(question_id);
-        mk.deletRows(question_id);
+    public void deleteQuestion_id(String question_id) throws SQLException {
+        conn = pb.get_connection();
+        mk.deletRows(conn, question_id);
+        sl.deletRows(conn, question_id);
+        qt.deletRows(conn, question_id);
+        System.out.println("delete successful");
+        conn.close();
     }
 
-    public void deleteQuestion(String question) {
-        boolean bQuestion = qt.bCheckQuestion(question);
+    public void deleteQuestion(String question) throws SQLException {
+        conn = pb.get_connection();
+        boolean bQuestion = qt.bCheckQuestion(conn, question);
         if (bQuestion == true) {
-            String qs_id = qt.getQuestionID(question);
-            qt.deletRows(qs_id);
-            sl.deletRows(qs_id);
-            mk.deletRows(qs_id);
+            String qs_id = qt.getQuestionID(conn, question);
+            mk.deletRows(conn, qs_id);
+            sl.deletRows(conn, qs_id);
+            qt.deletRows(conn, qs_id);
         }
+        conn.close();
     }
 
     public int getDblength() {

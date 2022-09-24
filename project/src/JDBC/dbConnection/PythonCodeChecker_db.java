@@ -5,10 +5,10 @@ import java.sql.DriverManager;
 
 public class PythonCodeChecker_db {
 
-
     public Connection get_connection() {
         Connection connection = null;
-        String host = "mysqlpythoncodechecker.cyi624ixm65n.us-east-2.rds.amazonaws.com";
+
+        String host = "mysqlpythoncodechecker.cxz65o79hwmr.ap-southeast-2.rds.amazonaws.com";
         String port = "3306";
         String db_name = "PythonCodeChecker";
         String username = "admin";
