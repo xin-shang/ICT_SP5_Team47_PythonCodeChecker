@@ -3,6 +3,7 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.BorderLayout;
 
@@ -15,11 +16,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.text.PlainDocument;
+
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
+import methodAndTool.ChangeTabToSpacesFilter;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
@@ -56,6 +60,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                  * 设置窗口内容
                  */
                 //
+
+                //
                 newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
 
                 //
@@ -63,6 +69,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 newQuestion0 = new JTextArea(10, 10);
                 newQuestion0.setLineWrap(true); // 自动换行
 
+                newQuestion0.setTabSize(1);
                 Box boxQuestion0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Question0 = new JScrollPane(newQuestion0);
                 boxQuestion0.add(scrollPane_Question0);
@@ -71,6 +78,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 newSolution = new JLabel("Please Write down Solution of Question");
                 newSolution0 = new JTextArea(20, 10);
                 newSolution0.setLineWrap(true); // 自动换行
+                int spaceCount = 4;
+                ((PlainDocument) newSolution0.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
 
                 Box boxSolution0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
@@ -225,16 +234,24 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                         boolean b_score = checkSocre();
                                         if (b_score == true) {
-                                                boolean b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
-                                                                this.getNewSolutionString(),
-                                                                answer);
-                                                if (b_add_q == true) {
-                                                        getScorePointStringList();
-                                                        JOptionPane.showMessageDialog(this, "Add Successful");
+                                                boolean b_add_q;
+                                                try {
+                                                        b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
+                                                                        this.getNewSolutionString(),
+                                                                        answer);
+                                                        if (b_add_q == true) {
+                                                                getScorePointStringList();
+                                                                JOptionPane.showMessageDialog(this, "Add Successful");
 
-                                                } else {
-                                                        JOptionPane.showMessageDialog(this, "Question is already exit");
+                                                        } else {
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Question is already exit");
+                                                        }
+                                                } catch (SQLException e1) {
+                                                        // TODO Auto-generated catch block
+                                                        e1.printStackTrace();
                                                 }
+
                                         }
                                 }
 
@@ -306,7 +323,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         }
 
         // Push score list to db
-        public void getScorePointStringList() {
+        public void getScorePointStringList() throws SQLException {
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {

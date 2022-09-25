@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
@@ -193,34 +194,42 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // get student input code
-                                String pyCodeAnswer = "\n" + StudentWorkingComponent.getEditAnswerString();
-
-                                WAR.checkSolutionSytaxError(pyCodeAnswer);
-
-                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(answer);
 
                                 // get row index id; 选择question
                                 int y = ChooseQuestionComponent.getSelectedRow();
-                                // get question id；把选择的question id抓出来
-                                String id = (String) DIO.getData(y, 0);
+                                if (y == -1) {
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
 
-                                // select the mark scheme by question id(empty list)
-                                List<markScheme> mkl = new ArrayList<markScheme>();
-                                // input the marking scheme into 'mkl'
-                                mkl = DIO.getSelectedMarkScheme(id);
+                                } else {
+                                        // get student input code
+                                        String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
+                                        WAR.checkSolutionSytaxError(pyCodeSolution);
 
-                                // System.out.println(mkl.get(0).getScore());
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        StudentWorkingComponent.terminalArea.setText(answer);
 
-                                int score = KA.getKeyWordSocre(pyCodeAnswer, mkl);
+                                        // get question id；把选择的question id抓出来
+                                        String id = (String) DIO.getData_id(y);
+                                        String correctAnswer = (String) DIO.getData(y, 3);
 
-                                System.out.println(score);
+                                        // select the mark scheme by question id(empty list)
+                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                        // input the marking scheme into 'mkl'
+                                        mkl = DIO.getSelectedMarkScheme(id);
 
-                                System.out.println("Button is Working! Submit Answer Code");
-                                // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+                                        // System.out.println(mkl.get(0).getScore());
 
-                                System.out.println("-- The Submit Answer Button is Working --");
+                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
+
+                                        System.out.println(score);
+
+                                        System.out.println("Button is Working! Submit Answer Code");
+                                        // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+
+                                        System.out.println("-- The Submit Answer Button is Working --");
+                                }
+
                         }
                 });
         }

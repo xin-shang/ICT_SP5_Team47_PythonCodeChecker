@@ -28,7 +28,7 @@ if __name__ == '__main__':
     #markPoint_printAll(c)
     #r = getUserQuestionRows(c,"staff")
     
-    question_printAll(c)
+    KeywordAl_printAll(c)
    
 
     #solution_printAll(c)

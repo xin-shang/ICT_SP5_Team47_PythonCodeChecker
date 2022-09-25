@@ -1,5 +1,6 @@
 package JDBC.QNS.GroupTable;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ public class studentQns_T extends Qns_T {
     List<QnS> qnsDB;
     public static int dblength;
     public static int rowlength = 4;
+    PreparedStatement PreStmt;
 
     public studentQns_T() {
         qnsDB = getStudentQns();
+        System.out.println("____________");
     }
 
     public List<QnS> getQNS() {
@@ -24,13 +27,14 @@ public class studentQns_T extends Qns_T {
     private List<QnS> getStudentQns() {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {
-            connectDB();
             // System.out.println("Opened database successfully!");
             String sql = "SELECT question.id, " +
                     "question.question, " +
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id";
+            conn = pb.get_connection();
+            // System.out.println("student_qns");
             PreStmt = conn.prepareStatement(sql);
             ResultSet res = PreStmt.executeQuery();
             int num = 0;
@@ -45,13 +49,22 @@ public class studentQns_T extends Qns_T {
             }
             dblength = num;
             PreStmt.close();
-            disConnectDB();
+            conn.close();
             return qnsDB;
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());
             System.exit(0);
             return null;
+        }
+    }
+
+    public Object getData_id(int y) {
+        if (y > dblength) {
+            System.out.println("column is out of index");
+            return null;
+        } else {
+            return qnsDB.get(y).getQuestionID();
         }
     }
 
@@ -65,8 +78,8 @@ public class studentQns_T extends Qns_T {
             return null;
         }
         if (x == 0) {
-            return qnsDB.get(y).getQuestionID();
-            // return y + 1;
+            // return qnsDB.get(y).getQuestionID();
+            return y + 1;
         } else if (x == 1) {
             return qnsDB.get(y).getQuestion();
         } else if (x == 2) {

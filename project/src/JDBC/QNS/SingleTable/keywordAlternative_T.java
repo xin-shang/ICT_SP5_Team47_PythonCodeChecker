@@ -1,5 +1,6 @@
 package JDBC.QNS.SingleTable;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedHashMap;
@@ -7,10 +8,14 @@ import java.util.Map;
 
 import JDBC.dbConnection.PythonCodeChecker_db;
 
-public class keywordAlternative_T extends PythonCodeChecker_db {
+public class keywordAlternative_T {
 
     static int dblength;
     Map<Integer, String> keyWordsList;
+    ResultSet res;
+    Statement stmt;
+    Connection conn;
+    PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
     public keywordAlternative_T() {
         keyWordsList = getKeywordsList();
@@ -20,9 +25,10 @@ public class keywordAlternative_T extends PythonCodeChecker_db {
     private Map<Integer, String> getKeywordsList() {
         Map<Integer, String> keyWords = new LinkedHashMap<>();
         try {
-            connectDB();
-            String sql = "select rowid, * From keywordAlternative";
-            stmt = (Statement) conn.createStatement();
+
+            String sql = "select (@row_number:=@row_number + 1) AS num, keywords From keywordAlternative";
+            conn = pb.get_connection();
+            stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);
 
             int num = 0;
@@ -33,7 +39,7 @@ public class keywordAlternative_T extends PythonCodeChecker_db {
             dblength = num;
 
             stmt.close();
-            disConnectDB();
+            conn.close();
             return keyWords;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());

@@ -14,13 +14,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ChangeTabToSpacesFilter;
 import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.Element;
+import javax.swing.text.PlainDocument;
 
 public class StudentWorkingComponent extends Box {
 
@@ -53,23 +54,19 @@ public class StudentWorkingComponent extends Box {
 
         public StudentWorkingComponent() {
                 super(BoxLayout.Y_AXIS);
-                editScrollPane = new JScrollPane(editArea);
-                lines = new JTextArea("1");
-                lines.setBackground(Color.LIGHT_GRAY);
-                lines.setEditable(false);
-
-                /**
-                 * 
-                */
-
-                //
-                Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
                 ProjectVariable pv = new ProjectVariable();
 
                 Font myFont2 = pv.getUserTextfieldFontSize();
+                Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
-                //
+                editScrollPane = new JScrollPane();
+
+                lines = new JTextArea("  1  ");
+                lines.setBackground(Color.LIGHT_GRAY);
+                lines.setEditable(false);
+                lines.setFont(myFont2);
+
                 PythonCodeChackerPage.splitPane.setDividerLocation(900);
 
                 topBox = Box.createHorizontalBox();
@@ -85,31 +82,30 @@ public class StudentWorkingComponent extends Box {
                 //
                 midBox = Box.createHorizontalBox();
 
-                numListModel.clear();
-                numListModel.addElement(1);
-                numList.setModel(numListModel);
-                numList = new JList<Integer>(); // 之前数字列不出现，这行被备注了。
-                numList.setPreferredSize(new Dimension(2, 500));
-                numList.setFixedCellWidth(25);
-                numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
-                numListScrollPane = new JScrollPane(numList);
-                numListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-
                 editArea = new JTextArea();
+
+                editArea.setLineWrap(false);
+                editArea.setWrapStyleWord(false);
+
+                int spaceCount = 4;
+
                 // editArea.setPreferredSize(new Dimension(700, 500));
-
-                editArea.setLineWrap(true); // 自动换行
-
                 editArea.setFont(myFont2);
-                lines.setFont(myFont2);
 
                 editArea.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
                                 int caretPosition = editArea.getDocument().getLength();
+                                System.out.println(caretPosition);
+
                                 Element root = editArea.getDocument().getDefaultRootElement();
-                                String text = "1" + System.getProperty("line.separator");
+                                String text = "  1  " + System.getProperty("line.separator");
                                 for (int i = 2; i < root.getElementIndex(caretPosition) + 2; i++) {
-                                        text += i + System.getProperty("line.separator");
+                                        if (i < 10) {
+                                                text += "  " + i + "  " + System.getProperty("line.separator");
+                                        } else {
+                                                text += i + System.getProperty("line.separator");
+                                        }
+
                                 }
                                 return text;
                         }
@@ -130,9 +126,12 @@ public class StudentWorkingComponent extends Box {
                         }
                 });
 
-                editScrollPane.getViewport().add(editArea);
+                ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
                 editScrollPane.setRowHeaderView(lines);
+                editScrollPane.getViewport().add(editArea);
                 editScrollPane.setPreferredSize(new Dimension(700, 500));
+                editScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
                 // midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
 
@@ -202,13 +201,5 @@ public class StudentWorkingComponent extends Box {
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
-
-        // public static String getTerminalString() {
-        // return terminalArea.getText();
-        // }
-
-        // public static void setTerminalString(String userOutput) {
-        // StudentWorkingComponent.terminalArea.setText(userOutput);
-        // }
 
 }
