@@ -14,14 +14,21 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 import methodAndTool.ProjectVariable;
-import methodAndTool.ChangeTabToSpacesFilter;
+
+import methodAndTool.JTextPaneColorDocument;
 import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.Element;
-import javax.swing.text.PlainDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
 
 public class StudentWorkingComponent extends Box {
 
@@ -35,14 +42,14 @@ public class StudentWorkingComponent extends Box {
         */
         Box box, midBox, topBox, downBox, editBox, lastBox;
         JScrollPane numListScrollPane, editScrollPane, terminalScrollPane;
-        private static JTextArea lines;
+        private static JTextPane lines;
         JLabel questionLabel;
         // 设置按钮
         JPanel studnetButtonPanel;
         JButton buttonSubmitAnswer = new JButton("Submit Answer");
         JButton buttonRunCode = new JButton("Run Code");
         JButton buttonShowFeedback = new JButton("Show Feedback");
-        private static JTextArea editArea;
+        private static JTextPane editTextPane;
 
         public static JTextArea terminalArea;
         String[] data;
@@ -62,7 +69,9 @@ public class StudentWorkingComponent extends Box {
 
                 editScrollPane = new JScrollPane();
 
-                lines = new JTextArea("  1  ");
+                lines = new JTextPane();
+                lines.setText("  1  ");
+
                 lines.setBackground(Color.LIGHT_GRAY);
                 lines.setEditable(false);
                 lines.setFont(myFont2);
@@ -70,34 +79,39 @@ public class StudentWorkingComponent extends Box {
                 PythonCodeChackerPage.splitPane.setDividerLocation(900);
 
                 topBox = Box.createHorizontalBox();
-                // questionLabel = new
-                // JLabel(WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(ChooseQuestionComponent.getSelectedRow(),
-                // 1)));
+
                 questionLabel = new JLabel();
                 questionLabel.setText(getQusetionString());
                 questionLabel.setFont(myFont1);
                 questionLabel.setPreferredSize(new Dimension(900, 50));
                 topBox.add(questionLabel);
-
-                //
                 midBox = Box.createHorizontalBox();
 
-                editArea = new JTextArea();
+                editTextPane = new JTextPane();
 
-                editArea.setLineWrap(false);
-                editArea.setWrapStyleWord(false);
+                // colour
+                editTextPane.setDocument(new JTextPaneColorDocument());
 
-                int spaceCount = 4;
+                // set tab size
+                TabStop[] tabs = new TabStop[1];
+                tabs[0] = new TabStop(16);
 
-                // editArea.setPreferredSize(new Dimension(700, 500));
-                editArea.setFont(myFont2);
+                TabSet tabset = new TabSet(tabs);
 
-                editArea.getDocument().addDocumentListener(new DocumentListener() {
+                StyleContext sc = StyleContext.getDefaultStyleContext();
+                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+                                StyleConstants.TabSet, tabset);
+
+                editTextPane.setParagraphAttributes(aset, false);
+
+                editTextPane.setFont(myFont2);
+
+                editTextPane.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
-                                int caretPosition = editArea.getDocument().getLength();
+                                int caretPosition = editTextPane.getDocument().getLength();
                                 System.out.println(caretPosition);
 
-                                Element root = editArea.getDocument().getDefaultRootElement();
+                                Element root = editTextPane.getDocument().getDefaultRootElement();
                                 String text = "  1  " + System.getProperty("line.separator");
                                 for (int i = 2; i < root.getElementIndex(caretPosition) + 2; i++) {
                                         if (i < 10) {
@@ -126,10 +140,12 @@ public class StudentWorkingComponent extends Box {
                         }
                 });
 
-                ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+                editTextPane.setBackground(new Color(48, 49, 52));
+                // make cursor white color
+                editTextPane.setCaretColor(Color.WHITE);
 
                 editScrollPane.setRowHeaderView(lines);
-                editScrollPane.getViewport().add(editArea);
+                editScrollPane.getViewport().add(editTextPane);
                 editScrollPane.setPreferredSize(new Dimension(700, 500));
                 editScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
                 // midBox.add(numListScrollPane);
@@ -199,7 +215,7 @@ public class StudentWorkingComponent extends Box {
         }
 
         public static String getEditAnswerString() {
-                return editArea.getText();
+                return editTextPane.getText();
         }
 
 }
