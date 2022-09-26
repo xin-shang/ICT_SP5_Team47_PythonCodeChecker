@@ -129,8 +129,13 @@ public class StudentWorkingComponent extends Box {
 
 
                 ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
+
+                //background color set
                 editArea.setBackground(new Color(48, 49, 52));
 		
+                //text color - white
+
 		editArea.setForeground(Color.WHITE);
 
                 // make cursor white color
