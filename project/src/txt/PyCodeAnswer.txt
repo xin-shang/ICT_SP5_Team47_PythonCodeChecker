@@ -1,1 +1,1 @@
-NameError: name 'printsss' is not defined
+100

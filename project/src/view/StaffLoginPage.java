@@ -12,13 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import JDBC.Login.STAFF.staffLogin_T;
+import JDBC.Login.staff_T;
 import methodAndTool.ScreenUtils;
 
 public class StaffLoginPage extends LoginPage {
 
 	JFrame frame = new JFrame("Python Code Chacker - Staff Login Page");
-	staffLogin_T SL = new staffLogin_T();
+	staff_T SL = new staff_T();
 
 	// 初始化，组装界面
 	public void init() {
@@ -108,12 +108,12 @@ public class StaffLoginPage extends LoginPage {
 			public void actionPerformed(ActionEvent e) {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
 				String usernameStaff = area_user.getText().trim();
-				String passwordStaff = area_password.getText().trim();
+				String passwordStaff = new String(area_password.getPassword());
+				
 
 				int busername_password = SL.checkUserID(usernameStaff, passwordStaff);
 
 				if (busername_password == 2) {
-
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
 					new PythonQuestionEditPage().init();

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -16,8 +17,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.Student.studentQns_T;
+import JDBC.QNS.GroupTable.studentQns_T;
 import methodAndTool.WriteAndRead;
+import methodAndTool.markScheme;
 import view.PythonCodeChackerPage;
 
 public class ChooseQuestionComponent extends Box {
@@ -34,7 +36,7 @@ public class ChooseQuestionComponent extends Box {
 
 	// 创建集合 操作集合比操作数组容易
 	private static Vector<Object> titlesChooseQuestion_Table = new Vector<Object>(); // 存储标题
-	private static Vector<Vector> dataChooseQuestion_Table = new Vector<>(); // 存储数据
+	private static Vector<Vector<Object>> dataChooseQuestion_Table = new Vector<>(); // 存储数据
 
 	// 是不是可以在下面写一个左箭头一个右箭头？用来切换题目？
 
@@ -84,16 +86,12 @@ public class ChooseQuestionComponent extends Box {
 		// 获取列
 		TableColumn column1 = chooseQuestionTable.getColumn(titlesChooseQuestion[0]);
 		// 设置列宽的最大像素
-		column1.setMaxWidth(90);
-		column1.setMinWidth(90);
+		column1.setMaxWidth(50);
+		column1.setMinWidth(50);
 
 		// 获取列
-		TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
-		// 设置列宽
-		column2.setMaxWidth(0);
-		column2.setMinWidth(0);
-		column2.setWidth(0);
-		column2.setPreferredWidth(0);
+		// TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
+		
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
@@ -107,6 +105,18 @@ public class ChooseQuestionComponent extends Box {
 
 		this.add(scrollPane);
 		this.add(buttonStudentPanel, BorderLayout.SOUTH);
+
+	}
+
+	public List<markScheme> getSelectedMarkScheme() {
+		List<markScheme> mk = null;
+
+		int rowIndex = chooseQuestionTable.getSelectedRow();
+
+		String selectedQuestionID = DIO.getQNS().get(rowIndex).getQuestionID();
+
+		mk = DIO.getSelectedMarkScheme(selectedQuestionID);
+		return mk;
 
 	}
 

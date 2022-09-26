@@ -3,34 +3,51 @@ package component;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
+import java.awt.*;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ChangeTabToSpacesFilter;
 import view.PythonCodeChackerPage;
+
+import javax.swing.event.*;
+import javax.swing.text.Element;
+import javax.swing.text.PlainDocument;
 
 public class StudentWorkingComponent extends Box {
 
         /**
          * 
         */
+        PythonCodeChackerPage PCCP = new PythonCodeChackerPage();
+
+        /**
+         * 
+        */
         Box box, midBox, topBox, downBox, editBox, lastBox;
         JScrollPane numListScrollPane, editScrollPane, terminalScrollPane;
+        private static JTextArea lines;
         JLabel questionLabel;
+        // 设置按钮
+        JPanel studnetButtonPanel;
+        JButton buttonSubmitAnswer = new JButton("Submit Answer");
+        JButton buttonRunCode = new JButton("Run Code");
+        JButton buttonShowFeedback = new JButton("Show Feedback");
         private static JTextArea editArea;
-        public static JTextArea terminalArea;
 
-        JList numList = new JList();
-        DefaultListModel numListModel = new DefaultListModel();
+        public static JTextArea terminalArea;
+        String[] data;
+        JList<Integer> numList = new JList<Integer>(); // 改好了
+        DefaultListModel<Integer> numListModel = new DefaultListModel<Integer>();
 
         int num = 1;
         public static String questionString = "<html><p>Are You Ready? Please Choose a Python Code Question: </p></html>";
@@ -38,18 +55,18 @@ public class StudentWorkingComponent extends Box {
         public StudentWorkingComponent() {
                 super(BoxLayout.Y_AXIS);
 
-                /**
-                 * 
-                */
-
-                //
-                Font myFont1 = new Font("Arial", Font.PLAIN, 16);
-
                 ProjectVariable pv = new ProjectVariable();
 
                 Font myFont2 = pv.getUserTextfieldFontSize();
+                Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
-                //
+                editScrollPane = new JScrollPane();
+
+                lines = new JTextArea("  1  ");
+                lines.setBackground(Color.LIGHT_GRAY);
+                lines.setEditable(false);
+                lines.setFont(myFont2);
+
                 PythonCodeChackerPage.splitPane.setDividerLocation(900);
 
                 topBox = Box.createHorizontalBox();
@@ -65,44 +82,57 @@ public class StudentWorkingComponent extends Box {
                 //
                 midBox = Box.createHorizontalBox();
 
-                numListModel.clear();
-                numListModel.addElement(1);
-                numList.setModel(numListModel);
-                numList = new JList<Integer>();
-                numList.setPreferredSize(new Dimension(2, 500));
-                numList.setFixedCellWidth(25);
-                numList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 只能选一行
-                numListScrollPane = new JScrollPane(numList);
-                numListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                editArea = new JTextArea();
 
-                editArea = new JTextArea(25, 100);
-                editArea.setLineWrap(true); // 自动换行
+                editArea.setLineWrap(false);
+                editArea.setWrapStyleWord(false);
+
+                int spaceCount = 4;
+
+                // editArea.setPreferredSize(new Dimension(700, 500));
                 editArea.setFont(myFont2);
-                editArea.addKeyListener(new KeyAdapter() {
-                        @Override
-                        public void keyTyped(KeyEvent e) {
-                                if ((char) e.getKeyChar() == KeyEvent.VK_ENTER) {
-                                        setNum(num + 1);
-                                        addItem();
-                                }
 
-                                // 想写一个监听删除按钮后，对比文本框中的行数和变量num的值。List减掉最后一个数。
-                                else if ((char) e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                                        System.out.println("--Delete--");
-                                        if (editArea.getLineCount() < getNum()) {
+                editArea.getDocument().addDocumentListener(new DocumentListener() {
+                        public String getText() {
+                                int caretPosition = editArea.getDocument().getLength();
+                                System.out.println(caretPosition);
 
-                                                setNum(num - 1);
-                                                deleteItem();
-                                                System.out.println("--Delete--");
+                                Element root = editArea.getDocument().getDefaultRootElement();
+                                String text = "  1  " + System.getProperty("line.separator");
+                                for (int i = 2; i < root.getElementIndex(caretPosition) + 2; i++) {
+                                        if (i < 10) {
+                                                text += "  " + i + "  " + System.getProperty("line.separator");
+                                        } else {
+                                                text += i + System.getProperty("line.separator");
                                         }
 
                                 }
+                                return text;
+                        }
+
+                        @Override
+                        public void changedUpdate(DocumentEvent de) {
+                                lines.setText(getText());
+                        }
+
+                        @Override
+                        public void insertUpdate(DocumentEvent de) {
+                                lines.setText(getText());
+                        }
+
+                        @Override
+                        public void removeUpdate(DocumentEvent de) {
+                                lines.setText(getText());
                         }
                 });
 
-                editScrollPane = new JScrollPane(editArea);
+                ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
 
-                midBox.add(numListScrollPane);
+                editScrollPane.setRowHeaderView(lines);
+                editScrollPane.getViewport().add(editArea);
+                editScrollPane.setPreferredSize(new Dimension(700, 500));
+                editScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                // midBox.add(numListScrollPane);
                 midBox.add(editScrollPane);
 
                 this.add(midBox);
@@ -110,7 +140,9 @@ public class StudentWorkingComponent extends Box {
                 //
                 // downPanel = new JPanel();
                 downBox = Box.createHorizontalBox();
+                // 8,40
                 terminalArea = new JTextArea(8, 40);
+
                 terminalArea.setLineWrap(true); // 自动换行
                 terminalArea.setEditable(false);// 不可编辑
 
@@ -131,6 +163,20 @@ public class StudentWorkingComponent extends Box {
 
                 this.add(lastBox);
 
+                // 按键栏
+                studnetButtonPanel = new JPanel();
+                studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+
+                PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
+                PCCP.Button_Item_RunCode(buttonRunCode);
+                PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
+
+                studnetButtonPanel.add(buttonSubmitAnswer);
+                studnetButtonPanel.add(buttonRunCode);
+                studnetButtonPanel.add(buttonShowFeedback);
+
+                this.add(studnetButtonPanel, BorderLayout.SOUTH);
+
         }
 
         /**
@@ -148,40 +194,12 @@ public class StudentWorkingComponent extends Box {
                 StudentWorkingComponent.questionString = question;
         }
 
-        //学生做的题目(用这个找keyword评分标准，和下面学生写的答案对比)
-        public String getQusetionString() {
+        public static String getQusetionString() {
                 return StudentWorkingComponent.questionString;
         }
 
-        private void setNum(int num) {
-                this.num = num;
-        }
-
-        private int getNum() {
-                return this.num;
-        }
-
-        private void addItem() {
-                numListModel.addElement(getNum());
-                numList.setModel(numListModel);
-        }
-
-        private void deleteItem() {
-                numListModel.remove(getNum());
-                numList.setModel(numListModel);
-        }
-
-        //学生写的答案
         public static String getEditAnswerString() {
                 return editArea.getText();
         }
-
-        // public static String getTerminalString() {
-        // return terminalArea.getText();
-        // }
-
-        // public static void setTerminalString(String userOutput) {
-        // StudentWorkingComponent.terminalArea.setText(userOutput);
-        // }
 
 }

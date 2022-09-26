@@ -5,23 +5,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.studentQns_T;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
+import methodAndTool.keywordAnalysis;
+import methodAndTool.markScheme;
 
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
+        studentQns_T DIO = new studentQns_T();
+        keywordAnalysis KA = new keywordAnalysis();
 
         /**
          * Python Code Checker Page
@@ -49,6 +58,12 @@ public class PythonCodeChackerPage {
         // 设置菜单中物品 - USER
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
+
+        // // 设置按钮
+        // JPanel studnetButtonPanel;
+        // JButton buttonSubmitAnswer = new JButton("Submit Answer");
+        // JButton buttonRunCode = new JButton("Run Code");
+        // JButton buttonShowFeedback = new JButton("Show Feedback");
 
         Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
@@ -120,8 +135,22 @@ public class PythonCodeChackerPage {
                 // 将菜单栏加入窗口
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
+
+                // // 按键栏
+                // studnetButtonPanel = new JPanel();
+                // studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+
+                // Button_Item_SubmitAnswer(buttonSubmitAnswer);
+                // Button_Item_RunCode(buttonRunCode);
+                // Button_Item_ShowFeedback(buttonShowFeedback);
+
+                // studnetButtonPanel.add(buttonSubmitAnswer);
+                // studnetButtonPanel.add(buttonRunCode);
+                // studnetButtonPanel.add(buttonShowFeedback);
+
                 // 窗口可见
                 frame.setVisible(true);
+                // frame.add(studnetButtonPanel, BorderLayout.SOUTH);
 
         }
 
@@ -153,68 +182,77 @@ public class PythonCodeChackerPage {
                 });
         }
 
+        public boolean detectWhileLoop(String path) {
+                String code = WAR.readText(path);
+                String UPcode = code.toUpperCase();
+                boolean bWHile = UPcode.contains("WHILE");
+                return bWHile;
+        }
+
         // Submit Answer
-        private void Button_Item_SubmitAnswer(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_SubmitAnswer(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                        System.out.println("--Submit Answer Code Button is Working--");
-                                } catch (IOException e1) {
-                                        e1.printStackTrace();
+
+                                // get row index id; 选择question
+                                int y = ChooseQuestionComponent.getSelectedRow();
+                                if (y == -1) {
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
+
+                                } else {
+                                        // get student input code
+                                        String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
+                                        WAR.checkSolutionSytaxError(pyCodeSolution);
+
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        StudentWorkingComponent.terminalArea.setText(answer);
+
+                                        // get question id；把选择的question id抓出来
+                                        String id = (String) DIO.getData_id(y);
+                                        String correctAnswer = (String) DIO.getData(y, 3);
+
+                                        // select the mark scheme by question id(empty list)
+                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                        // input the marking scheme into 'mkl'
+                                        mkl = DIO.getSelectedMarkScheme(id);
+
+                                        // System.out.println(mkl.get(0).getScore());
+
+                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
+
+                                        System.out.println(score);
+
+                                        System.out.println("Button is Working! Submit Answer Code");
+                                        // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+
+                                        System.out.println("-- The Submit Answer Button is Working --");
                                 }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYSubmitCode.py");
 
-                                String Score = WAR.readText("./src/txt/PyCodeScore.txt");
-
-                                System.out.println("your score is: " + Score);
-
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
-
-                                System.out.println("Button is Working! Submit Answer Code");
-                                System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
-
-                                System.out.println("-- The Submit Answer Button is Working --");
                         }
                 });
         }
 
         // Run Code
-        private void Button_Item_RunCode(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_RunCode(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
                                 //
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                } catch (IOException e1) {
-
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYRunCode.py");
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
+                                String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
+                                WAR.checkSolutionSytaxError(pyCodeSolution);
+                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                StudentWorkingComponent.terminalArea.setText(answer);
                                 System.out.println("-- The Run Code Button is Working --");
                         }
                 });
         }
 
         // Show Feedback
-        private void Button_Item_ShowFeedback(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_ShowFeedback(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
@@ -265,20 +303,5 @@ public class PythonCodeChackerPage {
                         }
                 });
         }
-
-        // // Show This Question
-        // private void Button_Item_ShowThisQuestion (JMenuItem button) {
-        // button.addActionListener (new ActionListener() {
-        // @Override
-        // public void actionPerformed (ActionEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("-- The Show This Question Button is Working --");
-        // }
-        // });
-        // }
-
-        /*
-         * 内容获取
-         */
 
 }
