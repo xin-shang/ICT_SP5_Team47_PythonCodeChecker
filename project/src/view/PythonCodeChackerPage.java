@@ -59,6 +59,8 @@ public class PythonCodeChackerPage {
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
 
+        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
+
         // // 设置按钮
         // JPanel studnetButtonPanel;
         // JButton buttonSubmitAnswer = new JButton("Submit Answer");
@@ -255,8 +257,32 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
+                                String solution = StudentWorkingComponent.getEditAnswerString();
+
+                                if (solution.length() > 0) {
+                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
+                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
+
+                                        String runResultMessage = WAR.readText(".src/txt/PyCodeAnswer.txt");
+                                        feedbackPage.setRunResultMessage(runResultMessage);
+
+                                        feedbackPage.updateMessageTextArea();
+
+                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
+                                        System.out.println("Output or error from Python: " + runResultMessage);
+
+                                } else {
+                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
+                                        System.out.println("The editor window's empty");
+                                }
+
+                                // Make the pop up dialog center align to parent window
+                                feedbackPage.setLocationRelativeTo(frame);
+                                // Show the feedback dialog
+                                feedbackPage.setVisible(true);
                                 System.out.println("-- The Show Feedback Button is Working --");
+
                         }
                 });
         }
