@@ -16,6 +16,12 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
     final AttributeSet whiteColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
     final AttributeSet purpleColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
             new Color(170, 80, 153));
+    
+    final AttributeSet redColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, 
+            new Color(255, 51, 51));
+    final AttributeSet yellowColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, 
+            new Color(255, 255, 51));
+
 
     private int findLastChar(String text, int index) {
         while (index < text.length()) {
@@ -55,7 +61,10 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         } else if (text.substring(leftIndex, rightIndex).matches(
                 "(\\W)*((False|None|True|and|is|lambda|class|def|nonlocal|not|or))")) {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, blueColor, false);
-        } else {
+        }else if (text.substring(leftIndex, rightIndex).matches(
+            "(\\W)*((print|sum|input))")) {
+        setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
+        }else {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
         }
     }
@@ -84,6 +93,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                 else if (text.substring(leftIndex, rightIndex).matches(
                         "(\\W)*(False|None|True|and|is|lambda|class|def|nonlocal|not|or)"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, blueColor, false);
+                else if (text.substring(leftIndex, rightIndex).matches(
+                        "(\\W)*(print|sum|input)"))
+                    setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
                 else
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
                 leftIndex = rightIndex;
