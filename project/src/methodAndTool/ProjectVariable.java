@@ -56,7 +56,6 @@ public class ProjectVariable {
 		if (getOSName().startsWith("Windows")) {
 
 			Font myFont3 = new Font("Arial", Font.PLAIN, 15);
-			
 			return myFont3;
 		} else {
 			Font myFont2 = new Font("Arial", Font.PLAIN, 14);

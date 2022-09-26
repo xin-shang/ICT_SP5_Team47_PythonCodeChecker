@@ -7,37 +7,34 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 
-
-public class TextAreaColorDocument extends DefaultStyledDocument{
-    
+public class JTextPaneColorDocument extends DefaultStyledDocument {
 
     final StyleContext cont = StyleContext.getDefaultStyleContext();
     final AttributeSet blueColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
-				new Color(3, 169, 244));
+            new Color(3, 169, 244));
 
-	final AttributeSet whiteColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
-	final AttributeSet purpleColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
-				new Color(170, 80, 153));
+    final AttributeSet whiteColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
+    final AttributeSet purpleColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
+            new Color(170, 80, 153));
 
-    
     private int findLastChar(String text, int index) {
-		while (index < text.length()) {
-			if (String.valueOf(text.charAt(index)).matches("\\W")) {
-				break;
-			}
-			index++;
-		}
-		return index;
-	}
+        while (index < text.length()) {
+            if (String.valueOf(text.charAt(index)).matches("\\W")) {
+                break;
+            }
+            index++;
+        }
+        return index;
+    }
 
     private int findFirstChar(String text, int index) {
-		while (--index >= 0) {
-			if (String.valueOf(text.charAt(index)).matches("\\W")) {
-				break;
-			}
-		}
-		return index;
-	}
+        while (--index >= 0) {
+            if (String.valueOf(text.charAt(index)).matches("\\W")) {
+                break;
+            }
+        }
+        return index;
+    }
 
     public void remove(int offs, int len) throws BadLocationException {
         super.remove(offs, len);
