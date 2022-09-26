@@ -84,8 +84,7 @@ public class StudentWorkingComponent extends Box {
 
                 editArea = new JTextArea();
 
-                editArea.setLineWrap(false);
-                editArea.setWrapStyleWord(false);
+ 
 
                 int spaceCount = 4;
 
@@ -126,7 +125,16 @@ public class StudentWorkingComponent extends Box {
                         }
                 });
 
+                
+
+
                 ((PlainDocument) editArea.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+                editArea.setBackground(new Color(48, 49, 52));
+		
+		editArea.setForeground(Color.WHITE);
+
+                // make cursor white color
+                editArea.setCaretColor(Color.WHITE);
 
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editArea);
@@ -137,7 +145,7 @@ public class StudentWorkingComponent extends Box {
 
                 this.add(midBox);
 
-                //
+    
                 // downPanel = new JPanel();
                 downBox = Box.createHorizontalBox();
                 // 8,40
