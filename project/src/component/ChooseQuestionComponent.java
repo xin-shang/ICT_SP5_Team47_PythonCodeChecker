@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,18 +20,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import JDBC.QNS.GroupTable.studentQns_T;
+import methodAndTool.MessagePrintString;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 import view.PythonCodeChackerPage;
 
 public class ChooseQuestionComponent extends Box {
 
-	studentQns_T DIO = new studentQns_T();
 	/**
 	 * Python Code Checker Page - ChooseQuestionComponent
 	 */
+	Date dateNow = new Date();
+	studentQns_T DIO = new studentQns_T();
+	MessagePrintString MPS = new MessagePrintString();
+
 	// 创建一维数组，存储标题
-	Object[] titlesChooseQuestion = { "QuestionID", "Question-Stems" };
+	Object[] titlesChooseQuestion = { "ID", "Question-Stems" };
 
 	// 表格
 	public static JTable chooseQuestionTable;
@@ -43,6 +49,7 @@ public class ChooseQuestionComponent extends Box {
 	// 用数据库的话，需要创建数据模型。
 	public static DefaultTableModel chooseQuestionTableModel;
 	private static int selectedRow = -1;
+	public static int rowNum;
 	private JButton showQuestionButton;
 
 	public ChooseQuestionComponent() {
@@ -61,7 +68,7 @@ public class ChooseQuestionComponent extends Box {
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
-			for (int j = 0; j < DIO.getRowlength(); j++) {
+			for (int j = 0; j < 2/*DIO.getRowlength()*/; j++) {
 				t.add(DIO.getData(i, j));
 			}
 			dataChooseQuestion_Table.add(t);
@@ -129,12 +136,17 @@ public class ChooseQuestionComponent extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
+				rowNum = ChooseQuestionComponent.getSelectedRow();
 				setSelectedRow(chooseQuestionTable.getSelectedRow());
 				StudentWorkingComponent
 						.setQuestionString(WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
 				PythonCodeChackerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+				
+				MPS.QuestionToString(StudentWorkingComponent.terminalArea);
+				MPS.EditingToString(StudentWorkingComponent.terminalArea);
 
 				System.out.println("-- The Show Button is Working --");
+				
 			}
 		});
 	}
@@ -153,6 +165,16 @@ public class ChooseQuestionComponent extends Box {
 	// 某个单元格中的内容 ID，Question 用这个
 	public static Object getValueAt_Table(int rowIndex, int columnIndex) {
 		return dataChooseQuestion_Table.get(rowIndex).get(columnIndex); // get(int) 返回位于Vector中指定位置的元素。
+	}
+
+	public static int getRow() {
+		return rowNum;
+	}
+
+	public static String getTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		String timestr = sdf.format(new Date());
+		return timestr;
 	}
 
 }

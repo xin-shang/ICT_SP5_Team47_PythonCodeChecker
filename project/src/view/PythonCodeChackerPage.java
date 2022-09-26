@@ -21,6 +21,7 @@ import javax.swing.JSplitPane;
 import JDBC.QNS.GroupTable.studentQns_T;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
+import methodAndTool.MessagePrintString;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 import methodAndTool.keywordAnalysis;
@@ -31,6 +32,7 @@ public class PythonCodeChackerPage {
         WriteAndRead WAR = new WriteAndRead();
         studentQns_T DIO = new studentQns_T();
         keywordAnalysis KA = new keywordAnalysis();
+        MessagePrintString MPS = new MessagePrintString();
 
         /**
          * Python Code Checker Page
@@ -59,16 +61,13 @@ public class PythonCodeChackerPage {
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
 
-        // // 设置按钮
-        // JPanel studnetButtonPanel;
-        // JButton buttonSubmitAnswer = new JButton("Submit Answer");
-        // JButton buttonRunCode = new JButton("Run Code");
-        // JButton buttonShowFeedback = new JButton("Show Feedback");
-
         Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
+
+        // Create feedback page dialog
+        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
         // 初始化，组装界面
         public void init() {
@@ -136,18 +135,6 @@ public class PythonCodeChackerPage {
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
 
-                // // 按键栏
-                // studnetButtonPanel = new JPanel();
-                // studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
-
-                // Button_Item_SubmitAnswer(buttonSubmitAnswer);
-                // Button_Item_RunCode(buttonRunCode);
-                // Button_Item_ShowFeedback(buttonShowFeedback);
-
-                // studnetButtonPanel.add(buttonSubmitAnswer);
-                // studnetButtonPanel.add(buttonRunCode);
-                // studnetButtonPanel.add(buttonShowFeedback);
-
                 // 窗口可见
                 frame.setVisible(true);
                 // frame.add(studnetButtonPanel, BorderLayout.SOUTH);
@@ -202,30 +189,40 @@ public class PythonCodeChackerPage {
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
 
                                 } else {
+                                        MPS.EditEndToString(StudentWorkingComponent.terminalArea);
+                                        MPS.SubmitingToString(StudentWorkingComponent.terminalArea);
+                                        
                                         // get student input code
                                         String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
                                         WAR.checkSolutionSytaxError(pyCodeSolution);
 
+                                        /**
+                                         * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
+                                        */
                                         String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        StudentWorkingComponent.terminalArea.setText(answer);
 
+
+                                        /**
+                                         * 关键词和分数的监测在Submit中？
+                                        */
                                         // get question id；把选择的question id抓出来
                                         String id = (String) DIO.getData_id(y);
                                         String correctAnswer = (String) DIO.getData(y, 3);
 
+                                        
                                         // select the mark scheme by question id(empty list)
+                                        MPS.GrabingMarkSchemeToString(StudentWorkingComponent.terminalArea);
                                         List<markScheme> mkl = new ArrayList<markScheme>();
-                                        // input the marking scheme into 'mkl'
-                                        mkl = DIO.getSelectedMarkScheme(id);
+                                        mkl = DIO.getSelectedMarkScheme(id);   // input the marking scheme into 'mkl'
 
                                         // System.out.println(mkl.get(0).getScore());
-
                                         int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
 
-                                        System.out.println(score);
+                                        //
+                                        MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
+                                        MPS.SubmitAnswerToString(StudentWorkingComponent.terminalArea, answer);
 
-                                        System.out.println("Button is Working! Submit Answer Code");
-                                        // System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
+                                        System.out.println(score);
 
                                         System.out.println("-- The Submit Answer Button is Working --");
                                 }
@@ -240,11 +237,12 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
-                                //
+                                MPS.RuningToString(StudentWorkingComponent.terminalArea);
                                 String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
                                 WAR.checkSolutionSytaxError(pyCodeSolution);
                                 String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(answer);
+                                // StudentWorkingComponent.terminalArea.setText(answer);
+                                MPS.RunAnswerToString(StudentWorkingComponent.terminalArea, answer);
                                 System.out.println("-- The Run Code Button is Working --");
                         }
                 });
@@ -256,6 +254,31 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 // TODO Auto-generated method stub
+                                String solution = StudentWorkingComponent.getEditAnswerString();
+                                feedbackPage.setStudentAnswerTextArea(solution);
+
+                                if (solution.length() > 0) {
+                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
+                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
+
+                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        feedbackPage.setRunResultMessage(runResultMessage);
+
+                                        feedbackPage.updateMessageTextArea();
+
+                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
+                                        System.out.println("Output or error from Python: " + runResultMessage);
+
+                                } else {
+                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
+                                        System.out.println("The editor window's empty");
+                                }
+
+                                // Make the pop up dialog center align to parent window
+                                feedbackPage.setLocationRelativeTo(frame);
+                                // Show the feedback dialog
+                                feedbackPage.setVisible(true);
+                                System.out.println("-- The Show Feedback Button is Working --");
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });

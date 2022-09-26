@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 
 import methodAndTool.ProjectVariable;
 import methodAndTool.ChangeTabToSpacesFilter;
+import methodAndTool.MessagePrintString;
 import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
@@ -29,6 +30,7 @@ public class StudentWorkingComponent extends Box {
          * 
         */
         PythonCodeChackerPage PCCP = new PythonCodeChackerPage();
+        MessagePrintString MPS = new MessagePrintString();
 
         /**
          * 
@@ -148,6 +150,9 @@ public class StudentWorkingComponent extends Box {
 
                 terminalScrollPane = new JScrollPane(terminalArea);
                 terminalScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                
+                MPS.startToString(terminalArea);
+                
                 downBox.add(terminalScrollPane);
 
                 box = Box.createVerticalBox();

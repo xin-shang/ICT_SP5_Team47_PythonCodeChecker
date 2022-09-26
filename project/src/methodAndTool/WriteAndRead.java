@@ -11,10 +11,15 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import component.StudentWorkingComponent;
+
 public class WriteAndRead {
 	// set python command as the system return
 	String pythonName = PV.getPythonName();
 	static ProjectVariable PV = new ProjectVariable();
+	
+	//
+	MessagePrintString MPS = new MessagePrintString();
 
 	public boolean creatTxtFile(String name) throws IOException {
 		boolean flag = false;
@@ -147,6 +152,7 @@ public class WriteAndRead {
 	// */
 	public boolean checkSolutionSytaxError(String solution) {
 
+		MPS.SytaxErroringToString(StudentWorkingComponent.terminalArea);
 		boolean bdetectWhileLoop = detectWhileLoop(solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
 		if (bdetectWhileLoop == true) {
@@ -155,8 +161,11 @@ public class WriteAndRead {
 		run_python_code("./src/python/PYRunPythonCode.py");
 		String errorResult = readText("./src/txt/sytaxError_b.txt");
 		if (errorResult.equals("True")) {
+			MPS.SytaxErrorTrueToString(StudentWorkingComponent.terminalArea);
 			return true;
-		} else {
+		} 
+		else {
+			MPS.SytaxErrorFalseToString(StudentWorkingComponent.terminalArea);
 			return false;
 		}
 	}
