@@ -1,1 +1,1 @@
-the output is empty
+NameError: name 'zxczxcwqeqwe' is not defined

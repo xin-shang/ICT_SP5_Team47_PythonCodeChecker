@@ -164,7 +164,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 new HomePage().init();
                                 frame.dispose();
                                 System.out.println("-- The Change Account Manu Button is Working --");
@@ -177,7 +177,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 System.exit(0);
                                 System.out.println("-- The Exit Manu Button is Working --");
                         }
@@ -241,7 +241,6 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
                                 //
                                 String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
                                 WAR.checkSolutionSytaxError(pyCodeSolution);
@@ -264,7 +263,7 @@ public class PythonCodeChackerPage {
                                         boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
                                         feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
 
-                                        String runResultMessage = WAR.readText(".src/txt/PyCodeAnswer.txt");
+                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                         feedbackPage.setRunResultMessage(runResultMessage);
 
                                         feedbackPage.updateMessageTextArea();
@@ -324,7 +323,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 System.out.println("-- The Random Question Button is Working --");
                         }
                 });
