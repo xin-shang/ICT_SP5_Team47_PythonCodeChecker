@@ -29,7 +29,7 @@ public class student_T {
             String sql = "SELECT user_id, password FROM " + table + " WHERE user_id = ?";
             conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
-            System.out.print("connected");
+
             PreStmt.setString(1, userID_u);
             PreStmt.executeQuery();
             ResultSet res = PreStmt.executeQuery();

@@ -31,7 +31,8 @@ public class ChooseQuestionComponent extends Box {
 	 * Python Code Checker Page - ChooseQuestionComponent
 	 */
 	Date dateNow = new Date();
-	studentQns_T DIO = new studentQns_T();
+	studentQns_T DIO = null;
+
 	MessagePrintString MPS = new MessagePrintString();
 
 	// 创建一维数组，存储标题
@@ -52,8 +53,10 @@ public class ChooseQuestionComponent extends Box {
 	public static int rowNum;
 	private JButton showQuestionButton;
 
-	public ChooseQuestionComponent() {
+	public ChooseQuestionComponent(studentQns_T dio) {
 		super(BoxLayout.Y_AXIS);
+
+		this.DIO = dio;
 
 		/**
 		 * 组装零件
@@ -68,7 +71,7 @@ public class ChooseQuestionComponent extends Box {
 
 		for (int i = 0; i < DIO.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
-			for (int j = 0; j < 2/*DIO.getRowlength()*/; j++) {
+			for (int j = 0; j < 2/* DIO.getRowlength() */; j++) {
 				t.add(DIO.getData(i, j));
 			}
 			dataChooseQuestion_Table.add(t);
@@ -98,7 +101,6 @@ public class ChooseQuestionComponent extends Box {
 
 		// 获取列
 		// TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
-		
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
@@ -141,12 +143,12 @@ public class ChooseQuestionComponent extends Box {
 				StudentWorkingComponent
 						.setQuestionString(WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
 				PythonCodeChackerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-				
+
 				MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 				MPS.EditingToString(StudentWorkingComponent.terminalArea);
 
 				System.out.println("-- The Show Button is Working --");
-				
+
 			}
 		});
 	}
@@ -172,7 +174,7 @@ public class ChooseQuestionComponent extends Box {
 	}
 
 	public static String getTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String timestr = sdf.format(new Date());
 		return timestr;
 	}

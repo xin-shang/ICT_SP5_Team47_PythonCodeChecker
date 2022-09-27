@@ -101,11 +101,11 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2); // 分割线宽度
 
 		// splitPane Left
-		splitPane.setLeftComponent(new QuestionManagerComponent());
+		splitPane.setLeftComponent(new QuestionManagerComponent(DIO));
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
 		if (DIO.getDblength() > 0) {
-			PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+			PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
 		} else {
 			PythonQuestionEditPage.splitPane.setRightComponent(new JLabel(
 					"There are no Python questions in the question bank. Please add a topic as soon as possible."));
@@ -154,7 +154,7 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				splitPane.setLeftComponent(new QuestionManagerComponent());
+				splitPane.setLeftComponent(new QuestionManagerComponent(DIO));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});

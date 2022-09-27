@@ -30,7 +30,7 @@ import methodAndTool.markScheme;
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
-        studentQns_T DIO = new studentQns_T();
+        studentQns_T DIO;
         keywordAnalysis KA = new keywordAnalysis();
         MessagePrintString MPS = new MessagePrintString();
 
@@ -74,6 +74,8 @@ public class PythonCodeChackerPage {
                 /**
                  * 设置窗口属性
                  */
+                DIO = new studentQns_T();
+
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
                 frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
@@ -127,7 +129,7 @@ public class PythonCodeChackerPage {
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
-                splitPane.setRightComponent(new ChooseQuestionComponent());
+                splitPane.setRightComponent(new ChooseQuestionComponent(DIO));
                 // Left
                 splitPane.setLeftComponent(new StudentWorkingComponent());
 

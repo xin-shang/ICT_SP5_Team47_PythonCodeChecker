@@ -23,6 +23,7 @@ import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -132,6 +133,7 @@ public class StudentWorkingComponent extends Box {
                         @Override
                         public void insertUpdate(DocumentEvent de) {
                                 lines.setText(getText());
+                                lines.setCaretPosition(editTextPane.getDocument().getLength());
                         }
 
                         @Override
@@ -158,6 +160,9 @@ public class StudentWorkingComponent extends Box {
                 downBox = Box.createHorizontalBox();
                 // 8,40
                 terminalArea = new JTextArea(8, 40);
+
+                DefaultCaret caret = (DefaultCaret) terminalArea.getCaret();
+                caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
                 terminalArea.setLineWrap(true); // 自动换行
                 terminalArea.setEditable(false);// 不可编辑

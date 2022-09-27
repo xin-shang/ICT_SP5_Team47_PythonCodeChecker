@@ -32,7 +32,7 @@ public class QuestionManagerComponent extends Box {
 	 */
 
 	// StaffdataIO DIO = new StaffdataIO();
-	staffQns_T DIO = new staffQns_T();
+	staffQns_T DIO;
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameQMC = null;
 
@@ -55,9 +55,10 @@ public class QuestionManagerComponent extends Box {
 	private static int selectedRow = 0;
 
 	// 代参构造，确定布局。本次是纵向布局
-	public QuestionManagerComponent() {
+	public QuestionManagerComponent(staffQns_T dio) {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
+		this.DIO = dio;
 
 		/**
 		 * 组装零件
@@ -223,7 +224,7 @@ public class QuestionManagerComponent extends Box {
 				try {
 					//
 					setSelectedRow(questionTable.getSelectedRow());
-					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
 				} catch (Exception w) {
 
 				}

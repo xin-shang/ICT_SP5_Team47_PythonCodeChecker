@@ -73,7 +73,7 @@ public class staffQns_T extends Qns_T {
             boolean b_qt = qt.inserRows(conn, user_id, question);
 
             if (b_qt == true) {
-                System.out.println(question);
+                // System.out.println(question);
                 String qs_id = qt.getQuestionID(conn, question);
                 sl.inserRows(conn, qs_id, solution, answer);
                 System.out.println("insert question successful");
