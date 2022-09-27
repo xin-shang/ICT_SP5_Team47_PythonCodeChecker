@@ -275,7 +275,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                                                                 "Question is already exit");
                                                         }
                                                 } catch (SQLException e1) {
-                                                        // TODO Auto-generated catch block
+
                                                         e1.printStackTrace();
                                                 }
 

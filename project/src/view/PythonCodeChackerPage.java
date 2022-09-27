@@ -149,7 +149,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 new HomePage().init();
                                 frame.dispose();
                                 System.out.println("-- The Change Account Manu Button is Working --");
@@ -162,7 +162,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 System.exit(0);
                                 System.out.println("-- The Exit Manu Button is Working --");
                         }
@@ -191,29 +191,27 @@ public class PythonCodeChackerPage {
                                 } else {
                                         MPS.EditEndToString(StudentWorkingComponent.terminalArea);
                                         MPS.SubmitingToString(StudentWorkingComponent.terminalArea);
-                                        
+
                                         // get student input code
                                         String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
                                         WAR.checkSolutionSytaxError(pyCodeSolution);
 
                                         /**
                                          * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
-                                        */
+                                         */
                                         String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-
 
                                         /**
                                          * 关键词和分数的监测在Submit中？
-                                        */
+                                         */
                                         // get question id；把选择的question id抓出来
                                         String id = (String) DIO.getData_id(y);
                                         String correctAnswer = (String) DIO.getData(y, 3);
 
-                                        
                                         // select the mark scheme by question id(empty list)
                                         MPS.GrabingMarkSchemeToString(StudentWorkingComponent.terminalArea);
                                         List<markScheme> mkl = new ArrayList<markScheme>();
-                                        mkl = DIO.getSelectedMarkScheme(id);   // input the marking scheme into 'mkl'
+                                        mkl = DIO.getSelectedMarkScheme(id); // input the marking scheme into 'mkl'
 
                                         // System.out.println(mkl.get(0).getScore());
                                         int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
@@ -236,7 +234,7 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 MPS.RuningToString(StudentWorkingComponent.terminalArea);
                                 String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
                                 WAR.checkSolutionSytaxError(pyCodeSolution);
@@ -253,7 +251,7 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 String solution = StudentWorkingComponent.getEditAnswerString();
                                 feedbackPage.setStudentAnswerTextArea(solution);
 
@@ -321,7 +319,7 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 System.out.println("-- The Random Question Button is Working --");
                         }
                 });
