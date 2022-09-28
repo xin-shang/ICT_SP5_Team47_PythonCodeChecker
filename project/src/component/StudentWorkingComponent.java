@@ -30,6 +30,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
+
 public class StudentWorkingComponent extends Box {
 
         /**

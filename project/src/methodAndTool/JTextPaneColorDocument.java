@@ -9,7 +9,9 @@ import java.awt.*;
 
 public class JTextPaneColorDocument extends DefaultStyledDocument {
 
+    //cont是个空容器，下面用来设置容器包含内容
     final StyleContext cont = StyleContext.getDefaultStyleContext();
+
     final AttributeSet blueColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
             new Color(3, 169, 244));
 
@@ -33,7 +35,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         return index;
     }
 
+    //找两次，双保险
     private int findFirstChar(String text, int index) {
+        //从后往前找，每找一个减1，找到第一位字符
         while (--index >= 0) {
             if (String.valueOf(text.charAt(index)).matches("\\W")) {
                 break;
@@ -43,7 +47,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
     }
 
     public void remove(int offs, int len) throws BadLocationException {
+        //用来删除
         super.remove(offs, len);
+        
         // get the all code text
         String text = getText(0, getLength());
 
@@ -64,12 +70,16 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         }else if (text.substring(leftIndex, rightIndex).matches(
             "(\\W)*((print|sum|input))")) {
         setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
+        }else if (text.substring(leftIndex, rightIndex).matches(
+            "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) {
+        setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
         }else {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
         }
     }
 
     public void insertString(int offset, String str, AttributeSet a) throws BadLocationException {
+        //输入
         super.insertString(offset, str, a);
         // get the all code text
         String text = getText(0, getLength());
@@ -96,6 +106,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                 else if (text.substring(leftIndex, rightIndex).matches(
                         "(\\W)*(print|sum|input)"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
+                else if (text.substring(leftIndex, rightIndex).matches(
+                        "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) 
+                    setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
                 else
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
                 leftIndex = rightIndex;
