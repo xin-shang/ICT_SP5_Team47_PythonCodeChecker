@@ -13,13 +13,13 @@ public class keyword_T extends STable_P {
     PreparedStatement PreStmt;
     ResultSet res;
 
-    public boolean inserRows(String keyword) {
+    public boolean inserRows(Connection conn, String keyword) {
 
         try {
             String id = PV.getID(keyword, getRowsLength(conn, table));
 
             String sql = "INSERT INTO " + table + " VALUES(?,?)";
-            conn = pb.get_connection();
+
             PreStmt = conn.prepareStatement(sql);
             // insert value
             PreStmt.setString(1, id);
@@ -27,7 +27,7 @@ public class keyword_T extends STable_P {
 
             PreStmt.executeUpdate();
             PreStmt.close();
-            conn.close();
+
             return true;
         } catch (SQLException e) {
             System.out.println(e);

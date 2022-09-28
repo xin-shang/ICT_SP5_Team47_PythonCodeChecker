@@ -41,7 +41,7 @@ public class staffQns_T extends Qns_T {
                     "question.question, " +
                     "solution.solution, " +
                     "solution.answer " +
-                    "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ? ORDER BY question.question ASC";
+                    "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ?";
 
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, staffID);
@@ -92,27 +92,18 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestion_id(String question_id, String question, String solution, String answer)
-            throws SQLException {
-        conn = pb.get_connection();
-        String user_id = staff_T.getUsername();
-        if (user_id != null) {
-            boolean b_qt = qt.inserRows(conn, question_id, user_id, question);
-            System.out.println(b_qt);
-            if (b_qt == true) {
-                sl.inserRows(conn, question_id, solution, answer);
-                System.out.println("insert question successful");
-                conn.close();
-                return true;
+    public boolean updateQuestion(Connection conn, String question_id, String question, String solution,
+            String answer) {
 
-            } else {
-                conn.close();
-                return false;
-            }
+        boolean bUqt = qt.updateQuestion(conn, question_id, question);
+        boolean bUsl = sl.updateSolution(conn, question_id, solution, answer);
+
+        if (bUqt == true && bUsl == true) {
+            return true;
         } else {
-            conn.close();
             return false;
         }
+
     }
 
     public boolean insertQuestionMarkSheme(Connection conn, String question, String keyword, int Point)
@@ -128,7 +119,7 @@ public class staffQns_T extends Qns_T {
                 // conn.close();
                 return true;
             } else {
-                kw.inserRows(keyword);
+                kw.inserRows(conn, keyword);
                 keywordID = kw.getKeywordID(conn, keyword);
                 mk.inserRows(conn, qs_id, keywordID, Point);
                 // conn.close();
@@ -140,42 +131,35 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestionMarkSheme_id(String question_id, String keyword, int Point) throws SQLException {
-        conn = pb.get_connection();
+    public boolean updateQuestionMarkSheme(Connection conn, String question_id, String keyword, int Point) {
         String keywordID = kw.getKeywordID(conn, keyword);
 
         if (keywordID != null) {
             boolean b_add_mk = mk.inserRows(conn, question_id, keywordID, Point);
             if (b_add_mk == true) {
-                conn.close();
+
                 return true;
             } else {
-                conn.close();
+
                 return false;
             }
 
         } else {
-            kw.inserRows(keyword);
+            kw.inserRows(conn, keyword);
             keywordID = kw.getKeywordID(conn, keyword);
             boolean b_add_mk = mk.inserRows(conn, question_id, keywordID, Point);
             if (b_add_mk == true) {
-                conn.close();
+
                 return true;
             } else {
-                conn.close();
                 return false;
             }
         }
-
     }
 
-    public void deleteQuestion_id(String question_id) throws SQLException {
-        conn = pb.get_connection();
+    public void deleteMarkScheme(Connection conn, String question_id) throws SQLException {
         mk.deletRows(conn, question_id);
-        sl.deletRows(conn, question_id);
-        qt.deletRows(conn, question_id);
         System.out.println("delete successful");
-        conn.close();
     }
 
     public void deleteQuestion(String question) throws SQLException {

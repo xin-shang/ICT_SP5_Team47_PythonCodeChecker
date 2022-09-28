@@ -147,7 +147,7 @@ public class WriteAndRead {
 
 	public boolean staff_checkSolutionSytaxError(String solution) {
 
-		boolean bdetectWhileLoop = detectWhileLoop(solution);
+		boolean bdetectWhileLoop = detectWhileLoop("\n" + solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
 		if (bdetectWhileLoop == true) {
 			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
@@ -171,7 +171,7 @@ public class WriteAndRead {
 	public boolean student_checkSolutionSytaxError(String solution) {
 
 		MPS.SytaxErroringToString(StudentWorkingComponent.terminalArea);
-		boolean bdetectWhileLoop = detectWhileLoop(solution);
+		boolean bdetectWhileLoop = detectWhileLoop("\n" + solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
 		if (bdetectWhileLoop == true) {
 			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");

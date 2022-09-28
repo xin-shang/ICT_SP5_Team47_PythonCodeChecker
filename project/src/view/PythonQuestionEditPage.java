@@ -66,7 +66,6 @@ public class PythonQuestionEditPage {
 		conn = new PythonCodeChecker_db().get_connection();
 		DIO = new staffQns_T(conn);
 		QKC = new keywordAlternative_T(conn);
-		conn.close();
 
 		System.out.println("PythonQuestionEditPage");
 		/**
@@ -144,8 +143,14 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
+				try {
+					conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				new HomePage().init();
 				frame.dispose();
+
 				System.out.println("-- The Change Account Manu Button is Working --");
 			}
 		});
@@ -156,7 +161,11 @@ public class PythonQuestionEditPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
+				try {
+					conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				System.exit(0);
 				System.out.println("-- The Exit Manu Button is Working --");
 			}
@@ -183,6 +192,7 @@ public class PythonQuestionEditPage {
 				// refresh keyword table
 				splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 				System.out.println("-- The Check Manu Button is Working --");
+
 			}
 		});
 	}

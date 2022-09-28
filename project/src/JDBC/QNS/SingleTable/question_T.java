@@ -97,6 +97,24 @@ public class question_T extends STable_P {
         }
     }
 
+    public boolean updateQuestion(Connection conn, String id, String question) {
+        try {
+
+            String sql = "UPDATE " + table + " SET question =  ?" + " WHERE id = ?";
+
+            PreStmt = conn.prepareStatement(sql);
+            PreStmt.setString(1, question);
+            PreStmt.setString(2, id);
+            PreStmt.executeUpdate();
+            PreStmt.close();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
     public boolean bCheckQuestion(Connection conn, String question) {
         try {
             boolean bQuestion = false;

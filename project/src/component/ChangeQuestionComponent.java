@@ -3,6 +3,7 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.awt.BorderLayout;
 import java.util.List;
@@ -21,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.PlainDocument;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
@@ -60,6 +62,9 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String question_before;
         final String solution_before;
         final List<markScheme> markSchemeList_before;
+
+        // connection
+        Connection conn;
 
         public ChangeQuestionComponent(staffQns_T dio) {
                 super(BoxLayout.Y_AXIS);
@@ -237,18 +242,21 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 }
 
                 else if (actionCommand.equals("Update Question")) {
+
+                        conn = new PythonCodeChecker_db().get_connection();
                         try {
-                                DIO.deleteQuestion_id(question_id);
+                                DIO.deleteMarkScheme(conn, question_id);
                         } catch (SQLException e2) {
 
                                 e2.printStackTrace();
                         }
+
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
                         boolean b_question = getUpdateQuestionString().isEmpty();
                         boolean b_solution = getUpdateSolutionString().isEmpty();
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
                                 String solution = getUpdateSolutionString();
-                                boolean bsyntaxError = WAR.student_checkSolutionSytaxError(solution);
+                                boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
 
                                 if (bsyntaxError == true) {
                                         String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
@@ -263,17 +271,21 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                         if (b_score == true) {
                                                 boolean b_add_q;
                                                 try {
-                                                        b_add_q = DIO.insertQuestion_id(this.getUpdateQuestionID(),
+                                                        b_add_q = DIO.updateQuestion(conn,
+                                                                        this.getUpdateQuestionID(),
                                                                         this.getUpdateQuestionString(),
                                                                         this.getUpdateSolutionString(),
                                                                         answer);
+                                                        System.out.println(b_add_q);
                                                         if (b_add_q == true) {
-                                                                getScorePointStringList();
+                                                                getScorePointStringList(conn);
                                                                 JOptionPane.showMessageDialog(this,
                                                                                 "Update Successful");
+                                                                conn.close();
                                                         } else {
                                                                 JOptionPane.showMessageDialog(this,
                                                                                 "Question is already exit");
+                                                                conn.close();
                                                         }
                                                 } catch (SQLException e1) {
 
@@ -285,6 +297,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 }
+
         }
 
         public boolean checkSocre() {
@@ -309,7 +322,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         }
 
         // Push score list to db
-        public void getScorePointStringList() throws SQLException {
+        public void getScorePointStringList(Connection conn) throws SQLException {
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {
@@ -325,7 +338,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                         int score_int = PV.castObjectToInt(score);
 
-                        DIO.insertQuestionMarkSheme_id(question_id, keyword_s, score_int);
+                        DIO.updateQuestionMarkSheme(conn, question_id, keyword_s, score_int);
 
                 }
         }

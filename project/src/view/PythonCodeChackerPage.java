@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +72,15 @@ public class PythonCodeChackerPage {
         // Create feedback page dialog
         FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
+        // connection
+        Connection conn;
+
         // 初始化，组装界面
         public void init() {
                 /**
                  * 设置窗口属性
                  */
-                Connection conn = new PythonCodeChecker_db().get_connection();
+                conn = new PythonCodeChecker_db().get_connection();
                 DIO = new studentQns_T(conn);
 
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
@@ -154,7 +158,11 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
+                                try {
+                                        conn.close();
+                                } catch (SQLException e1) {
+                                        e1.printStackTrace();
+                                }
                                 new HomePage().init();
                                 frame.dispose();
                                 System.out.println("-- The Change Account Manu Button is Working --");
@@ -167,7 +175,11 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
+                                try {
+                                        conn.close();
+                                } catch (SQLException e1) {
+                                        e1.printStackTrace();
+                                }
                                 System.exit(0);
                                 System.out.println("-- The Exit Manu Button is Working --");
                         }

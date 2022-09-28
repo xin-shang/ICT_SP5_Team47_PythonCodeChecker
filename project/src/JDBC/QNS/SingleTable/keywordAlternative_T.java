@@ -26,7 +26,7 @@ public class keywordAlternative_T {
     private Map<Integer, String> getKeywordsList(Connection conn) {
         Map<Integer, String> keyWords = new LinkedHashMap<>();
         try {
-            String sql = "select (@row_number:=@row_number + 1) AS num, keywords From keywordAlternative";
+            String sql = "select (@row_number:=@row_number + 1) AS num, keywords From keywordAlternative ORDER BY keywords ASC";
 
             stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);
