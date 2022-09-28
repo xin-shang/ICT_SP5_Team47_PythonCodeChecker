@@ -19,6 +19,7 @@ public class keywordAlternative_T {
 
     public keywordAlternative_T() {
         keyWordsList = getKeywordsList();
+        System.out.println("keyword");
     }
 
     // get table list

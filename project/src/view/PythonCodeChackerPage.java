@@ -196,7 +196,7 @@ public class PythonCodeChackerPage {
 
                                         // get student input code
                                         String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
-                                        WAR.checkSolutionSytaxError(pyCodeSolution);
+                                        WAR.student_checkSolutionSytaxError(pyCodeSolution);
 
                                         /**
                                          * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
@@ -239,7 +239,7 @@ public class PythonCodeChackerPage {
 
                                 MPS.RuningToString(StudentWorkingComponent.terminalArea);
                                 String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
-                                WAR.checkSolutionSytaxError(pyCodeSolution);
+                                WAR.student_checkSolutionSytaxError(pyCodeSolution);
                                 String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
                                 // StudentWorkingComponent.terminalArea.setText(answer);
                                 MPS.RunAnswerToString(StudentWorkingComponent.terminalArea, answer);
@@ -258,7 +258,7 @@ public class PythonCodeChackerPage {
                                 feedbackPage.setStudentAnswerTextArea(solution);
 
                                 if (solution.length() > 0) {
-                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
+                                        boolean hasSyntaxError = WAR.student_checkSolutionSytaxError(solution);
                                         feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
 
                                         String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");

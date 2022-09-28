@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 
@@ -19,6 +20,7 @@ public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
 	staffQns_T DIO;
+	keywordAlternative_T QKC;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };

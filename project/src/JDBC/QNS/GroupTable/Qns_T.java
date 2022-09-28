@@ -39,6 +39,7 @@ public class Qns_T {
                     "LEFT JOIN keywords ON markPoint.keyword_id = keywords.id " +
                     "WHERE question.id = ?";
             conn = pb.get_connection();
+            System.out.println("marklist");
             PreStmt = conn.prepareStatement(sql);
             PreStmt.setString(1, questionID);
             ResultSet res = PreStmt.executeQuery();

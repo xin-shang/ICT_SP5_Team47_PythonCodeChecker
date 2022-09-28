@@ -7,9 +7,8 @@ import javax.swing.JTextArea;
 import component.ChooseQuestionComponent;
 
 public class MessagePrintString {
-        
+
         // 初始化 Date 对象
-        
 
         int TextQuestionNum = 1;
 
@@ -19,14 +18,15 @@ public class MessagePrintString {
         }
 
         public void QuestionToString(JTextArea jTextArea) {
-                String startString_1 = "\n> (" + ChooseQuestionComponent.getTime() + ") Show the " + TextQuestionNum + " Text" + " QuestionID " + (ChooseQuestionComponent.getSelectedRow()+1);
+                String startString_1 = "\n> (" + ChooseQuestionComponent.getTime() + ") Show the " + TextQuestionNum
+                                + " Text" + " QuestionID " + (ChooseQuestionComponent.getSelectedRow() + 1);
                 if (ChooseQuestionComponent.getRow() != ChooseQuestionComponent.chooseQuestionTable.getSelectedRow()) {
                         jTextArea.append(startString_1);
                         TextQuestionNum = TextQuestionNum + 1;
-                }
-                else{
+                } else {
                         JFrame jf = new JFrame();
-                        JOptionPane.showMessageDialog(jf, "The problem shown is the same, \nThe code you have edited will not be saved.");
+                        JOptionPane.showMessageDialog(jf,
+                                        "The problem shown is the same, \nThe code you have edited will not be saved.");
                         jTextArea.append(startString_1);
                 }
         }
@@ -83,9 +83,10 @@ public class MessagePrintString {
 
         /**
          * 细节检测： 语法错误。。。。。。
-        */
+         */
         public void SytaxErroringToString(JTextArea jTextArea) {
-                String SytaxErrorString = "\n> (" + ChooseQuestionComponent.getTime() + ") Grammar check in progress...";
+                String SytaxErrorString = "\n> (" + ChooseQuestionComponent.getTime()
+                                + ") Grammar check in progress...";
                 jTextArea.append(SytaxErrorString);
         }
 
@@ -103,9 +104,10 @@ public class MessagePrintString {
                 String SytaxErrorString = "\n> (" + ChooseQuestionComponent.getTime() + ") Grabing Mark Scheme...";
                 jTextArea.append(SytaxErrorString);
         }
-        
+
         public void CalculatingMarkToString(JTextArea jTextArea) {
-                String SytaxErrorString = "\n> (" + ChooseQuestionComponent.getTime() + ") System is calculating the score...";
+                String SytaxErrorString = "\n> (" + ChooseQuestionComponent.getTime()
+                                + ") System is calculating the score...";
                 jTextArea.append(SytaxErrorString);
         }
 

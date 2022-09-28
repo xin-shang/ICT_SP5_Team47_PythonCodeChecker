@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import component.KeywordManagerComponent;
 import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
@@ -23,6 +24,7 @@ public class PythonQuestionEditPage {
 
 	ScreenUtils SU = new ScreenUtils();
 	staffQns_T DIO;
+	keywordAlternative_T QKC;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
 	String ArtUser = ScreenUtils.getBlankSpace(54);
@@ -53,7 +55,9 @@ public class PythonQuestionEditPage {
 	// 初始化，组装界面
 	public void init() {
 		DIO = new staffQns_T();
+		QKC = new keywordAlternative_T();
 
+		System.out.println("PythonQuestionEditPage");
 		/**
 		 * 设置窗口属性
 		 */
@@ -101,7 +105,7 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2); // 分割线宽度
 
 		// splitPane Left
-		splitPane.setLeftComponent(new QuestionManagerComponent(DIO));
+		splitPane.setLeftComponent(new QuestionManagerComponent(DIO, QKC));
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
 		if (DIO.getDblength() > 0) {
@@ -154,7 +158,7 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				splitPane.setLeftComponent(new QuestionManagerComponent(DIO));
+				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(), QKC));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
@@ -164,12 +168,17 @@ public class PythonQuestionEditPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				// int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
-				splitPane.setLeftComponent(new KeywordManagerComponent());
+
+				// refresh keyword table
+				splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 				System.out.println("-- The Check Manu Button is Working --");
 			}
 		});
+	}
+
+	// refresh page db
+	public void refreshDB() {
+		this.DIO = new staffQns_T();
 	}
 
 	/**

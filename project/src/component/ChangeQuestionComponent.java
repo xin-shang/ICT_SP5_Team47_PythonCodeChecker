@@ -29,7 +29,7 @@ import methodAndTool.ChangeTabToSpacesFilter;
 public class ChangeQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
-        staffQns_T DIO = new staffQns_T();
+        staffQns_T DIO;
         ProjectVariable PV = new ProjectVariable();
 
         // int num = 0;
@@ -61,9 +61,10 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String solution_before;
         final List<markScheme> markSchemeList_before;
 
-        public ChangeQuestionComponent() {
-
+        public ChangeQuestionComponent(staffQns_T dio) {
                 super(BoxLayout.Y_AXIS);
+
+                this.DIO = dio;
 
                 question_id = (String) QuestionManagerComponent
                                 .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
@@ -247,7 +248,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         boolean b_solution = getUpdateSolutionString().isEmpty();
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
                                 String solution = getUpdateSolutionString();
-                                boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
+                                boolean bsyntaxError = WAR.student_checkSolutionSytaxError(solution);
 
                                 if (bsyntaxError == true) {
                                         String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");

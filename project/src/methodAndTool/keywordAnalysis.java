@@ -16,7 +16,7 @@ public class keywordAnalysis {
         MPS.CalculatingMarkToString(StudentWorkingComponent.terminalArea);
 
         // 返还一个boolean检测是否有syntaxerror;
-        boolean c = WAR.checkSolutionSytaxError(solution);
+        boolean c = WAR.student_checkSolutionSytaxError(solution);
         String Correct_answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
         // false = no syntaxerror
         if (c == false && answer.equals(Correct_answer)) {

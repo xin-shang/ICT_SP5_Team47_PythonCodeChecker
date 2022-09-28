@@ -221,7 +221,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         boolean b_solution = getNewSolutionString().isEmpty();
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
                                 String solution = getNewSolutionString();
-                                boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
+                                boolean bsyntaxError = WAR.teacher_checkSolutionSytaxError(solution);
 
                                 if (bsyntaxError == true) {
                                         String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
