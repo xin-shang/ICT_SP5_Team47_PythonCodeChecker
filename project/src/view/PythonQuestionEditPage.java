@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -15,16 +18,19 @@ import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.staffQns_T;
 import JDBC.QNS.SingleTable.keywordAlternative_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
 import component.KeywordManagerComponent;
 import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
+import methodAndTool.markScheme;
 
 public class PythonQuestionEditPage {
 
 	ScreenUtils SU = new ScreenUtils();
 	staffQns_T DIO;
 	keywordAlternative_T QKC;
+	List<markScheme> mks;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
 	String ArtUser = ScreenUtils.getBlankSpace(54);
@@ -52,10 +58,15 @@ public class PythonQuestionEditPage {
 	// 设置分割面板
 	public static JSplitPane splitPane = new JSplitPane();
 
+	// db connection
+	Connection conn;
+
 	// 初始化，组装界面
-	public void init() {
-		DIO = new staffQns_T();
-		QKC = new keywordAlternative_T();
+	public void init() throws SQLException {
+		conn = new PythonCodeChecker_db().get_connection();
+		DIO = new staffQns_T(conn);
+		QKC = new keywordAlternative_T(conn);
+		conn.close();
 
 		System.out.println("PythonQuestionEditPage");
 		/**
@@ -158,7 +169,7 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(), QKC));
+				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(conn), QKC));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
@@ -178,7 +189,7 @@ public class PythonQuestionEditPage {
 
 	// refresh page db
 	public void refreshDB() {
-		this.DIO = new staffQns_T();
+		this.DIO = new staffQns_T(conn);
 	}
 
 	/**

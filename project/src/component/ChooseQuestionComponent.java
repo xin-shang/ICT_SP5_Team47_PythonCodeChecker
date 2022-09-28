@@ -62,6 +62,7 @@ public class ChooseQuestionComponent extends Box {
 		 * 组装零件
 		 */
 		// 清空原有数据，保证列表中无内容
+		titlesChooseQuestion_Table.clear();
 		dataChooseQuestion_Table.clear();
 
 		// 写入数据

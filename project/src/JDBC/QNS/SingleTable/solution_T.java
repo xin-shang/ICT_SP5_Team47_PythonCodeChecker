@@ -18,10 +18,7 @@ public class solution_T extends STable_P {
     public boolean inserRows(Connection conn, String questionID, String solution, String answer) {
 
         try {
-            String id = PV.getID(solution, getRowsLength(table));
-
-            System.out.println(questionID);
-
+            String id = PV.getID(solution, getRowsLength(conn, table));
             String sql = "INSERT INTO " + table + " VALUES(?,?,?,?)";
 
             PreStmt = conn.prepareStatement(sql);

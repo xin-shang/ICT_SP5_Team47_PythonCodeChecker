@@ -145,7 +145,7 @@ public class WriteAndRead {
 		return bWHile;
 	}
 
-	public boolean teacher_checkSolutionSytaxError(String solution) {
+	public boolean staff_checkSolutionSytaxError(String solution) {
 
 		boolean bdetectWhileLoop = detectWhileLoop(solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);

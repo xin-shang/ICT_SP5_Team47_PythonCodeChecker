@@ -110,7 +110,6 @@ public class StudentWorkingComponent extends Box {
                 editTextPane.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
                                 int caretPosition = editTextPane.getDocument().getLength();
-                                System.out.println(caretPosition);
 
                                 Element root = editTextPane.getDocument().getDefaultRootElement();
                                 String text = "  1  " + System.getProperty("line.separator");
@@ -133,7 +132,6 @@ public class StudentWorkingComponent extends Box {
                         @Override
                         public void insertUpdate(DocumentEvent de) {
                                 lines.setText(getText());
-                                lines.setCaretPosition(editTextPane.getDocument().getLength());
                         }
 
                         @Override

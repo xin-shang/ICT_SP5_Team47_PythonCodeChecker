@@ -167,7 +167,7 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
 				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
-				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent());
+				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent(DIO));
 				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				System.out.println("-- The Add Manu Button is Working --");

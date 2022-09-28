@@ -2,6 +2,7 @@ package JDBC.QNS.GroupTable;
 
 import methodAndTool.QnS;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,18 +20,19 @@ public class staffQns_T extends Qns_T {
     public static int rowlength = 4;
     PreparedStatement PreStmt;
 
-    public staffQns_T() {
+    public staffQns_T(Connection conn) {
         // load the username first, then get staff qns
         userid = staff_T.getUsername();
-        qnsDB = getStaffQns(userid);
-        System.out.println(dblength);
+        System.out.println("staffQNS");
+        qnsDB = getStaffQns(conn, userid);
+
     }
 
     public List<QnS> getQNS() {
         return this.qnsDB;
     }
 
-    private List<QnS> getStaffQns(String staffID) {
+    private List<QnS> getStaffQns(Connection conn, String staffID) {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {
 
@@ -40,7 +42,7 @@ public class staffQns_T extends Qns_T {
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ? ORDER BY question.question ASC";
-            conn = pb.get_connection();
+
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, staffID);
             ResultSet res = statement.executeQuery();
@@ -56,7 +58,6 @@ public class staffQns_T extends Qns_T {
             }
             dblength = num;
             statement.close();
-            conn.close();
             return qnsDB;
 
         } catch (Exception e) {
@@ -66,10 +67,12 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestion(String question, String solution, String answer) throws SQLException {
-        conn = pb.get_connection();
+    public boolean insertQuestion(Connection conn, String question, String solution, String answer)
+            throws SQLException {
+        // conn = pb.get_connection();
         String user_id = staff_T.getUsername();
         if (user_id != null) {
+            System.out.println("insert question....");
             boolean b_qt = qt.inserRows(conn, user_id, question);
 
             if (b_qt == true) {
@@ -77,14 +80,14 @@ public class staffQns_T extends Qns_T {
                 String qs_id = qt.getQuestionID(conn, question);
                 sl.inserRows(conn, qs_id, solution, answer);
                 System.out.println("insert question successful");
-                conn.close();
+                // conn.close();
                 return true;
             } else {
-                conn.close();
+                // conn.close();
                 return false;
             }
         } else {
-            conn.close();
+            // conn.close();
             return false;
         }
     }
@@ -112,8 +115,9 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestionMarkSheme(String question, String keyword, int Point) throws SQLException {
-        conn = pb.get_connection();
+    public boolean insertQuestionMarkSheme(Connection conn, String question, String keyword, int Point)
+            throws SQLException {
+
         String qs_id = qt.getQuestionID(conn, question);
 
         if (qs_id != null) {
@@ -121,17 +125,17 @@ public class staffQns_T extends Qns_T {
 
             if (keywordID != null) {
                 mk.inserRows(conn, qs_id, keywordID, Point);
-                conn.close();
+                // conn.close();
                 return true;
             } else {
                 kw.inserRows(keyword);
                 keywordID = kw.getKeywordID(conn, keyword);
                 mk.inserRows(conn, qs_id, keywordID, Point);
-                conn.close();
+                // conn.close();
                 return true;
             }
         } else {
-            conn.close();
+
             return false;
         }
     }

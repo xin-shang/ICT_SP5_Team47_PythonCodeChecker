@@ -16,7 +16,7 @@ public class question_T extends STable_P {
     public boolean inserRows(Connection conn, String user_id, String question) {
 
         try {
-            String id = PV.getID(question, getRowsLength(table));
+            String id = PV.getID(question, getRowsLength(conn, table));
 
             String sql = "INSERT INTO " + table + " VALUES(?,?,?)";
 
@@ -92,7 +92,7 @@ public class question_T extends STable_P {
 
         } catch (SQLException e) {
             System.out.println(e);
-            System.out.println("i am here");
+
             return null;
         }
     }

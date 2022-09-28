@@ -16,7 +16,7 @@ public class keyword_T extends STable_P {
     public boolean inserRows(String keyword) {
 
         try {
-            String id = PV.getID(keyword, getRowsLength(table));
+            String id = PV.getID(keyword, getRowsLength(conn, table));
 
             String sql = "INSERT INTO " + table + " VALUES(?,?)";
             conn = pb.get_connection();

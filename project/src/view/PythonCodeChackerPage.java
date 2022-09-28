@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.MessagePrintString;
@@ -74,7 +76,8 @@ public class PythonCodeChackerPage {
                 /**
                  * 设置窗口属性
                  */
-                DIO = new studentQns_T();
+                Connection conn = new PythonCodeChecker_db().get_connection();
+                DIO = new studentQns_T(conn);
 
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
