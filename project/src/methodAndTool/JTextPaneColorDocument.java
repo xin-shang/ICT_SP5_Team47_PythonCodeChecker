@@ -107,7 +107,7 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                         "(\\W)*(print|sum|input)"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
                 else if (text.substring(leftIndex, rightIndex).matches(
-                        "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) 
+                        "((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) 
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
                 else
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
