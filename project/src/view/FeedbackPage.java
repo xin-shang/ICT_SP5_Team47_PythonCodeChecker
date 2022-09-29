@@ -8,6 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+
+import methodAndTool.RunPythonCode;
+
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
@@ -29,8 +32,6 @@ public class FeedbackPage extends JDialog{
     private GridBagLayout layout; // A layout object for managing components
     private GridBagConstraints constraints; // Used for the settings for the layout for each component
 
-    private boolean syntaxErrorStatus = false;
-    private String runResultMessage= "";
 
     public FeedbackPage(String title, JFrame parentFrame){
         super(parentFrame, title, true);
@@ -135,35 +136,43 @@ public class FeedbackPage extends JDialog{
         constraints.insets = new Insets(insetSpacing, insetSpacing, insetSpacing, insetSpacing); //specify the spacing around
     }
     
-    public void setStudentAnswerTextArea(String studentAnswer) {
-        studentAnswerTextArea.setText(studentAnswer);
-    }
-
-
-    public void setSyntaxErrorStatus(boolean syntaxErrorStatus){
-        this.syntaxErrorStatus = syntaxErrorStatus;
-    }
-
-    public void setRunResultMessage(String runResultMessage){
-        this.runResultMessage = runResultMessage;
-    }
-
-    public void setTextMessageTextArea(String message){
-        messageTextArea.setText(message);
-    }
-
-    public void updateMessageTextArea(){
+    public void showFeedbackResutl(String studentAnswer){
         messageTextArea.setText("");
-        String message = "";
-        if(syntaxErrorStatus == true){
-            message = message + "Your program has some syntax errors: \n";
-            message = message + runResultMessage + "\n";
+        studentAnswerTextArea.setText(studentAnswer);
+        returnButton.setEnabled(false);
+
+        if(studentAnswer.length()>0){
+            messageTextArea.append("Your program is interpreting...\n");
+
+            RunPythonCode rpc = new RunPythonCode();
+            rpc.saveCodeFile(studentAnswer);
+            boolean runStatus = rpc.runCode();
+
+            if(runStatus == false){
+                messageTextArea.append("There is something wrong when running the program. \n");
+                messageTextArea.append(rpc.getErrorMessage());
+            }else{
+                if(rpc.getErrorMessage().equals("")){
+                    messageTextArea.append("Your program runs without any syntax error. \n");
+                    messageTextArea.append("The following is the output from console (if any): \n");
+                    messageTextArea.append(rpc.getOutputFromConsole());
+                }else{
+                    messageTextArea.append("Your program has some syntax errors: \n");
+                    messageTextArea.append(rpc.getErrorMessage());
+                }
+            }
+            returnButton.setEnabled(true);
+            System.out.println("Run status: " + runStatus);
+            System.out.println("Output: " + rpc.getOutputFromConsole());
+            System.out.print(rpc.getErrorMessage());
         }else{
-            message = message + "Your program runs without syntax errors. \n";
-            message = message + "The following is the output from console (if any): \n";
-            message = message + runResultMessage + "\n";
+            returnButton.setEnabled(true);
+            messageTextArea.append("The editor window's is empty");
+            System.out.println("The editor window's is empty.");
         }
-        messageTextArea.setText(message);
     }
+
+
+
 
 }

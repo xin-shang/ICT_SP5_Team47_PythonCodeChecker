@@ -216,25 +216,14 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                                 String solution = StudentWorkingComponent.getEditAnswerString();
-                                feedbackPage.setStudentAnswerTextArea(solution);
 
-                                if (solution.length() > 0) {
-                                        boolean hasSyntaxError = WAR.checkSolutionSytaxError(solution);
-                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
-
-                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        feedbackPage.setRunResultMessage(runResultMessage);
-
-                                        feedbackPage.updateMessageTextArea();
-
-                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
-                                        System.out.println("Output or error from Python: " + runResultMessage);
-
-                                } else {
-                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
-                                        System.out.println("The editor window's empty");
-                                }
-
+                                Thread t = new Thread(){
+                                        public void run(){
+                                                feedbackPage.showFeedbackResutl(solution);
+                                        }
+                                };
+                                t.start();
+  
                                 // Make the pop up dialog center align to parent window
                                 feedbackPage.setLocationRelativeTo(frame);
                                 // Show the feedback dialog
