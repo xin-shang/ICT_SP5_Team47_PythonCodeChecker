@@ -187,4 +187,12 @@ public class WriteAndRead {
 		}
 	}
 
+	public String runPythonCode(String studentAnswer) {
+
+		RunPythonCode RP = new RunPythonCode("./src/txt/StudentAnswer.py");
+		RP.runCode();
+		String output = RP.getOutputFromConsole();
+		return output;
+	}
+
 }

@@ -144,6 +144,10 @@ public class PythonCodeChackerPage {
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
 
+                // Feedback Page Setting
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh());
+                feedbackPage.setLocationRelativeTo(frame);
+
                 // 窗口可见
                 frame.setVisible(true);
                 // frame.add(studnetButtonPanel, BorderLayout.SOUTH);
@@ -252,13 +256,6 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                                MPS.RuningToString(StudentWorkingComponent.terminalArea);
-                                String pyCodeSolution = StudentWorkingComponent.getEditAnswerString();
-                                WAR.student_checkSolutionSytaxError(pyCodeSolution);
-                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                // StudentWorkingComponent.terminalArea.setText(answer);
-                                MPS.RunAnswerToString(StudentWorkingComponent.terminalArea, answer);
-                                System.out.println("-- The Run Code Button is Working --");
                         }
                 });
         }
@@ -269,31 +266,27 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                                String solution = StudentWorkingComponent.getEditAnswerString();
-                                feedbackPage.setStudentAnswerTextArea(solution);
+                                final String solution = StudentWorkingComponent.getEditAnswerString();
 
-                                if (solution.length() > 0) {
-                                        boolean hasSyntaxError = WAR.student_checkSolutionSytaxError(solution);
-                                        feedbackPage.setSyntaxErrorStatus(hasSyntaxError);
-
-                                        String runResultMessage = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        feedbackPage.setRunResultMessage(runResultMessage);
-
-                                        feedbackPage.updateMessageTextArea();
-
-                                        System.out.println("Has Syntax Error or not: " + hasSyntaxError);
-                                        System.out.println("Output or error from Python: " + runResultMessage);
-
-                                } else {
-                                        feedbackPage.setTextMessageTextArea("The editor window's empty");
-                                        System.out.println("The editor window's empty");
+                                String temp = "";
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                if (selectedRow >= 0) {
+                                        temp = DIO.getData(selectedRow, 2).toString();
                                 }
+
+                                final String suggestedAnswer = temp;
+
+                                Thread t = new Thread() {
+                                        public void run() {
+                                                feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                        }
+                                };
+                                t.start();
 
                                 // Make the pop up dialog center align to parent window
                                 feedbackPage.setLocationRelativeTo(frame);
                                 // Show the feedback dialog
                                 feedbackPage.setVisible(true);
-                                System.out.println("-- The Show Feedback Button is Working --");
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });
