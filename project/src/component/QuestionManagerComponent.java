@@ -9,7 +9,6 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,7 +16,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import JDBC.Staff.staffQns_T;
+import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
 import view.PythonQuestionEditPage;
 
@@ -33,7 +33,8 @@ public class QuestionManagerComponent extends Box {
 	 */
 
 	// StaffdataIO DIO = new StaffdataIO();
-	staffQns_T DIO = new staffQns_T();
+	staffQns_T DIO;
+	keywordAlternative_T QKC;
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameQMC = null;
 
@@ -48,7 +49,7 @@ public class QuestionManagerComponent extends Box {
 
 	// 创建集合 操作集合比操作数组容易
 	private Vector<Object> titlesVector_Table = new Vector<Object>(); // 存储标题
-	private static Vector<Vector> dataVector_Table = new Vector<>(); // 存储数据
+	private static Vector<Vector<Object>> dataVector_Table = new Vector<>(); // 存储数据
 
 	JPanel buttonPanel;
 	JButton addQuestion, deleteQuestion, changeQuestion, showQuestion;
@@ -56,9 +57,12 @@ public class QuestionManagerComponent extends Box {
 	private static int selectedRow = 0;
 
 	// 代参构造，确定布局。本次是纵向布局
-	public QuestionManagerComponent() {
+	public QuestionManagerComponent(staffQns_T dio, keywordAlternative_T qkc) {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
+		this.DIO = dio;
+		this.QKC = qkc;
+
 		/**
 		 * 组装零件
 		 */
@@ -163,8 +167,8 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
 				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
-				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent());
-				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
+				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent(DIO));
+				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				System.out.println("-- The Add Manu Button is Working --");
 			}
@@ -176,19 +180,20 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				setSelectedRow(questionTable.getSelectedRow());
-				// int selectedRow = questionTable.getSelectedRow();
-				int questionInt = questionTable.getSelectedRow();
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
+					int questionInt = questionTable.getSelectedRow();
+					String question = (String) getValueAt_Table(questionInt, 1);
 
-				String question = (String) getValueAt_Table(questionInt, 1);
-				System.out.println(question);
+					DIO.deleteQuestion(question);
+					tableModel.removeRow(getSelectedRow());
 
-				WAR.write2TextFileOutStream("./src/dbData/POST/dbQuestion_POST.txt", question);
+					// set to selected index 0
+					setSelectedRow(0);
+				} catch (Exception w) {
 
-				WAR.run_python_code("./src/pythonDB/PYDb_deleteQuestion.py");
-				tableModel.removeRow(getSelectedRow());
-
+				}
 				System.out.println("-- The Delete Manu Button is Working --");
 			}
 		});
@@ -199,8 +204,16 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
 
+					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent(DIO));
+					PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
+
+				} catch (Exception w) {
+
+				}
 				System.out.println("-- The Change Manu Button is Working --");
 			}
 		});
@@ -211,10 +224,13 @@ public class QuestionManagerComponent extends Box {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				setSelectedRow(questionTable.getSelectedRow());
-				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent()); 
-				
+				try {
+					//
+					setSelectedRow(questionTable.getSelectedRow());
+					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
+				} catch (Exception w) {
+
+				}
 				System.out.println("-- The Show Button is Working --");
 			}
 		});

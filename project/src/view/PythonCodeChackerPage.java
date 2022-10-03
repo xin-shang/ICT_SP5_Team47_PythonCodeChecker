@@ -5,23 +5,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.studentQns_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
+import methodAndTool.MessagePrintString;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
+import methodAndTool.keywordAnalysis;
+import methodAndTool.markScheme;
 
 public class PythonCodeChackerPage {
 
         WriteAndRead WAR = new WriteAndRead();
+        studentQns_T DIO;
+        keywordAnalysis KA = new keywordAnalysis();
+        MessagePrintString MPS = new MessagePrintString();
 
         /**
          * Python Code Checker Page
@@ -55,11 +69,20 @@ public class PythonCodeChackerPage {
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
 
+        // Create feedback page dialog
+        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
+
+        // connection
+        Connection conn;
+
         // 初始化，组装界面
         public void init() {
                 /**
                  * 设置窗口属性
                  */
+                conn = new PythonCodeChecker_db().get_connection();
+                DIO = new studentQns_T(conn);
+
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
                 frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
@@ -113,15 +136,21 @@ public class PythonCodeChackerPage {
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
-                splitPane.setRightComponent(new ChooseQuestionComponent());
+                splitPane.setRightComponent(new ChooseQuestionComponent(DIO));
                 // Left
                 splitPane.setLeftComponent(new StudentWorkingComponent());
 
                 // 将菜单栏加入窗口
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
+
+                // Feedback Page Setting
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh());
+                feedbackPage.setLocationRelativeTo(frame);
+
                 // 窗口可见
                 frame.setVisible(true);
+                // frame.add(studnetButtonPanel, BorderLayout.SOUTH);
 
         }
 
@@ -133,7 +162,11 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+                                try {
+                                        conn.close();
+                                } catch (SQLException e1) {
+                                        e1.printStackTrace();
+                                }
                                 new HomePage().init();
                                 frame.dispose();
                                 System.out.println("-- The Change Account Manu Button is Working --");
@@ -146,78 +179,114 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+                                try {
+                                        conn.close();
+                                } catch (SQLException e1) {
+                                        e1.printStackTrace();
+                                }
                                 System.exit(0);
                                 System.out.println("-- The Exit Manu Button is Working --");
                         }
                 });
         }
 
+        public boolean detectWhileLoop(String path) {
+                String code = WAR.readText(path);
+                String UPcode = code.toUpperCase();
+                boolean bWHile = UPcode.contains("WHILE");
+                return bWHile;
+        }
+
         // Submit Answer
-        private void Button_Item_SubmitAnswer(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_SubmitAnswer(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                        System.out.println("--Submit Answer Code Button is Working--");
-                                } catch (IOException e1) {
-                                        e1.printStackTrace();
+
+                                // get row index id; 选择question
+                                int y = ChooseQuestionComponent.getSelectedRow();
+                                if (y == -1) {
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
+
+                                } else {
+                                        MPS.EditEndToString(StudentWorkingComponent.terminalArea);
+                                        MPS.SubmitingToString(StudentWorkingComponent.terminalArea);
+
+                                        // get student input code
+                                        String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
+                                        WAR.student_checkSolutionSytaxError(pyCodeSolution);
+
+                                        /**
+                                         * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
+                                         */
+                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+
+                                        /**
+                                         * 关键词和分数的监测在Submit中？
+                                         */
+                                        // get question id；把选择的question id抓出来
+                                        String id = (String) DIO.getData_id(y);
+                                        String correctAnswer = (String) DIO.getData(y, 3);
+
+                                        // select the mark scheme by question id(empty list)
+                                        MPS.GrabingMarkSchemeToString(StudentWorkingComponent.terminalArea);
+                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                        mkl = DIO.getSelectedMarkScheme(id); // input the marking scheme into 'mkl'
+
+                                        // System.out.println(mkl.get(0).getScore());
+                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
+
+                                        //
+                                        MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
+                                        MPS.SubmitAnswerToString(StudentWorkingComponent.terminalArea, answer);
+
+                                        System.out.println(score);
+
+                                        System.out.println("-- The Submit Answer Button is Working --");
                                 }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYSubmitCode.py");
 
-                                String Score = WAR.readText("./src/txt/PyCodeScore.txt");
-
-                                System.out.println("your score is: " + Score);
-
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
-
-                                System.out.println("Button is Working! Submit Answer Code");
-                                System.out.println("--- TEXT String Print ---:" + pyCodeAnswer);
-
-                                System.out.println("-- The Submit Answer Button is Working --");
                         }
                 });
         }
 
         // Run Code
-        private void Button_Item_RunCode(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_RunCode(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
-                                //
-                                String pyCodeAnswer = StudentWorkingComponent.getEditAnswerString();
-                                char[] py_chars = pyCodeAnswer.toCharArray();
 
-                                try {
-                                        WAR.creatTxtFile("PyCodeAnswer");
-                                } catch (IOException e1) {
-
-                                        e1.printStackTrace();
-                                }
-                                WAR.writeAnswerInTxt(py_chars, pyCodeAnswer);
-                                WAR.run_python_code("./src/python/PYRunCode.py");
-                                // set Text Area_2 as user output 下面栏输出用户结果
-                                String UserOutput = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                StudentWorkingComponent.terminalArea.setText(UserOutput);
-                                System.out.println("-- The Run Code Button is Working --");
                         }
                 });
         }
 
         // Show Feedback
-        private void Button_Item_ShowFeedback(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
+        public void Button_Item_ShowFeedback(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
+                                final String solution = StudentWorkingComponent.getEditAnswerString();
+
+                                String temp = "";
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                if (selectedRow >= 0) {
+                                        temp = DIO.getData(selectedRow, 2).toString();
+                                }
+
+                                final String suggestedAnswer = temp;
+
+                                Thread t = new Thread() {
+                                        public void run() {
+                                                feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                        }
+                                };
+                                t.start();
+
+                                // Make the pop up dialog center align to parent window
+                                feedbackPage.setLocationRelativeTo(frame);
+                                // Show the feedback dialog
+                                feedbackPage.setVisible(true);
                                 System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });
@@ -260,25 +329,10 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                // TODO Auto-generated method stub
+
                                 System.out.println("-- The Random Question Button is Working --");
                         }
                 });
         }
-
-        // // Show This Question
-        // private void Button_Item_ShowThisQuestion (JMenuItem button) {
-        // button.addActionListener (new ActionListener() {
-        // @Override
-        // public void actionPerformed (ActionEvent e) {
-        // // TODO Auto-generated method stub
-        // System.out.println("-- The Show This Question Button is Working --");
-        // }
-        // });
-        // }
-
-        /*
-         * 内容获取
-         */
 
 }
