@@ -215,11 +215,19 @@ public class PythonCodeChackerPage {
                 button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                String solution = StudentWorkingComponent.getEditAnswerString();
+                                final String solution = StudentWorkingComponent.getEditAnswerString();
+
+                                String temp ="";
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                if(selectedRow >= 0){
+                                        temp = DIO.getData(selectedRow, 2).toString();
+                                }
+                                
+                                final String suggestedAnswer = temp;
 
                                 Thread t = new Thread(){
                                         public void run(){
-                                                feedbackPage.showFeedbackResutl(solution);
+                                                feedbackPage.showFeedbackResult(solution, suggestedAnswer);
                                         }
                                 };
                                 t.start();
