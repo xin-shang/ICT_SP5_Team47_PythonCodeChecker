@@ -1,8 +1,10 @@
 package methodAndTool;
 
 import java.awt.Font;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -142,6 +144,41 @@ public class ProjectVariable {
 		} else {
 			return false;
 		}
+	}
+
+	// if keyword is part of the solution, the function return null, otherwise the
+	// function will return the not included keyword
+	public String bCheckKeywordNotInString(Vector<Vector<Object>> dataScorePoint, String string) {
+		JFrame jf = new JFrame();
+		String keyword = null;
+		int count = 0;
+		if (dataScorePoint.isEmpty()) {
+			return null;
+		} else {
+			int ScorePointRowCount = dataScorePoint.size();
+
+			// looping the vector for checking the solution
+			for (int i = 0; i < ScorePointRowCount; i++) {
+				keyword = (String) dataScorePoint.get(i).get(1);
+				if (string.contains(keyword)) {
+					// if keyword is part of the string, the count will ++
+					count++;
+				} else {
+					// if keyword is not part of the string, the for loop will break, and throw a
+					// meassage
+					JOptionPane.showMessageDialog(jf, "keyword: " + keyword + " is not in the solution");
+					count = 0;
+					break;
+				}
+			}
+			// if count more than 0, the function return null
+			if (count > 0) {
+				return null;
+			}
+			// otherwise the function will return the not included keyword
+			return keyword;
+		}
+
 	}
 
 }

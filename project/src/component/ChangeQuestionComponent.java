@@ -257,44 +257,48 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
                                 String solution = getUpdateSolutionString();
                                 boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
+                                String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
+                                                solution);
+                                if (keywordNotInString == null) {
+                                        if (bsyntaxError == true) {
+                                                String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                JOptionPane.showMessageDialog(this,
+                                                                "Your Solution has SyntaxError: " + syntaxError);
+                                                cAnswer0.setText(syntaxError);
+                                        } else {
+                                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                cAnswer0.setText(answer);
 
-                                if (bsyntaxError == true) {
-                                        String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        JOptionPane.showMessageDialog(this,
-                                                        "Your Solution has SyntaxError: " + syntaxError);
-                                        cAnswer0.setText(syntaxError);
-                                } else {
-                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        cAnswer0.setText(answer);
+                                                boolean b_score = checkSocre();
+                                                if (b_score == true) {
+                                                        boolean b_add_q;
+                                                        try {
+                                                                b_add_q = DIO.updateQuestion(conn,
+                                                                                this.getUpdateQuestionID(),
+                                                                                this.getUpdateQuestionString(),
+                                                                                this.getUpdateSolutionString(),
+                                                                                answer);
+                                                                System.out.println(b_add_q);
+                                                                if (b_add_q == true) {
+                                                                        getScorePointStringList(conn);
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Update Successful");
+                                                                        conn.close();
+                                                                } else {
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Question is already exit");
+                                                                        conn.close();
+                                                                }
+                                                        } catch (SQLException e1) {
 
-                                        boolean b_score = checkSocre();
-                                        if (b_score == true) {
-                                                boolean b_add_q;
-                                                try {
-                                                        b_add_q = DIO.updateQuestion(conn,
-                                                                        this.getUpdateQuestionID(),
-                                                                        this.getUpdateQuestionString(),
-                                                                        this.getUpdateSolutionString(),
-                                                                        answer);
-                                                        System.out.println(b_add_q);
-                                                        if (b_add_q == true) {
-                                                                getScorePointStringList(conn);
-                                                                JOptionPane.showMessageDialog(this,
-                                                                                "Update Successful");
-                                                                conn.close();
-                                                        } else {
-                                                                JOptionPane.showMessageDialog(this,
-                                                                                "Question is already exit");
-                                                                conn.close();
+                                                                e1.printStackTrace();
                                                         }
-                                                } catch (SQLException e1) {
 
-                                                        e1.printStackTrace();
                                                 }
 
                                         }
-
                                 }
+
                         }
                 }
 

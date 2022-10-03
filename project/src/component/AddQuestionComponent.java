@@ -223,49 +223,56 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
                         boolean b_question = getNewQuestionString().isEmpty();
                         boolean b_solution = getNewSolutionString().isEmpty();
+
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
 
                                 Connection conn = new PythonCodeChecker_db().get_connection();
 
                                 String solution = getNewSolutionString();
-                                boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
+                                String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
+                                                solution);
 
-                                if (bsyntaxError == true) {
-                                        String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        JOptionPane.showMessageDialog(this,
-                                                        "Your Solution has SyntaxError: " + syntaxError);
-                                        newAnswer0.setText(syntaxError);
-                                } else {
-                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        newAnswer0.setText(answer);
+                                if (keywordNotInString == null) {
+                                        boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
+                                        if (bsyntaxError == true) {
+                                                String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                JOptionPane.showMessageDialog(this,
+                                                                "Your Solution has SyntaxError: " + syntaxError);
+                                                newAnswer0.setText(syntaxError);
+                                        } else {
+                                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                newAnswer0.setText(answer);
 
-                                        boolean b_score = checkSocre();
+                                                boolean b_score = checkSocre();
 
-                                        if (b_score == true) {
-                                                boolean b_add_q;
-                                                try {
-                                                        b_add_q = DIO.insertQuestion(conn, this.getNewQuestionString(),
-                                                                        this.getNewSolutionString(),
-                                                                        answer);
-                                                        if (b_add_q == true) {
-                                                                getScorePointStringList(conn);
-                                                                JOptionPane.showMessageDialog(this, "Add Successful");
-                                                                conn.close();
+                                                if (b_score == true) {
+                                                        boolean b_add_q;
+                                                        try {
+                                                                b_add_q = DIO.insertQuestion(conn,
+                                                                                this.getNewQuestionString(),
+                                                                                this.getNewSolutionString(),
+                                                                                answer);
+                                                                if (b_add_q == true) {
+                                                                        getScorePointStringList(conn);
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Add Successful");
+                                                                        conn.close();
 
-                                                        } else {
-                                                                JOptionPane.showMessageDialog(this,
-                                                                                "Question is already exit");
-                                                                conn.close();
+                                                                } else {
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Question is already exit");
+                                                                        conn.close();
+                                                                }
+                                                        } catch (SQLException e1) {
+
+                                                                e1.printStackTrace();
                                                         }
-                                                } catch (SQLException e1) {
-
-                                                        e1.printStackTrace();
                                                 }
-
                                         }
-                                }
-                        }
 
+                                }
+
+                        }
                         System.out.println("-- The Create New Question is Working --");
                 }
         }
