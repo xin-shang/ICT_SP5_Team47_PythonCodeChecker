@@ -23,7 +23,7 @@ public class KeywordManagerComponent extends Box {
 	 */
 
 	WriteAndRead WAR = new WriteAndRead();
-	keywordAlternative_T QKC = new keywordAlternative_T();
+	keywordAlternative_T QKC;
 
 	// JFrame frameKMC = null;
 
@@ -47,9 +47,9 @@ public class KeywordManagerComponent extends Box {
 	// With a database, you need to create a data model.
 	public static DefaultTableModel tableModel;
 
-	public KeywordManagerComponent() {
+	public KeywordManagerComponent(keywordAlternative_T qkc) {
 		super(BoxLayout.Y_AXIS);
-
+		this.QKC = qkc;
 		//
 		PythonQuestionEditPage.splitPane.setDividerLocation(500); // 左右分屏初始位置
 		PythonQuestionEditPage.splitPane.setDividerSize(2); // 分割线宽度

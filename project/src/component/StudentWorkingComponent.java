@@ -23,13 +23,13 @@ import view.PythonCodeChackerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.AttributeSet;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
-
 
 public class StudentWorkingComponent extends Box {
 
@@ -110,7 +110,6 @@ public class StudentWorkingComponent extends Box {
                 editTextPane.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
                                 int caretPosition = editTextPane.getDocument().getLength();
-                                System.out.println(caretPosition);
 
                                 Element root = editTextPane.getDocument().getDefaultRootElement();
                                 String text = "  1  " + System.getProperty("line.separator");
@@ -160,6 +159,9 @@ public class StudentWorkingComponent extends Box {
                 // 8,40
                 terminalArea = new JTextArea(8, 40);
 
+                DefaultCaret caret = (DefaultCaret) terminalArea.getCaret();
+                caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
                 terminalArea.setLineWrap(true); // 自动换行
                 terminalArea.setEditable(false);// 不可编辑
 
@@ -195,17 +197,6 @@ public class StudentWorkingComponent extends Box {
                 this.add(studnetButtonPanel, BorderLayout.SOUTH);
 
         }
-
-        /**
-         * 数据获取
-         */
-        // private void setQuestionLabelString(String question) {
-        // this.questionLabel.setText(question);
-        // }
-
-        // private String getQuestionString() {
-        // return this.questionLabel.getText();
-        // }
 
         public static void setQuestionString(String question) {
                 StudentWorkingComponent.questionString = question;

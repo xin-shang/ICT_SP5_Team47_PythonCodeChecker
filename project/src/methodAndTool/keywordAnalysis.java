@@ -2,16 +2,21 @@ package methodAndTool;
 
 import java.util.List;
 
+import component.StudentWorkingComponent;
+
 public class keywordAnalysis {
 
     WriteAndRead WAR = new WriteAndRead();
+    MessagePrintString MPS = new MessagePrintString();
 
     public int getKeyWordSocre(String solution, String answer, List<markScheme> mkl) {
 
         int score = 0;
+        //
+        MPS.CalculatingMarkToString(StudentWorkingComponent.terminalArea);
 
         // 返还一个boolean检测是否有syntaxerror;
-        boolean c = WAR.checkSolutionSytaxError(solution);
+        boolean c = WAR.student_checkSolutionSytaxError(solution);
         String Correct_answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
         // false = no syntaxerror
         if (c == false && answer.equals(Correct_answer)) {
@@ -31,10 +36,15 @@ public class keywordAnalysis {
                 }
 
             }
+            //
+            MPS.CalculateMarkDoneToString(StudentWorkingComponent.terminalArea);
             return score;
         } else {
+            //
+            MPS.CalculateMarkDoneToString(StudentWorkingComponent.terminalArea);
             return score;
         }
+
     }
 
 }

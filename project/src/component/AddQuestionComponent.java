@@ -3,6 +3,7 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.BorderLayout;
@@ -21,6 +22,7 @@ import javax.swing.text.PlainDocument;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
 import methodAndTool.ChangeTabToSpacesFilter;
@@ -29,7 +31,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
         ProjectVariable PV = new ProjectVariable();
-        staffQns_T DIO = new staffQns_T();
+        staffQns_T DIO;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
         JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
@@ -53,16 +55,17 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         public static DefaultTableModel tableModelScorePoint;
 
-        public AddQuestionComponent() {
+        public AddQuestionComponent(staffQns_T dio) {
 
                 super(BoxLayout.Y_AXIS);
+                this.DIO = dio;
                 /**
                  * 设置窗口内容
                  */
                 //
 
                 //
-                newID = new JLabel("Add a New Question ID:" + (DIO.getDblength() + 1));
+                newID = new JLabel("Add a New Question");
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
@@ -216,47 +219,60 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 }
 
                 else if (actionCommand.equals("Submit Question")) {
+
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
                         boolean b_question = getNewQuestionString().isEmpty();
                         boolean b_solution = getNewSolutionString().isEmpty();
+
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+
+                                Connection conn = new PythonCodeChecker_db().get_connection();
+
                                 String solution = getNewSolutionString();
-                                boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
+                                String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
+                                                solution);
 
-                                if (bsyntaxError == true) {
-                                        String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        JOptionPane.showMessageDialog(this,
-                                                        "Your Solution has SyntaxError: " + syntaxError);
-                                        newAnswer0.setText(syntaxError);
-                                } else {
-                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        newAnswer0.setText(answer);
+                                if (keywordNotInString == null) {
+                                        boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
+                                        if (bsyntaxError == true) {
+                                                String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                JOptionPane.showMessageDialog(this,
+                                                                "Your Solution has SyntaxError: " + syntaxError);
+                                                newAnswer0.setText(syntaxError);
+                                        } else {
+                                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                newAnswer0.setText(answer);
 
-                                        boolean b_score = checkSocre();
-                                        if (b_score == true) {
-                                                boolean b_add_q;
-                                                try {
-                                                        b_add_q = DIO.insertQuestion(this.getNewQuestionString(),
-                                                                        this.getNewSolutionString(),
-                                                                        answer);
-                                                        if (b_add_q == true) {
-                                                                getScorePointStringList();
-                                                                JOptionPane.showMessageDialog(this, "Add Successful");
+                                                boolean b_score = checkSocre();
 
-                                                        } else {
-                                                                JOptionPane.showMessageDialog(this,
-                                                                                "Question is already exit");
+                                                if (b_score == true) {
+                                                        boolean b_add_q;
+                                                        try {
+                                                                b_add_q = DIO.insertQuestion(conn,
+                                                                                this.getNewQuestionString(),
+                                                                                this.getNewSolutionString(),
+                                                                                answer);
+                                                                if (b_add_q == true) {
+                                                                        getScorePointStringList(conn);
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Add Successful");
+                                                                        conn.close();
+
+                                                                } else {
+                                                                        JOptionPane.showMessageDialog(this,
+                                                                                        "Question is already exit");
+                                                                        conn.close();
+                                                                }
+                                                        } catch (SQLException e1) {
+
+                                                                e1.printStackTrace();
                                                         }
-                                                } catch (SQLException e1) {
-                                                        // TODO Auto-generated catch block
-                                                        e1.printStackTrace();
                                                 }
-
                                         }
+
                                 }
 
                         }
-
                         System.out.println("-- The Create New Question is Working --");
                 }
         }
@@ -312,7 +328,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 }
-                System.out.println(totalScore);
+
                 if (totalScore == 100) {
                         return true;
                 } else {
@@ -323,7 +339,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         }
 
         // Push score list to db
-        public void getScorePointStringList() throws SQLException {
+        public void getScorePointStringList(Connection conn) throws SQLException {
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {
@@ -339,7 +355,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                         int score_int = PV.castObjectToInt(score);
 
-                        DIO.insertQuestionMarkSheme(getNewQuestionString(), keyword_s, score_int);
+                        DIO.insertQuestionMarkSheme(conn, getNewQuestionString(), keyword_s, score_int);
 
                 }
         }

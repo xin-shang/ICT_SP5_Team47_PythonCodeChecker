@@ -18,10 +18,7 @@ public class solution_T extends STable_P {
     public boolean inserRows(Connection conn, String questionID, String solution, String answer) {
 
         try {
-            String id = PV.getID(solution, getRowsLength(table));
-
-            System.out.println(questionID);
-
+            String id = PV.getID(solution, getRowsLength(conn, table));
             String sql = "INSERT INTO " + table + " VALUES(?,?,?,?)";
 
             PreStmt = conn.prepareStatement(sql);
@@ -50,6 +47,30 @@ public class solution_T extends STable_P {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateSolution(Connection conn, String questionID, String solution, String answer) {
+        try {
+
+            String sql = "UPDATE " + table +
+                    " SET solution =  ?," +
+                    " answer = ?" +
+                    " WHERE question_id = ?";
+
+            PreStmt = conn.prepareStatement(sql);
+            PreStmt.setString(1, solution);
+            PreStmt.setString(2, answer);
+            PreStmt.setString(3, questionID);
+            PreStmt.executeUpdate();
+
+            PreStmt.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
             return false;
         }
     }

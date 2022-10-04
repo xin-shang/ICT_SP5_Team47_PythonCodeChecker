@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
 import view.PythonQuestionEditPage;
 
@@ -32,7 +33,8 @@ public class QuestionManagerComponent extends Box {
 	 */
 
 	// StaffdataIO DIO = new StaffdataIO();
-	staffQns_T DIO = new staffQns_T();
+	staffQns_T DIO;
+	keywordAlternative_T QKC;
 	WriteAndRead WAR = new WriteAndRead();
 	// JFrame frameQMC = null;
 
@@ -55,9 +57,11 @@ public class QuestionManagerComponent extends Box {
 	private static int selectedRow = 0;
 
 	// 代参构造，确定布局。本次是纵向布局
-	public QuestionManagerComponent() {
+	public QuestionManagerComponent(staffQns_T dio, keywordAlternative_T qkc) {
 		// 垂直布局
 		super(BoxLayout.Y_AXIS);
+		this.DIO = dio;
+		this.QKC = qkc;
 
 		/**
 		 * 组装零件
@@ -163,8 +167,8 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
 				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
-				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent());
-				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
+				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent(DIO));
+				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				System.out.println("-- The Add Manu Button is Working --");
 			}
@@ -204,8 +208,8 @@ public class QuestionManagerComponent extends Box {
 					//
 					setSelectedRow(questionTable.getSelectedRow());
 
-					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent());
-					PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent());
+					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent(DIO));
+					PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				} catch (Exception w) {
 
@@ -223,7 +227,7 @@ public class QuestionManagerComponent extends Box {
 				try {
 					//
 					setSelectedRow(questionTable.getSelectedRow());
-					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
+					PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
 				} catch (Exception w) {
 
 				}

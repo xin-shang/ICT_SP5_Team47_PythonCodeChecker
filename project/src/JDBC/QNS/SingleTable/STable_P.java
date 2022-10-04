@@ -15,18 +15,14 @@ public class STable_P {
     Connection conn;
     PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
-    public int getRowsLength(String table) {
+    public int getRowsLength(Connection conn, String table) {
         try {
-
             String sql = "select count(*) from " + table;
-            conn = pb.get_connection();
             PreStmt = conn.prepareStatement(sql);
-
             res = PreStmt.executeQuery();
             res.next();
             int rowsLength = res.getInt("count(*)");
             PreStmt.close();
-            conn.close();
             return rowsLength;
 
         } catch (Exception e) {

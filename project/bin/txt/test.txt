@@ -1,8 +1,0 @@
-import dllm
-
-import time
-start_time = time.time()
-
-while loop:
-    if time.time() - start_time > 1:
-        break

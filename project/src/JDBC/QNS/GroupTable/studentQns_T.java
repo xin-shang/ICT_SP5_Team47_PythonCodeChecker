@@ -1,5 +1,6 @@
 package JDBC.QNS.GroupTable;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -15,8 +16,8 @@ public class studentQns_T extends Qns_T {
     public static int rowlength = 4;
     PreparedStatement PreStmt;
 
-    public studentQns_T() {
-        qnsDB = getStudentQns();
+    public studentQns_T(Connection conn) {
+        qnsDB = getStudentQns(conn);
         System.out.println("____________");
     }
 
@@ -24,7 +25,7 @@ public class studentQns_T extends Qns_T {
         return this.qnsDB;
     }
 
-    private List<QnS> getStudentQns() {
+    private List<QnS> getStudentQns(Connection conn) {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {
             // System.out.println("Opened database successfully!");
@@ -33,7 +34,7 @@ public class studentQns_T extends Qns_T {
                     "solution.solution, " +
                     "solution.answer " +
                     "FROM question INNER JOIN solution ON question.id = solution.question_id";
-            conn = pb.get_connection();
+
             // System.out.println("student_qns");
             PreStmt = conn.prepareStatement(sql);
             ResultSet res = PreStmt.executeQuery();
@@ -49,7 +50,7 @@ public class studentQns_T extends Qns_T {
             }
             dblength = num;
             PreStmt.close();
-            conn.close();
+
             return qnsDB;
 
         } catch (Exception e) {

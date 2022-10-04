@@ -8,27 +8,36 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+
+import methodAndTool.RunPythonCode;
+
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
 
-public class FeedbackPage extends JDialog{
+public class FeedbackPage extends JDialog {
 
     // Added 3 components in the feedback page
     private JLabel messageTextAreaLabel; // A label for showing prompt before text area
     private JTextArea messageTextArea; // A text area for showing the feedback message
     private JButton returnButton; // A return button to go back to the previous window
 
+    // Added 2 labels and 2 text areas for showing the student and suggested answer
+    private JLabel studentAnswerLabel;
+    private JTextArea studentAnswerTextArea;
+    private JLabel suggestedAnswerLabel;
+    private JTextArea suggestedAnswerTextArea;
+
     private GridBagLayout layout; // A layout object for managing components
     private GridBagConstraints constraints; // Used for the settings for the layout for each component
 
-    private boolean syntaxErrorStatus = false;
-    private String runResultMessage= "";
+    private RunPythonCode studentAnswerRPC = new RunPythonCode();
+    private RunPythonCode suggestedAnswerRPC = new RunPythonCode();
 
-    public FeedbackPage(String title, JFrame parentFrame){
+    public FeedbackPage(String title, JFrame parentFrame) {
         super(parentFrame, title, true);
 
-        //Create and set a layout for the dialog
+        // Create and set a layout for the dialog
         layout = new GridBagLayout();
         setLayout(layout);
 
@@ -37,7 +46,7 @@ public class FeedbackPage extends JDialog{
         addComponents();
     }
 
-    public void addComponents(){
+    public void addComponents() {
 
         messageTextAreaLabel = new JLabel("Feedback: ");
 
@@ -46,71 +55,161 @@ public class FeedbackPage extends JDialog{
         messageTextArea.setEditable(false);
 
         returnButton = new JButton("Return");
-        returnButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        returnButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 setVisible(false);
             }
         });
 
-        // set constraints for adding the label
+        // Initialise the student answer label
+        studentAnswerLabel = new JLabel("Student Answer");
+
+        // Initialise the student answer text area, make it not editable
+        studentAnswerTextArea = new JTextArea("student");
+        studentAnswerTextArea.setEditable(false);
+
+        // Initialise the suggested answer label
+        suggestedAnswerLabel = new JLabel("Suggested Answer");
+
+        // Initialise suggested answer text area, make it not editable
+        suggestedAnswerTextArea = new JTextArea("suggested");
+        suggestedAnswerTextArea.setEditable(false);
+
+        // set constraints for adding the student answer label
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.weightx = 1;
-        constraints.weighty = 0.05;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        setConstraintsForLayout(0, 0, 1, 1, 0.5, 0.05, 10);
+        layout.setConstraints(studentAnswerLabel, constraints);
+        add(studentAnswerLabel);
+
+        // set constraints for adding suggested answer label
+        constraints.fill = GridBagConstraints.BOTH;
+        setConstraintsForLayout(0, 1, 1, 1, 0.5, 0.05, 10);
+        layout.setConstraints(suggestedAnswerLabel, constraints);
+        add(suggestedAnswerLabel);
+
+        // set constraints for adding the student answer text area
+        constraints.fill = GridBagConstraints.BOTH;
+        setConstraintsForLayout(1, 0, 1, 1, 0.5, 0.65, 10);
+        layout.setConstraints(studentAnswerTextArea, constraints);
+        add(studentAnswerTextArea);
+
+        // set constraints for adding the suggested answer text area
+        constraints.fill = GridBagConstraints.BOTH;
+        setConstraintsForLayout(1, 1, 1, 1, 0.5, 0.65, 10);
+        layout.setConstraints(suggestedAnswerTextArea, constraints);
+        add(suggestedAnswerTextArea);
+
+        // set constraints for adding feedback label
+        constraints.fill = GridBagConstraints.BOTH;
+        setConstraintsForLayout(2, 0, 1, 2, 1, 0.05, 10);
         layout.setConstraints(messageTextAreaLabel, constraints);
         add(messageTextAreaLabel);
 
-        // set constraints for adding the text area
+        // set constraints for adding feedback text area
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.weightx = 1;
-        constraints.weighty = 0.9;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        setConstraintsForLayout(3, 0, 1, 2, 1, 0.3, 10);
         layout.setConstraints(messageTextArea, constraints);
         add(messageTextArea);
 
-        // set constraints for adding the button
+        // set constraints for adding return button
         constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.weightx = 1;
-        constraints.weighty = 0.05;
-        constraints.insets = new Insets(10, 10, 10, 10);
+        setConstraintsForLayout(4, 1, 1, 0, 0.5, 0.05, 10);
         layout.setConstraints(returnButton, constraints);
-        
         add(returnButton);
 
-
-       
-    }    
-    
-    public void setSyntaxErrorStatus(boolean syntaxErrorStatus){
-        this.syntaxErrorStatus = syntaxErrorStatus;
     }
 
-    public void setRunResultMessage(String runResultMessage){
-        this.runResultMessage = runResultMessage;
+    private void setConstraintsForLayout(int row, int column, int rowspan, int columnspan, double widthPercent,
+            double heightPercent, int insetSpacing) {
+
+        constraints.gridx = column; // specify which column to be placed
+        constraints.gridy = row; // specify which row to be placed
+        constraints.gridwidth = columnspan; // specify the number of rows occupied
+        constraints.gridheight = rowspan; // specify the number of columns occupied
+        constraints.weightx = widthPercent; // specify the occupied percentage of grid's width
+        constraints.weighty = heightPercent; // specify the occupied percentage of grid's height
+        constraints.insets = new Insets(insetSpacing, insetSpacing, insetSpacing, insetSpacing); // specify the spacing
+                                                                                                 // around
     }
 
-    public void setTextMessageTextArea(String message){
-        messageTextArea.setText(message);
+    public void showFeedbackResult(String studentAnswer, String suggestedAnswer) {
+        returnButton.setEnabled(false);
+
+        studentAnswerTextArea.setText(studentAnswer);
+        suggestedAnswerTextArea.setText(suggestedAnswer);
+
+        showStudentRunCodeResult(studentAnswer);
+
+        returnButton.setEnabled(true);
+
     }
 
-    public void updateMessageTextArea(){
+    public void showStudentRunCodeResult(String studentAnswer) {
+
         messageTextArea.setText("");
-        String message = "";
-        if(syntaxErrorStatus == true){
-            message = message + "Your program has some syntax errors: \n";
-            message = message + runResultMessage + "\n";
-        }else{
-            message = message + "Your program runs without syntax errors. \n";
-            message = message + "The following is the output from console (if any): \n";
-            message = message + runResultMessage + "\n";
+
+        if (studentAnswer.length() > 0) {
+            messageTextArea.append("Your program is interpreting...\n");
+
+            studentAnswerRPC.saveCodeFile(studentAnswer);
+            boolean runStatus = studentAnswerRPC.runCode();
+
+            if (runStatus == false) {
+                messageTextArea.append("There is something wrong when running the program. \n");
+                messageTextArea.append(studentAnswerRPC.getErrorMessage());
+            } else {
+                if (studentAnswerRPC.getErrorMessage().equals("")) {
+                    messageTextArea.append("Your program runs without any syntax error. \n");
+                    messageTextArea.append("The following is the output from console (if any): \n");
+                    messageTextArea.append(studentAnswerRPC.getOutputFromConsole());
+                } else {
+                    messageTextArea.append("Your program has some syntax errors: \n");
+                    messageTextArea.append(studentAnswerRPC.getErrorMessage());
+                }
+            }
+            // returnButton.setEnabled(true);
+            System.out.println("Run status: " + runStatus);
+            System.out.println("Output: " + studentAnswerRPC.getOutputFromConsole());
+            System.out.print(studentAnswerRPC.getErrorMessage());
+        } else {
+
+            messageTextArea.append("The editor window's is empty");
+            System.out.println("The editor window's is empty.");
         }
-        messageTextArea.setText(message);
+    }
+
+    public void showCompareOutputResult(String suggestedAnswer) {
+        if (suggestedAnswer.length() > 0) {
+            messageTextArea.append("Your program output is compared with the one of the suggested answers. \n");
+
+            suggestedAnswerRPC.saveCodeFile(suggestedAnswer);
+            boolean runStatus = suggestedAnswerRPC.runCode();
+
+            if (runStatus == false) {
+                messageTextArea.append("There is something wrong with the suggested answer. \n");
+                messageTextArea.append(suggestedAnswerRPC.getErrorMessage());
+            } else {
+                if (suggestedAnswerRPC.getErrorMessage().equals("")) {
+                    messageTextArea.append("This is the output from console of the suggested answer (if any): \n");
+                    messageTextArea.append(suggestedAnswerRPC.getOutputFromConsole());
+
+                    String suggestedAnswerOutput = suggestedAnswerRPC.getOutputFromConsole();
+                    String studentAnswerOutput = studentAnswerRPC.getOutputFromConsole();
+                    if (studentAnswerOutput.equals(suggestedAnswerOutput)) {
+                        messageTextArea.append("Your program output is the same as the suggested answer");
+                    } else {
+                        messageTextArea.append("Your program has some differences from the suggested answer");
+                    }
+
+                } else {
+                    messageTextArea.append("There is syntax error in the suggested answer");
+                    messageTextArea.append(suggestedAnswerRPC.getErrorMessage());
+                }
+            }
+        } else {
+            messageTextArea.append("You haven't selected a question to answer");
+        }
+
     }
 
 }

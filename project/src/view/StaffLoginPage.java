@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -109,14 +110,17 @@ public class StaffLoginPage extends LoginPage {
 				// 获取用户数据（登陆的步骤）暂时注释写在这里。 传到后台（理论上需要访问登陆接口，现在没有服务端。直接传到后面去就行）
 				String usernameStaff = area_user.getText().trim();
 				String passwordStaff = new String(area_password.getPassword());
-				
 
 				int busername_password = SL.checkUserID(usernameStaff, passwordStaff);
 
 				if (busername_password == 2) {
 					// 进入学生页面 - Python Code Checker,当前页面消失
 					// get into python code checker page
-					new PythonQuestionEditPage().init();
+					try {
+						new PythonQuestionEditPage().init();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 					frame.dispose();
 
 					System.out.println("--Go to the edit page - Python Code Chacker--");

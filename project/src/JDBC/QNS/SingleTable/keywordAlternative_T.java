@@ -17,17 +17,17 @@ public class keywordAlternative_T {
     Connection conn;
     PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
-    public keywordAlternative_T() {
-        keyWordsList = getKeywordsList();
+    public keywordAlternative_T(Connection conn) {
+        keyWordsList = getKeywordsList(conn);
+        System.out.println("keyword");
     }
 
     // get table list
-    private Map<Integer, String> getKeywordsList() {
+    private Map<Integer, String> getKeywordsList(Connection conn) {
         Map<Integer, String> keyWords = new LinkedHashMap<>();
         try {
+            String sql = "select (@row_number:=@row_number + 1) AS num, keywords From keywordAlternative ORDER BY keywords ASC";
 
-            String sql = "select (@row_number:=@row_number + 1) AS num, keywords From keywordAlternative";
-            conn = pb.get_connection();
             stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);
 
@@ -39,7 +39,6 @@ public class keywordAlternative_T {
             dblength = num;
 
             stmt.close();
-            conn.close();
             return keyWords;
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ":" + e.getMessage());

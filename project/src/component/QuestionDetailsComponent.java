@@ -12,13 +12,15 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 
 public class QuestionDetailsComponent extends Box {
 
 	WriteAndRead WAR = new WriteAndRead();
-	staffQns_T DIO = new staffQns_T();
+	staffQns_T DIO;
+	keywordAlternative_T QKC;
 
 	// Create a one-dimensional array to store the titles 创建一维数组，存储标题
 	static Object[] titles = { "ID", "Keyword", "Score" };
@@ -37,11 +39,13 @@ public class QuestionDetailsComponent extends Box {
 	// 不确定用提示组件好还是文本框组件好
 	public static JTextArea showQuestion0, showSolution0, showAnswer0;
 
-	public QuestionDetailsComponent() {
+	public QuestionDetailsComponent(staffQns_T dio) {
 		super(BoxLayout.Y_AXIS);
+		this.DIO = dio;
 
 		// 暴露选择问题的id--------------------------------------------------------------
-		String question_id = (String) QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
+		String question_id = (String) QuestionManagerComponent
+				.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
 
 		// list
 		List<markScheme> markSchemeList = DIO.getSelectedMarkScheme(question_id);
@@ -49,13 +53,17 @@ public class QuestionDetailsComponent extends Box {
 		// -----------------------------------------------------------------------------
 
 		showID = new JLabel("ID: " + question_id);
-		showQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10, 10);
+		showQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10,
+				10);
 
 		showSolution = new JLabel("SOLUTION");
-		showSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20, 10);
+		showSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20,
+				10);
 
 		showAnswer = new JLabel("ANSWER");
-		showAnswer0 = new JTextArea(WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)), 10, 10);
+		showAnswer0 = new JTextArea(
+				WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
+				10, 10);
 
 		showScorePoint = new JLabel("SCORE POINTS");
 
