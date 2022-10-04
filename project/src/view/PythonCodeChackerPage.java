@@ -25,6 +25,7 @@ import JDBC.dbConnection.PythonCodeChecker_db;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.MessagePrintString;
+import methodAndTool.RunPythonCode;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 import methodAndTool.keywordAnalysis;
@@ -255,7 +256,16 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                                final String solution = StudentWorkingComponent.getEditAnswerString();
+                                RunPythonCode RP = new RunPythonCode();
+                                RP.saveCodeFile(solution);
+                                boolean bRunCodeStatus = RP.runCode();
 
+                                if (bRunCodeStatus == true) {
+                                        StudentWorkingComponent.terminalArea.setText(RP.getOutputFromConsole());
+                                } else {
+                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                }
                         }
                 });
         }

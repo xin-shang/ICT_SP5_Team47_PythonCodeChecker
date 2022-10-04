@@ -22,8 +22,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.PlainDocument;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.markPoint_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
+import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
 import methodAndTool.markScheme;
 import methodAndTool.ChangeTabToSpacesFilter;
@@ -62,9 +64,6 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String question_before;
         final String solution_before;
         final List<markScheme> markSchemeList_before;
-
-        // connection
-        Connection conn;
 
         public ChangeQuestionComponent(staffQns_T dio) {
                 super(BoxLayout.Y_AXIS);
@@ -242,31 +241,30 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 }
 
                 else if (actionCommand.equals("Update Question")) {
-
-                        conn = new PythonCodeChecker_db().get_connection();
-                        try {
-                                DIO.deleteMarkScheme(conn, question_id);
-                        } catch (SQLException e2) {
-
-                                e2.printStackTrace();
-                        }
-
+                        Connection conn = new PythonCodeChecker_db().get_connection();
                         boolean b_markShceme = bcheckMarkSchemeEmpty();
                         boolean b_question = getUpdateQuestionString().isEmpty();
                         boolean b_solution = getUpdateSolutionString().isEmpty();
+
                         if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+
                                 String solution = getUpdateSolutionString();
-                                boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
                                 String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
                                                 solution);
                                 if (keywordNotInString == null) {
-                                        if (bsyntaxError == true) {
-                                                String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+
+                                        RunPythonCode RP = new RunPythonCode();
+                                        RP.saveCodeFile(solution);
+                                        RP.runCode();
+
+                                        if (!RP.getErrorMessage().equals("")) {
+                                                String errormessage = RP.getErrorMessage();
                                                 JOptionPane.showMessageDialog(this,
-                                                                "Your Solution has SyntaxError: " + syntaxError);
-                                                cAnswer0.setText(syntaxError);
+                                                                "Your Solution has SyntaxError: \n" + errormessage);
+                                                cAnswer0.setText(errormessage);
+
                                         } else {
-                                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                String answer = RP.getOutputFromConsole();
                                                 cAnswer0.setText(answer);
 
                                                 boolean b_score = checkSocre();
@@ -327,6 +325,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
         // Push score list to db
         public void getScorePointStringList(Connection conn) throws SQLException {
+                new markPoint_T().deletRows(conn, question_id);
                 Object keyword = null;
                 Object score = null;
                 for (int i = 0; i < getScorePointRowCount(); i++) {
