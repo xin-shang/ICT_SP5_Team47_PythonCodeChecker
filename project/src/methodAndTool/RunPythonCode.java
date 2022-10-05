@@ -10,11 +10,12 @@ public class RunPythonCode {
     private String pythonIntpreterFileName;
     private String outputFromConsole;
     private String errorMessage;
+    WriteAndRead WAR = new WriteAndRead();
 
     public RunPythonCode() {
         ProjectVariable PV = new ProjectVariable();
         pythonIntpreterFileName = PV.getPythonName();
-        codeFileName = "./src/txt/StudentAnswer.py";
+        codeFileName = WAR.getLocalFolderPath() + "StudentAnswer.py";
         outputFromConsole = "";
         errorMessage = "";
     }

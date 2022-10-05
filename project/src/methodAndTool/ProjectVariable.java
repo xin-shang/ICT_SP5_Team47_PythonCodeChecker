@@ -49,14 +49,13 @@ public class ProjectVariable {
 	/**
 	 * set python command for mac os and windows
 	 */
-	private String getOSName() {
+	public String getOSName() {
 		String OS = System.getProperty("os.name");
 		return OS;
 	}
 
 	public Font getUserTextfieldFontSize() {
 		if (getOSName().startsWith("Windows")) {
-
 			Font myFont3 = new Font("Arial", Font.PLAIN, 15);
 			return myFont3;
 		} else {

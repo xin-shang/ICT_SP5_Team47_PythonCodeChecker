@@ -191,13 +191,6 @@ public class PythonCodeChackerPage {
                 });
         }
 
-        public boolean detectWhileLoop(String path) {
-                String code = WAR.readText(path);
-                String UPcode = code.toUpperCase();
-                boolean bWHile = UPcode.contains("WHILE");
-                return bWHile;
-        }
-
         // Submit Answer
         public void Button_Item_SubmitAnswer(Object button) {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
@@ -259,9 +252,9 @@ public class PythonCodeChackerPage {
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
                                 RP.saveCodeFile(solution);
-                                boolean bRunCodeStatus = RP.runCode();
+                                RP.runCode();
 
-                                if (bRunCodeStatus == true) {
+                                if (RP.getErrorMessage().equals("")) {
                                         StudentWorkingComponent.terminalArea.setText(RP.getOutputFromConsole());
                                 } else {
                                         StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
@@ -280,6 +273,7 @@ public class PythonCodeChackerPage {
 
                                 String temp = "";
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                System.out.println(selectedRow);
                                 if (selectedRow >= 0) {
                                         temp = DIO.getData(selectedRow, 2).toString();
                                 }
