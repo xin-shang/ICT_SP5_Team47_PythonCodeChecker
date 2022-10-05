@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,7 +34,7 @@ public class ChooseQuestionComponent extends Box {
 	Date dateNow = new Date();
 	studentQns_T DIO = null;
 
-	MessagePrintString MPS = new MessagePrintString();
+	static MessagePrintString MPS = new MessagePrintString();
 
 	// 创建一维数组，存储标题
 	Object[] titlesChooseQuestion = { "ID", "Question-Stems" };
@@ -51,7 +52,7 @@ public class ChooseQuestionComponent extends Box {
 	public static DefaultTableModel chooseQuestionTableModel;
 	private static int selectedRow = -1;
 	public static int rowNum;
-	private JButton showQuestionButton;
+	private JButton showQuestionButton, nextButton, previousButton;
 
 	public ChooseQuestionComponent(studentQns_T dio) {
 		super(BoxLayout.Y_AXIS);
@@ -101,7 +102,11 @@ public class ChooseQuestionComponent extends Box {
 		column1.setMinWidth(50);
 
 		// 获取列
-		// TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
+		TableColumn column2 = chooseQuestionTable.getColumn(titlesChooseQuestion[1]);
+		column2.setMaxWidth(0);
+		column2.setMinWidth(0);
+		column2.setPreferredWidth(0);
+		column2.setWidth(0);
 
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
@@ -109,9 +114,17 @@ public class ChooseQuestionComponent extends Box {
 		JPanel buttonStudentPanel = new JPanel();
 		buttonStudentPanel.setMaximumSize(new Dimension(800, 80));
 
+		previousButton = new JButton("<");
+		Button_Item_PreviousQuestion(previousButton);
+		// buttonStudentPanel.add(previousButton);
+
 		showQuestionButton = new JButton("Show");
 		Button_Item_ShowQuestionButton(showQuestionButton);
 		buttonStudentPanel.add(showQuestionButton);
+
+		nextButton = new JButton(">");
+		Button_Item_NextQuestion(nextButton);
+		// buttonStudentPanel.add(nextButton);
 
 		this.add(scrollPane);
 		this.add(buttonStudentPanel, BorderLayout.SOUTH);
@@ -153,6 +166,56 @@ public class ChooseQuestionComponent extends Box {
 			}
 		});
 	}
+
+	// Previous Question
+        public static void Button_Item_PreviousQuestion(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                               
+				setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
+                               
+                                StudentWorkingComponent.setQuestionString(
+                                                WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
+                               
+                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+                                
+                                MPS.QuestionToString(StudentWorkingComponent.terminalArea);
+				MPS.EditingToString(StudentWorkingComponent.terminalArea);
+
+				chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
+				chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
+				
+                                System.out.println("-- The Previous Question Button is Working --");
+                        }
+                });
+        }
+
+	// Next Question
+        public static void Button_Item_NextQuestion(Object button) {
+                ((AbstractButton) button).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+
+                                setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
+
+                                StudentWorkingComponent.setQuestionString(
+                                                WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
+                                
+                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+
+                                MPS.QuestionToString(StudentWorkingComponent.terminalArea);
+				MPS.EditingToString(StudentWorkingComponent.terminalArea);
+
+				chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
+				chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
+
+                                System.out.println("-- The Next Question Button is Working --");
+                        }
+                });
+        }
+
+
 
 	/**
 	 * 获取数据

@@ -116,8 +116,8 @@ public class PythonCodeCheckerPage {
                 manuStudent_Operation.add(item_Run);
                 // manuStudent_Operation.add(item_Feedback);
 
-                Button_Item_PreviousQuestion(item_PreviousQuestion);
-                Button_Item_NextQuestion(item_NextQuestion);
+                ChooseQuestionComponent.Button_Item_PreviousQuestion(item_PreviousQuestion);
+                ChooseQuestionComponent.Button_Item_NextQuestion(item_NextQuestion);
                 Button_Item_RandomQuestion(item_RandomQuestion);
                 manuStudent_Show.add(item_PreviousQuestion);
                 manuStudent_Show.add(item_NextQuestion);
@@ -138,7 +138,7 @@ public class PythonCodeCheckerPage {
                 // Box box = Box.createHorizontalBox(); 水平
 
                 splitPane.setContinuousLayout(false); // 连续布局
-                splitPane.setDividerLocation(900); // 左右分屏初始位置
+                splitPane.setDividerLocation(950); // 左右分屏初始位置
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
@@ -299,38 +299,6 @@ public class PythonCodeCheckerPage {
                                         JFrame jf = new JFrame();
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
                                 }
-                        }
-                });
-        }
-
-        // Previous Question
-        private void Button_Item_PreviousQuestion(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                ChooseQuestionComponent.setSelectedRow(
-                                                ChooseQuestionComponent.chooseQuestionTable.getSelectedRow() - 1);
-                                StudentWorkingComponent.setQuestionString(
-                                                WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(
-                                                                ChooseQuestionComponent.getSelectedRow(), 1)));
-                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-                                System.out.println("-- The Previous Question Button is Working --");
-                        }
-                });
-        }
-
-        // Next Question
-        private void Button_Item_NextQuestion(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                                ChooseQuestionComponent.setSelectedRow(
-                                                ChooseQuestionComponent.chooseQuestionTable.getSelectedRow() + 1);
-                                StudentWorkingComponent.setQuestionString(
-                                                WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(
-                                                                ChooseQuestionComponent.getSelectedRow(), 1)));
-                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-                                System.out.println("-- The Next Question Button is Working --");
                         }
                 });
         }
