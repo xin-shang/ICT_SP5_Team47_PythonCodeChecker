@@ -166,11 +166,11 @@ public class ChooseQuestionComponent extends Box {
 				}
 				else {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
-					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
-					MPS.EditingToString(StudentWorkingComponent.terminalArea);
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
+					MPS.EditingToString(StudentWorkingComponent.terminalArea);
 					chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
 					System.out.println("-- The Previous Question Button is Working --");
@@ -187,11 +187,11 @@ public class ChooseQuestionComponent extends Box {
                         public void actionPerformed(ActionEvent e) {
 				if(getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
-					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
-					MPS.EditingToString(StudentWorkingComponent.terminalArea);
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
+					MPS.EditingToString(StudentWorkingComponent.terminalArea);
 					chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
 					System.out.println("-- The Next Question Button is Working --");
