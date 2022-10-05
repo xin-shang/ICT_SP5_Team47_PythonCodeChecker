@@ -92,7 +92,7 @@ public class studentQns_T extends Qns_T {
         }
     }
 
-    public int getDblength() {
+    public static int getDblength() {
         return dblength;
     }
 

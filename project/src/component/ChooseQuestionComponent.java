@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractButton;
@@ -23,7 +22,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import JDBC.QNS.GroupTable.studentQns_T;
-import Type.markScheme;
 import methodAndTool.MessagePrintString;
 import methodAndTool.WriteAndRead;
 import view.PythonCodeCheckerPage;
@@ -34,7 +32,7 @@ public class ChooseQuestionComponent extends Box {
 	 * Python Code Checker Page - ChooseQuestionComponent
 	 */
 	Date dateNow = new Date();
-	static studentQns_T DIO = null;
+	studentQns_T DIO = null;
 
 	static MessagePrintString MPS = new MessagePrintString();
 
@@ -59,7 +57,7 @@ public class ChooseQuestionComponent extends Box {
 	public ChooseQuestionComponent(studentQns_T dio) {
 		super(BoxLayout.Y_AXIS);
 
-		ChooseQuestionComponent.DIO = dio;
+		this.DIO = dio;
 
 		/**
 		 * 组装零件
@@ -73,7 +71,7 @@ public class ChooseQuestionComponent extends Box {
 			titlesChooseQuestion_Table.add(titlesChooseQuestion[i]);
 		}
 
-		for (int i = 0; i < DIO.getDblength(); i++) {
+		for (int i = 0; i < studentQns_T.getDblength(); i++) {
 			Vector<Object> t = new Vector<Object>();
 			for (int j = 0; j < 2/* DIO.getRowlength() */; j++) {
 				t.add(DIO.getData(i, j));
@@ -133,18 +131,6 @@ public class ChooseQuestionComponent extends Box {
 
 	}
 
-	public List<markScheme> getSelectedMarkScheme() {
-		List<markScheme> mk = null;
-
-		int rowIndex = chooseQuestionTable.getSelectedRow();
-
-		String selectedQuestionID = DIO.getQNS().get(rowIndex).getQuestionID();
-
-		mk = DIO.getSelectedMarkScheme(selectedQuestionID);
-		return mk;
-
-	}
-
 	/**
 	 * 按键监听
 	 */
@@ -154,20 +140,13 @@ public class ChooseQuestionComponent extends Box {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				System.out.println("******" + getSelectedRow());
 				rowNum = ChooseQuestionComponent.getSelectedRow();
-				System.out.println("******" + getSelectedRow());
 				setSelectedRow(chooseQuestionTable.getSelectedRow());
 				StudentWorkingComponent
 						.setQuestionString(WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
 				PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-
-				System.out.println("******" + getSelectedRow());
-
 				MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 				MPS.EditingToString(StudentWorkingComponent.terminalArea);
-
-				System.out.println("******" + getSelectedRow());
 				System.out.println("-- The Show Button is Working --");
 
 			}
@@ -186,24 +165,14 @@ public class ChooseQuestionComponent extends Box {
 							"This is the first Question");
 				}
 				else {
-					System.out.println("******" + getSelectedRow());
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
-                               
 					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 					MPS.EditingToString(StudentWorkingComponent.terminalArea);
-					
-					System.out.println("******" + getSelectedRow());
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
-				       
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-					
-	
-					System.out.println("******" + getSelectedRow());
 					chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
-					
-					System.out.println("******" + getSelectedRow());
 					System.out.println("-- The Previous Question Button is Working --");
 				}
 				
@@ -216,23 +185,15 @@ public class ChooseQuestionComponent extends Box {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-				if(getSelectedRow() < getDbLength() - 1) {
-					System.out.println("******" + getSelectedRow());
+				if(getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
-
 					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 					MPS.EditingToString(StudentWorkingComponent.terminalArea);
-					
-					System.out.println("******" + getSelectedRow());
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
-					
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
-					
-					System.out.println("******" + getSelectedRow());
 					chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
-					System.out.println("******" + getSelectedRow());
 					System.out.println("-- The Next Question Button is Working --");
 				}
 				else {
@@ -250,10 +211,6 @@ public class ChooseQuestionComponent extends Box {
 	/**
 	 * 获取数据
 	 */
-	private static int getDbLength() {
-		return DIO.getDblength();
-	}
-	
 	public static int getSelectedRow() {
 		return selectedRow;
 	}
