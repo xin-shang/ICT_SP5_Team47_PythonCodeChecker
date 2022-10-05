@@ -62,7 +62,6 @@ public class PythonCodeCheckerPage {
         // 上一题，下一题，随机一题。。。。。。
         JMenuItem item_PreviousQuestion = new JMenuItem("Previous Question");
         JMenuItem item_NextQuestion = new JMenuItem("Next Question");
-        JMenuItem item_RandomQuestion = new JMenuItem("Random Question");
 
         // 设置菜单中物品 - USER
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
@@ -118,10 +117,9 @@ public class PythonCodeCheckerPage {
 
                 ChooseQuestionComponent.Button_Item_PreviousQuestion(item_PreviousQuestion);
                 ChooseQuestionComponent.Button_Item_NextQuestion(item_NextQuestion);
-                Button_Item_RandomQuestion(item_RandomQuestion);
+
                 manuStudent_Show.add(item_PreviousQuestion);
                 manuStudent_Show.add(item_NextQuestion);
-                manuStudent_Show.add(item_RandomQuestion);
 
                 Button_Item_ChangeAccount(item_ChangeAccount);
                 Button_Item_ExitProgram(item_ExitProgram);
@@ -299,17 +297,6 @@ public class PythonCodeCheckerPage {
                                         JFrame jf = new JFrame();
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
                                 }
-                        }
-                });
-        }
-
-        // Random Question
-        private void Button_Item_RandomQuestion(JMenuItem button) {
-                button.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                                System.out.println("-- The Random Question Button is Working --");
                         }
                 });
         }
