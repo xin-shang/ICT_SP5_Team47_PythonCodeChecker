@@ -19,14 +19,18 @@ public class keywordAnalysis {
         boolean c = WAR.student_checkSolutionSytaxError(solution);
         String Correct_answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
         // false = no syntaxerror
-        if (c == false && answer.equals(Correct_answer)) {
+        if (c == false) {
+            if (answer.equals(Correct_answer)){
+                score += 40;
+            }
+            else{score += 0;} 
             // mkl loop each markscheme(mk)
             for (markScheme mk : mkl) {
                 String keyword = mk.getKeyword();
                 boolean bcheck = solution.contains(keyword);
                 if (bcheck == true) {
 
-                    score += mk.getScore();
+                    score += mk.getScore()*0.6;
                     // delete keyword after checked
                     String deleteKw = solution.replaceFirst(mk.getKeyword(), "");
 
@@ -34,6 +38,7 @@ public class keywordAnalysis {
                 } else {
                     score += 0;
                 }
+                
 
             }
             //

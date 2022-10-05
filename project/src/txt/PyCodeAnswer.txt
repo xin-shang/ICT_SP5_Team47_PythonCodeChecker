@@ -1,1 +1,1 @@
-NameError: name 'cat' is not defined
+SyntaxError: invalid syntax
