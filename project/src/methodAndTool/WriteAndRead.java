@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import component.StudentWorkingComponent;
@@ -187,12 +188,34 @@ public class WriteAndRead {
 		}
 	}
 
-	public String runPythonCode(String studentAnswer) {
+	public final String getLocalFolderPath() {
+		String OSname = PV.getOSName();
+		String userName = System.getProperty("user.name");
+		if (OSname.startsWith("Windows")) {
+			String path = "C:/Users/" + userName + "/Documents/PythonCodeChecker/";
+			return path;
+		} else {
+			String path = "/Users/" + userName + "/Documents/PythonCodeChecker/";
+			return path;
+		}
+	}
 
-		RunPythonCode RP = new RunPythonCode("./src/txt/StudentAnswer.py");
-		RP.runCode();
-		String output = RP.getOutputFromConsole();
-		return output;
+	public boolean createLocalFolder() {
+		Path path = Paths.get(getLocalFolderPath());
+		boolean fileEixt = Files.exists(path);
+		if (fileEixt == true) {
+			System.out.println("File exit");
+			return true;
+		} else {
+			try {
+				Files.createDirectories(path);
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
 	}
 
 }

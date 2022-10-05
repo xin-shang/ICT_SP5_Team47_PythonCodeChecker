@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import JDBC.QNS.GroupTable.staffQns_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
+import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
 import methodAndTool.ChangeTabToSpacesFilter;
 
@@ -233,14 +234,16 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                                 solution);
 
                                 if (keywordNotInString == null) {
-                                        boolean bsyntaxError = WAR.staff_checkSolutionSytaxError(solution);
-                                        if (bsyntaxError == true) {
-                                                String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                        RunPythonCode RP = new RunPythonCode();
+                                        RP.saveCodeFile(solution);
+                                        RP.runCode();
+                                        if (!RP.getErrorMessage().equals("")) {
+                                                String errormessage = RP.getErrorMessage();
                                                 JOptionPane.showMessageDialog(this,
-                                                                "Your Solution has SyntaxError: " + syntaxError);
-                                                newAnswer0.setText(syntaxError);
+                                                                "Your Solution has SyntaxError: \n" + errormessage);
+                                                newAnswer0.setText(errormessage);
                                         } else {
-                                                String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
+                                                String answer = RP.getOutputFromConsole();
                                                 newAnswer0.setText(answer);
 
                                                 boolean b_score = checkSocre();

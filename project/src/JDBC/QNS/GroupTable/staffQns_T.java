@@ -1,7 +1,5 @@
 package JDBC.QNS.GroupTable;
 
-import methodAndTool.QnS;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JDBC.Login.staff_T;
+import Type.QnS;
 
 public class staffQns_T extends Qns_T {
 
@@ -133,7 +132,6 @@ public class staffQns_T extends Qns_T {
 
     public boolean updateQuestionMarkSheme(Connection conn, String question_id, String keyword, int Point) {
         String keywordID = kw.getKeywordID(conn, keyword);
-
         if (keywordID != null) {
             boolean b_add_mk = mk.inserRows(conn, question_id, keywordID, Point);
             if (b_add_mk == true) {

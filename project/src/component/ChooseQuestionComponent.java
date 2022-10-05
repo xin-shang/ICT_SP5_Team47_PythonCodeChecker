@@ -20,9 +20,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import JDBC.QNS.GroupTable.studentQns_T;
+import Type.markScheme;
 import methodAndTool.MessagePrintString;
 import methodAndTool.WriteAndRead;
-import methodAndTool.markScheme;
 import view.PythonCodeChackerPage;
 
 public class ChooseQuestionComponent extends Box {

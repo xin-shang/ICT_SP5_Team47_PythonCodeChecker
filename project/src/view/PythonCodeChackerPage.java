@@ -22,13 +22,14 @@ import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.MessagePrintString;
+import methodAndTool.RunPythonCode;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 import methodAndTool.keywordAnalysis;
-import methodAndTool.markScheme;
 
 public class PythonCodeChackerPage {
 
@@ -190,13 +191,6 @@ public class PythonCodeChackerPage {
                 });
         }
 
-        public boolean detectWhileLoop(String path) {
-                String code = WAR.readText(path);
-                String UPcode = code.toUpperCase();
-                boolean bWHile = UPcode.contains("WHILE");
-                return bWHile;
-        }
-
         // Submit Answer
         public void Button_Item_SubmitAnswer(Object button) {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
@@ -255,7 +249,16 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                                final String solution = StudentWorkingComponent.getEditAnswerString();
+                                RunPythonCode RP = new RunPythonCode();
+                                RP.saveCodeFile(solution);
+                                RP.runCode();
 
+                                if (RP.getErrorMessage().equals("")) {
+                                        StudentWorkingComponent.terminalArea.setText(RP.getOutputFromConsole());
+                                } else {
+                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                }
                         }
                 });
         }
@@ -270,6 +273,7 @@ public class PythonCodeChackerPage {
 
                                 String temp = "";
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                System.out.println(selectedRow);
                                 if (selectedRow >= 0) {
                                         temp = DIO.getData(selectedRow, 2).toString();
                                 }

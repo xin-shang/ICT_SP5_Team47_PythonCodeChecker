@@ -13,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
 import JDBC.QNS.SingleTable.keywordAlternative_T;
+import Type.markScheme;
 import methodAndTool.WriteAndRead;
-import methodAndTool.markScheme;
 
 public class QuestionDetailsComponent extends Box {
 

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
-import methodAndTool.markScheme;
 import JDBC.QNS.SingleTable.markPoint_T;
 import JDBC.QNS.SingleTable.keyword_T;
 import JDBC.QNS.SingleTable.question_T;

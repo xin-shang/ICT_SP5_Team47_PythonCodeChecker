@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class JTextPaneColorDocument extends DefaultStyledDocument {
 
-    //cont是个空容器，下面用来设置容器包含内容
+    // cont是个空容器，下面用来设置容器包含内容
     final StyleContext cont = StyleContext.getDefaultStyleContext();
 
     final AttributeSet blueColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
@@ -18,12 +18,11 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
     final AttributeSet whiteColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
     final AttributeSet purpleColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
             new Color(170, 80, 153));
-    
-    final AttributeSet redColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, 
-            new Color(255, 51, 51));
-    final AttributeSet yellowColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, 
-            new Color(255, 255, 51));
 
+    final AttributeSet redColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
+            new Color(255, 51, 51));
+    final AttributeSet yellowColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
+            new Color(255, 255, 51));
 
     private int findLastChar(String text, int index) {
         while (index < text.length()) {
@@ -35,9 +34,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         return index;
     }
 
-    //找两次，双保险
+    // 找两次，双保险
     private int findFirstChar(String text, int index) {
-        //从后往前找，每找一个减1，找到第一位字符
+        // 从后往前找，每找一个减1，找到第一位字符
         while (--index >= 0) {
             if (String.valueOf(text.charAt(index)).matches("\\W")) {
                 break;
@@ -47,9 +46,9 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
     }
 
     public void remove(int offs, int len) throws BadLocationException {
-        //用来删除
+        // 用来删除
         super.remove(offs, len);
-        
+
         // get the all code text
         String text = getText(0, getLength());
 
@@ -67,19 +66,19 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         } else if (text.substring(leftIndex, rightIndex).matches(
                 "(\\W)*((False|None|True|and|is|lambda|class|def|nonlocal|not|or))")) {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, blueColor, false);
-        }else if (text.substring(leftIndex, rightIndex).matches(
-            "(\\W)*((print|sum|input))")) {
-        setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
-        }else if (text.substring(leftIndex, rightIndex).matches(
-            "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) {
-        setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
-        }else {
+        } else if (text.substring(leftIndex, rightIndex).matches(
+                "(\\W)*((print|sum|input))")) {
+            setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
+        } else if (text.substring(leftIndex, rightIndex).matches(
+                "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) {
+            setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
+        } else {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
         }
     }
 
     public void insertString(int offset, String str, AttributeSet a) throws BadLocationException {
-        //输入
+        // 输入
         super.insertString(offset, str, a);
         // get the all code text
         String text = getText(0, getLength());
@@ -107,7 +106,7 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                         "(\\W)*(print|sum|input)"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, yellowColor, false);
                 else if (text.substring(leftIndex, rightIndex).matches(
-                        "((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) 
+                        "((\\(|\\)|\\{|\\}|\\[|\\]|\\=))"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
                 else
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
