@@ -1,4 +1,4 @@
-package methodAndTool;
+package Type;
 
 import java.util.List;
 

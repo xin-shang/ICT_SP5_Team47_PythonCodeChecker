@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import methodAndTool.QnS;
+import Type.QnS;
 
 public class studentQns_T extends Qns_T {
 

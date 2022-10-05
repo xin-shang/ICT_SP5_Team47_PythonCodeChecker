@@ -1,7 +1,5 @@
 package JDBC.QNS.GroupTable;
 
-import methodAndTool.QnS;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import JDBC.Login.staff_T;
+import Type.QnS;
 
 public class staffQns_T extends Qns_T {
 

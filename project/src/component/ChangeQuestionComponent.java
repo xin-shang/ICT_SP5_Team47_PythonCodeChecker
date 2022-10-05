@@ -24,10 +24,10 @@ import javax.swing.text.PlainDocument;
 import JDBC.QNS.GroupTable.staffQns_T;
 import JDBC.QNS.SingleTable.markPoint_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
-import methodAndTool.markScheme;
 import methodAndTool.ChangeTabToSpacesFilter;
 
 public class ChangeQuestionComponent extends Box implements ActionListener {

@@ -19,11 +19,11 @@ import javax.swing.JSplitPane;
 import JDBC.QNS.GroupTable.staffQns_T;
 import JDBC.QNS.SingleTable.keywordAlternative_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import component.KeywordManagerComponent;
 import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
-import methodAndTool.markScheme;
 
 public class PythonQuestionEditPage {
 

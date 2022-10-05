@@ -22,6 +22,7 @@ import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.MessagePrintString;
@@ -29,7 +30,6 @@ import methodAndTool.RunPythonCode;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 import methodAndTool.keywordAnalysis;
-import methodAndTool.markScheme;
 
 public class PythonCodeChackerPage {
 
