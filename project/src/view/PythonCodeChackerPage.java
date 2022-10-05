@@ -209,7 +209,7 @@ public class PythonCodeChackerPage {
 
                                         // get student input code
                                         String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
-                                        WAR.student_checkSolutionSytaxError(pyCodeSolution);
+                                    
 
                                         /**
                                          * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
@@ -229,13 +229,13 @@ public class PythonCodeChackerPage {
                                         mkl = DIO.getSelectedMarkScheme(id); // input the marking scheme into 'mkl'
 
                                         // System.out.println(mkl.get(0).getScore());
-                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
+                                        //int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
 
                                         //
                                         MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
                                         MPS.SubmitAnswerToString(StudentWorkingComponent.terminalArea, answer);
 
-                                        System.out.println(score);
+                                        //System.out.println(score);
 
                                         System.out.println("-- The Submit Answer Button is Working --");
                                 }
@@ -251,14 +251,26 @@ public class PythonCodeChackerPage {
                         public void actionPerformed(ActionEvent e) {
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
+
                                 RP.saveCodeFile(solution);
                                 RP.runCode();
 
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                
+                                String temp = "";
+                                temp = DIO.getData(selectedRow, 1).toString();
+                                System.out.println(temp);
+                                                
                                 if (RP.getErrorMessage().equals("")) {
                                         StudentWorkingComponent.terminalArea.setText(RP.getOutputFromConsole());
+                                        
+
                                 } else {
                                         StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                        
                                 }
+                               
+                                
                         }
                 });
         }
@@ -268,30 +280,35 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
-                                final String solution = StudentWorkingComponent.getEditAnswerString();
-
-                                String temp = "";
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                System.out.println(selectedRow);
-                                if (selectedRow >= 0) {
+
+                                if(selectedRow >= 0){
+                                        final String solution = StudentWorkingComponent.getEditAnswerString();
+                                        String temp = "";
                                         temp = DIO.getData(selectedRow, 2).toString();
+                                                
+                                        final String suggestedAnswer = temp;
+                                        
+                                        Thread t = new Thread() {
+                                                public void run() {
+                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                                }
+                                        };
+                                        t.start();
+        
+                                        // Make the pop up dialog center align to parent window
+                                        feedbackPage.setLocationRelativeTo(frame);
+                                        // Show the feedback dialog
+                                        feedbackPage.setVisible(true);
+                                        System.out.println("-- The Show Feedback Button is Working --");
+                                }
+                                else{
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
                                 }
 
-                                final String suggestedAnswer = temp;
 
-                                Thread t = new Thread() {
-                                        public void run() {
-                                                feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                        }
-                                };
-                                t.start();
-
-                                // Make the pop up dialog center align to parent window
-                                feedbackPage.setLocationRelativeTo(frame);
-                                // Show the feedback dialog
-                                feedbackPage.setVisible(true);
-                                System.out.println("-- The Show Feedback Button is Working --");
+  
                         }
                 });
         }
