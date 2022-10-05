@@ -170,6 +170,7 @@ public class SignupPage extends LoginPage {
                         boolean bCheckAcountExit = student.inserRows(getUserNameString(), getUserPasswardString());
                         if (bCheckAcountExit == true) {
                             JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                            frame.setVisible(false);
                         } else {
                             JOptionPane.showMessageDialog(frame, "Username Eixt!!");
                         }
@@ -178,6 +179,7 @@ public class SignupPage extends LoginPage {
                         boolean bCheckAcountExit = staff.inserRows(getUserNameString(), getUserPasswardString());
                         if (bCheckAcountExit == true) {
                             JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                            frame.setVisible(false);
                         } else {
                             JOptionPane.showMessageDialog(frame, "Username Eixt!!");
                         }

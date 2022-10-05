@@ -87,7 +87,6 @@ public class ProjectVariable {
 		} else {
 			return id;
 		}
-
 	}
 
 	// method to transfer string to int

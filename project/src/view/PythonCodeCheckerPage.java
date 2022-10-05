@@ -31,13 +31,16 @@ import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 import methodAndTool.keywordAnalysis;
 
-public class PythonCodeChackerPage {
+public class PythonCodeCheckerPage {
 
         WriteAndRead WAR = new WriteAndRead();
-        studentQns_T DIO;
+
         keywordAnalysis KA = new keywordAnalysis();
         MessagePrintString MPS = new MessagePrintString();
 
+        // connection
+        Connection conn = new PythonCodeChecker_db().get_connection();
+        studentQns_T DIO = new studentQns_T(conn);
         /**
          * Python Code Checker Page
          */
@@ -53,7 +56,7 @@ public class PythonCodeChackerPage {
         // 设置菜单中物品 - OPERATION
         JMenuItem item_Submit = new JMenuItem("Submit Answer");
         JMenuItem item_Run = new JMenuItem("Run Code");
-        JMenuItem item_Feedback = new JMenuItem("Show Feedback");
+        // JMenuItem item_Feedback = new JMenuItem("Show Feedback");
 
         // 设置菜单中物品 - SHOW QUESTION
         // 上一题，下一题，随机一题。。。。。。
@@ -73,16 +76,18 @@ public class PythonCodeChackerPage {
         // Create feedback page dialog
         FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
-        // connection
-        Connection conn;
+        public PythonCodeCheckerPage() {
+                // Feedback Page Setting
+                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
+                                ScreenUtils.getDesignWindow_heigh());
+                feedbackPage.setLocationRelativeTo(frame);
+        }
 
         // 初始化，组装界面
         public void init() {
                 /**
                  * 设置窗口属性
                  */
-                conn = new PythonCodeChecker_db().get_connection();
-                DIO = new studentQns_T(conn);
 
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
@@ -106,10 +111,10 @@ public class PythonCodeChackerPage {
                 // Button_Item_ShowQuestionTable(item_ShowQuestionTable);
                 Button_Item_SubmitAnswer(item_Submit);
                 Button_Item_RunCode(item_Run);
-                Button_Item_ShowFeedback(item_Feedback);
+                // Button_Item_ShowFeedback(item_Feedback);
                 manuStudent_Operation.add(item_Submit);
                 manuStudent_Operation.add(item_Run);
-                manuStudent_Operation.add(item_Feedback);
+                // manuStudent_Operation.add(item_Feedback);
 
                 Button_Item_PreviousQuestion(item_PreviousQuestion);
                 Button_Item_NextQuestion(item_NextQuestion);
@@ -144,10 +149,6 @@ public class PythonCodeChackerPage {
                 // 将菜单栏加入窗口
                 frame.setJMenuBar(manuBarStudent);
                 frame.add(splitPane);
-
-                // Feedback Page Setting
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh());
-                feedbackPage.setLocationRelativeTo(frame);
 
                 // 窗口可见
                 frame.setVisible(true);
@@ -197,47 +198,30 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                                // get row index id; 选择question
-                                int y = ChooseQuestionComponent.getSelectedRow();
-                                if (y == -1) {
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+
+                                if (selectedRow >= 0) {
+                                        final String solution = StudentWorkingComponent.getEditAnswerString();
+                                        String temp = "";
+                                        temp = DIO.getData(selectedRow, 2).toString();
+                                        // System.out.println(temp);
+
+                                        final String suggestedAnswer = temp;
+
+                                        Thread t = new Thread() {
+                                                public void run() {
+                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                                }
+                                        };
+                                        t.start();
+
+                                        // Make the pop up dialog center align to parent window
+                                        feedbackPage.setLocationRelativeTo(frame);
+                                        // Show the feedback dialog
+                                        feedbackPage.setVisible(true);
+                                } else {
                                         JFrame jf = new JFrame();
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
-
-                                } else {
-                                        MPS.EditEndToString(StudentWorkingComponent.terminalArea);
-                                        MPS.SubmitingToString(StudentWorkingComponent.terminalArea);
-
-                                        // get student input code
-                                        String pyCodeSolution = "\n" + StudentWorkingComponent.getEditAnswerString();
-                                        WAR.student_checkSolutionSytaxError(pyCodeSolution);
-
-                                        /**
-                                         * 这里是不是应该显示学生编辑的答案，现在好像显示的是Run的结果？？？
-                                         */
-                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-
-                                        /**
-                                         * 关键词和分数的监测在Submit中？
-                                         */
-                                        // get question id；把选择的question id抓出来
-                                        String id = (String) DIO.getData_id(y);
-                                        String correctAnswer = (String) DIO.getData(y, 3);
-
-                                        // select the mark scheme by question id(empty list)
-                                        MPS.GrabingMarkSchemeToString(StudentWorkingComponent.terminalArea);
-                                        List<markScheme> mkl = new ArrayList<markScheme>();
-                                        mkl = DIO.getSelectedMarkScheme(id); // input the marking scheme into 'mkl'
-
-                                        // System.out.println(mkl.get(0).getScore());
-                                        int score = KA.getKeyWordSocre(pyCodeSolution, correctAnswer, mkl);
-
-                                        //
-                                        MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
-                                        MPS.SubmitAnswerToString(StudentWorkingComponent.terminalArea, answer);
-
-                                        System.out.println(score);
-
-                                        System.out.println("-- The Submit Answer Button is Working --");
                                 }
 
                         }
@@ -249,13 +233,33 @@ public class PythonCodeChackerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+
+                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
+                                String id = (String) DIO.getData_id(selectedRow);
+                                List<markScheme> mkl = new ArrayList<markScheme>();
+                                mkl = DIO.getSelectedMarkScheme(id);
+
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
                                 RP.saveCodeFile(solution);
                                 RP.runCode();
 
                                 if (RP.getErrorMessage().equals("")) {
-                                        StudentWorkingComponent.terminalArea.setText(RP.getOutputFromConsole());
+
+                                        int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
+                                                        DIO.getData(selectedRow, 3).toString(), mkl);
+
+                                        ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution, mkl);
+
+                                        String finalOutput = RP.getOutputFromConsole() + "\n" + "Your Score is: "
+                                                        + score + "\n" + "passed keyword:" + "\n";
+
+                                        for (String keyword : passedKeywordList) {
+                                                finalOutput += keyword + "\n";
+                                        }
+
+                                        StudentWorkingComponent.terminalArea.setText(finalOutput);
+
                                 } else {
                                         StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
                                 }
@@ -269,29 +273,32 @@ public class PythonCodeChackerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                                final String solution = StudentWorkingComponent.getEditAnswerString();
-
-                                String temp = "";
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                System.out.println(selectedRow);
+
                                 if (selectedRow >= 0) {
+                                        final String solution = StudentWorkingComponent.getEditAnswerString();
+                                        String temp = "";
                                         temp = DIO.getData(selectedRow, 2).toString();
+                                        // System.out.println(temp);
+
+                                        final String suggestedAnswer = temp;
+
+                                        Thread t = new Thread() {
+                                                public void run() {
+                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                                }
+                                        };
+                                        t.start();
+
+                                        // Make the pop up dialog center align to parent window
+                                        feedbackPage.setLocationRelativeTo(frame);
+                                        // Show the feedback dialog
+                                        feedbackPage.setVisible(true);
+                                        System.out.println("-- The Show Feedback Button is Working --");
+                                } else {
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
                                 }
-
-                                final String suggestedAnswer = temp;
-
-                                Thread t = new Thread() {
-                                        public void run() {
-                                                feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                        }
-                                };
-                                t.start();
-
-                                // Make the pop up dialog center align to parent window
-                                feedbackPage.setLocationRelativeTo(frame);
-                                // Show the feedback dialog
-                                feedbackPage.setVisible(true);
-                                System.out.println("-- The Show Feedback Button is Working --");
                         }
                 });
         }
@@ -306,7 +313,7 @@ public class PythonCodeChackerPage {
                                 StudentWorkingComponent.setQuestionString(
                                                 WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(
                                                                 ChooseQuestionComponent.getSelectedRow(), 1)));
-                                PythonCodeChackerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
                                 System.out.println("-- The Previous Question Button is Working --");
                         }
                 });
@@ -322,7 +329,7 @@ public class PythonCodeChackerPage {
                                 StudentWorkingComponent.setQuestionString(
                                                 WriteAndRead.readQuestion(ChooseQuestionComponent.getValueAt_Table(
                                                                 ChooseQuestionComponent.getSelectedRow(), 1)));
-                                PythonCodeChackerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+                                PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
                                 System.out.println("-- The Next Question Button is Working --");
                         }
                 });

@@ -19,7 +19,7 @@ import javax.swing.JTextPane;
 import methodAndTool.ProjectVariable;
 
 import methodAndTool.JTextPaneColorDocument;
-import view.PythonCodeChackerPage;
+import view.PythonCodeCheckerPage;
 
 import javax.swing.event.*;
 import javax.swing.text.AttributeSet;
@@ -36,7 +36,7 @@ public class StudentWorkingComponent extends Box {
         /**
          * 
         */
-        PythonCodeChackerPage PCCP = new PythonCodeChackerPage();
+        PythonCodeCheckerPage PCCP = new PythonCodeCheckerPage();
 
         /**
          * 
@@ -49,7 +49,7 @@ public class StudentWorkingComponent extends Box {
         JPanel studnetButtonPanel;
         JButton buttonSubmitAnswer = new JButton("Submit Answer");
         JButton buttonRunCode = new JButton("Run Code");
-        JButton buttonShowFeedback = new JButton("Show Feedback");
+        // JButton buttonShowFeedback = new JButton("Show Feedback");
         private static JTextPane editTextPane;
 
         public static JTextArea terminalArea;
@@ -77,7 +77,7 @@ public class StudentWorkingComponent extends Box {
                 lines.setEditable(false);
                 lines.setFont(myFont2);
 
-                PythonCodeChackerPage.splitPane.setDividerLocation(900);
+                PythonCodeCheckerPage.splitPane.setDividerLocation(900);
 
                 topBox = Box.createHorizontalBox();
 
@@ -188,11 +188,11 @@ public class StudentWorkingComponent extends Box {
 
                 PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
                 PCCP.Button_Item_RunCode(buttonRunCode);
-                PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
+                // PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
 
                 studnetButtonPanel.add(buttonSubmitAnswer);
                 studnetButtonPanel.add(buttonRunCode);
-                studnetButtonPanel.add(buttonShowFeedback);
+                // studnetButtonPanel.add(buttonShowFeedback);
 
                 this.add(studnetButtonPanel, BorderLayout.SOUTH);
 

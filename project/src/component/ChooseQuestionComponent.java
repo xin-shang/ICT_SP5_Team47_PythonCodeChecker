@@ -23,7 +23,7 @@ import JDBC.QNS.GroupTable.studentQns_T;
 import Type.markScheme;
 import methodAndTool.MessagePrintString;
 import methodAndTool.WriteAndRead;
-import view.PythonCodeChackerPage;
+import view.PythonCodeCheckerPage;
 
 public class ChooseQuestionComponent extends Box {
 
@@ -143,7 +143,7 @@ public class ChooseQuestionComponent extends Box {
 				setSelectedRow(chooseQuestionTable.getSelectedRow());
 				StudentWorkingComponent
 						.setQuestionString(WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
-				PythonCodeChackerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
+				PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
 
 				MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 				MPS.EditingToString(StudentWorkingComponent.terminalArea);
