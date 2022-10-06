@@ -32,16 +32,6 @@ public class RunPythonCode {
         return outputFromConsole;
     }
 
-
-    public boolean bError(){
-        if (getErrorMessage().equals("")){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-
     public String getErrorMessage() {
         return errorMessage;
     }
