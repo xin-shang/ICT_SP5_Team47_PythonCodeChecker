@@ -7,7 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.plaf.DimensionUIResource;
 
 import methodAndTool.RunPythonCode;
 
@@ -28,6 +31,9 @@ public class FeedbackPage extends JDialog{
     private JLabel suggestedAnswerLabel;
     private JTextArea suggestedAnswerTextArea;
 
+    private JScrollPane messageScrollPane;
+    private JScrollPane studentAnswerScrollPane;
+    private JScrollPane suggestedAnswerScrollPane;
 
     private GridBagLayout layout; // A layout object for managing components
     private GridBagConstraints constraints; // Used for the settings for the layout for each component
@@ -77,6 +83,23 @@ public class FeedbackPage extends JDialog{
         suggestedAnswerTextArea = new JTextArea("suggested");
         suggestedAnswerTextArea.setEditable(false);
 
+
+        messageScrollPane = new JScrollPane(messageTextArea);
+        messageScrollPane.setPreferredSize(new DimensionUIResource(this.getWidth(), (int) (this.getHeight()*0.3)));
+        messageScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        messageScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
+        studentAnswerScrollPane = new JScrollPane(studentAnswerScrollPane);
+        studentAnswerScrollPane.setPreferredSize(new DimensionUIResource(this.getWidth(), (int)(this.getHeight()* 0.65)));
+        studentAnswerScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        studentAnswerScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        suggestedAnswerScrollPane = new JScrollPane(suggestedAnswerScrollPane);
+        suggestedAnswerScrollPane.setPreferredSize(new DimensionUIResource(this.getWidth(), (int)(this.getHeight()* 0.65)));
+        suggestedAnswerScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        suggestedAnswerScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
         
 
 
@@ -95,14 +118,14 @@ public class FeedbackPage extends JDialog{
         // set constraints for adding the student answer text area
         constraints.fill = GridBagConstraints.BOTH;
         setConstraintsForLayout(1, 0, 1, 1, 0.5, 0.65, 10);
-        layout.setConstraints(studentAnswerTextArea, constraints);
-        add(studentAnswerTextArea);
+        layout.setConstraints(studentAnswerScrollPane, constraints);
+        add(studentAnswerScrollPane);
 
         // set constraints for adding the suggested answer text area
         constraints.fill = GridBagConstraints.BOTH;
         setConstraintsForLayout(1, 1, 1, 1, 0.5, 0.65, 10);
-        layout.setConstraints(suggestedAnswerTextArea, constraints);
-        add(suggestedAnswerTextArea);
+        layout.setConstraints(suggestedAnswerScrollPane, constraints);
+        add(suggestedAnswerScrollPane);
 
 
         // set constraints for adding feedback label
@@ -114,8 +137,8 @@ public class FeedbackPage extends JDialog{
         // set constraints for adding feedback text area
         constraints.fill = GridBagConstraints.BOTH;
         setConstraintsForLayout(3, 0, 1, 2, 1, 0.3, 10);
-        layout.setConstraints(messageTextArea, constraints);
-        add(messageTextArea);
+        layout.setConstraints(messageScrollPane, constraints);
+        add(messageScrollPane);
 
         // set constraints for adding return button
         constraints.fill = GridBagConstraints.BOTH;
@@ -144,15 +167,17 @@ public class FeedbackPage extends JDialog{
        studentAnswerTextArea.setText(studentAnswer);
        suggestedAnswerTextArea.setText(suggestedAnswer);
 
-       showStudentRunCodeResult(studentAnswer);
-
+       boolean runCodeResult = showStudentRunCodeResult(studentAnswer);
+       if(runCodeResult == true){
+            showCompareOutputResult(suggestedAnswer);
+       }    
        returnButton.setEnabled(true);
 
 
     }
 
-    public void showStudentRunCodeResult(String studentAnswer){
-
+    public boolean showStudentRunCodeResult(String studentAnswer){
+        boolean runCodeResult = false;
         messageTextArea.setText("");
         
 
@@ -172,6 +197,7 @@ public class FeedbackPage extends JDialog{
                     messageTextArea.append("Your program runs without any syntax error. \n");
                     messageTextArea.append("The following is the output from console (if any): \n");
                     messageTextArea.append(studentAnswerRPC.getOutputFromConsole());
+                    runCodeResult = true;
                 }else{
                     messageTextArea.append("Your program has some syntax errors: \n");
                     messageTextArea.append(studentAnswerRPC.getErrorMessage());
@@ -186,6 +212,7 @@ public class FeedbackPage extends JDialog{
             messageTextArea.append("The editor window's is empty");
             System.out.println("The editor window's is empty.");
         }
+        return runCodeResult;
     }
 
     public void showCompareOutputResult(String suggestedAnswer){

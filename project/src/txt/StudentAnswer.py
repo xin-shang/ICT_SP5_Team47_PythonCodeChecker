@@ -1,1 +1,1 @@
-print("dog")
+pint("cat")
