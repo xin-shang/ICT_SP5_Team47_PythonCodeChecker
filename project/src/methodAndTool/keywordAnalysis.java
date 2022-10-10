@@ -22,6 +22,9 @@ public class keywordAnalysis {
         if (answer.equals(correctAnswer)) {
             score += 40;
             System.out.println("your answer is correct");
+        } else if(answer.replace(" ", "").equals(correctAnswer.replace(" ", ""))){
+            score += 20;
+            System.out.println("your answer is right but please check the format of it");
         } else {
             score += 0;
         }
