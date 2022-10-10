@@ -5,10 +5,12 @@ import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
@@ -34,10 +36,12 @@ public class QuestionDetailsComponent extends Box {
 	// With a database, you need to create a data model.
 	public static DefaultTableModel showKeywordTableModel;
 
-	public static JLabel showID, showQuestion, showSolution, showAnswer, showScorePoint;
+	public static JLabel showID, showQuestion, showSolution, showAnswer, showAnswerScore, showScorePoint;
 
 	// 不确定用提示组件好还是文本框组件好
 	public static JTextArea showQuestion0, showSolution0, showAnswer0;
+
+	public static JTextField showAnswerScore0;
 
 	public QuestionDetailsComponent(staffQns_T dio) {
 		super(BoxLayout.Y_AXIS);
@@ -53,11 +57,15 @@ public class QuestionDetailsComponent extends Box {
 		// -----------------------------------------------------------------------------
 
 		showID = new JLabel("ID: " + question_id);
-		showQuestion0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 1)), 10,
+		showQuestion0 = new JTextArea(
+				WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 1)),
+				10,
 				10);
 
 		showSolution = new JLabel("SOLUTION");
-		showSolution0 = new JTextArea(WAR.readString(DIO.getData(QuestionManagerComponent.getSelectedRow(), 2)), 20,
+		showSolution0 = new JTextArea(
+				WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 2)),
+				20,
 				10);
 
 		showAnswer = new JLabel("ANSWER");
@@ -65,12 +73,17 @@ public class QuestionDetailsComponent extends Box {
 				WAR.readString(QuestionManagerComponent.getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
 				10, 10);
 
+		showAnswerScore = new JLabel("ANSWER SCORE");
+		showAnswerScore0 = new JTextField(WAR
+				.readString(String.valueOf(dio.getData(QuestionManagerComponent.getSelectedRow(), 4))));
+
 		showScorePoint = new JLabel("SCORE POINTS");
 
 		// 设置
 		showQuestion0.setEditable(false); // 设置不可编辑
 		showSolution0.setEditable(false); // 设置不可编辑
 		showAnswer0.setEditable(false); // 设置不可编辑
+		showAnswerScore0.setEditable(false);
 
 		// 分区
 
@@ -137,16 +150,13 @@ public class QuestionDetailsComponent extends Box {
 		box2.add(Box.createVerticalStrut(10));
 		box2.add(showAnswer);
 		box2.add(box_Answer);
-		// box2.add(Box.createVerticalStrut(10));
+		box2.add(Box.createVerticalStrut(10));
+		box2.add(showAnswerScore);
+		box2.add(showAnswerScore0);
 
 		Box box3 = Box.createVerticalBox();
 		box3.add(showScorePoint);
 		box3.add(box_ScorePoint);
-
-		// JScrollPane scrollPane = new JScrollPane(box2);
-
-		// Box box3 = Box.createHorizontalBox();
-		// box3.add(scrollPane);
 
 		Box box = Box.createVerticalBox();
 		box.add(box1);

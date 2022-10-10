@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,10 +41,12 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
         String question_id;
-        JLabel cID, cQuestion, cSolution, cAnswer, cScorePoint;
+        JLabel cID, cQuestion, cSolution, cAnswer, cAnswerScore, cScorePoint;
         static JTextArea cQuestion0;
         static JTextArea cSolution0;
         static JTextArea cAnswer0;
+
+        JComboBox<String> patternList;
 
         // 表格
         JTable cShowScorePoint;
@@ -116,6 +119,13 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Answer0 = new JScrollPane(cAnswer0);
                 boxAnswer0.add(scrollPane_Answer0);
 
+                // Answer Drop down list
+                cAnswerScore = new JLabel("Please Select A Score For Answer");
+                patternList = new JComboBox<String>(PV.getAnswerScoreList());
+
+                String score = String.valueOf(dio.getData(QuestionManagerComponent.getSelectedRow(), 4));
+                patternList.setSelectedItem(score);
+
                 // 得分点
                 cScorePoint = new JLabel("Score Point of Question: ");
 
@@ -184,9 +194,15 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 box.add(Box.createVerticalStrut(10));
                 box.add(cSolution);
                 box.add(boxSolution0);
+
                 box.add(Box.createVerticalStrut(10));
                 box.add(cAnswer);
                 box.add(boxAnswer0);
+
+                box.add(Box.createVerticalStrut(10));
+                box.add(cAnswerScore);
+                box.add(patternList);
+
                 box.add(Box.createVerticalStrut(10));
                 box.add(cScorePoint);
                 box.add(ScorePointTable);
@@ -271,11 +287,12 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                                 if (b_score == true) {
                                                         boolean b_add_q;
                                                         try {
+
                                                                 b_add_q = DIO.updateQuestion(conn,
                                                                                 this.getUpdateQuestionID(),
                                                                                 this.getUpdateQuestionString(),
                                                                                 this.getUpdateSolutionString(),
-                                                                                answer);
+                                                                                answer, this.getUpdateAnswerScore());
                                                                 System.out.println(b_add_q);
                                                                 if (b_add_q == true) {
                                                                         getScorePointStringList(conn);
@@ -313,11 +330,16 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 }
-                System.out.println(totalScore);
+                int answerScore = getUpdateAnswerScore();
+
+                System.out.println("answer score is: " + answerScore);
+
+                totalScore += answerScore;
                 if (totalScore == 100) {
                         return true;
                 } else {
-                        JOptionPane.showMessageDialog(this, "Total Score Should Be 100");
+                        JOptionPane.showMessageDialog(this,
+                                        "Total Score Should Be 100" + "\n   Now is: " + totalScore + " !!!");
                         return false;
                 }
 
@@ -376,6 +398,11 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         public String getUpdateAnswerString() {
                 String newAnswerString = cAnswer0.getText().trim();
                 return newAnswerString;
+        }
+
+        public int getUpdateAnswerScore() {
+                int answerScore = PV.StringToInt(patternList.getSelectedItem().toString());
+                return answerScore;
         }
 
         // Getting Number of Row 获取行数

@@ -63,6 +63,7 @@ public class ChooseQuestionComponent extends Box {
 		 * 组装零件
 		 */
 		// 清空原有数据，保证列表中无内容
+
 		titlesChooseQuestion_Table.clear();
 		dataChooseQuestion_Table.clear();
 
@@ -154,17 +155,16 @@ public class ChooseQuestionComponent extends Box {
 	}
 
 	// Previous Question
-        public static void Button_Item_PreviousQuestion(Object button) {
-                ((AbstractButton) button).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                               
+	public static void Button_Item_PreviousQuestion(Object button) {
+		((AbstractButton) button).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
 				if (getSelectedRow() <= 0) {
 					JFrame jf = new JFrame();
 					JOptionPane.showMessageDialog(jf,
 							"This is the first Question");
-				}
-				else {
+				} else {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
@@ -175,17 +175,17 @@ public class ChooseQuestionComponent extends Box {
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
 					System.out.println("-- The Previous Question Button is Working --");
 				}
-				
-                        }
-                });
-        }
+
+			}
+		});
+	}
 
 	// Next Question
-        public static void Button_Item_NextQuestion(Object button) {
-                ((AbstractButton) button).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-				if(getSelectedRow() < studentQns_T.getDblength() - 1) {
+	public static void Button_Item_NextQuestion(Object button) {
+		((AbstractButton) button).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
@@ -195,18 +195,15 @@ public class ChooseQuestionComponent extends Box {
 					chooseQuestionTable.setRowSelectionInterval(getSelectedRow(), getSelectedRow());
 					chooseQuestionTable.scrollRectToVisible(chooseQuestionTable.getCellRect(getSelectedRow(), 0, true));
 					System.out.println("-- The Next Question Button is Working --");
-				}
-				else {
+				} else {
 					JFrame jf = new JFrame();
 					JOptionPane.showMessageDialog(jf,
 							"This is the last Question");
 				}
-                                
-                        }
-                });
-        }
 
-
+			}
+		});
+	}
 
 	/**
 	 * 获取数据

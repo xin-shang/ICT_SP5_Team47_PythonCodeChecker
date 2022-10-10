@@ -179,4 +179,13 @@ public class ProjectVariable {
 
 	}
 
+	public String[] getAnswerScoreList() {
+		String[] SocreList = new String[101];
+
+		for (int i = 0; i < SocreList.length; i++) {
+			SocreList[i] = String.valueOf(i);
+		}
+		return SocreList;
+	}
+
 }

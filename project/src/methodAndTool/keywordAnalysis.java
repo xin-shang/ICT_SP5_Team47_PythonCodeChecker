@@ -11,7 +11,8 @@ public class keywordAnalysis {
     WriteAndRead WAR = new WriteAndRead();
     MessagePrintString MPS = new MessagePrintString();
 
-    public int getKeyWordSocre(String solution, String answer, String correctAnswer, List<markScheme> mkl) {
+    public int getKeyWordSocre(String solution, String answer, String correctAnswer, int answerScore,
+            List<markScheme> mkl) {
 
         int score = 0;
         //
@@ -20,8 +21,11 @@ public class keywordAnalysis {
         // 返还一个boolean检测是否有syntaxerror;
         // false = no syntaxerror
         if (answer.equals(correctAnswer)) {
-            score += 40;
+            score += answerScore;
             System.out.println("your answer is correct");
+        } else if (answer.replace(" ", "").equals(correctAnswer.replace(" ", ""))) {
+            score += answerScore / 2;
+            System.out.println("your answer is right but please check the format of it");
         } else {
             score += 0;
         }
@@ -31,7 +35,7 @@ public class keywordAnalysis {
             boolean bcheck = solution.contains(keyword);
             if (bcheck == true) {
 
-                score += mk.getScore() * 0.6;
+                score += mk.getScore();
 
                 // delete keyword after checked
                 String deleteKw = solution.replaceFirst(mk.getKeyword(), "");

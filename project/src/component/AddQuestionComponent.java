@@ -10,7 +10,9 @@ import java.awt.BorderLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,11 +37,13 @@ public class AddQuestionComponent extends Box implements ActionListener {
         staffQns_T DIO;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
-        JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
+        JLabel newID, newQuestion, newSolution, newAnswer, newAnswerScore, newScorePoint;
         static JTextArea newQuestion0;
         static JTextArea newSolution0;
         static JTextArea newAnswer0;
         JTextArea text0_SP;
+
+        JComboBox<String> patternList;
 
         // 表格
         JTable showScorePoint;
@@ -97,6 +101,11 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 Box boxAnswer0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Answer0 = new JScrollPane(newAnswer0);
                 boxAnswer0.add(scrollPane_Answer0);
+
+                newAnswerScore = new JLabel("Please Select A Score For Answer");
+                patternList = new JComboBox<String>(PV.getAnswerScoreList());
+                // enable edit for drop down list
+                // patternList.setEditable(true);
 
                 //
                 newScorePoint = new JLabel("Please Write down Score Point of Question");
@@ -166,11 +175,14 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 box.add(Box.createVerticalStrut(10));
                 box.add(newAnswer);
                 box.add(boxAnswer0);
+
+                box.add(Box.createVerticalStrut(10));
+                box.add(newAnswerScore);
+                box.add(patternList);
+
                 box.add(Box.createVerticalStrut(10));
                 box.add(newScorePoint);
                 box.add(ScorePointTable);
-
-                // JScrollPane scrollPane = new JScrollPane(box);
 
                 buttonPanel.add(addScorePoint);
                 buttonPanel.add(createNewQuestion);
@@ -254,7 +266,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                                                 b_add_q = DIO.insertQuestion(conn,
                                                                                 this.getNewQuestionString(),
                                                                                 this.getNewSolutionString(),
-                                                                                answer);
+                                                                                answer, this.getNewAnswerScore());
                                                                 if (b_add_q == true) {
                                                                         getScorePointStringList(conn);
                                                                         JOptionPane.showMessageDialog(this,
@@ -302,6 +314,11 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 return newAnswerString;
         }
 
+        public int getNewAnswerScore() {
+                int answerScore = PV.StringToInt(patternList.getSelectedItem().toString());
+                return answerScore;
+        }
+
         // Object[][] questionScorePoint V<V> dataScorePoint
         // Getting Number of String 获取字符串
         public static String getScorePointString() {
@@ -335,7 +352,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 if (totalScore == 100) {
                         return true;
                 } else {
-                        JOptionPane.showMessageDialog(this, "Total Score Should Be 100");
+                        JOptionPane.showMessageDialog(this,
+                                        "Total Score Should Be 100" + "\n   now is: " + totalScore + " !!!");
                         return false;
                 }
 

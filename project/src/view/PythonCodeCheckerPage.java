@@ -26,6 +26,7 @@ import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import methodAndTool.MessagePrintString;
+import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
@@ -41,6 +42,7 @@ public class PythonCodeCheckerPage {
         // connection
         Connection conn = new PythonCodeChecker_db().get_connection();
         studentQns_T DIO = new studentQns_T(conn);
+        ProjectVariable PV = new ProjectVariable();
         /**
          * Python Code Checker Page
          */
@@ -245,7 +247,8 @@ public class PythonCodeCheckerPage {
                                 if (RP.getErrorMessage().equals("")) {
 
                                         int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
-                                                        DIO.getData(selectedRow, 3).toString(), mkl);
+                                                        DIO.getData(selectedRow, 3).toString(),
+                                                        PV.StringToInt(DIO.getData(selectedRow, 4).toString()), mkl);
 
                                         ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution, mkl);
 
