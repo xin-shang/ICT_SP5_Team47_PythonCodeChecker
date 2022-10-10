@@ -23,12 +23,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.PlainDocument;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import JDBC.QNS.SingleTable.markPoint_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import Type.markScheme;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
+import view.PythonQuestionEditPage;
 import methodAndTool.ChangeTabToSpacesFilter;
 
 public class ChangeQuestionComponent extends Box implements ActionListener {
@@ -36,6 +38,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         WriteAndRead WAR = new WriteAndRead();
         staffQns_T DIO;
         ProjectVariable PV = new ProjectVariable();
+        keywordAlternative_T QKC;
 
         // int num = 0;
 
@@ -68,10 +71,11 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String solution_before;
         final List<markScheme> markSchemeList_before;
 
-        public ChangeQuestionComponent(staffQns_T dio) {
+        public ChangeQuestionComponent(staffQns_T dio, keywordAlternative_T QKC) {
                 super(BoxLayout.Y_AXIS);
 
                 this.DIO = dio;
+                this.QKC = QKC;
 
                 question_id = (String) QuestionManagerComponent
                                 .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
@@ -258,62 +262,72 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                 else if (actionCommand.equals("Update Question")) {
                         Connection conn = new PythonCodeChecker_db().get_connection();
-                        boolean b_markShceme = bcheckMarkSchemeEmpty();
-                        boolean b_question = getUpdateQuestionString().isEmpty();
-                        boolean b_solution = getUpdateSolutionString().isEmpty();
+                        try {
+                                boolean b_markShceme = bcheckMarkSchemeEmpty();
+                                boolean b_question = getUpdateQuestionString().isEmpty();
+                                boolean b_solution = getUpdateSolutionString().isEmpty();
+                                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
 
-                        if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+                                        String solution = getUpdateSolutionString();
+                                        String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
+                                                        solution);
+                                        if (keywordNotInString == null) {
 
-                                String solution = getUpdateSolutionString();
-                                String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
-                                                solution);
-                                if (keywordNotInString == null) {
+                                                RunPythonCode RP = new RunPythonCode();
+                                                RP.saveCodeFile(solution);
+                                                RP.runCode();
 
-                                        RunPythonCode RP = new RunPythonCode();
-                                        RP.saveCodeFile(solution);
-                                        RP.runCode();
+                                                if (!RP.getErrorMessage().equals("")) {
+                                                        String errormessage = RP.getErrorMessage();
+                                                        JOptionPane.showMessageDialog(this,
+                                                                        "Your Solution has SyntaxError: \n"
+                                                                                        + errormessage);
+                                                        cAnswer0.setText(errormessage);
 
-                                        if (!RP.getErrorMessage().equals("")) {
-                                                String errormessage = RP.getErrorMessage();
-                                                JOptionPane.showMessageDialog(this,
-                                                                "Your Solution has SyntaxError: \n" + errormessage);
-                                                cAnswer0.setText(errormessage);
+                                                } else {
+                                                        String answer = RP.getOutputFromConsole();
+                                                        cAnswer0.setText(answer);
 
-                                        } else {
-                                                String answer = RP.getOutputFromConsole();
-                                                cAnswer0.setText(answer);
+                                                        boolean b_score = checkSocre();
+                                                        if (b_score == true) {
+                                                                boolean b_add_q;
+                                                                try {
 
-                                                boolean b_score = checkSocre();
-                                                if (b_score == true) {
-                                                        boolean b_add_q;
-                                                        try {
+                                                                        b_add_q = DIO.updateQuestion(conn,
+                                                                                        this.getUpdateQuestionID(),
+                                                                                        this.getUpdateQuestionString(),
+                                                                                        this.getUpdateSolutionString(),
+                                                                                        answer,
+                                                                                        this.getUpdateAnswerScore());
+                                                                        System.out.println(b_add_q);
+                                                                        if (b_add_q == true) {
+                                                                                getScorePointStringList(conn);
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Update Successful");
 
-                                                                b_add_q = DIO.updateQuestion(conn,
-                                                                                this.getUpdateQuestionID(),
-                                                                                this.getUpdateQuestionString(),
-                                                                                this.getUpdateSolutionString(),
-                                                                                answer, this.getUpdateAnswerScore());
-                                                                System.out.println(b_add_q);
-                                                                if (b_add_q == true) {
-                                                                        getScorePointStringList(conn);
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Update Successful");
-                                                                        conn.close();
-                                                                } else {
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Question is already exit");
-                                                                        conn.close();
+                                                                        } else {
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Question is already exit");
+
+                                                                        }
+                                                                } catch (SQLException e1) {
+
+                                                                        e1.printStackTrace();
                                                                 }
-                                                        } catch (SQLException e1) {
 
-                                                                e1.printStackTrace();
                                                         }
 
                                                 }
-
                                         }
-                                }
 
+                                }
+                                PythonQuestionEditPage.splitPane
+                                                .setLeftComponent(new QuestionManagerComponent(
+                                                                new staffQns_T(conn),
+                                                                QKC));
+                                conn.close();
+                        } catch (SQLException e1) {
+                                e1.printStackTrace();
                         }
                 }
 
@@ -331,8 +345,6 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         }
                 }
                 int answerScore = getUpdateAnswerScore();
-
-                System.out.println("answer score is: " + answerScore);
 
                 totalScore += answerScore;
                 if (totalScore == 100) {

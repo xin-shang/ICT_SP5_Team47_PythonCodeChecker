@@ -24,10 +24,12 @@ import javax.swing.text.PlainDocument;
 import javax.swing.table.DefaultTableModel;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
+import view.PythonQuestionEditPage;
 import methodAndTool.ChangeTabToSpacesFilter;
 
 public class AddQuestionComponent extends Box implements ActionListener {
@@ -35,6 +37,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         WriteAndRead WAR = new WriteAndRead();
         ProjectVariable PV = new ProjectVariable();
         staffQns_T DIO;
+        keywordAlternative_T QKC;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
         JLabel newID, newQuestion, newSolution, newAnswer, newAnswerScore, newScorePoint;
@@ -60,10 +63,11 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         public static DefaultTableModel tableModelScorePoint;
 
-        public AddQuestionComponent(staffQns_T dio) {
+        public AddQuestionComponent(staffQns_T dio, keywordAlternative_T QKC) {
 
                 super(BoxLayout.Y_AXIS);
                 this.DIO = dio;
+                this.QKC = QKC;
                 /**
                  * 设置窗口内容
                  */
@@ -232,63 +236,72 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 }
 
                 else if (actionCommand.equals("Submit Question")) {
+                        Connection conn = new PythonCodeChecker_db().get_connection();
 
-                        boolean b_markShceme = bcheckMarkSchemeEmpty();
-                        boolean b_question = getNewQuestionString().isEmpty();
-                        boolean b_solution = getNewSolutionString().isEmpty();
+                        try {
+                                boolean b_markShceme = bcheckMarkSchemeEmpty();
+                                boolean b_question = getNewQuestionString().isEmpty();
+                                boolean b_solution = getNewSolutionString().isEmpty();
 
-                        if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+                                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
 
-                                Connection conn = new PythonCodeChecker_db().get_connection();
+                                        String solution = getNewSolutionString();
+                                        String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
+                                                        solution);
 
-                                String solution = getNewSolutionString();
-                                String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
-                                                solution);
+                                        if (keywordNotInString == null) {
+                                                RunPythonCode RP = new RunPythonCode();
+                                                RP.saveCodeFile(solution);
+                                                RP.runCode();
+                                                if (!RP.getErrorMessage().equals("")) {
+                                                        String errormessage = RP.getErrorMessage();
+                                                        JOptionPane.showMessageDialog(this,
+                                                                        "Your Solution has SyntaxError: \n"
+                                                                                        + errormessage);
+                                                        newAnswer0.setText(errormessage);
+                                                } else {
+                                                        String answer = RP.getOutputFromConsole();
+                                                        newAnswer0.setText(answer);
 
-                                if (keywordNotInString == null) {
-                                        RunPythonCode RP = new RunPythonCode();
-                                        RP.saveCodeFile(solution);
-                                        RP.runCode();
-                                        if (!RP.getErrorMessage().equals("")) {
-                                                String errormessage = RP.getErrorMessage();
-                                                JOptionPane.showMessageDialog(this,
-                                                                "Your Solution has SyntaxError: \n" + errormessage);
-                                                newAnswer0.setText(errormessage);
-                                        } else {
-                                                String answer = RP.getOutputFromConsole();
-                                                newAnswer0.setText(answer);
+                                                        boolean b_score = checkSocre();
 
-                                                boolean b_score = checkSocre();
+                                                        if (b_score == true) {
+                                                                boolean b_add_q;
+                                                                try {
+                                                                        b_add_q = DIO.insertQuestion(conn,
+                                                                                        this.getNewQuestionString(),
+                                                                                        this.getNewSolutionString(),
+                                                                                        answer,
+                                                                                        this.getNewAnswerScore());
+                                                                        if (b_add_q == true) {
+                                                                                getScorePointStringList(conn);
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Add Successful");
 
-                                                if (b_score == true) {
-                                                        boolean b_add_q;
-                                                        try {
-                                                                b_add_q = DIO.insertQuestion(conn,
-                                                                                this.getNewQuestionString(),
-                                                                                this.getNewSolutionString(),
-                                                                                answer, this.getNewAnswerScore());
-                                                                if (b_add_q == true) {
-                                                                        getScorePointStringList(conn);
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Add Successful");
-                                                                        conn.close();
+                                                                        } else {
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Question is already exit");
 
-                                                                } else {
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Question is already exit");
-                                                                        conn.close();
+                                                                        }
+                                                                } catch (SQLException e1) {
+
+                                                                        e1.printStackTrace();
                                                                 }
-                                                        } catch (SQLException e1) {
-
-                                                                e1.printStackTrace();
                                                         }
                                                 }
                                         }
 
                                 }
-
+                                PythonQuestionEditPage.splitPane
+                                                .setLeftComponent(new QuestionManagerComponent(
+                                                                new staffQns_T(conn),
+                                                                QKC));
+                                conn.close();
+                                System.out.println("-- The Create New Question is Working --");
+                        } catch (SQLException e1) {
+                                e1.printStackTrace();
                         }
-                        System.out.println("-- The Create New Question is Working --");
+
                 }
         }
 
@@ -348,6 +361,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 }
+
+                int answerScore = getNewAnswerScore();
+                totalScore += answerScore;
 
                 if (totalScore == 100) {
                         return true;

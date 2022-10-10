@@ -165,8 +165,12 @@ public class staffQns_T extends Qns_T {
             String qs_id = qt.getQuestionID(conn, question);
             mk.deletRows(conn, qs_id);
             sl.deletRows(conn, qs_id);
-            qt.deletRows(conn, qs_id);
             as.deletRows(conn, qs_id);
+
+            // question has the root id connected the rest of tables, it must be deleted at
+            // the end
+            qt.deletRows(conn, qs_id);
+
         }
         conn.close();
     }
