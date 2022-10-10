@@ -369,7 +369,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         return true;
                 } else {
                         JOptionPane.showMessageDialog(this,
-                                        "Total Score Should Be 100" + "\n   now is: " + totalScore + " !!!");
+                                        "Total Score Should Be 100" + "\nnow is: " + totalScore + " !!!");
                         return false;
                 }
 
