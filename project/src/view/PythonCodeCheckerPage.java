@@ -75,14 +75,8 @@ public class PythonCodeCheckerPage {
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
 
-        // Create feedback page dialog
-        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
-
         public PythonCodeCheckerPage() {
-                // Feedback Page Setting
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
-                                ScreenUtils.getDesignWindow_heigh());
-                feedbackPage.setLocationRelativeTo(frame);
+
         }
 
         // 初始化，组装界面
@@ -283,42 +277,6 @@ public class PythonCodeCheckerPage {
                                 } else {
 
                                         StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
-                                }
-                        }
-                });
-        }
-
-        // Show Feedback
-        public void Button_Item_ShowFeedback(Object button) {
-                ((AbstractButton) button).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-
-                                if (selectedRow >= 0) {
-                                        final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        String temp = "";
-                                        temp = DIO.getData(selectedRow, 2).toString();
-                                        // System.out.println(temp);
-
-                                        final String suggestedAnswer = temp;
-
-                                        Thread t = new Thread() {
-                                                public void run() {
-                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                                }
-                                        };
-                                        t.start();
-
-                                        // Make the pop up dialog center align to parent window
-                                        feedbackPage.setLocationRelativeTo(frame);
-                                        // Show the feedback dialog
-                                        feedbackPage.setVisible(true);
-                                        System.out.println("-- The Show Feedback Button is Working --");
-                                } else {
-                                        JFrame jf = new JFrame();
-                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
                                 }
                         }
                 });
