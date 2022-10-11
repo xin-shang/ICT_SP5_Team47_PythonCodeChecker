@@ -111,7 +111,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 boxSolution0.add(scrollPane_Solution0);
 
                 // 答案
-                cAnswer = new JLabel("Answer of Question: ");
+                cAnswer = new JLabel("Answer of Question (The Answer Will Be Calculated After Submit)");
                 cAnswer0 = new JTextArea(
                                 WAR.readString(QuestionManagerComponent
                                                 .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
@@ -163,6 +163,8 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         @Override
                         public boolean isCellEditable(int row, int column) {
                                 if (column == 2) {
+                                        return true;
+                                } else if (column == 1) {
                                         return true;
                                 } else {
                                         return false;

@@ -22,9 +22,9 @@ public class HomePage {
 	 * Home Page：
 	 **/
 	// Home Page 窗口
-	JFrame frame = new JFrame("Python Code Chacker");
+	JFrame frame = new JFrame("Python Code Checker");
 	// Home Page 提示语
-	private JLabel prompt_home = new JLabel("Welcome to Python Code Chacker");
+	private JLabel prompt_home = new JLabel("Welcome to Python Code Checker");
 	// Home Page 按键
 	private JButton button_Student = new JButton("I'm a Student");
 	private JButton button_Staff = new JButton("I'm a Staff");

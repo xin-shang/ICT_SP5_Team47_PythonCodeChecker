@@ -17,7 +17,7 @@ import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 
 public class StudentLoginPage extends LoginPage {
-	JFrame frame = new JFrame("Python Code Chacker - Student Login Page");
+	JFrame frame = new JFrame("Python Code Checker - Student Login Page");
 	WriteAndRead WAR = new WriteAndRead();
 
 	student_T SL = new student_T();

@@ -50,9 +50,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         // 表格
         JTable showScorePoint;
-
         JPanel buttonPanel;
-        JButton createNewQuestion, addScorePoint, deleteScorePoint;
+        JButton createNewQuestion, addSelectedScorePoint, addEmptyScorePoint, deleteScorePoint;
 
         //
         Object[][] questionScorePoint = new Object[0][3];
@@ -90,6 +89,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 newSolution = new JLabel("Please Write down Solution of Question");
                 newSolution0 = new JTextArea(20, 10);
                 newSolution0.setLineWrap(true); // 自动换行
+
                 int spaceCount = 4;
                 ((PlainDocument) newSolution0.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
 
@@ -97,7 +97,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                newAnswer = new JLabel("Please Write down Answer of Question");
+                newAnswer = new JLabel("Answer of Question (The Answer Will Be Calculated After Submit)");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
                 newAnswer0.setEditable(false);
@@ -137,6 +137,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         public boolean isCellEditable(int row, int column) {
                                 if (column == 2) {
                                         return true;
+                                } else if (column == 1) {
+                                        return true;
                                 } else {
                                         return false;
                                 }
@@ -159,8 +161,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 createNewQuestion = new JButton("Submit Question");
                 createNewQuestion.addActionListener(this);
 
-                addScorePoint = new JButton("Add Score Point");
-                addScorePoint.addActionListener(this);
+                addSelectedScorePoint = new JButton("Add Score Point");
+                addSelectedScorePoint.addActionListener(this);
 
                 deleteScorePoint = new JButton("Delete Score Point");
                 deleteScorePoint.addActionListener(this);
@@ -188,7 +190,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 box.add(newScorePoint);
                 box.add(ScorePointTable);
 
-                buttonPanel.add(addScorePoint);
+                buttonPanel.add(addSelectedScorePoint);
+
                 buttonPanel.add(createNewQuestion);
                 buttonPanel.add(deleteScorePoint);
 
@@ -221,7 +224,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                 // dataScorePoint.add(t);
                         } catch (Exception w) {
-                                JOptionPane.showMessageDialog(this, "Please Select a Line");
+                                JOptionPane.showMessageDialog(this, "Please Select A Keyword On the Left Pannel");
                         }
                         System.out.println("-- The Create New Question is Working --");
                 }

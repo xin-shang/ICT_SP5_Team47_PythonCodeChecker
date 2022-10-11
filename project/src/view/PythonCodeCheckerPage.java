@@ -133,10 +133,6 @@ public class PythonCodeCheckerPage {
                 manuBarStudent.add(manuStudent_Show);
                 manuBarStudent.add(manuStudent_User);
 
-                //
-                // Box box = Box.createVerticalBox(); 竖直
-                // Box box = Box.createHorizontalBox(); 水平
-
                 splitPane.setContinuousLayout(false); // 连续布局
                 splitPane.setDividerLocation(950); // 左右分屏初始位置
                 splitPane.setDividerSize(10); // 分割线宽度

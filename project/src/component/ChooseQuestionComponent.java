@@ -144,7 +144,10 @@ public class ChooseQuestionComponent extends Box {
 				rowNum = ChooseQuestionComponent.getSelectedRow();
 				setSelectedRow(chooseQuestionTable.getSelectedRow());
 				StudentWorkingComponent
-						.setQuestionString(WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
+						.setQuestionString(WriteAndRead
+								.readQuestion(
+										"Q" + (getSelectedRow() + 1) + ": "
+												+ getValueAt_Table(getSelectedRow(), 1)));
 				PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
 				MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 				MPS.EditingToString(StudentWorkingComponent.terminalArea);
@@ -167,7 +170,8 @@ public class ChooseQuestionComponent extends Box {
 				} else {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
 					StudentWorkingComponent.setQuestionString(
-							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
+							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
+									+ getValueAt_Table(getSelectedRow(), 1)));
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
 					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 					MPS.EditingToString(StudentWorkingComponent.terminalArea);
@@ -188,7 +192,8 @@ public class ChooseQuestionComponent extends Box {
 				if (getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
 					StudentWorkingComponent.setQuestionString(
-							WriteAndRead.readQuestion(getValueAt_Table(getSelectedRow(), 1)));
+							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
+									+ getValueAt_Table(getSelectedRow(), 1)));
 					PythonCodeCheckerPage.splitPane.setLeftComponent(new StudentWorkingComponent());
 					MPS.QuestionToString(StudentWorkingComponent.terminalArea);
 					MPS.EditingToString(StudentWorkingComponent.terminalArea);

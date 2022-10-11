@@ -4,10 +4,16 @@ import java.awt.Font;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import Type.markScheme;
+import javaswingdev.chart.ModelPieChart;
+import javaswingdev.chart.PieChart;
+import java.awt.Color;
 
 public class ProjectVariable {
 
@@ -15,6 +21,8 @@ public class ProjectVariable {
 	public int designWindow_heigh = 618;
 
 	public String filenameTemp;
+
+	private keywordAnalysis KA = new keywordAnalysis();
 
 	/**
 	 * 临时文件名称
@@ -186,6 +194,62 @@ public class ProjectVariable {
 			SocreList[i] = String.valueOf(i);
 		}
 		return SocreList;
+	}
+
+	public PieChart getKeywordPieChart(List<markScheme> mkl) {
+		PieChart keyword_pie = new PieChart();
+		int index = 0;
+		for (markScheme mk : mkl) {
+			if (index > getColorSet().length - 1) {
+				index = 0;
+			}
+			keyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorSet()[index]));
+			index++;
+
+		}
+		return keyword_pie;
+	}
+
+	public PieChart getPassedPieChart(String solution, List<markScheme> mkl) {
+		PieChart passedkeyword_pie = new PieChart();
+		List<String> passedKeyword = KA.getPassedKeywordlist(solution, mkl);
+		int index = 0;
+		for (markScheme mk : mkl) {
+
+			if (passedKeyword.contains(mk.getKeyword())) {
+				if (index > getColorSet().length - 1) {
+					index = 0;
+				}
+				passedkeyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorSet()[index]));
+				index++;
+			} else {
+				passedkeyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorGrey()));
+				index++;
+			}
+		}
+
+		return null;
+	}
+
+	private Color getColorGrey() {
+		return new Color(128, 128, 128);
+	}
+
+	private Color[] getColorSet() {
+
+		Color[] colorSet = { new Color(255, 0, 0),
+				new Color(255, 128, 0),
+				new Color(255, 255, 0),
+				new Color(128, 255, 0),
+				new Color(0, 255, 0),
+				new Color(0, 255, 128),
+				new Color(0, 0, 255),
+				new Color(127, 0, 255),
+				new Color(255, 0, 255),
+				new Color(255, 0, 127)
+		};
+
+		return colorSet;
 	}
 
 }
