@@ -115,7 +115,6 @@ public class ProjectVariable {
 		} else {
 			return 0;
 		}
-
 	}
 
 	public boolean bcheckUserInputValue(boolean bmarkShceme, boolean question, boolean solution) {
