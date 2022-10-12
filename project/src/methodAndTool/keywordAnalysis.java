@@ -3,58 +3,74 @@ package methodAndTool;
 import java.util.ArrayList;
 import java.util.List;
 
+import Type.markScheme;
+import component.StudentWorkingComponent;
+
 public class keywordAnalysis {
 
     WriteAndRead WAR = new WriteAndRead();
+    MessagePrintString MPS = new MessagePrintString();
 
-
-
-
-    public keywordAnalysis(){
-
-        //测试用
-        // String answer = "printsss('cat')";
-
-
-		// markScheme mk = new markScheme("1", "print", 100);
-		// List<markScheme> mkl = new ArrayList<markScheme>();
-		// mkl.add(mk);
-
-		
-
-		// keywordAnalysis ka = new keywordAnalysis();
-		// int score = ka.getKeyWordSocre(answer, mkl);
-		// System.out.println(score);
-    }
-
-
-    public int getKeyWordSocre(String answer, List<markScheme>mkl){
+    public int getKeyWordSocre(String solution, String answer, String correctAnswer, int answerScore,
+            List<markScheme> mkl) {
 
         int score = 0;
+        //
+        MPS.CalculatingMarkToString(StudentWorkingComponent.terminalArea);
 
-        //返还一个boolean检测是否有syntaxerror;
-        boolean c = WAR.checkSolutionSytaxError(answer);
-
-        //false = no syntaxerror
-        if(c==false){
-            for(markScheme mk: mkl){
+        // 返还一个boolean检测是否有syntaxerror;
+        // false = no syntaxerror
+        if (answer.equals(correctAnswer)) {
+            score += answerScore;
+            System.out.println("your answer is correct");
+        } else if (answer.replace(" ", "").equals(correctAnswer.replace(" ", ""))) {
+            score += answerScore / 2;
+            System.out.println("your answer is right but please check the format of it");
+        } else {
+            score += 0;
+        }
+        // mkl loop each markscheme(mk)
+        for (markScheme mk : mkl) {
             String keyword = mk.getKeyword();
-            boolean bcheck = answer.contains(keyword);
-                if(bcheck==true){
+            boolean bcheck = solution.contains(keyword);
+            if (bcheck == true) {
 
-                    score += mk.getScore();
-                }
-                else{
-                    score+=0;
-                }
-                }
+                score += mk.getScore();
 
-                return score;
-            }
-            else{
-                return score;
+                // delete keyword after checked
+                String deleteKw = solution.replaceFirst(mk.getKeyword(), "");
+
+                solution = deleteKw;
+            } else {
+                score += 0;
             }
         }
+        //
+        MPS.CalculateMarkDoneToString(StudentWorkingComponent.terminalArea);
+        return score;
 
+    }
+
+    public ArrayList<String> getPassedKeywordlist(String solution, List<markScheme> mkl) {
+
+        ArrayList<String> PassedKeywordList = new ArrayList<>();
+
+        // mkl loop each markscheme(mk)
+        for (markScheme mk : mkl) {
+            String keyword = mk.getKeyword();
+            boolean bcheck = solution.contains(keyword);
+            if (bcheck == true) {
+
+                PassedKeywordList.add(mk.getKeyword());
+
+                // delete keyword after checked
+                String deleteKw = solution.replaceFirst(mk.getKeyword(), "");
+
+                solution = deleteKw;
+            }
+        }
+        return PassedKeywordList;
+
+    }
 
 }

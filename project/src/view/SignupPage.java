@@ -13,8 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import JDBC.Login.staff_T;
+import JDBC.Login.student_T;
 import methodAndTool.ScreenUtils;
 
 public class SignupPage extends LoginPage {
@@ -29,14 +32,16 @@ public class SignupPage extends LoginPage {
 
     // define the inputs
     JTextField username = new JTextField(15);
-    JTextField password = new JTextField(15);
-    JTextField confirmPassword = new JTextField(15);
+    JPasswordField password = new JPasswordField(15);
+    JPasswordField confirmPassword = new JPasswordField(15);
 
     // define usertype selector
     JComboBox<String> userType = new JComboBox<String>(new String[] { "student", "staff" });
 
     // define signup button
     JButton signUpButton = new JButton("Sign up");
+    student_T student = new student_T();
+    staff_T staff = new staff_T();
 
     public void init() {
 
@@ -135,26 +140,26 @@ public class SignupPage extends LoginPage {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (getUserNameString().equals(getUserPasswardString())){
+                if (getUserNameString().equals(getUserPasswardString())) {
                     JOptionPane.showMessageDialog(frame, "Password cannot same as your Username");
                     return;
                 }
 
-                //define the rule for the password
-                //at least one number
-                //at least one lower case letter and one upper case letter
-                //password length must be between 8-20 characters
+                // define the rule for the password
+                // at least one number
+                // at least one lower case letter and one upper case letter
+                // password length must be between 8-20 characters
                 String regex = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=\\S+$).{8,20}$";
 
                 Pattern p = Pattern.compile(regex);
 
-                //valid the password
+                // valid the password
                 Matcher m = p.matcher(getUserPasswardString());
 
-                //if password does not match the rule
-                if(!m.matches()){
-                    JOptionPane.showMessageDialog(frame, 
-                        "Failed!!!\nThe password must be set according to the following rules:\n 1. at least one lower case letter and one upper case letter\n 2. at least one number\n 3. password length must be between 8-20 characters");
+                // if password does not match the rule
+                if (!m.matches()) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Failed!!!\nThe password must be set according to the following rules:\n 1. at least one lower case letter and one upper case letter\n 2. at least one number\n 3. password length must be between 8-20 characters");
                     return;
                 }
 
@@ -162,19 +167,24 @@ public class SignupPage extends LoginPage {
 
                 if (bConfirmPasswords() == true) {
                     if (getUserTypeString().equals("student")) {
-                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserName.txt",
-                                getUserNameString());
-                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STUDENT/StudentUserPassword.txt",
-                                getUserPasswardString());
-                        WAR.run_python_code("./src/pythonDB/PYDb_addStudent.py");
-                        JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                        boolean bCheckAcountExit = student.inserRows(getUserNameString(), getUserPasswardString());
+                        if (bCheckAcountExit == true) {
+                            JOptionPane.showMessageDialog(frame, "Student Account Created Successful");
+                            frame.setVisible(false);
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Username Eixt!!");
+                        }
+
                     } else {
-                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffUserName.txt", getUserNameString());
-                        WAR.write2TextFileOutStream("./src/dbData/LOGIN/STAFF/StaffPassword.txt",
-                                getUserPasswardString());
-                        WAR.run_python_code("./src/pythonDB/PYDb_addStaff.py");
-                        JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                        boolean bCheckAcountExit = staff.inserRows(getUserNameString(), getUserPasswardString());
+                        if (bCheckAcountExit == true) {
+                            JOptionPane.showMessageDialog(frame, "Staff Account Created Successful");
+                            frame.setVisible(false);
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Username Eixt!!");
+                        }
                     }
+
                 } else {
                     JOptionPane.showMessageDialog(frame, "The entered passwords are inconsistent");
                 }
@@ -200,7 +210,7 @@ public class SignupPage extends LoginPage {
     }
 
     private String getUserPasswardString() {
-        return password.getText();
+        return new String(password.getPassword());
     }
 
     private String getUserTypeString() {
@@ -208,7 +218,7 @@ public class SignupPage extends LoginPage {
     }
 
     private String getConfirmPasswordString() {
-        return confirmPassword.getText();
+        return new String(confirmPassword.getPassword());
     }
 
     private Boolean bConfirmPasswords() {

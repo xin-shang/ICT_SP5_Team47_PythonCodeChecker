@@ -9,12 +9,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import component.StudentWorkingComponent;
 
 public class WriteAndRead {
 	// set python command as the system return
 	String pythonName = PV.getPythonName();
 	static ProjectVariable PV = new ProjectVariable();
+
+	//
+	MessagePrintString MPS = new MessagePrintString();
 
 	public boolean creatTxtFile(String name) throws IOException {
 		boolean flag = false;
@@ -134,30 +140,82 @@ public class WriteAndRead {
 		return pythonQuestion;
 	}
 
+	public boolean detectWhileLoop(String code) {
+		String UPcode = code.toUpperCase();
+		boolean bWHile = UPcode.contains("WHILE");
+		return bWHile;
+	}
+
+	public boolean staff_checkSolutionSytaxError(String solution) {
+
+		boolean bdetectWhileLoop = detectWhileLoop("\n" + solution);
+		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
+		if (bdetectWhileLoop == true) {
+			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
+		}
+		run_python_code("./src/python/PYRunPythonCode.py");
+		String errorResult = readText("./src/txt/sytaxError_b.txt");
+		if (errorResult.equals("True")) {
+
+			return true;
+		} else {
+
+			return false;
+		}
+	}
+
 	// /**
 	// * 返回是否有语法错误的同时，还会存储在./src/txt/sytaxError_b.txt 里面
 	// * return true for syntaxError, fasle for no syntaxError, if systaxError,
 	// * the result will save in ./src/txt/PyCodeAnswer.txt
 	// */
-	public boolean checkSolutionSytaxError(String solution) {
+	public boolean student_checkSolutionSytaxError(String solution) {
+
+		MPS.SytaxErroringToString(StudentWorkingComponent.terminalArea);
+		boolean bdetectWhileLoop = detectWhileLoop("\n" + solution);
 		write2TextFileOutStream("./src/txt/PyCodeAnswer.txt", solution);
+		if (bdetectWhileLoop == true) {
+			run_python_code("./src/pythonDB/PYDb_qnsDetectWhile.py");
+		}
 		run_python_code("./src/python/PYRunPythonCode.py");
 		String errorResult = readText("./src/txt/sytaxError_b.txt");
 		if (errorResult.equals("True")) {
+			MPS.SytaxErrorTrueToString(StudentWorkingComponent.terminalArea);
 			return true;
 		} else {
+			MPS.SytaxErrorFalseToString(StudentWorkingComponent.terminalArea);
 			return false;
 		}
 	}
 
-	// method to transfer string to int
-	public int StringToInt(String string_int) {
-		try {
-			String str = string_int;
-			int number = Integer.parseInt(str);
-			return number;
-		} catch (NumberFormatException ex) {
-			return 0;
+	public final String getLocalFolderPath() {
+		String OSname = PV.getOSName();
+		String userName = System.getProperty("user.name");
+		if (OSname.startsWith("Windows")) {
+			String path = "C:/Users/" + userName + "/Documents/PythonCodeChecker/";
+			return path;
+		} else {
+			String path = "/Users/" + userName + "/Documents/PythonCodeChecker/";
+			return path;
 		}
 	}
+
+	public boolean createLocalFolder() {
+		Path path = Paths.get(getLocalFolderPath());
+		boolean fileEixt = Files.exists(path);
+		if (fileEixt == true) {
+			System.out.println("File exit");
+			return true;
+		} else {
+			try {
+				Files.createDirectories(path);
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+	}
+
 }

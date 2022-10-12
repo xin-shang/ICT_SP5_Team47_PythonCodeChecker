@@ -3,65 +3,84 @@ package component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.awt.BorderLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.text.PlainDocument;
+
 import javax.swing.table.DefaultTableModel;
 
+import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
+import methodAndTool.ProjectVariable;
+import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
-import methodAndTool.staffQns;
+import view.PythonQuestionEditPage;
+import methodAndTool.ChangeTabToSpacesFilter;
 
 public class AddQuestionComponent extends Box implements ActionListener {
 
         WriteAndRead WAR = new WriteAndRead();
+        ProjectVariable PV = new ProjectVariable();
+        staffQns_T DIO;
+        keywordAlternative_T QKC;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
-        JLabel newID, newQuestion, newSolution, newAnswer, newScorePoint;
+        JLabel newID, newQuestion, newSolution, newAnswer, newAnswerScore, newScorePoint;
         static JTextArea newQuestion0;
         static JTextArea newSolution0;
         static JTextArea newAnswer0;
         JTextArea text0_SP;
 
+        JComboBox<String> patternList;
+
         // 表格
         JTable showScorePoint;
-
-        JTextField score;
         JPanel buttonPanel;
-        JButton createNewQuestion, addScorePoint, deleteScorePoint;
+        JButton createNewQuestion, addSelectedScorePoint, addEmptyScorePoint, deleteScorePoint;
 
         //
         Object[][] questionScorePoint = new Object[0][3];
 
         //
         private Vector<Object> titleScorePoint = new Vector<Object>(); // Store the title 存储标题
-        private static Vector<Vector> dataScorePoint = new Vector<>(); // Store the data 存储数据
+        private static Vector<Vector<Object>> dataScorePoint = new Vector<>(); // Store the data 存储数据
 
         public static DefaultTableModel tableModelScorePoint;
 
-        public AddQuestionComponent() {
+        public AddQuestionComponent(staffQns_T dio, keywordAlternative_T QKC) {
 
                 super(BoxLayout.Y_AXIS);
+                this.DIO = dio;
+                this.QKC = QKC;
                 /**
                  * 设置窗口内容
                  */
                 //
-                newID = new JLabel("Add a New Question ID:" + (staffQns.getDblength() + 1));
+
+                //
+                newID = new JLabel("Add a New Question");
 
                 //
                 newQuestion = new JLabel("Please Write down Question Stem");
                 newQuestion0 = new JTextArea(10, 10);
                 newQuestion0.setLineWrap(true); // 自动换行
 
+                newQuestion0.setTabSize(1);
                 Box boxQuestion0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Question0 = new JScrollPane(newQuestion0);
                 boxQuestion0.add(scrollPane_Question0);
@@ -71,12 +90,14 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 newSolution0 = new JTextArea(20, 10);
                 newSolution0.setLineWrap(true); // 自动换行
 
+                int spaceCount = 4;
+                ((PlainDocument) newSolution0.getDocument()).setDocumentFilter(new ChangeTabToSpacesFilter(spaceCount));
+
                 Box boxSolution0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Solution0 = new JScrollPane(newSolution0);
                 boxSolution0.add(scrollPane_Solution0);
 
-                
-                newAnswer = new JLabel("Please Write down Answer of Question");
+                newAnswer = new JLabel("Answer of Question (The Answer Will Be Calculated After Submit)");
                 newAnswer0 = new JTextArea(10, 10);
                 newAnswer0.setLineWrap(true); // 自动换行
                 newAnswer0.setEditable(false);
@@ -85,10 +106,13 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 JScrollPane scrollPane_Answer0 = new JScrollPane(newAnswer0);
                 boxAnswer0.add(scrollPane_Answer0);
 
+                newAnswerScore = new JLabel("Please Select A Score For Answer");
+                patternList = new JComboBox<String>(PV.getAnswerScoreList());
+                // enable edit for drop down list
+                // patternList.setEditable(true);
+
                 //
-                Box ScorePointLabel = Box.createHorizontalBox();
                 newScorePoint = new JLabel("Please Write down Score Point of Question");
-                ScorePointLabel.add(newScorePoint);
 
                 Box ScorePointTable = Box.createHorizontalBox();
                 /*
@@ -113,6 +137,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                         public boolean isCellEditable(int row, int column) {
                                 if (column == 2) {
                                         return true;
+                                } else if (column == 1) {
+                                        return true;
                                 } else {
                                         return false;
                                 }
@@ -124,6 +150,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 /*
                  * _________________________________________________________________________________
                  */
+
                 JScrollPane scrollPane_ScoreTable = new JScrollPane(showScorePoint);
                 ScorePointTable.add(scrollPane_ScoreTable);
 
@@ -134,8 +161,8 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 createNewQuestion = new JButton("Submit Question");
                 createNewQuestion.addActionListener(this);
 
-                addScorePoint = new JButton("Add Score Point");
-                addScorePoint.addActionListener(this);
+                addSelectedScorePoint = new JButton("Add Score Point");
+                addSelectedScorePoint.addActionListener(this);
 
                 deleteScorePoint = new JButton("Delete Score Point");
                 deleteScorePoint.addActionListener(this);
@@ -154,13 +181,17 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 box.add(Box.createVerticalStrut(10));
                 box.add(newAnswer);
                 box.add(boxAnswer0);
+
                 box.add(Box.createVerticalStrut(10));
-                box.add(ScorePointLabel);
+                box.add(newAnswerScore);
+                box.add(patternList);
+
+                box.add(Box.createVerticalStrut(10));
+                box.add(newScorePoint);
                 box.add(ScorePointTable);
 
-                // JScrollPane scrollPane = new JScrollPane(box);
+                buttonPanel.add(addSelectedScorePoint);
 
-                buttonPanel.add(addScorePoint);
                 buttonPanel.add(createNewQuestion);
                 buttonPanel.add(deleteScorePoint);
 
@@ -170,9 +201,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
         }
 
-        // /**
-        // * 按钮监听
-        // */
+        /**
+         * 按钮监听
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
@@ -193,75 +224,87 @@ public class AddQuestionComponent extends Box implements ActionListener {
 
                                 // dataScorePoint.add(t);
                         } catch (Exception w) {
-                                JOptionPane.showMessageDialog(this, "Please Select a Line");
+                                JOptionPane.showMessageDialog(this, "Please Select A Keyword On the Left Pannel");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Delete Score Point")) {
+                }
+
+                else if (actionCommand.equals("Delete Score Point")) {
                         try {
                                 tableModelScorePoint.removeRow(showScorePoint.getSelectedRow());
                         } catch (Exception w) {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
-                } else if (actionCommand.equals("Submit Question")) {
+                }
 
-                        if (bcheckUserInputValue() == true) {
-                                String solution = getNewSolutionString();
-                                boolean bsyntaxError = WAR.checkSolutionSytaxError(solution);
+                else if (actionCommand.equals("Submit Question")) {
+                        Connection conn = new PythonCodeChecker_db().get_connection();
 
-                                if (bsyntaxError == true) {
-                                        String syntaxError = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        JOptionPane.showMessageDialog(this,
-                                                        "Your Solution has SyntaxError: " + syntaxError);
-                                        newAnswer0.setText(syntaxError);
-                                } else {
-                                        String answer = WAR.readText("./src/txt/PyCodeAnswer.txt");
-                                        newAnswer0.setText(answer);
+                        try {
+                                boolean b_markShceme = bcheckMarkSchemeEmpty();
+                                boolean b_question = getNewQuestionString().isEmpty();
+                                boolean b_solution = getNewSolutionString().isEmpty();
 
-                                        staffQns.PostNewQuestionString();
-                                        staffQns.PostNewSolutionString();
-                                        staffQns.PostNewAnswerString();
-                                        WAR.run_python_code("./src/pythonDB/PYDb_addQuestion.py");
-                                        getScorePointStringList();
-                                        JOptionPane.showMessageDialog(this, "Upload Successful");
+                                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+
+                                        String solution = getNewSolutionString();
+                                        String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
+                                                        solution);
+
+                                        if (keywordNotInString == null) {
+                                                RunPythonCode RP = new RunPythonCode();
+                                                RP.saveCodeFile(solution);
+                                                RP.runCode();
+                                                if (!RP.getErrorMessage().equals("")) {
+                                                        String errormessage = RP.getErrorMessage();
+                                                        JOptionPane.showMessageDialog(this,
+                                                                        "Your Solution has SyntaxError: \n"
+                                                                                        + errormessage);
+                                                        newAnswer0.setText(errormessage);
+                                                } else {
+                                                        String answer = RP.getOutputFromConsole();
+                                                        newAnswer0.setText(answer);
+
+                                                        boolean b_score = checkSocre();
+
+                                                        if (b_score == true) {
+                                                                boolean b_add_q;
+                                                                try {
+                                                                        b_add_q = DIO.insertQuestion(conn,
+                                                                                        this.getNewQuestionString(),
+                                                                                        this.getNewSolutionString(),
+                                                                                        answer,
+                                                                                        this.getNewAnswerScore());
+                                                                        if (b_add_q == true) {
+                                                                                getScorePointStringList(conn);
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Add Successful");
+
+                                                                        } else {
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Question is already exit");
+
+                                                                        }
+                                                                } catch (SQLException e1) {
+
+                                                                        e1.printStackTrace();
+                                                                }
+                                                        }
+                                                }
+                                        }
+
                                 }
-
+                                PythonQuestionEditPage.splitPane
+                                                .setLeftComponent(new QuestionManagerComponent(
+                                                                new staffQns_T(conn),
+                                                                QKC));
+                                conn.close();
+                                System.out.println("-- The Create New Question is Working --");
+                        } catch (SQLException e1) {
+                                e1.printStackTrace();
                         }
 
-                        System.out.println("-- The Create New Question is Working --");
-                }
-        }
-
-        public boolean bcheckUserInputValue() {
-                boolean bmarkShceme = bcheckMarkSchemeEmpty();
-                boolean question = getNewQuestionString().isEmpty();
-                boolean solution = getNewSolutionString().isEmpty();
-
-                if (bmarkShceme == true && question == false && solution == false) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Mark Scheme");
-                        return false;
-                } else if (bmarkShceme == false && question == true && solution == false) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Question");
-                        return false;
-                } else if (bmarkShceme == false && question == false && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Solution");
-                        return false;
-                } else if (bmarkShceme == true && question == true && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Question");
-                        return false;
-                } else if (bmarkShceme == false && question == false && solution == false) {
-                        return true;
-                } else if (bmarkShceme == true && question == true && solution == false) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Question");
-                        return false;
-                } else if (bmarkShceme == true && question == false && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Solution");
-                        return false;
-                } else if (bmarkShceme == false && question == true && solution == true) {
-                        JOptionPane.showMessageDialog(this, "Please Insert Question");
-                        return false;
-                } else {
-                        return false;
                 }
         }
 
@@ -271,20 +314,25 @@ public class AddQuestionComponent extends Box implements ActionListener {
         // String newAnswerString = newAnswer0.getText().trim();
 
         // Get New Questions 获取新问题
-        public static String getNewQuestionString() {
+        public String getNewQuestionString() {
                 String newQuestionString = newQuestion0.getText().trim();
                 return newQuestionString;
         }
 
         // Get New Solution 获取新解决方案
-        public static String getNewSolutionString() {
+        public String getNewSolutionString() {
                 String newSolutionString = newSolution0.getText().trim();
                 return newSolutionString;
         }
 
-        public static String getNewAnswerString() {
+        public String getNewAnswerString() {
                 String newAnswerString = newAnswer0.getText().trim();
                 return newAnswerString;
+        }
+
+        public int getNewAnswerScore() {
+                int answerScore = PV.StringToInt(patternList.getSelectedItem().toString());
+                return answerScore;
         }
 
         // Object[][] questionScorePoint V<V> dataScorePoint
@@ -305,22 +353,50 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 return dataScorePointColumnCount;
         }
 
-        // Push score list to db
-        public void getScorePointStringList() {
+        public boolean checkSocre() {
+                int totalScore = 0;
                 for (int i = 0; i < getScorePointRowCount(); i++) {
+
+                        for (int j = 0; j < getScorePointColumnCount(); j++) {
+                                if (j == 2) {
+                                        Object SignlePoint = getValueAt(i, j);
+                                        totalScore += PV.castObjectToInt(SignlePoint);
+                                }
+                        }
+                }
+
+                int answerScore = getNewAnswerScore();
+                totalScore += answerScore;
+
+                if (totalScore == 100) {
+                        return true;
+                } else {
+                        JOptionPane.showMessageDialog(this,
+                                        "Total Score Should Be 100" + "\nnow is: " + totalScore + " !!!");
+                        return false;
+                }
+
+        }
+
+        // Push score list to db
+        public void getScorePointStringList(Connection conn) throws SQLException {
+                Object keyword = null;
+                Object score = null;
+                for (int i = 0; i < getScorePointRowCount(); i++) {
+
                         for (int j = 0; j < getScorePointColumnCount(); j++) {
                                 if (j == 1) {
-                                        Object keyword = getValueAt(i, j);
-                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbKeyWord_POST.txt",
-                                                        keyword.toString());
+                                        keyword = getValueAt(i, j);
                                 } else if (j == 2) {
-                                        Object score = getValueAt(i, j);
-                                        WAR.write2TextFileOutStream("./src/dbData/POST/markPoint/dbScore_POST.txt",
-                                                        score.toString());
+                                        score = getValueAt(i, j);
                                 }
-
                         }
-                        WAR.run_python_code("./src/pythonDB/PYDb_addMarkScheme.py");
+                        String keyword_s = (String) keyword;
+
+                        int score_int = PV.castObjectToInt(score);
+
+                        DIO.insertQuestionMarkSheme(conn, getNewQuestionString(), keyword_s, score_int);
+
                 }
         }
 

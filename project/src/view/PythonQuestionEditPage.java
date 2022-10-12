@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -13,16 +16,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 
+import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
+import JDBC.dbConnection.PythonCodeChecker_db;
+import Type.markScheme;
 import component.KeywordManagerComponent;
 import component.QuestionDetailsComponent;
 import component.QuestionManagerComponent;
 import methodAndTool.ScreenUtils;
-import JDBC.Staff.staffQns_T;
 
 public class PythonQuestionEditPage {
 
 	ScreenUtils SU = new ScreenUtils();
-	staffQns_T DIO = new staffQns_T();
+	staffQns_T DIO;
+	keywordAlternative_T QKC;
+	List<markScheme> mks;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
 	String ArtUser = ScreenUtils.getBlankSpace(54);
@@ -50,9 +58,16 @@ public class PythonQuestionEditPage {
 	// 设置分割面板
 	public static JSplitPane splitPane = new JSplitPane();
 
-	// 初始化，组装界面
-	public void init() {
+	// db connection
+	Connection conn;
 
+	// 初始化，组装界面
+	public void init() throws SQLException {
+		conn = new PythonCodeChecker_db().get_connection();
+		DIO = new staffQns_T(conn);
+		QKC = new keywordAlternative_T(conn);
+
+		System.out.println("PythonQuestionEditPage");
 		/**
 		 * 设置窗口属性
 		 */
@@ -100,14 +115,14 @@ public class PythonQuestionEditPage {
 		splitPane.setDividerSize(2); // 分割线宽度
 
 		// splitPane Left
-		splitPane.setLeftComponent(new QuestionManagerComponent());
+		splitPane.setLeftComponent(new QuestionManagerComponent(DIO, QKC));
 
 		// splitPane Right 展示详细信息，点击左侧列表中的一行，像是对应的详细信息。
-		if(DIO.getDblength() > 0){
-			PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent());
-		}
-		else{
-			PythonQuestionEditPage.splitPane.setRightComponent(new JLabel("There are no Python questions in the question bank. Please add a topic as soon as possible."));
+		if (DIO.getDblength() > 0) {
+			PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
+		} else {
+			PythonQuestionEditPage.splitPane.setRightComponent(new JLabel(
+					"There are no Python questions in the question bank. Please add a topic as soon as possible."));
 		}
 
 		//
@@ -128,8 +143,14 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
+				try {
+					conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				new HomePage().init();
 				frame.dispose();
+
 				System.out.println("-- The Change Account Manu Button is Working --");
 			}
 		});
@@ -140,7 +161,11 @@ public class PythonQuestionEditPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
+				try {
+					conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				System.exit(0);
 				System.out.println("-- The Exit Manu Button is Working --");
 			}
@@ -153,7 +178,7 @@ public class PythonQuestionEditPage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
-				splitPane.setLeftComponent(new QuestionManagerComponent());
+				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(conn), QKC));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
@@ -163,12 +188,18 @@ public class PythonQuestionEditPage {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//
-				// int selectedRow = QuestionManagerComponent.questionTable.getSelectedRow();
-				splitPane.setLeftComponent(new KeywordManagerComponent());
+
+				// refresh keyword table
+				splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 				System.out.println("-- The Check Manu Button is Working --");
+
 			}
 		});
+	}
+
+	// refresh page db
+	public void refreshDB() {
+		this.DIO = new staffQns_T(conn);
 	}
 
 	/**
