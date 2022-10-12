@@ -11,30 +11,20 @@ public class keywordAnalysis {
     WriteAndRead WAR = new WriteAndRead();
     MessagePrintString MPS = new MessagePrintString();
 
-    public int getKeyWordSocre(String solution, String answer, String correctAnswer, List<markScheme> mkl) {
+    public int getKeyWordSocre(String solution, String answer, String correctAnswer, int answerScore,
+            List<markScheme> mkl) {
 
         int score = 0;
-        //
+        score += getAnswerScore(answer, correctAnswer, answerScore);
         MPS.CalculatingMarkToString(StudentWorkingComponent.terminalArea);
 
-        // 返还一个boolean检测是否有syntaxerror;
-        // false = no syntaxerror
-        if (answer.equals(correctAnswer)) {
-            score += 40;
-            System.out.println("your answer is correct");
-        } else if(answer.replace(" ", "").equals(correctAnswer.replace(" ", ""))){
-            score += 20;
-            System.out.println("your answer is right but please check the format of it");
-        } else {
-            score += 0;
-        }
         // mkl loop each markscheme(mk)
         for (markScheme mk : mkl) {
             String keyword = mk.getKeyword();
             boolean bcheck = solution.contains(keyword);
             if (bcheck == true) {
 
-                score += mk.getScore() * 0.6;
+                score += mk.getScore();
 
                 // delete keyword after checked
                 String deleteKw = solution.replaceFirst(mk.getKeyword(), "");
@@ -46,6 +36,23 @@ public class keywordAnalysis {
         }
         //
         MPS.CalculateMarkDoneToString(StudentWorkingComponent.terminalArea);
+        return score;
+
+    }
+
+    public int getAnswerScore(String answer, String correctAnswer, int answerScore) {
+        int score = 0;
+        // 返还一个boolean检测是否有syntaxerror;
+        // false = no syntaxerror
+        if (answer.equals(correctAnswer)) {
+            score += answerScore;
+            System.out.println("your answer is correct");
+        } else if (answer.replace(" ", "").equals(correctAnswer.replace(" ", ""))) {
+            score += answerScore / 2;
+            System.out.println("your answer is right but please check the format of it");
+        } else {
+            score += 0;
+        }
         return score;
 
     }

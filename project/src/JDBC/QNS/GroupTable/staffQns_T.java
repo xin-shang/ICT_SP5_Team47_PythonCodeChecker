@@ -39,8 +39,9 @@ public class staffQns_T extends Qns_T {
             String sql = "SELECT question.id, " +
                     "question.question, " +
                     "solution.solution, " +
-                    "solution.answer " +
-                    "FROM question INNER JOIN solution ON question.id = solution.question_id WHERE question.user_id = ?";
+                    "solution.answer, " +
+                    "answerMark.score " +
+                    "FROM question INNER JOIN solution ON question.id = solution.question_id LEFT JOIN answerMark ON solution.question_id = answerMark.question_id WHERE question.user_id = ?";
 
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, staffID);
@@ -52,7 +53,8 @@ public class staffQns_T extends Qns_T {
                 String question = res.getString(2);
                 String solution = res.getString(3);
                 String answer = res.getString(4);
-                QnS qns = new QnS(question_id, question, solution, answer);
+                int answerSocre = res.getInt(5);
+                QnS qns = new QnS(question_id, question, solution, answer, answerSocre);
                 qnsDB.add(qns);
             }
             dblength = num;
@@ -66,7 +68,7 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public boolean insertQuestion(Connection conn, String question, String solution, String answer)
+    public boolean insertQuestion(Connection conn, String question, String solution, String answer, int answerScore)
             throws SQLException {
         // conn = pb.get_connection();
         String user_id = staff_T.getUsername();
@@ -78,6 +80,7 @@ public class staffQns_T extends Qns_T {
                 // System.out.println(question);
                 String qs_id = qt.getQuestionID(conn, question);
                 sl.inserRows(conn, qs_id, solution, answer);
+                as.inserRows(conn, qs_id, answerScore);
                 System.out.println("insert question successful");
                 // conn.close();
                 return true;
@@ -92,12 +95,13 @@ public class staffQns_T extends Qns_T {
     }
 
     public boolean updateQuestion(Connection conn, String question_id, String question, String solution,
-            String answer) {
+            String answer, int answerScore) {
 
         boolean bUqt = qt.updateQuestion(conn, question_id, question);
         boolean bUsl = sl.updateSolution(conn, question_id, solution, answer);
+        boolean bUas = as.updateQuestion(conn, question_id, answerScore);
 
-        if (bUqt == true && bUsl == true) {
+        if (bUqt == true && bUsl == true && bUas == true) {
             return true;
         } else {
             return false;
@@ -125,7 +129,6 @@ public class staffQns_T extends Qns_T {
                 return true;
             }
         } else {
-
             return false;
         }
     }
@@ -155,11 +158,6 @@ public class staffQns_T extends Qns_T {
         }
     }
 
-    public void deleteMarkScheme(Connection conn, String question_id) throws SQLException {
-        mk.deletRows(conn, question_id);
-        System.out.println("delete successful");
-    }
-
     public void deleteQuestion(String question) throws SQLException {
         conn = pb.get_connection();
         boolean bQuestion = qt.bCheckQuestion(conn, question);
@@ -167,7 +165,12 @@ public class staffQns_T extends Qns_T {
             String qs_id = qt.getQuestionID(conn, question);
             mk.deletRows(conn, qs_id);
             sl.deletRows(conn, qs_id);
+            as.deletRows(conn, qs_id);
+
+            // question has the root id connected the rest of tables, it must be deleted at
+            // the end
             qt.deletRows(conn, qs_id);
+
         }
         conn.close();
     }
@@ -198,6 +201,8 @@ public class staffQns_T extends Qns_T {
             return qnsDB.get(y).getSolution();
         } else if (x == 3) {
             return qnsDB.get(y).getAnswer();
+        } else if (x == 4) {
+            return qnsDB.get(y).getAnswerScore();
         } else {
             return null;
         }

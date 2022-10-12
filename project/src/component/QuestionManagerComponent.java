@@ -167,7 +167,7 @@ public class QuestionManagerComponent extends Box {
 			public void actionPerformed(ActionEvent e) {
 				// 项目中可以直接连接弹窗，然后在弹窗中输入信息。在点击提交时，判定，赋值，然后用addRow()方法。
 				// new AddQuestionDialog(frame, "Add a Question", true).setVisible(true);
-				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent(DIO));
+				PythonQuestionEditPage.splitPane.setRightComponent(new AddQuestionComponent(DIO, QKC));
 				PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				System.out.println("-- The Add Manu Button is Working --");
@@ -191,6 +191,7 @@ public class QuestionManagerComponent extends Box {
 
 					// set to selected index 0
 					setSelectedRow(0);
+
 				} catch (Exception w) {
 
 				}
@@ -208,7 +209,7 @@ public class QuestionManagerComponent extends Box {
 					//
 					setSelectedRow(questionTable.getSelectedRow());
 
-					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent(DIO));
+					PythonQuestionEditPage.splitPane.setRightComponent(new ChangeQuestionComponent(DIO, QKC));
 					PythonQuestionEditPage.splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
 
 				} catch (Exception w) {

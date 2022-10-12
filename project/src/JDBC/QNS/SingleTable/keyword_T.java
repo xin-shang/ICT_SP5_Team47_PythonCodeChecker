@@ -35,23 +35,6 @@ public class keyword_T extends STable_P {
         }
     }
 
-    public boolean deletRows(String id) {
-        try {
-
-            String sql = "DELETE from " + table + " where id = ?";
-            conn = pb.get_connection();
-            PreStmt = conn.prepareStatement(sql);
-            PreStmt.setString(1, id);
-            PreStmt.executeUpdate();
-            PreStmt.close();
-            conn.close();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean bCheckKeyword(Connection conn, String keyword) {
         try {
             boolean bKeyword;

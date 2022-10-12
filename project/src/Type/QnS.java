@@ -1,20 +1,19 @@
 package Type;
 
-import java.util.List;
-
 public class QnS {
 
     String question_id;
     String question;
     String solution;
     String answer;
-    List<markScheme> mark;
+    int answerSocre;
 
-    public QnS(String question_id, String question, String solution, String answer) {
+    public QnS(String question_id, String question, String solution, String answer, int answerSocre) {
         this.question_id = question_id;
         this.question = question;
         this.solution = solution;
         this.answer = answer;
+        this.answerSocre = answerSocre;
     }
 
     public String getQuestionID() {
@@ -33,8 +32,8 @@ public class QnS {
         return this.answer;
     }
 
-    public List<markScheme> getMarkList() {
-        return this.mark;
+    public int getAnswerScore() {
+        return this.answerSocre;
     }
 
     public void setQuestion(String question) {
@@ -49,8 +48,8 @@ public class QnS {
         this.answer = answer;
     }
 
-    public void setMark(List<markScheme> markScheme) {
-        this.mark = markScheme;
+    public void setAnswerScore(int answerScore) {
+        this.answerSocre = answerScore;
     }
 
 }

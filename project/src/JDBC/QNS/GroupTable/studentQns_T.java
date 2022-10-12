@@ -32,8 +32,9 @@ public class studentQns_T extends Qns_T {
             String sql = "SELECT question.id, " +
                     "question.question, " +
                     "solution.solution, " +
-                    "solution.answer " +
-                    "FROM question INNER JOIN solution ON question.id = solution.question_id";
+                    "solution.answer, " +
+                    "answerMark.score " +
+                    "FROM question INNER JOIN solution ON question.id = solution.question_id LEFT JOIN answerMark ON solution.question_id = answerMark.question_id";
 
             // System.out.println("student_qns");
             PreStmt = conn.prepareStatement(sql);
@@ -45,7 +46,8 @@ public class studentQns_T extends Qns_T {
                 String question = res.getString(2);
                 String solution = res.getString(3);
                 String answer = res.getString(4);
-                QnS qns = new QnS(question_id, question, solution, answer);
+                int answerSocre = res.getInt(5);
+                QnS qns = new QnS(question_id, question, solution, answer, answerSocre);
                 qnsDB.add(qns);
             }
             dblength = num;
@@ -87,6 +89,8 @@ public class studentQns_T extends Qns_T {
             return qnsDB.get(y).getSolution();
         } else if (x == 3) {
             return qnsDB.get(y).getAnswer();
+        } else if (x == 4) {
+            return qnsDB.get(y).getAnswerScore();
         } else {
             return null;
         }

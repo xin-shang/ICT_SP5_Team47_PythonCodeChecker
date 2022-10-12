@@ -2,6 +2,7 @@ package main;
 
 //import controller.HomeController;
 import view.HomePage;
+
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 
@@ -11,6 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		new HomePage().init();
+
 		WriteAndRead WAR = new WriteAndRead();
 		boolean a = WAR.createLocalFolder();
 		System.out.println(a);

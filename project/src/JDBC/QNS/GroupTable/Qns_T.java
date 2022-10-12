@@ -11,6 +11,7 @@ import Type.markScheme;
 import methodAndTool.ProjectVariable;
 import methodAndTool.WriteAndRead;
 import JDBC.QNS.SingleTable.markPoint_T;
+import JDBC.QNS.SingleTable.answerScore_T;
 import JDBC.QNS.SingleTable.keyword_T;
 import JDBC.QNS.SingleTable.question_T;
 import JDBC.QNS.SingleTable.solution_T;
@@ -22,6 +23,7 @@ public class Qns_T {
     question_T qt = new question_T();
     solution_T sl = new solution_T();
     keyword_T kw = new keyword_T();
+    answerScore_T as = new answerScore_T();
 
     PreparedStatement PreStmt;
     Connection conn;

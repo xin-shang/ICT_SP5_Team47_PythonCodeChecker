@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,12 +23,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.PlainDocument;
 
 import JDBC.QNS.GroupTable.staffQns_T;
+import JDBC.QNS.SingleTable.keywordAlternative_T;
 import JDBC.QNS.SingleTable.markPoint_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import Type.markScheme;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
 import methodAndTool.WriteAndRead;
+import view.PythonQuestionEditPage;
 import methodAndTool.ChangeTabToSpacesFilter;
 
 public class ChangeQuestionComponent extends Box implements ActionListener {
@@ -35,15 +38,18 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         WriteAndRead WAR = new WriteAndRead();
         staffQns_T DIO;
         ProjectVariable PV = new ProjectVariable();
+        keywordAlternative_T QKC;
 
         // int num = 0;
 
         // "ID", "Question-Stems", "Solution", "Answer", "ScorePoint"
         String question_id;
-        JLabel cID, cQuestion, cSolution, cAnswer, cScorePoint;
+        JLabel cID, cQuestion, cSolution, cAnswer, cAnswerScore, cScorePoint;
         static JTextArea cQuestion0;
         static JTextArea cSolution0;
         static JTextArea cAnswer0;
+
+        JComboBox<String> patternList;
 
         // 表格
         JTable cShowScorePoint;
@@ -65,10 +71,11 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String solution_before;
         final List<markScheme> markSchemeList_before;
 
-        public ChangeQuestionComponent(staffQns_T dio) {
+        public ChangeQuestionComponent(staffQns_T dio, keywordAlternative_T QKC) {
                 super(BoxLayout.Y_AXIS);
 
                 this.DIO = dio;
+                this.QKC = QKC;
 
                 question_id = (String) QuestionManagerComponent
                                 .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 0);
@@ -104,7 +111,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 boxSolution0.add(scrollPane_Solution0);
 
                 // 答案
-                cAnswer = new JLabel("Answer of Question: ");
+                cAnswer = new JLabel("Answer of Question (The Answer Will Be Calculated After Submit)");
                 cAnswer0 = new JTextArea(
                                 WAR.readString(QuestionManagerComponent
                                                 .getValueAt_Table(QuestionManagerComponent.getSelectedRow(), 3)),
@@ -115,6 +122,13 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 Box boxAnswer0 = Box.createHorizontalBox();
                 JScrollPane scrollPane_Answer0 = new JScrollPane(cAnswer0);
                 boxAnswer0.add(scrollPane_Answer0);
+
+                // Answer Drop down list
+                cAnswerScore = new JLabel("Please Select A Score For Answer");
+                patternList = new JComboBox<String>(PV.getAnswerScoreList());
+
+                String score = String.valueOf(dio.getData(QuestionManagerComponent.getSelectedRow(), 4));
+                patternList.setSelectedItem(score);
 
                 // 得分点
                 cScorePoint = new JLabel("Score Point of Question: ");
@@ -150,6 +164,8 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         public boolean isCellEditable(int row, int column) {
                                 if (column == 2) {
                                         return true;
+                                } else if (column == 1) {
+                                        return true;
                                 } else {
                                         return false;
                                 }
@@ -184,9 +200,15 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 box.add(Box.createVerticalStrut(10));
                 box.add(cSolution);
                 box.add(boxSolution0);
+
                 box.add(Box.createVerticalStrut(10));
                 box.add(cAnswer);
                 box.add(boxAnswer0);
+
+                box.add(Box.createVerticalStrut(10));
+                box.add(cAnswerScore);
+                box.add(patternList);
+
                 box.add(Box.createVerticalStrut(10));
                 box.add(cScorePoint);
                 box.add(ScorePointTable);
@@ -242,61 +264,72 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                 else if (actionCommand.equals("Update Question")) {
                         Connection conn = new PythonCodeChecker_db().get_connection();
-                        boolean b_markShceme = bcheckMarkSchemeEmpty();
-                        boolean b_question = getUpdateQuestionString().isEmpty();
-                        boolean b_solution = getUpdateSolutionString().isEmpty();
+                        try {
+                                boolean b_markShceme = bcheckMarkSchemeEmpty();
+                                boolean b_question = getUpdateQuestionString().isEmpty();
+                                boolean b_solution = getUpdateSolutionString().isEmpty();
+                                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
 
-                        if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+                                        String solution = getUpdateSolutionString();
+                                        String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
+                                                        solution);
+                                        if (keywordNotInString == null) {
 
-                                String solution = getUpdateSolutionString();
-                                String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
-                                                solution);
-                                if (keywordNotInString == null) {
+                                                RunPythonCode RP = new RunPythonCode();
+                                                RP.saveCodeFile(solution);
+                                                RP.runCode();
 
-                                        RunPythonCode RP = new RunPythonCode();
-                                        RP.saveCodeFile(solution);
-                                        RP.runCode();
+                                                if (!RP.getErrorMessage().equals("")) {
+                                                        String errormessage = RP.getErrorMessage();
+                                                        JOptionPane.showMessageDialog(this,
+                                                                        "Your Solution has SyntaxError: \n"
+                                                                                        + errormessage);
+                                                        cAnswer0.setText(errormessage);
 
-                                        if (!RP.getErrorMessage().equals("")) {
-                                                String errormessage = RP.getErrorMessage();
-                                                JOptionPane.showMessageDialog(this,
-                                                                "Your Solution has SyntaxError: \n" + errormessage);
-                                                cAnswer0.setText(errormessage);
+                                                } else {
+                                                        String answer = RP.getOutputFromConsole();
+                                                        cAnswer0.setText(answer);
 
-                                        } else {
-                                                String answer = RP.getOutputFromConsole();
-                                                cAnswer0.setText(answer);
+                                                        boolean b_score = checkSocre();
+                                                        if (b_score == true) {
+                                                                boolean b_add_q;
+                                                                try {
 
-                                                boolean b_score = checkSocre();
-                                                if (b_score == true) {
-                                                        boolean b_add_q;
-                                                        try {
-                                                                b_add_q = DIO.updateQuestion(conn,
-                                                                                this.getUpdateQuestionID(),
-                                                                                this.getUpdateQuestionString(),
-                                                                                this.getUpdateSolutionString(),
-                                                                                answer);
-                                                                System.out.println(b_add_q);
-                                                                if (b_add_q == true) {
-                                                                        getScorePointStringList(conn);
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Update Successful");
-                                                                        conn.close();
-                                                                } else {
-                                                                        JOptionPane.showMessageDialog(this,
-                                                                                        "Question is already exit");
-                                                                        conn.close();
+                                                                        b_add_q = DIO.updateQuestion(conn,
+                                                                                        this.getUpdateQuestionID(),
+                                                                                        this.getUpdateQuestionString(),
+                                                                                        this.getUpdateSolutionString(),
+                                                                                        answer,
+                                                                                        this.getUpdateAnswerScore());
+                                                                        System.out.println(b_add_q);
+                                                                        if (b_add_q == true) {
+                                                                                getScorePointStringList(conn);
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Update Successful");
+
+                                                                        } else {
+                                                                                JOptionPane.showMessageDialog(this,
+                                                                                                "Question is already exit");
+
+                                                                        }
+                                                                } catch (SQLException e1) {
+
+                                                                        e1.printStackTrace();
                                                                 }
-                                                        } catch (SQLException e1) {
 
-                                                                e1.printStackTrace();
                                                         }
 
                                                 }
-
                                         }
-                                }
 
+                                }
+                                PythonQuestionEditPage.splitPane
+                                                .setLeftComponent(new QuestionManagerComponent(
+                                                                new staffQns_T(conn),
+                                                                QKC));
+                                conn.close();
+                        } catch (SQLException e1) {
+                                e1.printStackTrace();
                         }
                 }
 
@@ -313,11 +346,14 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 }
-                System.out.println(totalScore);
+                int answerScore = getUpdateAnswerScore();
+
+                totalScore += answerScore;
                 if (totalScore == 100) {
                         return true;
                 } else {
-                        JOptionPane.showMessageDialog(this, "Total Score Should Be 100");
+                        JOptionPane.showMessageDialog(this,
+                                        "Total Score Should Be 100" + "\nNow is: " + totalScore + " !!!");
                         return false;
                 }
 
@@ -376,6 +412,11 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         public String getUpdateAnswerString() {
                 String newAnswerString = cAnswer0.getText().trim();
                 return newAnswerString;
+        }
+
+        public int getUpdateAnswerScore() {
+                int answerScore = PV.StringToInt(patternList.getSelectedItem().toString());
+                return answerScore;
         }
 
         // Getting Number of Row 获取行数
