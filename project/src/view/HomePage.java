@@ -62,14 +62,14 @@ public class HomePage {
 		 * 组装零件
 		 */
 		prompt_home.setFont(myFont);
-		prompt_home.setBounds(150, 10, 600, 100);
+		prompt_home.setBounds(365, 70, 470, 100);
 		homePanel.add(prompt_home);
 
-		button_Student.setBounds(150, 200, 200, 200);
+		button_Student.setBounds(150, 320, 300, 200);
 		Button_Student_Listener(button_Student);
 		homePanel.add(button_Student);
 
-		button_Staff.setBounds(600, 200, 200, 200);
+		button_Staff.setBounds(750, 320, 300, 200);
 		Button_Staff_Listener(button_Staff);
 		homePanel.add(button_Staff);
 

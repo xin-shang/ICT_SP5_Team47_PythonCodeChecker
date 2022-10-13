@@ -83,6 +83,8 @@ public class KeywordManagerComponent extends Box {
 			}
 		};
 
+		keywordTable.setRowHeight(24);
+
 		// 每次选中一行
 		keywordTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 

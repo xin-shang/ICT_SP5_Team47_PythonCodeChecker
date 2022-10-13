@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import component.ChooseQuestionComponent;
 
@@ -89,10 +90,11 @@ public class ScorePage extends JFrame implements ActionListener {
 
         Socre_label_1.setText("Score: " + score);
 
-        Box title_box = Box.createHorizontalBox();
-        title_box.add(Box.createHorizontalGlue());
-        title_box.add(Socre_label_1, BorderLayout.CENTER);
-        title_box.add(Box.createHorizontalGlue());
+
+        JPanel title_JPanel = new JPanel();
+        title_JPanel.add(Box.createHorizontalGlue());
+        title_JPanel.add(Socre_label_1, BorderLayout.CENTER);
+        title_JPanel.add(Box.createHorizontalGlue());
 
         // create center keyword chart title box
         Box PieChart_box_keyword_title = Box.createHorizontalBox();
@@ -103,7 +105,7 @@ public class ScorePage extends JFrame implements ActionListener {
         // create box combine title and chart(left side)
         Box PieChart_box_keyword = Box.createVerticalBox();
         PieChart_box_keyword.add(PieChart_box_keyword_title);
-        PieChart_box_keyword.add(Box.createVerticalStrut(5));
+        PieChart_box_keyword.add(Box.createVerticalStrut(20));
         PieChart_box_keyword.add(keyword_pie);
 
         // create center keyword chart title box
@@ -121,33 +123,27 @@ public class ScorePage extends JFrame implements ActionListener {
         // create box combine left and right chart component
         Box PieChart_box = Box.createHorizontalBox();
         PieChart_box.add(PieChart_box_keyword);
-        PieChart_box.add(Box.createHorizontalStrut(5));
+        PieChart_box.add(Box.createHorizontalStrut(20));
         PieChart_box.add(PieChart_box_Passedkeyword);
 
         return_Button = new JButton("RETURN");
         feedback_button = new JButton("FEEDBACK");
 
-        return_Button.setPreferredSize(new Dimension(300, 50));
+        return_Button.setPreferredSize(new Dimension(250, 50));
         return_Button.addActionListener(this);
-        feedback_button.setPreferredSize(new Dimension(300, 50));
+        feedback_button.setPreferredSize(new Dimension(250, 50));
         feedback_button.addActionListener(this);
 
-        Box buttonBoder = Box.createHorizontalBox();
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(return_Button);
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(feedback_button);
-        buttonBoder.add(Box.createHorizontalGlue());
-
-        Box box = Box.createVerticalBox();
-        box.add(title_box);
-        box.add(Box.createVerticalStrut(50));
-        box.add(PieChart_box);
-        box.add(buttonBoder, BorderLayout.SOUTH);
-        box.add(Box.createVerticalStrut(10));
-
-        frame.add(box);
+        JPanel buttoJPanel = new JPanel();
+        //buttoJPanel.add(Box.createHorizontalGlue());
+        buttoJPanel.add(return_Button);
+        buttoJPanel.add(Box.createHorizontalStrut(320));
+        buttoJPanel.add(feedback_button);
+        //buttoJPanel.add(Box.createHorizontalGlue());
+        
+        frame.add(title_JPanel, BorderLayout.NORTH);
+        frame.add(PieChart_box, BorderLayout.CENTER);
+        frame.add(buttoJPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
 
     }

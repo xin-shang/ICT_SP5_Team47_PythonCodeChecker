@@ -121,6 +121,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 /*
                  * _________________________________________________________________________________
                  */
+
                 dataScorePoint.clear();
 
                 for (int i = 0; i < KeywordManagerComponent.titles.length; i++) {
@@ -144,6 +145,9 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                 }
                         }
                 };
+
+                // 行高
+		showScorePoint.setRowHeight(24);
                 /*
                  * _________________________________________________________________________________
                  */

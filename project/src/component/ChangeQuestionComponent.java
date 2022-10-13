@@ -172,6 +172,9 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         }
                 };
 
+                // 行高
+		cShowScorePoint.setRowHeight(24);
+
                 JScrollPane scrollPane_ScoreTable = new JScrollPane(cShowScorePoint);
                 ScorePointTable.add(scrollPane_ScoreTable);
 

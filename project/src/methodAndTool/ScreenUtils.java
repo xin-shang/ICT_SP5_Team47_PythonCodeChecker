@@ -1,6 +1,10 @@
 package methodAndTool;
 
 import java.awt.Toolkit;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+import java.awt.Font;
+import java.util.Enumeration;
 
 public class ScreenUtils {
 
@@ -32,11 +36,11 @@ public class ScreenUtils {
 	 * 窗口大小
 	 */
 	public static int getDesignWindow_width() {
-		return designWindow_width;
+		return (int)(designWindow_width * 1.2);
 	}
 
 	public static int getDesignWindow_heigh() {
-		return designWindow_heigh;
+		return (int)(designWindow_heigh * 1.2);
 	}
 
 	/**
@@ -61,6 +65,21 @@ public class ScreenUtils {
 		}
 		String BlankSpace = addBlankSpace.toString();
 		return BlankSpace;
+	}
+
+
+	/**
+	* 统一设置字体，父界面设置之后，所有由父界面进入的子界面都不需要再次设置字体
+	*/
+	public static void InitGlobalFont(Font font) {
+		FontUIResource fontRes = new FontUIResource(font);
+		for (Enumeration<Object> keys = UIManager.getDefaults().keys(); keys.hasMoreElements();) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value instanceof FontUIResource) {
+				UIManager.put(key, fontRes);
+			}
+		}
 	}
 
 }

@@ -92,6 +92,9 @@ public class ChooseQuestionComponent extends Box {
 			}
 		};
 
+		// 行高
+		chooseQuestionTable.setRowHeight(24);
+
 		// 每次选中一行
 		chooseQuestionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -112,22 +115,29 @@ public class ChooseQuestionComponent extends Box {
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
 
-		JPanel buttonStudentPanel = new JPanel();
-		buttonStudentPanel.setMaximumSize(new Dimension(800, 80));
+		// 左右
+		JPanel LR_JPanel = new JPanel();
+		LR_JPanel.setMaximumSize(new Dimension(100, 25));
 
 		previousButton = new JButton("<");
+		previousButton.setPreferredSize(new Dimension(20, 20));
 		Button_Item_PreviousQuestion(previousButton);
-		// buttonStudentPanel.add(previousButton);
+		LR_JPanel.add(previousButton);
+		
+		nextButton = new JButton(">");
+		nextButton.setPreferredSize(new Dimension(20, 20));
+		Button_Item_NextQuestion(nextButton);
+		LR_JPanel.add(nextButton);
+
+		JPanel buttonStudentPanel = new JPanel();
+		buttonStudentPanel.setMaximumSize(new Dimension(100, 25));
 
 		showQuestionButton = new JButton("Show");
 		Button_Item_ShowQuestionButton(showQuestionButton);
 		buttonStudentPanel.add(showQuestionButton);
 
-		nextButton = new JButton(">");
-		Button_Item_NextQuestion(nextButton);
-		// buttonStudentPanel.add(nextButton);
-
-		this.add(scrollPane);
+		this.add(LR_JPanel, BorderLayout.NORTH);
+		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(buttonStudentPanel, BorderLayout.SOUTH);
 
 	}

@@ -62,10 +62,10 @@ public class ProjectVariable {
 
 	public Font getUserTextfieldFontSize() {
 		if (getOSName().startsWith("Windows")) {
-			Font myFont3 = new Font("Arial", Font.PLAIN, 15);
+			Font myFont3 = new Font("SimSun", Font.PLAIN, 16);
 			return myFont3;
 		} else {
-			Font myFont2 = new Font("Arial", Font.PLAIN, 14);
+			Font myFont2 = new Font("SimSun", Font.PLAIN, 16);
 			return myFont2;
 		}
 	}

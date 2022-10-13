@@ -1,8 +1,8 @@
 package main;
 
-//import controller.HomeController;
-import view.HomePage;
+import java.awt.Font;
 
+import view.HomePage;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 
@@ -11,10 +11,9 @@ public class Main {
 	// 程序入口
 	public static void main(String[] args) {
 
+		ScreenUtils.InitGlobalFont(new Font("SimSun", Font.PLAIN, 16));
+
 		new HomePage().init();
-
-
-
 
 		WriteAndRead WAR = new WriteAndRead();
 		boolean a = WAR.createLocalFolder();

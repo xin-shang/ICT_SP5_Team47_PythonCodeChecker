@@ -129,7 +129,7 @@ public class PythonCodeCheckerPage {
                 manuBarStudent.add(manuStudent_User);
 
                 splitPane.setContinuousLayout(false); // 连续布局
-                splitPane.setDividerLocation(950); // 左右分屏初始位置
+                splitPane.setDividerLocation(1150); // 左右分屏初始位置
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
@@ -225,10 +225,12 @@ public class PythonCodeCheckerPage {
 
                                                 ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
                                                                 solution, suggestSolution);
+                                                
+                                                MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
                                                 SP.init();
 
                                         } else {
-                                                StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                                StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
                                         }
 
                                 } else {
@@ -272,11 +274,11 @@ public class PythonCodeCheckerPage {
                                                 finalOutput += keyword + "\n";
                                         }
 
-                                        StudentWorkingComponent.terminalArea.setText(finalOutput);
+                                        StudentWorkingComponent.terminalArea.append(finalOutput);
 
                                 } else {
 
-                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                        StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
                                 }
                         }
                 });
