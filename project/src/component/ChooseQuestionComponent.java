@@ -178,6 +178,7 @@ public class ChooseQuestionComponent extends Box {
 		((AbstractButton) button).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 
 				if (getSelectedRow() <= 0) {
 					JFrame jf = new JFrame();
@@ -185,6 +186,9 @@ public class ChooseQuestionComponent extends Box {
 							"This is the first Question");
 				} else {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
+
+					rowNum = ChooseQuestionComponent.getSelectedRow();
+
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
 									+ getValueAt_Table(getSelectedRow(), 1)));
@@ -205,8 +209,13 @@ public class ChooseQuestionComponent extends Box {
 		((AbstractButton) button).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+
 				if (getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
+
+					rowNum = ChooseQuestionComponent.getSelectedRow();
+
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
 									+ getValueAt_Table(getSelectedRow(), 1)));
