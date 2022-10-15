@@ -181,7 +181,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 //
                 // JButton updateQuestion, addScorePoint, deleteScorePoint;
                 buttonPanel = new JPanel();
-                buttonPanel.setMaximumSize(new Dimension(500, 80));
+                buttonPanel.setMaximumSize(new Dimension(600, 80));
 
                 updateQuestion = new JButton("Update Question");
                 updateQuestion.addActionListener(this);

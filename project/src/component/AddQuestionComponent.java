@@ -195,7 +195,6 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 box.add(ScorePointTable);
 
                 buttonPanel.add(addSelectedScorePoint);
-
                 buttonPanel.add(createNewQuestion);
                 buttonPanel.add(deleteScorePoint);
 
