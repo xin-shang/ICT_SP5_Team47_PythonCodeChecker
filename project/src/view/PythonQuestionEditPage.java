@@ -179,6 +179,7 @@ public class PythonQuestionEditPage {
 			public void actionPerformed(ActionEvent e) {
 				//
 				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(conn), QKC));
+				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
@@ -191,6 +192,7 @@ public class PythonQuestionEditPage {
 
 				// refresh keyword table
 				splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
+
 				System.out.println("-- The Check Manu Button is Working --");
 
 			}

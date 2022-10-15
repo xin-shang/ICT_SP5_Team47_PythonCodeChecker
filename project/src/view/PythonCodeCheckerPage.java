@@ -206,9 +206,9 @@ public class PythonCodeCheckerPage {
 
                                         if (RP.getErrorMessage().equals("")) {
 
-                                                String correctAnswer = RP.getOutputFromConsole();
+                                                String userAnswer = RP.getOutputFromConsole();
+                                                String correctAnswer = DIO.getData(selectedRow, 3).toString();
                                                 String suggestSolution = DIO.getData(selectedRow, 2).toString();
-                                                String userAnswer = DIO.getData(selectedRow, 3).toString();
 
                                                 int answerScore = PV
                                                                 .StringToInt(DIO.getData(selectedRow, 4).toString());
@@ -225,7 +225,7 @@ public class PythonCodeCheckerPage {
 
                                                 ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
                                                                 solution, suggestSolution);
-                                                
+
                                                 MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
                                                 SP.init();
 
