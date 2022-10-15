@@ -12,6 +12,10 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import component.ChooseQuestionComponent;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -26,7 +30,7 @@ public class ScorePage extends JFrame implements ActionListener {
     // create frame
     JFrame frame = new JFrame("Score Page");
     // Page title
-    private JLabel Socre_label_1 = new JLabel("Score");
+    private JLabel Socre_label_1 = new JLabel();
 
     // keyword diagrame title
     private JLabel keyword_pie_label = new JLabel("Keyword Distribution");
@@ -36,11 +40,29 @@ public class ScorePage extends JFrame implements ActionListener {
     // bottom button
     JButton return_Button, feedback_button;
 
-    public ScorePage() {
+    int score;
+    PieChart keyword_pie;
+    PieChart passedKeyword_pie;
+    String solution;
+    String suggestedAnswer;
 
+    FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
+
+    public ScorePage(int score, PieChart keyword_pie, PieChart passedKeyword_pie, String solution,
+            String suggestedAnswer) {
+        this.score = score;
+        this.keyword_pie = keyword_pie;
+        this.passedKeyword_pie = passedKeyword_pie;
+        this.solution = solution;
+        this.suggestedAnswer = suggestedAnswer;
+
+        // Feedback Page Setting
+        feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
+                ScreenUtils.getDesignWindow_heigh());
+        feedbackPage.setLocationRelativeTo(frame);
     }
 
-    public void init(int score, PieChart keyword_pie, PieChart passedKeyword_pie) {
+    public void init() {
 
         frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
@@ -66,10 +88,13 @@ public class ScorePage extends JFrame implements ActionListener {
         // passedKeyword_pie.addData(new ModelPieChart("aaa", 100, yellow));
         ///////////////////////
 
-        Box title_box = Box.createHorizontalBox();
-        title_box.add(Box.createHorizontalGlue());
-        title_box.add(Socre_label_1, BorderLayout.CENTER);
-        title_box.add(Box.createHorizontalGlue());
+        Socre_label_1.setText("Score: " + score);
+
+
+        JPanel title_JPanel = new JPanel();
+        title_JPanel.add(Box.createHorizontalGlue());
+        title_JPanel.add(Socre_label_1, BorderLayout.CENTER);
+        title_JPanel.add(Box.createHorizontalGlue());
 
         // create center keyword chart title box
         Box PieChart_box_keyword_title = Box.createHorizontalBox();
@@ -80,7 +105,7 @@ public class ScorePage extends JFrame implements ActionListener {
         // create box combine title and chart(left side)
         Box PieChart_box_keyword = Box.createVerticalBox();
         PieChart_box_keyword.add(PieChart_box_keyword_title);
-        PieChart_box_keyword.add(Box.createVerticalStrut(5));
+        PieChart_box_keyword.add(Box.createVerticalStrut(20));
         PieChart_box_keyword.add(keyword_pie);
 
         // create center keyword chart title box
@@ -98,33 +123,27 @@ public class ScorePage extends JFrame implements ActionListener {
         // create box combine left and right chart component
         Box PieChart_box = Box.createHorizontalBox();
         PieChart_box.add(PieChart_box_keyword);
-        PieChart_box.add(Box.createHorizontalStrut(5));
+        PieChart_box.add(Box.createHorizontalStrut(20));
         PieChart_box.add(PieChart_box_Passedkeyword);
 
         return_Button = new JButton("RETURN");
         feedback_button = new JButton("FEEDBACK");
 
-        return_Button.setPreferredSize(new Dimension(300, 50));
+        return_Button.setPreferredSize(new Dimension(250, 50));
         return_Button.addActionListener(this);
+        feedback_button.setPreferredSize(new Dimension(250, 50));
+        feedback_button.addActionListener(this);
 
-        feedback_button.setPreferredSize(new Dimension(300, 50));
-
-        Box buttonBoder = Box.createHorizontalBox();
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(return_Button);
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(Box.createHorizontalGlue());
-        buttonBoder.add(feedback_button);
-        buttonBoder.add(Box.createHorizontalGlue());
-
-        Box box = Box.createVerticalBox();
-        box.add(title_box);
-        box.add(Box.createVerticalStrut(50));
-        box.add(PieChart_box);
-        box.add(buttonBoder, BorderLayout.SOUTH);
-        box.add(Box.createVerticalStrut(10));
-
-        frame.add(box);
+        JPanel buttoJPanel = new JPanel();
+        //buttoJPanel.add(Box.createHorizontalGlue());
+        buttoJPanel.add(return_Button);
+        buttoJPanel.add(Box.createHorizontalStrut(320));
+        buttoJPanel.add(feedback_button);
+        //buttoJPanel.add(Box.createHorizontalGlue());
+        
+        frame.add(title_JPanel, BorderLayout.NORTH);
+        frame.add(PieChart_box, BorderLayout.CENTER);
+        frame.add(buttoJPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
 
     }
@@ -136,7 +155,26 @@ public class ScorePage extends JFrame implements ActionListener {
             frame.setVisible(false);
 
         } else if (actionCommand.equals("FEEDBACK")) {
+            int selectedRow = ChooseQuestionComponent.getSelectedRow();
 
+            if (selectedRow >= 0) {
+
+                Thread t = new Thread() {
+                    public void run() {
+                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                    }
+                };
+                t.start();
+
+                // Make the pop up dialog center align to parent window
+                feedbackPage.setLocationRelativeTo(frame);
+                // Show the feedback dialog
+                feedbackPage.setVisible(true);
+                System.out.println("-- The Show Feedback Button is Working --");
+            } else {
+                JFrame jf = new JFrame();
+                JOptionPane.showMessageDialog(jf, "Please Select A Question");
+            }
         }
 
     }

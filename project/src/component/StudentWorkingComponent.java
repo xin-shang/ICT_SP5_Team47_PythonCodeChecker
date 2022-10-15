@@ -77,14 +77,14 @@ public class StudentWorkingComponent extends Box {
                 lines.setEditable(false);
                 lines.setFont(myFont2);
 
-                PythonCodeCheckerPage.splitPane.setDividerLocation(900);
+                PythonCodeCheckerPage.splitPane.setDividerLocation(1100);
 
                 topBox = Box.createHorizontalBox();
 
                 questionLabel = new JLabel();
                 questionLabel.setText(getQusetionString());
                 questionLabel.setFont(myFont1);
-                questionLabel.setPreferredSize(new Dimension(900, 50));
+                questionLabel.setPreferredSize(new Dimension(1100, 50));
                 topBox.add(questionLabel);
                 midBox = Box.createHorizontalBox();
 
@@ -184,14 +184,17 @@ public class StudentWorkingComponent extends Box {
 
                 // 按键栏
                 studnetButtonPanel = new JPanel();
-                studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+                studnetButtonPanel.setMaximumSize(new Dimension(1100, 80));
 
                 PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
                 PCCP.Button_Item_RunCode(buttonRunCode);
                 // PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
 
+                studnetButtonPanel.add(Box.createHorizontalStrut(0));
                 studnetButtonPanel.add(buttonSubmitAnswer);
+                studnetButtonPanel.add(Box.createHorizontalStrut(100));
                 studnetButtonPanel.add(buttonRunCode);
+                studnetButtonPanel.add(Box.createHorizontalStrut(900));
                 // studnetButtonPanel.add(buttonShowFeedback);
 
                 this.add(studnetButtonPanel, BorderLayout.SOUTH);

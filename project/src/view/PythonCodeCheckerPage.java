@@ -25,6 +25,7 @@ import JDBC.dbConnection.PythonCodeChecker_db;
 import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
+import javaswingdev.chart.PieChart;
 import methodAndTool.MessagePrintString;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
@@ -74,14 +75,8 @@ public class PythonCodeCheckerPage {
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
 
-        // Create feedback page dialog
-        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
-
         public PythonCodeCheckerPage() {
-                // Feedback Page Setting
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
-                                ScreenUtils.getDesignWindow_heigh());
-                feedbackPage.setLocationRelativeTo(frame);
+
         }
 
         // 初始化，组装界面
@@ -134,7 +129,7 @@ public class PythonCodeCheckerPage {
                 manuBarStudent.add(manuStudent_User);
 
                 splitPane.setContinuousLayout(false); // 连续布局
-                splitPane.setDividerLocation(950); // 左右分屏初始位置
+                splitPane.setDividerLocation(1150); // 左右分屏初始位置
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
@@ -196,28 +191,52 @@ public class PythonCodeCheckerPage {
 
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
 
-                                if (selectedRow >= 0) {
+                                if (selectedRow != -1) {
+
+                                        // System.out.println("the selected row is: " + selectedRow);
+                                        String id = (String) DIO.getData_id(selectedRow);
+                                        // System.out.println(id);
+                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                        mkl = DIO.getSelectedMarkScheme(id);
+
                                         final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        String temp = "";
-                                        temp = DIO.getData(selectedRow, 2).toString();
-                                        // System.out.println(temp);
+                                        RunPythonCode RP = new RunPythonCode();
+                                        RP.saveCodeFile(solution);
+                                        RP.runCode();
 
-                                        final String suggestedAnswer = temp;
+                                        if (RP.getErrorMessage().equals("")) {
 
-                                        Thread t = new Thread() {
-                                                public void run() {
-                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                                }
-                                        };
-                                        t.start();
+                                                String correctAnswer = RP.getOutputFromConsole();
+                                                String suggestSolution = DIO.getData(selectedRow, 2).toString();
+                                                String userAnswer = DIO.getData(selectedRow, 3).toString();
 
-                                        // Make the pop up dialog center align to parent window
-                                        feedbackPage.setLocationRelativeTo(frame);
-                                        // Show the feedback dialog
-                                        feedbackPage.setVisible(true);
+                                                int answerScore = PV
+                                                                .StringToInt(DIO.getData(selectedRow, 4).toString());
+
+                                                int total_score = KA.getKeyWordSocre(solution, userAnswer,
+                                                                correctAnswer,
+                                                                answerScore, mkl);
+
+                                                PieChart keyword = PV.getKeywordPieChart(mkl,
+                                                                answerScore);
+
+                                                PieChart passKeyword = PV.getPassedPieChart(solution, userAnswer,
+                                                                correctAnswer, answerScore, mkl);
+
+                                                ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
+                                                                solution, suggestSolution);
+                                                
+                                                MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
+                                                SP.init();
+
+                                        } else {
+                                                StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
+                                        }
+
                                 } else {
                                         JFrame jf = new JFrame();
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
+
                                 }
 
                         }
@@ -255,46 +274,11 @@ public class PythonCodeCheckerPage {
                                                 finalOutput += keyword + "\n";
                                         }
 
-                                        StudentWorkingComponent.terminalArea.setText(finalOutput);
+                                        StudentWorkingComponent.terminalArea.append(finalOutput);
 
                                 } else {
-                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
-                                }
-                        }
-                });
-        }
 
-        // Show Feedback
-        public void Button_Item_ShowFeedback(Object button) {
-                ((AbstractButton) button).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-
-                                if (selectedRow >= 0) {
-                                        final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        String temp = "";
-                                        temp = DIO.getData(selectedRow, 2).toString();
-                                        // System.out.println(temp);
-
-                                        final String suggestedAnswer = temp;
-
-                                        Thread t = new Thread() {
-                                                public void run() {
-                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                                }
-                                        };
-                                        t.start();
-
-                                        // Make the pop up dialog center align to parent window
-                                        feedbackPage.setLocationRelativeTo(frame);
-                                        // Show the feedback dialog
-                                        feedbackPage.setVisible(true);
-                                        System.out.println("-- The Show Feedback Button is Working --");
-                                } else {
-                                        JFrame jf = new JFrame();
-                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
+                                        StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
                                 }
                         }
                 });

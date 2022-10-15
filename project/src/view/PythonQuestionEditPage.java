@@ -33,7 +33,7 @@ public class PythonQuestionEditPage {
 	List<markScheme> mks;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
-	String ArtUser = ScreenUtils.getBlankSpace(54);
+	String ArtUser = ScreenUtils.getBlankSpace(52);
 
 	/**
 	 * Python Question Edit Page
@@ -111,8 +111,8 @@ public class PythonQuestionEditPage {
 
 		// 分割面板
 		splitPane.setContinuousLayout(true); // 连续布局
-		splitPane.setDividerLocation(800); // 左右分屏初始位置
-		splitPane.setDividerSize(2); // 分割线宽度
+		splitPane.setDividerLocation(960); // 左右分屏初始位置
+		splitPane.setDividerSize(10); // 分割线宽度
 
 		// splitPane Left
 		splitPane.setLeftComponent(new QuestionManagerComponent(DIO, QKC));

@@ -15,10 +15,8 @@ import java.nio.file.Paths;
 import component.StudentWorkingComponent;
 
 public class WriteAndRead {
-	// set python command as the system return
-
 	static ProjectVariable PV = new ProjectVariable();
-
+	// set python command as the system return
 	String pythonName = PV.getPythonName();
 
 	//

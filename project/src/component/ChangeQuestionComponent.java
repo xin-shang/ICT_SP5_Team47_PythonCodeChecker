@@ -172,13 +172,16 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         }
                 };
 
+                // 行高
+		cShowScorePoint.setRowHeight(24);
+
                 JScrollPane scrollPane_ScoreTable = new JScrollPane(cShowScorePoint);
                 ScorePointTable.add(scrollPane_ScoreTable);
 
                 //
                 // JButton updateQuestion, addScorePoint, deleteScorePoint;
                 buttonPanel = new JPanel();
-                buttonPanel.setMaximumSize(new Dimension(500, 80));
+                buttonPanel.setMaximumSize(new Dimension(600, 80));
 
                 updateQuestion = new JButton("Update Question");
                 updateQuestion.addActionListener(this);

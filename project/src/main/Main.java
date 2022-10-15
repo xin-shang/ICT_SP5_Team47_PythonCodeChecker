@@ -1,10 +1,8 @@
 package main;
 
-//import controller.HomeController;
-import view.HomePage;
-
 import java.awt.Font;
 
+import view.HomePage;
 import methodAndTool.ScreenUtils;
 import methodAndTool.WriteAndRead;
 

@@ -135,6 +135,9 @@ public class QuestionDetailsComponent extends Box {
 			}
 		};
 
+		// 行高
+		showKeywordTable.setRowHeight(24);
+
 		JScrollPane scrollPane_ScorePoint = new JScrollPane(showKeywordTable);
 		box_ScorePoint.add(scrollPane_ScorePoint);
 
