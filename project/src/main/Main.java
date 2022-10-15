@@ -13,12 +13,9 @@ public class Main {
 
 		new HomePage().init();
 
-
-
-
 		WriteAndRead WAR = new WriteAndRead();
-		boolean a = WAR.createLocalFolder();
-		System.out.println(a);
+		boolean bIsFileEixt = WAR.createLocalFolder();
+		System.out.println(bIsFileEixt);
 		System.out.println("Design Window Width: " + ScreenUtils.getDesignWindow_width() + "Design Window Heigh: "
 				+ ScreenUtils.getDesignWindow_heigh());
 		System.out.println(

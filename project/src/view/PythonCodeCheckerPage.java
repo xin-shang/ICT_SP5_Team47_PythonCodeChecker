@@ -206,9 +206,9 @@ public class PythonCodeCheckerPage {
 
                                         if (RP.getErrorMessage().equals("")) {
 
-                                                String correctAnswer = RP.getOutputFromConsole();
+                                                String userAnswer = RP.getOutputFromConsole();
+                                                String correctAnswer = DIO.getData(selectedRow, 3).toString();
                                                 String suggestSolution = DIO.getData(selectedRow, 2).toString();
-                                                String userAnswer = DIO.getData(selectedRow, 3).toString();
 
                                                 int answerScore = PV
                                                                 .StringToInt(DIO.getData(selectedRow, 4).toString());
@@ -246,38 +246,48 @@ public class PythonCodeCheckerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                String id = (String) DIO.getData_id(selectedRow);
-                                List<markScheme> mkl = new ArrayList<markScheme>();
-                                mkl = DIO.getSelectedMarkScheme(id);
+                                if (selectedRow != -1) {
 
-                                final String solution = StudentWorkingComponent.getEditAnswerString();
-                                RunPythonCode RP = new RunPythonCode();
-                                RP.saveCodeFile(solution);
-                                RP.runCode();
+                                        String id = (String) DIO.getData_id(selectedRow);
+                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                        mkl = DIO.getSelectedMarkScheme(id);
 
-                                if (RP.getErrorMessage().equals("")) {
+                                        final String solution = StudentWorkingComponent.getEditAnswerString();
+                                        RunPythonCode RP = new RunPythonCode();
+                                        RP.saveCodeFile(solution);
+                                        RP.runCode();
 
-                                        int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
-                                                        DIO.getData(selectedRow, 3).toString(),
-                                                        PV.StringToInt(DIO.getData(selectedRow, 4).toString()), mkl);
+                                        if (RP.getErrorMessage().equals("")) {
 
-                                        ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution, mkl);
+                                                int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
+                                                                DIO.getData(selectedRow, 3).toString(),
+                                                                PV.StringToInt(DIO.getData(selectedRow, 4).toString()),
+                                                                mkl);
 
-                                        String finalOutput = RP.getOutputFromConsole() + "\n" + "Your Score is: "
-                                                        + score + "\n" + "passed keyword:" + "\n";
+                                                ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution,
+                                                                mkl);
 
-                                        for (String keyword : passedKeywordList) {
-                                                finalOutput += keyword + "\n";
+                                                String finalOutput = RP.getOutputFromConsole() + "\n"
+                                                                + "Your Score is: "
+                                                                + score + "\n" + "passed keyword:" + "\n";
+
+                                                for (String keyword : passedKeywordList) {
+                                                        finalOutput += keyword + "\n";
+                                                }
+
+                                                StudentWorkingComponent.terminalArea.setText(finalOutput);
+
+                                        } else {
+
+                                                StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
                                         }
-
-                                        StudentWorkingComponent.terminalArea.setText(finalOutput);
-
                                 } else {
+                                        JFrame jf = new JFrame();
+                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
 
-                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
                                 }
+
                         }
                 });
         }
