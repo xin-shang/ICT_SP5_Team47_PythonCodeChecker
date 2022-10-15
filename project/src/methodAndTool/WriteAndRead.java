@@ -16,8 +16,10 @@ import component.StudentWorkingComponent;
 
 public class WriteAndRead {
 	// set python command as the system return
-	String pythonName = PV.getPythonName();
+
 	static ProjectVariable PV = new ProjectVariable();
+
+	String pythonName = PV.getPythonName();
 
 	//
 	MessagePrintString MPS = new MessagePrintString();

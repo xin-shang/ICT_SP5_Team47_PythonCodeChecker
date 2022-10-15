@@ -1,7 +1,9 @@
 package component;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,8 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -112,12 +116,24 @@ public class ChooseQuestionComponent extends Box {
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
 
-		JPanel buttonStudentPanel = new JPanel();
-		buttonStudentPanel.setMaximumSize(new Dimension(800, 80));
+		// 左右
+		JPanel LR_JPanel = new JPanel();
+		LR_JPanel.setMaximumSize(new Dimension(100, 30));
 
-		previousButton = new JButton("<");
+		Icon icon_left = new ImageIcon("./src/imgs/left_icon.png");
+		previousButton = new JButton(icon_left);
+		previousButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_PreviousQuestion(previousButton);
-		// buttonStudentPanel.add(previousButton);
+		LR_JPanel.add(previousButton);
+
+		Icon icon_right = new ImageIcon("./src/imgs/right_icon.png");
+		nextButton = new JButton(icon_right);
+		nextButton.setPreferredSize(new Dimension(30, 30));
+		Button_Item_NextQuestion(nextButton);
+		LR_JPanel.add(nextButton);
+
+		JPanel buttonStudentPanel = new JPanel();
+		buttonStudentPanel.setMaximumSize(new Dimension(100, 25));
 
 		showQuestionButton = new JButton("Show");
 		Button_Item_ShowQuestionButton(showQuestionButton);
