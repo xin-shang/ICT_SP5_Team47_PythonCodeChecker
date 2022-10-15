@@ -11,6 +11,8 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -117,15 +119,19 @@ public class ChooseQuestionComponent extends Box {
 
 		// 左右
 		JPanel LR_JPanel = new JPanel();
-		LR_JPanel.setMaximumSize(new Dimension(100, 25));
+		LR_JPanel.setMaximumSize(new Dimension(100, 30));
 
-		previousButton = new JButton("<");
-		previousButton.setPreferredSize(new Dimension(20, 20));
+		Icon icon_left = new ImageIcon("./src/imgs/left_icon.png");
+
+		previousButton = new JButton(icon_left);
+		previousButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_PreviousQuestion(previousButton);
 		LR_JPanel.add(previousButton);
 		
-		nextButton = new JButton(">");
-		nextButton.setPreferredSize(new Dimension(20, 20));
+		Icon icon_right = new ImageIcon("./src/imgs/right_icon.png");
+
+		nextButton = new JButton(icon_right);
+		nextButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_NextQuestion(nextButton);
 		LR_JPanel.add(nextButton);
 

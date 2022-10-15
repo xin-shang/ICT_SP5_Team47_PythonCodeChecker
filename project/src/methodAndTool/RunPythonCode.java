@@ -80,7 +80,7 @@ public class RunPythonCode {
                 }
                 if (errorMessage.equals("")) {
                     while ((s = stdInput.readLine()) != null) {
-                        outputFromConsole = s + "\n";
+                        outputFromConsole += s + "\n";
                     }
                 }
 

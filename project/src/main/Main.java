@@ -11,7 +11,7 @@ public class Main {
 	// 程序入口
 	public static void main(String[] args) {
 
-		ScreenUtils.InitGlobalFont(new Font("SimSun", Font.PLAIN, 16));
+		ScreenUtils.InitGlobalFont(new Font("Arial", Font.PLAIN, 16));
 
 		new HomePage().init();
 

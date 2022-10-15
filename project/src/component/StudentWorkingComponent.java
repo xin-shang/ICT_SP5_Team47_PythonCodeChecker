@@ -66,7 +66,7 @@ public class StudentWorkingComponent extends Box {
                 ProjectVariable pv = new ProjectVariable();
 
                 Font myFont2 = pv.getUserTextfieldFontSize();
-                Font myFont1 = new Font("SimSun", Font.PLAIN, 16);
+                Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
                 editScrollPane = new JScrollPane();
 
