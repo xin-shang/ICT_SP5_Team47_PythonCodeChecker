@@ -217,13 +217,15 @@ public class PythonCodeCheckerPage {
                                                                 correctAnswer,
                                                                 answerScore, mkl);
 
+                                                ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(suggestSolution, mkl);                                                                
+
                                                 PieChart keyword = PV.getKeywordPieChart(mkl,
                                                                 answerScore);
 
                                                 PieChart passKeyword = PV.getPassedPieChart(solution, userAnswer,
                                                                 correctAnswer, answerScore, mkl);
 
-                                                ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
+                                                ScorePage SP = new ScorePage(total_score, passedKeywordList ,keyword, passKeyword,
                                                                 solution, suggestSolution);
                                                 SP.init();
 

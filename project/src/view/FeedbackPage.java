@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -156,7 +157,7 @@ public class FeedbackPage extends JDialog {
                                                                                                  // around
     }
 
-    public void showFeedbackResult(String studentAnswer, String suggestedAnswer) {
+    public void showFeedbackResult(String studentAnswer, String suggestedAnswer, int score, ArrayList<String> passedKeywordList) {
         returnButton.setEnabled(false);
 
         System.out.println("the suggest answer is: " + suggestedAnswer);
@@ -167,6 +168,11 @@ public class FeedbackPage extends JDialog {
         boolean runCodeResult = showStudentRunCodeResult(studentAnswer);
         if (runCodeResult == true) {
             showCompareOutputResult(suggestedAnswer);
+            messageTextArea.append("\nThe passed keyword(s) is/are:\n");
+            for(String keyword : passedKeywordList){
+                messageTextArea.append(keyword + "\n");
+            }
+            messageTextArea.append("\n Your score is: " + score + "\n");
         }
         returnButton.setEnabled(true);
 
@@ -226,18 +232,18 @@ public class FeedbackPage extends JDialog {
                     String suggestedAnswerOutput = suggestedAnswerRPC.getOutputFromConsole();
                     String studentAnswerOutput = studentAnswerRPC.getOutputFromConsole();
                     if (studentAnswerOutput.equals(suggestedAnswerOutput)) {
-                        messageTextArea.append("Your program output is the same as the suggested answer");
+                        messageTextArea.append("Your program output is the same as the suggested answer\n");
                     } else {
-                        messageTextArea.append("Your program has some differences from the suggested answer");
+                        messageTextArea.append("Your program has some differences from the suggested answer\n");
                     }
 
                 } else {
-                    messageTextArea.append("There is syntax error in the suggested answer");
+                    messageTextArea.append("There is syntax error in the suggested answer\n");
                     messageTextArea.append(suggestedAnswerRPC.getErrorMessage());
                 }
             }
         } else {
-            messageTextArea.append("You haven't selected a question to answer");
+            messageTextArea.append("You haven't selected a question to answer\n");
         }
 
     }
