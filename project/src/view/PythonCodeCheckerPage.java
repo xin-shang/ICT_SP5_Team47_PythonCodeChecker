@@ -259,12 +259,16 @@ public class PythonCodeCheckerPage {
                                                         PieChart keyword = PV.getKeywordPieChart(mkl,
                                                                         answerScore);
 
+                                                        ArrayList<String> passedKeywordList = KA
+                                                                        .getPassedKeywordlist(suggestSolution, mkl);
+
                                                         PieChart passKeyword = PV.getPassedPieChart(solution,
                                                                         userAnswer,
                                                                         correctAnswer, answerScore, passed_answerScore,
                                                                         mkl);
 
-                                                        ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
+                                                        ScorePage SP = new ScorePage(total_score, passedKeywordList,
+                                                                        keyword, passKeyword,
                                                                         solution, suggestSolution);
 
                                                         MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);

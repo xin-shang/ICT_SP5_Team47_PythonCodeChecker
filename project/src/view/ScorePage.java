@@ -2,7 +2,7 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,16 +45,18 @@ public class ScorePage extends JFrame implements ActionListener {
     PieChart passedKeyword_pie;
     String solution;
     String suggestedAnswer;
-
+    ArrayList<String> passedKeywordList;
     FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
 
-    public ScorePage(int score, PieChart keyword_pie, PieChart passedKeyword_pie, String solution,
+    public ScorePage(int score, ArrayList<String> passedKeywordList, PieChart keyword_pie, PieChart passedKeyword_pie,
+            String solution,
             String suggestedAnswer) {
         this.score = score;
         this.keyword_pie = keyword_pie;
         this.passedKeyword_pie = passedKeyword_pie;
         this.solution = solution;
         this.suggestedAnswer = suggestedAnswer;
+        this.passedKeywordList = passedKeywordList;
 
         // Feedback Page Setting
         feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
@@ -160,7 +162,7 @@ public class ScorePage extends JFrame implements ActionListener {
 
                 Thread t = new Thread() {
                     public void run() {
-                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                        feedbackPage.showFeedbackResult(solution, suggestedAnswer, score, passedKeywordList);
                     }
                 };
                 t.start();
