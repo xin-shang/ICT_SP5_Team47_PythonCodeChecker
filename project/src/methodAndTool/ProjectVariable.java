@@ -215,6 +215,7 @@ public class ProjectVariable {
 	}
 
 	public PieChart getPassedPieChart(String solution, String Useranswer, String CorrectAnswer, int answerScore,
+			int passed_answerScore,
 			List<markScheme> mkl) {
 		keywordAnalysis KA = new keywordAnalysis();
 		PieChart passedkeyword_pie = new PieChart();
@@ -244,13 +245,28 @@ public class ProjectVariable {
 			}
 
 		}
+
 		if (answerScore > 0) {
-			int answerscore = KA.getAnswerScore(Useranswer, CorrectAnswer, answerScore);
-			if (answerscore > 0) {
-				passedkeyword_pie.addData(new ModelPieChart("Answer Score", answerScore, getColorSet()[index]));
+			if (answerScore == passed_answerScore) {
+				passedkeyword_pie
+						.addData(new ModelPieChart("Passed Answer Score", passed_answerScore, getColorSet()[index]));
 			} else {
-				passedkeyword_pie.addData(new ModelPieChart("Answer Score", answerScore, getColorGrey()));
+
+				if (passed_answerScore == 0) {
+					passedkeyword_pie
+							.addData(new ModelPieChart("Missed Answer Score", answerScore,
+									getColorGrey()));
+				} else if (passed_answerScore < answerScore) {
+
+					passedkeyword_pie
+							.addData(new ModelPieChart("Missed Answer Score", answerScore - passed_answerScore,
+									getColorGrey()));
+					passedkeyword_pie
+							.addData(
+									new ModelPieChart("Passed Answer Score", passed_answerScore, getColorSet()[index]));
+				}
 			}
+
 		}
 
 		return passedkeyword_pie;

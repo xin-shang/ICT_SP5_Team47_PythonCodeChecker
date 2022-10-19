@@ -17,8 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ColorSet;
 
-import methodAndTool.JTextPaneColorDocument;
 import view.PythonCodeCheckerPage;
 
 import javax.swing.event.*;
@@ -50,7 +50,7 @@ public class StudentWorkingComponent extends Box {
         JButton buttonSubmitAnswer = new JButton("Submit Answer");
         JButton buttonRunCode = new JButton("Run Code");
         // JButton buttonShowFeedback = new JButton("Show Feedback");
-        private static JTextPane editTextPane;
+        public static JTextPane editTextPane;
 
         public static JTextArea terminalArea;
         String[] data;
@@ -90,8 +90,13 @@ public class StudentWorkingComponent extends Box {
 
                 editTextPane = new JTextPane();
 
-                // colour
-                editTextPane.setDocument(new JTextPaneColorDocument());
+                // // colour
+                // editTextPane.setDocument(new JTextPaneColorDocument_1());
+                // editTextPane.setBackground(new Color(48, 49, 52));
+                // // make cursor white color
+                // editTextPane.setCaretColor(Color.WHITE);
+
+                new ColorSet();
 
                 // set tab size
                 TabStop[] tabs = new TabStop[1];
@@ -139,10 +144,6 @@ public class StudentWorkingComponent extends Box {
                                 lines.setText(getText());
                         }
                 });
-
-                editTextPane.setBackground(new Color(48, 49, 52));
-                // make cursor white color
-                editTextPane.setCaretColor(Color.WHITE);
 
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editTextPane);

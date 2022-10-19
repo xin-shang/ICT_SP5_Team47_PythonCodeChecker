@@ -26,6 +26,8 @@ import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
 import javaswingdev.chart.PieChart;
+import methodAndTool.ColorSet;
+
 import methodAndTool.MessagePrintString;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
@@ -69,6 +71,8 @@ public class PythonCodeCheckerPage {
         // 设置菜单中物品 - USER
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
+        JMenuItem item_ChangeColor_White = new JMenuItem("Change Background White Color");
+        JMenuItem item_ChangeColor_Black = new JMenuItem("Change Background Black Color");
 
         Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
@@ -95,7 +99,7 @@ public class PythonCodeCheckerPage {
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
-                frame.setResizable(true); // 窗口锁定
+                frame.setResizable(false); // 窗口锁定
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -120,8 +124,12 @@ public class PythonCodeCheckerPage {
 
                 Button_Item_ChangeAccount(item_ChangeAccount);
                 Button_Item_ExitProgram(item_ExitProgram);
+                Button_Item_ChangeBackgroundColor_White(item_ChangeColor_White);
+                Button_Item_ChangeBackgroundColor_Black(item_ChangeColor_Black);
                 manuStudent_User.add(item_ChangeAccount);
                 manuStudent_User.add(item_ExitProgram);
+                manuStudent_User.add(item_ChangeColor_White);
+                manuStudent_User.add(item_ChangeColor_Black);
 
                 // 菜单名加入菜单组
                 manuBarStudent.add(manuStudent_Operation);
@@ -167,6 +175,26 @@ public class PythonCodeCheckerPage {
                 });
         }
 
+        private void Button_Item_ChangeBackgroundColor_White(JMenuItem button) {
+                button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                new ColorSet().setCurrent_color_set(2);
+
+                        }
+                });
+        }
+
+        private void Button_Item_ChangeBackgroundColor_Black(JMenuItem button) {
+                button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                new ColorSet().setCurrent_color_set(1);
+
+                        }
+                });
+        }
+
         // 退出程序
         private void Button_Item_ExitProgram(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
@@ -200,37 +228,61 @@ public class PythonCodeCheckerPage {
                                         mkl = DIO.getSelectedMarkScheme(id);
 
                                         final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        RunPythonCode RP = new RunPythonCode();
-                                        RP.saveCodeFile(solution);
-                                        RP.runCode();
 
-                                        if (RP.getErrorMessage().equals("")) {
+                                        String emptyString = "";
+                                        for (int i = 0; i < solution.length(); i++) {
+                                                emptyString += " ";
+                                        }
 
-                                                String userAnswer = RP.getOutputFromConsole();
-                                                String correctAnswer = DIO.getData(selectedRow, 3).toString();
-                                                String suggestSolution = DIO.getData(selectedRow, 2).toString();
+                                        if (!solution.equals(emptyString)) {
+                                                RunPythonCode RP = new RunPythonCode();
+                                                RP.saveCodeFile(solution);
+                                                RP.runCode();
 
-                                                int answerScore = PV
-                                                                .StringToInt(DIO.getData(selectedRow, 4).toString());
+                                                if (RP.getErrorMessage().equals("")) {
 
-                                                int total_score = KA.getKeyWordSocre(solution, userAnswer,
-                                                                correctAnswer,
-                                                                answerScore, mkl);
+                                                        String userAnswer = RP.getOutputFromConsole();
+                                                        String correctAnswer = DIO.getData(selectedRow, 3).toString();
+                                                        String suggestSolution = DIO.getData(selectedRow, 2).toString();
 
-                                                PieChart keyword = PV.getKeywordPieChart(mkl,
-                                                                answerScore);
+                                                        int answerScore = PV
+                                                                        .StringToInt(DIO.getData(selectedRow, 4)
+                                                                                        .toString());
+                                                        int passed_answerScore = KA.getAnswerScore(userAnswer,
+                                                                        correctAnswer,
+                                                                        answerScore);
 
-                                                PieChart passKeyword = PV.getPassedPieChart(solution, userAnswer,
-                                                                correctAnswer, answerScore, mkl);
+                                                        int total_score = KA.getKeyWordSocre(solution, userAnswer,
+                                                                        correctAnswer,
+                                                                        answerScore, mkl);
 
-                                                ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
-                                                                solution, suggestSolution);
+                                                        PieChart keyword = PV.getKeywordPieChart(mkl,
+                                                                        answerScore);
 
-                                                MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
-                                                SP.init();
+                                                        PieChart passKeyword = PV.getPassedPieChart(solution,
+                                                                        userAnswer,
+                                                                        correctAnswer, answerScore, passed_answerScore,
+                                                                        mkl);
+
+                                                        ScorePage SP = new ScorePage(total_score, keyword, passKeyword,
+                                                                        solution, suggestSolution);
+
+                                                        MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
+                                                        SP.init();
+
+                                                } else {
+                                                        JFrame jf = new JFrame();
+                                                        JOptionPane.showMessageDialog(jf,
+                                                                        "Your Code Has Sytax Error !!");
+                                                        StudentWorkingComponent.terminalArea
+                                                                        .append(RP.getErrorMessage() + "\n");
+
+                                                }
 
                                         } else {
-                                                StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
+                                                JFrame jf = new JFrame();
+                                                JOptionPane.showMessageDialog(jf,
+                                                                "You Submittd Nothing");
                                         }
 
                                 } else {
@@ -249,11 +301,6 @@ public class PythonCodeCheckerPage {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                String id = (String) DIO.getData_id(selectedRow);
-                                List<markScheme> mkl = new ArrayList<markScheme>();
-                                mkl = DIO.getSelectedMarkScheme(id);
-
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
                                 RP.saveCodeFile(solution);
@@ -261,24 +308,14 @@ public class PythonCodeCheckerPage {
 
                                 if (RP.getErrorMessage().equals("")) {
 
-                                        int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
-                                                        DIO.getData(selectedRow, 3).toString(),
-                                                        PV.StringToInt(DIO.getData(selectedRow, 4).toString()), mkl);
+                                        String finalOutput = RP.getOutputFromConsole();
 
-                                        ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution, mkl);
-
-                                        String finalOutput = RP.getOutputFromConsole() + "\n" + "Your Score is: "
-                                                        + score + "\n" + "passed keyword:" + "\n";
-
-                                        for (String keyword : passedKeywordList) {
-                                                finalOutput += keyword + "\n";
-                                        }
-
-                                        StudentWorkingComponent.terminalArea.append(finalOutput);
+                                        StudentWorkingComponent.terminalArea.append("> " + finalOutput + "\n");
 
                                 } else {
 
-                                        StudentWorkingComponent.terminalArea.append(RP.getErrorMessage());
+                                        StudentWorkingComponent.terminalArea
+                                                        .append(">ErrorMessage: " + RP.getErrorMessage() + "\n");
                                 }
                         }
                 });

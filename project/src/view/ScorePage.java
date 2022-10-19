@@ -74,7 +74,7 @@ public class ScorePage extends JFrame implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        frame.setResizable(true); // 窗口锁定
+        frame.setResizable(false); // 窗口锁定
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -89,7 +89,6 @@ public class ScorePage extends JFrame implements ActionListener {
         ///////////////////////
 
         Socre_label_1.setText("Score: " + score);
-
 
         JPanel title_JPanel = new JPanel();
         title_JPanel.add(Box.createHorizontalGlue());
@@ -135,12 +134,12 @@ public class ScorePage extends JFrame implements ActionListener {
         feedback_button.addActionListener(this);
 
         JPanel buttoJPanel = new JPanel();
-        //buttoJPanel.add(Box.createHorizontalGlue());
+        // buttoJPanel.add(Box.createHorizontalGlue());
         buttoJPanel.add(return_Button);
         buttoJPanel.add(Box.createHorizontalStrut(320));
         buttoJPanel.add(feedback_button);
-        //buttoJPanel.add(Box.createHorizontalGlue());
-        
+        // buttoJPanel.add(Box.createHorizontalGlue());
+
         frame.add(title_JPanel, BorderLayout.NORTH);
         frame.add(PieChart_box, BorderLayout.CENTER);
         frame.add(buttoJPanel, BorderLayout.SOUTH);

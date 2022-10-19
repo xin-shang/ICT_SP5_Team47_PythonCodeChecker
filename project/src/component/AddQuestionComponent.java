@@ -147,7 +147,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
                 };
 
                 // 行高
-		showScorePoint.setRowHeight(24);
+                showScorePoint.setRowHeight(24);
                 /*
                  * _________________________________________________________________________________
                  */
