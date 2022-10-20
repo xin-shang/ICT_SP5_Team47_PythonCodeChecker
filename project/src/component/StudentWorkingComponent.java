@@ -89,29 +89,10 @@ public class StudentWorkingComponent extends Box {
                 midBox = Box.createHorizontalBox();
 
                 editTextPane = new JTextPane();
-
-                // // colour
-                // editTextPane.setDocument(new JTextPaneColorDocument_1());
-                // editTextPane.setBackground(new Color(48, 49, 52));
-                // // make cursor white color
-                // editTextPane.setCaretColor(Color.WHITE);
-
-                new ColorSet();
-
-                // set tab size
-                TabStop[] tabs = new TabStop[1];
-                tabs[0] = new TabStop(16);
-
-                TabSet tabset = new TabSet(tabs);
-
-                StyleContext sc = StyleContext.getDefaultStyleContext();
-                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-                                StyleConstants.TabSet, tabset);
-
-                editTextPane.setParagraphAttributes(aset, false);
-
                 editTextPane.setFont(myFont2);
-
+                // set color for textPane background
+                new ColorSet();
+                // add lines count
                 editTextPane.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
                                 int caretPosition = editTextPane.getDocument().getLength();
@@ -144,6 +125,15 @@ public class StudentWorkingComponent extends Box {
                                 lines.setText(getText());
                         }
                 });
+
+                // set tab size(python tab is 4 space)
+                TabStop[] tabs = new TabStop[1];
+                tabs[0] = new TabStop(16);
+                TabSet tabset = new TabSet(tabs);
+                StyleContext sc = StyleContext.getDefaultStyleContext();
+                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+                                StyleConstants.TabSet, tabset);
+                editTextPane.setParagraphAttributes(aset, false);
 
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editTextPane);
