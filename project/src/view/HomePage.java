@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,9 +29,12 @@ public class HomePage {
 	// Home Page 提示语
 	private JLabel prompt_home = new JLabel("Welcome to Python Code Checker");
 	// Home Page 按键
-	Icon student_icon = new ImageIcon("./src/imgs/student_icon.png");
+	java.net.URL url_student = getClass().getResource("/imgs/student_icon.png");
+	Icon student_icon = new ImageIcon(url_student);
 	private JButton button_Student = new JButton(student_icon);
-	Icon staff_icon = new ImageIcon("./src/imgs/staff_icon.png");
+
+	java.net.URL url_staff = getClass().getResource("/imgs/staff_icon.png");
+	Icon staff_icon = new ImageIcon(url_staff);
 	private JButton button_Staff = new JButton(staff_icon);
 
 	// 初始化，组装界面

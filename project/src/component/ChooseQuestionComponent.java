@@ -121,15 +121,15 @@ public class ChooseQuestionComponent extends Box {
 		JPanel LR_JPanel = new JPanel();
 		LR_JPanel.setMaximumSize(new Dimension(100, 30));
 
-		Icon icon_left = new ImageIcon("./src/imgs/left_icon.png");
-
+		java.net.URL icon_left_url = getClass().getResource("/imgs/left_icon.png");
+		Icon icon_left = new ImageIcon(icon_left_url);
 		previousButton = new JButton(icon_left);
 		previousButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_PreviousQuestion(previousButton);
 		LR_JPanel.add(previousButton);
-		
-		Icon icon_right = new ImageIcon("./src/imgs/right_icon.png");
 
+		java.net.URL icon_right_url = getClass().getResource("/imgs/right_icon.png");
+		Icon icon_right = new ImageIcon(icon_right_url);
 		nextButton = new JButton(icon_right);
 		nextButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_NextQuestion(nextButton);
@@ -178,7 +178,6 @@ public class ChooseQuestionComponent extends Box {
 		((AbstractButton) button).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 
 				if (getSelectedRow() <= 0) {
 					JFrame jf = new JFrame();
@@ -209,7 +208,6 @@ public class ChooseQuestionComponent extends Box {
 		((AbstractButton) button).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 
 				if (getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
