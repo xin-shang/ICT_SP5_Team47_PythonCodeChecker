@@ -29,9 +29,6 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
             if (String.valueOf(text.charAt(index)).matches("\\W")) {
                 break;
             }
-            else if(String.valueOf(text.charAt(index)).matches("\\(|\\{|\\[|\\=")){
-                break;
-            }
             index++;
         }
         return index;
@@ -42,9 +39,6 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         // 从后往前找，每找一个减1，找到第一位字符
         while (--index >= 0) {
             if (String.valueOf(text.charAt(index)).matches("\\W")) {
-                break;
-            }
-            else if(String.valueOf(text.charAt(index)).matches("\\(|\\{|\\[|\\=")){
                 break;
             }
         }
@@ -78,7 +72,8 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
         } else if (text.substring(leftIndex, rightIndex).matches(
                 "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
-        } else {
+        } 
+        else {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
         }
     }

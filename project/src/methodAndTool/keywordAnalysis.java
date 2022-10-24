@@ -11,6 +11,7 @@ public class keywordAnalysis {
     WriteAndRead WAR = new WriteAndRead();
     MessagePrintString MPS = new MessagePrintString();
 
+    //total text modified by students - solution; output - anwer; correct answer; answer score;
     public int getKeyWordSocre(String solution, String answer, String correctAnswer, int answerScore,
             List<markScheme> mkl) {
 
@@ -42,6 +43,7 @@ public class keywordAnalysis {
 
     private String removeNewLine(String string) {
         String finalString;
+        //从textarea拿来的string默认结尾有一个'\n', 需要删掉
         if (string.charAt(string.length() - 1) == '\n') {
             finalString = string.substring(0, string.length() - 1);
         } else {
@@ -52,6 +54,7 @@ public class keywordAnalysis {
 
     public int getAnswerScore(String answer, String correctAnswer, int answerScore) {
 
+        //两个都用removeNewLine处理过后进行对比
         String f_answer = removeNewLine(answer);
         String f_correctAnswer = removeNewLine(correctAnswer);
 
@@ -66,7 +69,7 @@ public class keywordAnalysis {
 
         else if (f_correctAnswer.contains(",")) {
 
-            String[] correctAnswerStrList = f_correctAnswer.split(",");
+            String[] correctAnswerStrList = f_correctAnswer.replace(" ", "").split(",");
             int correctAnswer_l = correctAnswerStrList.length;
 
             for (String s : correctAnswerStrList) {
@@ -112,37 +115,37 @@ public class keywordAnalysis {
 
             return score;
 
-        } else if (f_correctAnswer.contains(" ")) {
-            System.out.println("your answer has blank");
-            String[] correctAnswerStrList = f_correctAnswer.split(" ");
-            String[] AnswerStrList = f_answer.split(" ");
+        }
+        // else if (f_correctAnswer.contains(" ")) {
+        //     System.out.println("your answer has blank");
+        //     String[] correctAnswerStrList = f_correctAnswer.split(" ");
+        //     String[] AnswerStrList = f_answer.split(" ");
 
-            int correctAnswer_l = correctAnswerStrList.length;
+        //     int correctAnswer_l = correctAnswerStrList.length;
 
-            // output的占分/正确答案的length，得出每一个output的word的分数
-            int eachWordScore = answerScore / correctAnswer_l;
+        //     // output的占分/正确答案的length，得出每一个output的word的分数
+        //     int eachWordScore = answerScore / correctAnswer_l;
 
-            int count = 0;
+        //     int count = 0;
 
-            // 用的容器，用i来按顺序循环AnswerStrList里面的量
-            for (String i : AnswerStrList) {
+        //     // 用的容器，用i来按顺序循环AnswerStrList里面的量
+        //     for (String i : AnswerStrList) {
 
-                for (String j : correctAnswerStrList) {
-                    if (i.equals(j)) {
-                        count++;
-                    }
-                }
-                if (count > 0) {
-                    score += eachWordScore;
-                }
-                count = 0;
-            }
+        //         for (String j : correctAnswerStrList) {
+        //             if (i.equals(j)) {
+        //                 count++;
+        //             }
+        //         }
+        //         if (count > 0) {
+        //             score += eachWordScore;
+        //         }
+        //         count = 0;
+        //     }
 
-            return score;
+        //     return score;
 
-        } else {
-            // 返还一个boolean检测是否有syntaxerror;
-            // false = no syntaxerror
+        // } 
+        else {
             if (f_answer.replace(" ", "").equals(f_correctAnswer.replace(" ", ""))) {
                 score += answerScore / 2;
                 System.out.println("your answer is right but please check the format of it");
