@@ -22,6 +22,7 @@ import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+
 import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
@@ -78,10 +79,6 @@ public class PythonCodeCheckerPage {
 
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
-
-        public PythonCodeCheckerPage() {
-
-        }
 
         // 初始化，组装界面
         public void init() {
@@ -221,12 +218,6 @@ public class PythonCodeCheckerPage {
 
                                 if (selectedRow != -1) {
 
-                                        // System.out.println("the selected row is: " + selectedRow);
-                                        String id = (String) DIO.getData_id(selectedRow);
-                                        // System.out.println(id);
-                                        List<markScheme> mkl = new ArrayList<markScheme>();
-                                        mkl = DIO.getSelectedMarkScheme(id);
-
                                         final String solution = StudentWorkingComponent.getEditAnswerString();
 
                                         String emptyString = "";
@@ -235,51 +226,70 @@ public class PythonCodeCheckerPage {
                                         }
 
                                         if (!solution.equals(emptyString)) {
-                                                RunPythonCode RP = new RunPythonCode();
-                                                RP.saveCodeFile(solution);
-                                                RP.runCode();
-
-                                                if (RP.getErrorMessage().equals("")) {
-
-                                                        String userAnswer = RP.getOutputFromConsole();
-                                                        String correctAnswer = DIO.getData(selectedRow, 3).toString();
-                                                        String suggestSolution = DIO.getData(selectedRow, 2).toString();
-
-                                                        int answerScore = PV
-                                                                        .StringToInt(DIO.getData(selectedRow, 4)
-                                                                                        .toString());
-                                                        int passed_answerScore = KA.getAnswerScore(userAnswer,
-                                                                        correctAnswer,
-                                                                        answerScore);
-
-                                                        int total_score = KA.getKeyWordSocre(solution, userAnswer,
-                                                                        correctAnswer,
-                                                                        answerScore, mkl);
-
-                                                        PieChart keyword = PV.getKeywordPieChart(mkl,
-                                                                        answerScore);
-
-                                                        ArrayList<String> passedKeywordList = KA
-                                                                        .getPassedKeywordlist(suggestSolution, mkl);
-
-                                                        PieChart passKeyword = PV.getPassedPieChart(solution,
-                                                                        userAnswer,
-                                                                        correctAnswer, answerScore, passed_answerScore,
-                                                                        mkl);
-
-                                                        ScorePage SP = new ScorePage(total_score, passedKeywordList,
-                                                                        keyword, passKeyword,
-                                                                        solution, suggestSolution);
-
-                                                        MPS.SubmitSuccessToString(StudentWorkingComponent.terminalArea);
-                                                        SP.init();
+                                                if (solution.contains("input()")) {
+                                                        RunPythonCode RP = new RunPythonCode();
+                                                        RP.saveCodeFile(solution);
+                                                        RP.runCode(DIO);
 
                                                 } else {
-                                                        JFrame jf = new JFrame();
-                                                        JOptionPane.showMessageDialog(jf,
-                                                                        "Your Code Has Sytax Error !!");
-                                                        StudentWorkingComponent.terminalArea
-                                                                        .append(RP.getErrorMessage() + "\n");
+                                                        // System.out.println("the selected row is: " + selectedRow);
+                                                        String id = (String) DIO.getData_id(selectedRow);
+                                                        // System.out.println(id);
+                                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                                        mkl = DIO.getSelectedMarkScheme(id);
+                                                        RunPythonCode RP = new RunPythonCode();
+                                                        RP.saveCodeFile(solution);
+                                                        RP.runCode(1);
+
+                                                        if (RP.getErrorMessage().equals("")) {
+
+                                                                String userAnswer = RP.getOutputFromConsole();
+                                                                String correctAnswer = DIO.getData(selectedRow, 3)
+                                                                                .toString();
+                                                                String suggestSolution = DIO.getData(selectedRow, 2)
+                                                                                .toString();
+
+                                                                int answerScore = PV
+                                                                                .StringToInt(DIO.getData(selectedRow, 4)
+                                                                                                .toString());
+                                                                int passed_answerScore = KA.getAnswerScore(userAnswer,
+                                                                                correctAnswer,
+                                                                                answerScore);
+
+                                                                int total_score = KA.getKeyWordSocre(solution,
+                                                                                userAnswer,
+                                                                                correctAnswer,
+                                                                                answerScore, mkl);
+
+                                                                PieChart keyword = PV.getKeywordPieChart(mkl,
+                                                                                answerScore);
+
+                                                                ArrayList<String> passedKeywordList = KA
+                                                                                .getPassedKeywordlist(suggestSolution,
+                                                                                                mkl);
+
+                                                                PieChart passKeyword = PV.getPassedPieChart(solution,
+                                                                                userAnswer,
+                                                                                correctAnswer, answerScore,
+                                                                                passed_answerScore,
+                                                                                mkl);
+
+                                                                ScorePage SP = new ScorePage(total_score,
+                                                                                passedKeywordList,
+                                                                                keyword, passKeyword,
+                                                                                solution, suggestSolution);
+
+                                                                MPS.SubmitSuccessToString(
+                                                                                StudentWorkingComponent.terminalArea);
+                                                                SP.init();
+
+                                                        } else {
+                                                                JFrame jf = new JFrame();
+                                                                JOptionPane.showMessageDialog(jf,
+                                                                                "Your Code Has Sytax Error !!");
+                                                                StudentWorkingComponent.terminalArea
+                                                                                .append(RP.getErrorMessage() + "\n");
+                                                        }
 
                                                 }
 
@@ -304,23 +314,16 @@ public class PythonCodeCheckerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
+                                String answer = RunPythonCode.outputFromConsole;
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
+
                                 RP.saveCodeFile(solution);
-                                RP.runCode();
 
-                                if (RP.getErrorMessage().equals("")) {
+                                RP.runCode(2);
 
-                                        String finalOutput = RP.getOutputFromConsole();
+                                System.out.println(answer);
 
-                                        StudentWorkingComponent.terminalArea.append("> " + finalOutput + "\n");
-
-                                } else {
-
-                                        StudentWorkingComponent.terminalArea
-                                                        .append(">ErrorMessage: " + RP.getErrorMessage() + "\n");
-                                }
                         }
                 });
         }

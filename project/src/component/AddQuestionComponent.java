@@ -43,7 +43,7 @@ public class AddQuestionComponent extends Box implements ActionListener {
         JLabel newID, newQuestion, newSolution, newAnswer, newAnswerScore, newScorePoint;
         static JTextArea newQuestion0;
         static JTextArea newSolution0;
-        static JTextArea newAnswer0;
+        public static JTextArea newAnswer0;
         JTextArea text0_SP;
 
         JComboBox<String> patternList;
@@ -255,53 +255,106 @@ public class AddQuestionComponent extends Box implements ActionListener {
                                         String keywordNotInString = PV.bCheckKeywordNotInString(dataScorePoint,
                                                         solution);
 
-                                        if (keywordNotInString == null) {
-                                                RunPythonCode RP = new RunPythonCode();
-                                                RP.saveCodeFile(solution);
-                                                RP.runCode();
-                                                if (!RP.getErrorMessage().equals("")) {
-                                                        String errormessage = RP.getErrorMessage();
-                                                        JOptionPane.showMessageDialog(this,
-                                                                        "Your Solution has SyntaxError: \n"
-                                                                                        + errormessage);
-                                                        newAnswer0.setText(errormessage);
-                                                } else {
-                                                        String answer = RP.getOutputFromConsole();
-                                                        newAnswer0.setText(answer);
+                                        if (solution.contains("input()")) {
+                                                if (keywordNotInString == null) {
+                                                        if (getNewAnswerString().equals(
+                                                                        "") || !RunPythonCode.errorMessage.equals("")) {
+                                                                RunPythonCode RP = new RunPythonCode();
+                                                                RP.saveCodeFile(solution);
+                                                                RP.runCode(3);
+                                                        } else {
 
-                                                        boolean b_score = checkSocre();
+                                                                String answer = getNewAnswerString();
+                                                                boolean b_score = checkSocre();
 
-                                                        if (b_score == true) {
-                                                                boolean b_add_q;
-                                                                try {
-                                                                        b_add_q = DIO.insertQuestion(conn,
-                                                                                        this.getNewQuestionString(),
-                                                                                        this.getNewSolutionString(),
-                                                                                        answer,
-                                                                                        this.getNewAnswerScore());
-                                                                        if (b_add_q == true) {
-                                                                                getScorePointStringList(conn);
-                                                                                JOptionPane.showMessageDialog(this,
-                                                                                                "Add Successful");
+                                                                if (b_score == true) {
+                                                                        boolean b_add_q;
+                                                                        try {
+                                                                                b_add_q = DIO.insertQuestion(conn,
+                                                                                                this.getNewQuestionString(),
+                                                                                                this.getNewSolutionString(),
+                                                                                                answer,
+                                                                                                this.getNewAnswerScore());
+                                                                                if (b_add_q == true) {
+                                                                                        getScorePointStringList(conn);
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        this,
+                                                                                                        "Add Successful");
+                                                                                        PythonQuestionEditPage.splitPane
+                                                                                                        .setLeftComponent(
+                                                                                                                        new QuestionManagerComponent(
+                                                                                                                                        new staffQns_T(conn),
+                                                                                                                                        QKC));
+                                                                                } else {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        this,
+                                                                                                        "Question is already exit");
+                                                                                }
+                                                                        } catch (SQLException e1) {
 
-                                                                        } else {
-                                                                                JOptionPane.showMessageDialog(this,
-                                                                                                "Question is already exit");
-
+                                                                                e1.printStackTrace();
                                                                         }
-                                                                } catch (SQLException e1) {
+                                                                }
+                                                        }
 
-                                                                        e1.printStackTrace();
+                                                }
+
+                                        } else {
+
+                                                if (keywordNotInString == null) {
+
+                                                        RunPythonCode RP = new RunPythonCode();
+                                                        RP.saveCodeFile(solution);
+                                                        RP.runCode(3);
+                                                        if (!RP.getErrorMessage().equals("")) {
+                                                                String errormessage = RunPythonCode.errorMessage;
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Your Solution has SyntaxError: \n"
+                                                                                                + errormessage);
+                                                                newAnswer0.setText(errormessage);
+                                                        } else {
+                                                                String answer = RP.getOutputFromConsole();
+                                                                newAnswer0.setText(answer);
+
+                                                                boolean b_score = checkSocre();
+
+                                                                if (b_score == true) {
+                                                                        boolean b_add_q;
+                                                                        try {
+                                                                                b_add_q = DIO.insertQuestion(conn,
+                                                                                                this.getNewQuestionString(),
+                                                                                                this.getNewSolutionString(),
+                                                                                                answer,
+                                                                                                this.getNewAnswerScore());
+                                                                                if (b_add_q == true) {
+                                                                                        getScorePointStringList(conn);
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        this,
+                                                                                                        "Add Successful");
+                                                                                        PythonQuestionEditPage.splitPane
+                                                                                                        .setLeftComponent(
+                                                                                                                        new QuestionManagerComponent(
+                                                                                                                                        new staffQns_T(conn),
+                                                                                                                                        QKC));
+
+                                                                                } else {
+                                                                                        JOptionPane.showMessageDialog(
+                                                                                                        this,
+                                                                                                        "Question is already exit");
+
+                                                                                }
+                                                                        } catch (SQLException e1) {
+
+                                                                                e1.printStackTrace();
+                                                                        }
                                                                 }
                                                         }
                                                 }
+
                                         }
 
                                 }
-                                PythonQuestionEditPage.splitPane
-                                                .setLeftComponent(new QuestionManagerComponent(
-                                                                new staffQns_T(conn),
-                                                                QKC));
+
                                 conn.close();
                                 System.out.println("-- The Create New Question is Working --");
                         } catch (SQLException e1) {

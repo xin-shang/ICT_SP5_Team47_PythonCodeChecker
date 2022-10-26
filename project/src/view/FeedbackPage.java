@@ -187,7 +187,7 @@ public class FeedbackPage extends JDialog {
             messageTextArea.append("Your program is interpreting...\n");
 
             studentAnswerRPC.saveCodeFile(studentAnswer);
-            boolean runStatus = studentAnswerRPC.runCode();
+            boolean runStatus = studentAnswerRPC.runCode(1);
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong when running the program. \n");
@@ -220,7 +220,7 @@ public class FeedbackPage extends JDialog {
             messageTextArea.append("Your program output is compared with the one of the suggested answers. \n");
 
             suggestedAnswerRPC.saveCodeFile(suggestedAnswer);
-            boolean runStatus = suggestedAnswerRPC.runCode();
+            boolean runStatus = suggestedAnswerRPC.runCode(1);
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong with the suggested answer. \n");
