@@ -27,7 +27,7 @@ public class LoginPage {
 	// JTextField area_password = new JTextField(15);
 	JPasswordField area_password = new JPasswordField(15);
 	JButton button_login = new JButton("Log In");
-	JButton button_signin = new JButton("Sign In");
+	JButton button_signUp = new JButton("Sign Up");
 	JButton button_retuen = new JButton("Return");
 
 	WriteAndRead WAR = new WriteAndRead();

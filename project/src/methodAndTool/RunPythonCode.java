@@ -64,8 +64,13 @@ public class RunPythonCode {
 
     // only for submit button, it might change it in the future
     public void runCode(studentQns_T DIO) {
-
-        new InputTerminalPage(25, 50, pythonIntpreterFileName, codeFileName, 1, DIO, codes).Init();
+        InputTerminalPage IT = new InputTerminalPage(25, 50, pythonIntpreterFileName, codeFileName, 1, DIO, codes);
+        Thread t = new Thread() {
+            public void run() {
+                IT.Init();
+            }
+        };
+        t.start();
 
     }
 

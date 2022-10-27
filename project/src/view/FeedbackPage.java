@@ -51,6 +51,7 @@ public class FeedbackPage extends JDialog {
 
         constraints = new GridBagConstraints();
 
+        parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addComponents();
     }
 
@@ -65,6 +66,7 @@ public class FeedbackPage extends JDialog {
         returnButton = new JButton("Return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 setVisible(false);
             }
         });
@@ -185,9 +187,14 @@ public class FeedbackPage extends JDialog {
 
         if (studentAnswer.length() > 0) {
             messageTextArea.append("Your program is interpreting...\n");
-
-            studentAnswerRPC.saveCodeFile(studentAnswer);
-            boolean runStatus = studentAnswerRPC.runCode(1);
+            boolean runStatus = true;
+            // seperate as two situation, might fixed later
+            if (studentAnswer.contains("input()")) {
+                runStatus = true;
+            } else {
+                studentAnswerRPC.saveCodeFile(studentAnswer);
+                runStatus = studentAnswerRPC.runCode(1);
+            }
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong when running the program. \n");
@@ -213,6 +220,7 @@ public class FeedbackPage extends JDialog {
             System.out.println("The editor window's is empty.");
         }
         return runCodeResult;
+
     }
 
     public void showCompareOutputResult(String suggestedAnswer) {

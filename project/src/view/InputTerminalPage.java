@@ -87,8 +87,6 @@ public class InputTerminalPage extends JFrame {
     }
 
     private void setValue_submit() {
-
-        System.out.println(solution);
         int selectedRow = ChooseQuestionComponent.getSelectedRow();
         String id = (String) DIO.getData_id(selectedRow);
         // System.out.println(id);
@@ -101,6 +99,7 @@ public class InputTerminalPage extends JFrame {
 
         String correctAnswer = DIO.getData(selectedRow, 3).toString();
         String suggestSolution = DIO.getData(selectedRow, 2).toString();
+
         int answerScore = PV
                 .StringToInt(DIO.getData(selectedRow, 4)
                         .toString());
@@ -123,6 +122,8 @@ public class InputTerminalPage extends JFrame {
                 passed_answerScore,
                 mkl);
 
+        // set value
+        this.suggestSolution = suggestSolution;
         this.passKeyword = passKeyword;
         this.passedKeywordList = passedKeywordList;
         this.keyword = keyword;
@@ -152,39 +153,57 @@ public class InputTerminalPage extends JFrame {
 
     private void setAnswer_output(String string_output) {
 
+        // submit
         if (state == 1) {
             StudentWorkingComponent.terminalArea.append(string_output + "\n");
+            // get ready to submit the data to score page
             setValue_submit();
             ScorePage SP = new ScorePage(total_score,
                     passedKeywordList,
                     keyword, passKeyword,
                     solution, suggestSolution);
             SP.init();
-
-        } else if (state == 2) {
+        }
+        // run code
+        else if (state == 2) {
             StudentWorkingComponent.terminalArea.append(string_output + "\n");
-        } else if (state == 3) {
+        }
+        // add question
+        else if (state == 3) {
             AddQuestionComponent.newAnswer0.setText(string_output);
             JFrame jf = new JFrame();
             JOptionPane.showMessageDialog(jf,
-                    "You have no Error, Click again the button to submit the question");
-        } else if (state == 4) {
+                    "Press Submit Again To Add the question");
+        }
+        // edit question
+        else if (state == 4) {
             ChangeQuestionComponent.cAnswer0.setText(string_output);
             JFrame jf = new JFrame();
             JOptionPane.showMessageDialog(jf,
-                    "You have no Error, Click again the button to update the question");
+                    "Press Update Again To Change the question");
         }
     }
 
     private void setError_output(String error) {
-
+        JFrame jf = new JFrame();
+        // submit
         if (state == 1) {
             StudentWorkingComponent.terminalArea.append("> " + error + "\n");
-        } else if (state == 2) {
+        }
+        // run
+        else if (state == 2) {
             StudentWorkingComponent.terminalArea.append("> " + error + "\n");
-        } else if (state == 3) {
+        }
+        // add
+        else if (state == 3) {
+            JOptionPane.showMessageDialog(jf,
+                    error);
             AddQuestionComponent.newAnswer0.setText(error);
-        } else if (state == 4) {
+        }
+        // run
+        else if (state == 4) {
+            JOptionPane.showMessageDialog(jf,
+                    error);
             ChangeQuestionComponent.cAnswer0.setText(error);
         }
     }
@@ -255,15 +274,14 @@ public class InputTerminalPage extends JFrame {
                     System.out.println(errorstream.size());
 
                     textArea.setText(string_output);
-                    textArea.append("\nProgress End");
+                    textArea.append("\nEnd");
 
                     JFrame jf = new JFrame();
                     JOptionPane.showMessageDialog(jf,
-                            "Progress Is End");
+                            "END");
                     textfield.setEditable(false);
 
                     // append the result to textArea
-                    setAnswer_output(string_output);
 
                     // set runpython outputFromConsole as final result
                     RunPythonCode.outputFromConsole = string_output;
@@ -272,15 +290,18 @@ public class InputTerminalPage extends JFrame {
                     // close the frame
                     setVisible(false);
                     dispose();
+                    setAnswer_output(string_output);
 
                 } else {
                     if (errorstream.size() == 0) {
                         textArea.setText(string_output);
 
                     } else {
+                        JLabel label = new JLabel("ERROR");
+                        label.setHorizontalAlignment(SwingConstants.CENTER);
                         JFrame jf = new JFrame();
                         JOptionPane.showMessageDialog(jf,
-                                "You Got Error");
+                                label);
                         String error = getError(errorstream);
 
                         // textArea.setText(error);
@@ -301,9 +322,6 @@ public class InputTerminalPage extends JFrame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            // System.out.println(b_process_if_end);
-
         }
     }
 

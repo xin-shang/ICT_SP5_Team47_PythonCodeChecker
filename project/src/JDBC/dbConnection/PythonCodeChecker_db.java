@@ -3,6 +3,9 @@ package JDBC.dbConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class PythonCodeChecker_db {
 
     public Connection get_connection() {
@@ -23,7 +26,10 @@ public class PythonCodeChecker_db {
                 System.out.println("Connection Failed");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            JFrame jf = new JFrame();
+            JOptionPane.showMessageDialog(jf,
+                    "The Connection Is Not Working !!");
+
         }
         return connection;
     }

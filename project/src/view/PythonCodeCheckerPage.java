@@ -286,7 +286,7 @@ public class PythonCodeCheckerPage {
                                                         } else {
                                                                 JFrame jf = new JFrame();
                                                                 JOptionPane.showMessageDialog(jf,
-                                                                                "Your Code Has Sytax Error !!");
+                                                                                " ERROR !!");
                                                                 StudentWorkingComponent.terminalArea
                                                                                 .append(RP.getErrorMessage() + "\n");
                                                         }
@@ -296,7 +296,7 @@ public class PythonCodeCheckerPage {
                                         } else {
                                                 JFrame jf = new JFrame();
                                                 JOptionPane.showMessageDialog(jf,
-                                                                "You Submittd Nothing");
+                                                                "EMPTY !!");
                                         }
 
                                 } else {

@@ -12,10 +12,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import component.ChooseQuestionComponent;
+import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -78,17 +76,6 @@ public class ScorePage extends JFrame implements ActionListener {
         }
         frame.setResizable(false); // 窗口锁定
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Color red = new Color(255, 0, 0);
-        // Color yellow = new Color(100, 0, 0);
-        ///////////////////////
-        // keyword_pie = new PieChart();
-        // keyword_pie.addData(new ModelPieChart("aaa", 50, red));
-
-        // passedKeyword_pie = new PieChart();
-        // passedKeyword_pie.addData(new ModelPieChart("aaa", 100, yellow));
-        ///////////////////////
 
         Socre_label_1.setText("Score: " + score);
 
@@ -156,28 +143,20 @@ public class ScorePage extends JFrame implements ActionListener {
             frame.setVisible(false);
 
         } else if (actionCommand.equals("FEEDBACK")) {
-            int selectedRow = ChooseQuestionComponent.getSelectedRow();
 
-            if (selectedRow >= 0) {
+            Thread t = new Thread() {
+                public void run() {
+                    feedbackPage.showFeedbackResult(solution, suggestedAnswer, score, passedKeywordList);
+                }
+            };
+            t.start();
 
-                Thread t = new Thread() {
-                    public void run() {
-                        feedbackPage.showFeedbackResult(solution, suggestedAnswer, score, passedKeywordList);
-                    }
-                };
-                t.start();
-
-                // Make the pop up dialog center align to parent window
-                feedbackPage.setLocationRelativeTo(frame);
-                // Show the feedback dialog
-                feedbackPage.setVisible(true);
-                System.out.println("-- The Show Feedback Button is Working --");
-            } else {
-                JFrame jf = new JFrame();
-                JOptionPane.showMessageDialog(jf, "Please Select A Question");
-            }
+            // Make the pop up dialog center align to parent window
+            feedbackPage.setLocationRelativeTo(frame);
+            // Show the feedback dialog
+            feedbackPage.setVisible(true);
+            System.out.println("-- The Show Feedback Button is Working --");
         }
-
     }
 
 }

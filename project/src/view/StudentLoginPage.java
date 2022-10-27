@@ -75,8 +75,8 @@ public class StudentLoginPage extends LoginPage {
 		Button_Box.add(button_login);
 		this.Button_Login_Listener(button_login);
 
-		Button_Box.add(button_signin);
-		super.Button_Signin_Listener(button_signin);
+		Button_Box.add(button_signUp);
+		super.Button_Signin_Listener(button_signUp);
 
 		// Button Box2 Return
 		Box Return_Box = Box.createHorizontalBox();
