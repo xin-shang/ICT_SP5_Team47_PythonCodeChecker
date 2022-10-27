@@ -3,6 +3,8 @@ package methodAndTool;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.cj.xdevapi.AbstractDataResult;
+
 import Type.markScheme;
 import component.StudentWorkingComponent;
 
@@ -84,6 +86,7 @@ public class keywordAnalysis {
             }
 
             String[] AnswerStrList = f_answer.split(",");
+            int answer_l = AnswerStrList.length;
 
             for (String s : AnswerStrList) {
                 if (s.contains(" ")) {
@@ -94,24 +97,27 @@ public class keywordAnalysis {
             // output的占分/正确答案的length，得出每一个output的word的分数
             int eachWordScore = answerScore / correctAnswer_l;
 
-            // 用的容器，用i来按顺序循环AnswerStrList里面的量
-            for (String i : AnswerStrList) {
-                System.out.println();
-                System.out.println("r:" + answer_save);
-                System.out.println("r_i:" + answer_save.length());
-                System.out.println("a:" + i);
-                System.out.println(answer_save.contains(i));
-                if (answer_save.contains(i)) {
-
-                    System.out.println("contain:" + i);
-                    score += eachWordScore;
-                    String deleteKw = answer_save.replaceFirst(i, "");
-                    answer_save = deleteKw;
-
+            // 修改部分：
+            for (int i = 0; i < AnswerStrList.length; i++) {
+                for(int a = 0; a < correctAnswerStrList.length; a++){
+                    if (AnswerStrList[i].equals(correctAnswerStrList[a])&& a == i) {
+                        System.out.println("correct:" + AnswerStrList[i]);
+                        score += eachWordScore;
+                        System.out.println("f: " + correctAnswerStrList[a]);
+                        correctAnswerStrList[a] = "";
+                        
+                    }
+                    else if(AnswerStrList[i].equals(correctAnswerStrList[a])&&a != i){
+                        System.out.println("correct but not exactly:" + AnswerStrList[i]);
+                        score += eachWordScore/2;
+                        System.out.println("h: " + correctAnswerStrList[a]);
+                        correctAnswerStrList[a] = "";
+                        
+                        
+                    }
                 }
 
             }
-            System.out.println(answer_save);
 
             return score;
 
