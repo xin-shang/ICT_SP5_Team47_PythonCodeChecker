@@ -22,14 +22,8 @@ import methodAndTool.ColorSet;
 import view.PythonCodeCheckerPage;
 
 import javax.swing.event.*;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.Element;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-import javax.swing.text.TabSet;
-import javax.swing.text.TabStop;
 
 public class StudentWorkingComponent extends Box {
 
@@ -105,7 +99,6 @@ public class StudentWorkingComponent extends Box {
                                         } else {
                                                 text += i + System.getProperty("line.separator");
                                         }
-
                                 }
                                 return text;
                         }
@@ -125,15 +118,6 @@ public class StudentWorkingComponent extends Box {
                                 lines.setText(getText());
                         }
                 });
-
-                // set tab size(python tab is 4 space)
-                TabStop[] tabs = new TabStop[1];
-                tabs[0] = new TabStop(16);
-                TabSet tabset = new TabSet(tabs);
-                StyleContext sc = StyleContext.getDefaultStyleContext();
-                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-                                StyleConstants.TabSet, tabset);
-                editTextPane.setParagraphAttributes(aset, false);
 
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editTextPane);

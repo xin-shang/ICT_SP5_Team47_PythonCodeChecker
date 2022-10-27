@@ -131,6 +131,9 @@ public class InputTerminalPage extends JFrame {
     }
 
     public void Init() {
+
+        ScreenUtils su = new ScreenUtils();
+        setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
         textarea = prepareTextArea(rows, cols);
         textfield = prepareTextField(cols, textarea);
 

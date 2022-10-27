@@ -3,14 +3,12 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
@@ -89,16 +87,12 @@ public class PythonCodeCheckerPage {
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
                 frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
-                try {
-                        frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac
-                                                                                                           // 好像不太支持这个，Windows
-                        System.out.println("-- ImageIO is Working --");
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
+                ScreenUtils su = new ScreenUtils();
+                frame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
+                // 好像不太支持这个，Windows
+                System.out.println("-- ImageIO is Working --");
                 frame.setResizable(false); // 窗口锁定
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 违规操作关闭
 
                 /**
                  * 组装零件

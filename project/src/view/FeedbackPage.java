@@ -14,6 +14,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.DimensionUIResource;
 
 import methodAndTool.RunPythonCode;
+import methodAndTool.ScreenUtils;
 
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -48,10 +49,13 @@ public class FeedbackPage extends JDialog {
         // Create and set a layout for the dialog
         layout = new GridBagLayout();
         setLayout(layout);
+        ScreenUtils su = new ScreenUtils();
+        parentFrame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
 
         constraints = new GridBagConstraints();
 
         parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         addComponents();
     }
 
