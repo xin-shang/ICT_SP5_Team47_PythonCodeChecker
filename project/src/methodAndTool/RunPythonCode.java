@@ -130,11 +130,11 @@ public class RunPythonCode {
             if (getErrorMessage().equals("")) {
 
                 String finalOutput = getOutputFromConsole();
-                StudentWorkingComponent.terminalArea.append("> " + finalOutput + "\n");
+                StudentWorkingComponent.terminalArea.setText("> " + finalOutput + "\n");
             } else {
 
                 StudentWorkingComponent.terminalArea
-                        .append(">ErrorMessage: " + getErrorMessage() + "\n");
+                        .setText(">ErrorMessage: " + getErrorMessage() + "\n");
             }
 
             return exitCode;
