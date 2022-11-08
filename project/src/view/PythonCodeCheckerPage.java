@@ -60,6 +60,7 @@ public class PythonCodeCheckerPage {
         // 设置菜单中物品 - OPERATION
         JMenuItem item_Submit = new JMenuItem("Submit Answer");
         JMenuItem item_Run = new JMenuItem("Run Code");
+        // JMenuItem addInput = new JMenuItem("Add Input");
         // JMenuItem item_Feedback = new JMenuItem("Show Feedback");
 
         // 设置菜单中物品 - SHOW QUESTION
@@ -105,7 +106,6 @@ public class PythonCodeCheckerPage {
                 // Button_Item_ShowFeedback(item_Feedback);
                 manuStudent_Operation.add(item_Submit);
                 manuStudent_Operation.add(item_Run);
-                // manuStudent_Operation.add(item_Feedback);
 
                 ChooseQuestionComponent.Button_Item_PreviousQuestion(item_PreviousQuestion);
                 ChooseQuestionComponent.Button_Item_NextQuestion(item_NextQuestion);
@@ -282,7 +282,9 @@ public class PythonCodeCheckerPage {
                                                                 JOptionPane.showMessageDialog(jf,
                                                                                 " ERROR !!");
                                                                 StudentWorkingComponent.terminalArea
-                                                                                .append(RP.getErrorMessage() + "\n");
+                                                                                .setText(">ErrorMessage: "
+                                                                                                + RP.getErrorMessage()
+                                                                                                + "\n");
                                                         }
 
                                                 }
@@ -308,15 +310,14 @@ public class PythonCodeCheckerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                                String answer = RunPythonCode.outputFromConsole;
+                                // String answer = RunPythonCode.outputFromConsole;
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
 
                                 RP.saveCodeFile(solution);
-
                                 RP.runCode(2);
 
-                                System.out.println(answer);
+                                System.out.println(StudentWorkingComponent.getTerminal());
 
                         }
                 });

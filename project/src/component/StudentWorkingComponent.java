@@ -43,7 +43,9 @@ public class StudentWorkingComponent extends Box {
         JPanel studnetButtonPanel;
         JButton buttonSubmitAnswer = new JButton("Submit Answer");
         JButton buttonRunCode = new JButton("Run Code");
-        // JButton buttonShowFeedback = new JButton("Show Feedback");
+
+        JButton buttonInput = new JButton("Add Input");
+
         public static JTextPane editTextPane;
 
         public static JTextArea terminalArea;
@@ -159,10 +161,11 @@ public class StudentWorkingComponent extends Box {
 
                 // 按键栏
                 studnetButtonPanel = new JPanel();
-                studnetButtonPanel.setMaximumSize(new Dimension(1100, 80));
+                studnetButtonPanel.setMaximumSize(new Dimension(10000, 80));
 
                 PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
                 PCCP.Button_Item_RunCode(buttonRunCode);
+
                 // PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
 
                 studnetButtonPanel.add(Box.createHorizontalStrut(0));
@@ -170,7 +173,7 @@ public class StudentWorkingComponent extends Box {
                 studnetButtonPanel.add(Box.createHorizontalStrut(100));
                 studnetButtonPanel.add(buttonRunCode);
                 studnetButtonPanel.add(Box.createHorizontalStrut(900));
-                // studnetButtonPanel.add(buttonShowFeedback);
+                studnetButtonPanel.add(buttonInput);
 
                 this.add(studnetButtonPanel, BorderLayout.SOUTH);
 
@@ -186,6 +189,10 @@ public class StudentWorkingComponent extends Box {
 
         public static String getEditAnswerString() {
                 return editTextPane.getText();
+        }
+
+        public static String getTerminal() {
+                return terminalArea.getText();
         }
 
 }

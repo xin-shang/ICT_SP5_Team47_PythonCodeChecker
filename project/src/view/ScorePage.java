@@ -140,7 +140,8 @@ public class ScorePage extends JFrame implements ActionListener {
 
             Thread t = new Thread() {
                 public void run() {
-                    feedbackPage.showFeedbackResult(solution, suggestedAnswer, score, passedKeywordList);
+                    feedbackPage.showFeedbackResult(solution, suggestedAnswer, score, suggestedAnswer,
+                            passedKeywordList);
                 }
             };
             t.start();

@@ -249,21 +249,21 @@ public class ProjectVariable {
 		if (answerScore > 0) {
 			if (answerScore == passed_answerScore) {
 				passedkeyword_pie
-						.addData(new ModelPieChart("Passed Answer Score", passed_answerScore, getColorSet()[index]));
+						.addData(new ModelPieChart("Passed Answer", passed_answerScore, getColorSet()[index]));
 			} else {
 
 				if (passed_answerScore == 0) {
 					passedkeyword_pie
-							.addData(new ModelPieChart("Missed Answer Score", answerScore,
+							.addData(new ModelPieChart("Missed Answer", answerScore,
 									getColorGrey()));
 				} else if (passed_answerScore < answerScore) {
 
 					passedkeyword_pie
-							.addData(new ModelPieChart("Missed Answer Score", answerScore - passed_answerScore,
+							.addData(new ModelPieChart("Missed Answer", answerScore - passed_answerScore,
 									getColorGrey()));
 					passedkeyword_pie
 							.addData(
-									new ModelPieChart("Passed Answer Score", passed_answerScore, getColorSet()[index]));
+									new ModelPieChart("Passed Answer", passed_answerScore, getColorSet()[index]));
 				}
 			}
 
@@ -280,9 +280,9 @@ public class ProjectVariable {
 
 		Color[] colorSet = { new Color(255, 0, 0),
 				new Color(255, 128, 0),
-				new Color(255, 255, 0),
-				new Color(128, 255, 0),
-				new Color(0, 255, 0),
+				new Color(230, 230, 0),
+				new Color(76, 153, 0),
+				new Color(0, 153, 0),
 				new Color(0, 255, 128),
 				new Color(0, 0, 255),
 				new Color(127, 0, 255),

@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
-import component.StudentWorkingComponent;
 import view.InputTerminalPage;
 
 public class RunPythonCode {
@@ -50,6 +49,7 @@ public class RunPythonCode {
         WA.write2TextFileOutStream(codeFileName, codes);
     }
 
+    // 1: submit, 2: run, 3: add, 4: change
     public boolean runCode(int state) {
         boolean b_run;
         if (codes.contains("input()")) {
@@ -71,7 +71,6 @@ public class RunPythonCode {
             }
         };
         t.start();
-
     }
 
     public boolean runCode_NonInput() {
@@ -84,7 +83,6 @@ public class RunPythonCode {
         try {
             Process p = processBuilder.start();
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
             BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             System.out.println("run code started");
             exitCode = p.waitFor(5, TimeUnit.SECONDS);
@@ -125,16 +123,6 @@ public class RunPythonCode {
                 }
 
                 System.out.println("\nExited with error code: " + exitCode);
-            }
-
-            if (getErrorMessage().equals("")) {
-
-                String finalOutput = getOutputFromConsole();
-                StudentWorkingComponent.terminalArea.append("> " + finalOutput + "\n");
-            } else {
-
-                StudentWorkingComponent.terminalArea
-                        .append(">ErrorMessage: " + getErrorMessage() + "\n");
             }
 
             return exitCode;

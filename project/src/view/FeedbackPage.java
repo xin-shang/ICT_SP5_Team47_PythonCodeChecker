@@ -39,6 +39,7 @@ public class FeedbackPage extends JDialog {
 
     private GridBagLayout layout; // A layout object for managing components
     private GridBagConstraints constraints; // Used for the settings for the layout for each component
+    // private String suggetedResult;
 
     private RunPythonCode studentAnswerRPC = new RunPythonCode();
     private RunPythonCode suggestedAnswerRPC = new RunPythonCode();
@@ -163,11 +164,12 @@ public class FeedbackPage extends JDialog {
                                                                                                  // around
     }
 
-    public void showFeedbackResult(String studentAnswer, String suggestedAnswer, int score,
+    public void showFeedbackResult(String studentAnswer, String suggestedAnswer, int score, String suggetedResult,
             ArrayList<String> passedKeywordList) {
         returnButton.setEnabled(false);
 
         System.out.println("the suggest answer is: " + suggestedAnswer);
+        // this.suggetedResult = suggetedResult;
 
         studentAnswerTextArea.setText(studentAnswer);
         suggestedAnswerTextArea.setText(suggestedAnswer);
@@ -228,11 +230,17 @@ public class FeedbackPage extends JDialog {
     }
 
     public void showCompareOutputResult(String suggestedAnswer) {
+
+        boolean runStatus = false;
         if (suggestedAnswer.length() > 0) {
             messageTextArea.append("Your program output is compared with the one of the suggested answers. \n");
 
-            suggestedAnswerRPC.saveCodeFile(suggestedAnswer);
-            boolean runStatus = suggestedAnswerRPC.runCode(1);
+            if (suggestedAnswer.contains("input()")) {
+                runStatus = true;
+            } else {
+                studentAnswerRPC.saveCodeFile(suggestedAnswer);
+                runStatus = studentAnswerRPC.runCode(1);
+            }
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong with the suggested answer. \n");

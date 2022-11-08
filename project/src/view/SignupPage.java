@@ -54,7 +54,7 @@ public class SignupPage extends LoginPage {
         frame.setResizable(false);
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel signUpFormPanel = new JPanel();
 

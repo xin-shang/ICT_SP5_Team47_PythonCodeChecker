@@ -152,13 +152,14 @@ public class InputTerminalPage extends JFrame {
         setVisible(true);
 
         textarea.append("Detected keyword \"input()\", please input your first value: ");
+
     }
 
     private void setAnswer_output(String string_output) {
 
         // submit
         if (state == 1) {
-            StudentWorkingComponent.terminalArea.append(string_output + "\n");
+            StudentWorkingComponent.terminalArea.setText(string_output + "\n");
             // get ready to submit the data to score page
             setValue_submit();
             ScorePage SP = new ScorePage(total_score,
@@ -169,21 +170,17 @@ public class InputTerminalPage extends JFrame {
         }
         // run code
         else if (state == 2) {
-            StudentWorkingComponent.terminalArea.append(string_output + "\n");
+            StudentWorkingComponent.terminalArea.setText(string_output + "\n");
+            RunPythonCode.outputFromConsole = string_output;
+
         }
         // add question
         else if (state == 3) {
             AddQuestionComponent.newAnswer0.setText(string_output);
-            JFrame jf = new JFrame();
-            JOptionPane.showMessageDialog(jf,
-                    "Press Submit Again To Add the question");
         }
         // edit question
         else if (state == 4) {
             ChangeQuestionComponent.cAnswer0.setText(string_output);
-            JFrame jf = new JFrame();
-            JOptionPane.showMessageDialog(jf,
-                    "Press Update Again To Change the question");
         }
     }
 
@@ -191,23 +188,27 @@ public class InputTerminalPage extends JFrame {
         JFrame jf = new JFrame();
         // submit
         if (state == 1) {
-            StudentWorkingComponent.terminalArea.append("> " + error + "\n");
+            StudentWorkingComponent.terminalArea.setText("> " + error + "\n");
+            RunPythonCode.errorMessage = error;
         }
         // run
         else if (state == 2) {
-            StudentWorkingComponent.terminalArea.append("> " + error + "\n");
+            StudentWorkingComponent.terminalArea.setText("> " + error + "\n");
+            RunPythonCode.errorMessage = error;
         }
         // add
         else if (state == 3) {
             JOptionPane.showMessageDialog(jf,
                     error);
             AddQuestionComponent.newAnswer0.setText(error);
+            RunPythonCode.errorMessage = error;
         }
         // run
         else if (state == 4) {
             JOptionPane.showMessageDialog(jf,
                     error);
             ChangeQuestionComponent.cAnswer0.setText(error);
+            RunPythonCode.errorMessage = error;
         }
     }
 
@@ -333,18 +334,18 @@ public class InputTerminalPage extends JFrame {
             throws IOException, InterruptedException {
         // make sure every loop for errorstream is clear
         errorstream.clear();
-        int wa = 1;
+        int waitfor = 1;
         int inputCount = userinput.size();
         ArrayList<String> lines_result = new ArrayList<>();
 
-        while (wa == 1) {
+        while (waitfor == 1) {
             ProcessBuilder pb = new ProcessBuilder(pythonIntpreterFileName, pythonPath);
             pb.redirectErrorStream(false);
             final Process p = pb.start();
             new Thread(new RunnableClass_ErrorStream(errorstream, p)).start();
 
             if (inputCount > userinput.size()) {
-                wa = 0;
+                waitfor = 0;
                 p.destroy();
             } else {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
@@ -362,8 +363,8 @@ public class InputTerminalPage extends JFrame {
                         bufferedWriter.newLine();
                     }
                 }
-                wa = p.waitFor();
-                b_process_if_end = wa;
+                waitfor = p.waitFor();
+                b_process_if_end = waitfor;
                 inputCount++;
             }
         }

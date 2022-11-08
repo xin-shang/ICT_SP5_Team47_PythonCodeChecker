@@ -55,7 +55,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         JTable cShowScorePoint;
 
         JPanel buttonPanel;
-        JButton updateQuestion, addScorePoint, deleteScorePoint;
+        JButton updateQuestion, addScorePoint, deleteScorePoint, AddInput;
 
         //
         Object[][] questionScorePoint = new Object[0][3];
@@ -70,6 +70,9 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
         final String question_before;
         final String solution_before;
         final List<markScheme> markSchemeList_before;
+
+        // value to compfirm user had filled the input
+        boolean bInput;
 
         public ChangeQuestionComponent(staffQns_T dio, keywordAlternative_T QKC) {
                 super(BoxLayout.Y_AXIS);
@@ -181,7 +184,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 //
                 // JButton updateQuestion, addScorePoint, deleteScorePoint;
                 buttonPanel = new JPanel();
-                buttonPanel.setMaximumSize(new Dimension(600, 80));
+                buttonPanel.setMaximumSize(new Dimension(1000, 80));
 
                 updateQuestion = new JButton("Update Question");
                 updateQuestion.addActionListener(this);
@@ -191,6 +194,9 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                 deleteScorePoint = new JButton("Delete Score Point");
                 deleteScorePoint.addActionListener(this);
+
+                AddInput = new JButton("Add Input");
+                AddInput.addActionListener(this);
 
                 /**
                  * 组装零件
@@ -219,6 +225,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 buttonPanel.add(addScorePoint);
                 buttonPanel.add(updateQuestion);
                 buttonPanel.add(deleteScorePoint);
+                buttonPanel.add(AddInput);
 
                 this.add(box);
                 this.add(buttonPanel, BorderLayout.SOUTH);
@@ -228,7 +235,7 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                 markSchemeList_before = markSchemeList;
 
                 // clear the answer textarea for each time
-                cAnswer0.setText("");
+                // cAnswer0.setText("");
         }
 
         /**
@@ -266,32 +273,50 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                                 JOptionPane.showMessageDialog(this, "Please Select a Line");
                         }
                         System.out.println("-- The Create New Question is Working --");
+                } else if (actionCommand.equals("Add Input")) {
+                        if (getUpdateSolutionString().contains("input()")) {
+                                String solution = getUpdateSolutionString();
+                                RunPythonCode RP = new RunPythonCode();
+                                RP.saveCodeFile(solution);
+                                RP.runCode(4);
+                                bInput = true;
+                        } else {
+                                JOptionPane.showMessageDialog(this, "your solution don't have input()");
+                        }
                 }
 
                 else if (actionCommand.equals("Update Question")) {
-
-                        Connection conn = new PythonCodeChecker_db().get_connection();
                         try {
-                                boolean b_markShceme = bcheckMarkSchemeEmpty();
-                                boolean b_question = getUpdateQuestionString().isEmpty();
-                                boolean b_solution = getUpdateSolutionString().isEmpty();
-                                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+                                String solution = getUpdateSolutionString();
+                                Connection conn = new PythonCodeChecker_db().get_connection();
 
-                                        String solution = getUpdateSolutionString();
-                                        String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
-                                                        solution);
+                                if (solution.contains("input()") && bInput != true) {
+                                        JOptionPane.showMessageDialog(this,
+                                                        "Please fill in the input first");
 
-                                        if (solution.contains("input()")) {
+                                } else if (bInput == true) {
+                                        if (checkBoxEmpty() == true) {
+                                                String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
+                                                                solution);
+
                                                 if (keywordNotInString == null) {
-                                                        if (getUpdateAnswerString().equals(
-                                                                        "") || !RunPythonCode.errorMessage.equals("")) {
-                                                                RunPythonCode RP = new RunPythonCode();
-                                                                RP.saveCodeFile(solution);
-                                                                RP.runCode(4);
-                                                        } else {
-                                                                String answer = getUpdateAnswerString();
-                                                                boolean b_score = checkSocre();
 
+                                                        if (!RunPythonCode.errorMessage.equals("")) {
+
+                                                                System.out.println("ccc");
+                                                                String errormessage = RunPythonCode.errorMessage;
+                                                                JOptionPane.showMessageDialog(this,
+                                                                                "Your Solution has SyntaxError: \n"
+                                                                                                + errormessage);
+                                                                cAnswer0.setText(errormessage);
+
+                                                        }
+
+                                                        else {
+                                                                System.out.println("a");
+                                                                String answer = this.getUpdateAnswerString();
+
+                                                                boolean b_score = checkSocre();
                                                                 if (b_score == true) {
                                                                         boolean b_add_q;
                                                                         try {
@@ -327,14 +352,22 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
 
                                                                 }
                                                         }
-
                                                 }
-                                        } else {
+
+                                        }
+
+                                } else {
+
+                                        if (checkBoxEmpty() == true) {
+
+                                                String keywordNotInString = PV.bCheckKeywordNotInString(cDataScorePoint,
+                                                                solution);
+
                                                 if (keywordNotInString == null) {
 
                                                         RunPythonCode RP = new RunPythonCode();
                                                         RP.saveCodeFile(solution);
-                                                        RP.runCode(3);
+                                                        RP.runCode(4);
 
                                                         if (!RP.getErrorMessage().equals("")) {
                                                                 String errormessage = RP.getErrorMessage();
@@ -396,6 +429,18 @@ public class ChangeQuestionComponent extends Box implements ActionListener {
                         }
                 }
 
+        }
+
+        private boolean checkBoxEmpty() {
+                boolean b_markShceme = bcheckMarkSchemeEmpty();
+                boolean b_question = getUpdateQuestionString().isEmpty();
+                boolean b_solution = getUpdateSolutionString().isEmpty();
+
+                if (PV.bcheckUserInputValue(b_markShceme, b_question, b_solution) == true) {
+                        return true;
+                } else {
+                        return false;
+                }
         }
 
         public boolean checkSocre() {
