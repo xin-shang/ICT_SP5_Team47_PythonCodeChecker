@@ -52,6 +52,9 @@ public class ScorePage extends JFrame implements ActionListener {
         this.suggestedAnswer = suggestedAnswer;
         this.passedKeywordList = passedKeywordList;
 
+
+
+
         // Feedback Page Setting
         feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
                 ScreenUtils.getDesignWindow_heigh());

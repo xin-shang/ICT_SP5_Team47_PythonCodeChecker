@@ -259,9 +259,11 @@ public class PythonCodeCheckerPage {
                                                                                 answerScore);
 
                                                                 ArrayList<String> passedKeywordList = KA
-                                                                                .getPassedKeywordlist(suggestSolution,
+                                                                                .getPassedKeywordlist(solution,
                                                                                                 mkl);
 
+                                                  
+                                                            
                                                                 PieChart passKeyword = PV.getPassedPieChart(solution,
                                                                                 userAnswer,
                                                                                 correctAnswer, answerScore,
