@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,6 +14,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.DimensionUIResource;
 
 import methodAndTool.RunPythonCode;
+import methodAndTool.ScreenUtils;
 
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -37,6 +39,7 @@ public class FeedbackPage extends JDialog {
 
     private GridBagLayout layout; // A layout object for managing components
     private GridBagConstraints constraints; // Used for the settings for the layout for each component
+    // private String suggetedResult;
 
     private RunPythonCode studentAnswerRPC = new RunPythonCode();
     private RunPythonCode suggestedAnswerRPC = new RunPythonCode();
@@ -47,8 +50,12 @@ public class FeedbackPage extends JDialog {
         // Create and set a layout for the dialog
         layout = new GridBagLayout();
         setLayout(layout);
+        ScreenUtils su = new ScreenUtils();
+        parentFrame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
 
         constraints = new GridBagConstraints();
+
+        parentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         addComponents();
     }
@@ -64,6 +71,7 @@ public class FeedbackPage extends JDialog {
         returnButton = new JButton("Return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 setVisible(false);
             }
         });
@@ -156,10 +164,12 @@ public class FeedbackPage extends JDialog {
                                                                                                  // around
     }
 
-    public void showFeedbackResult(String studentAnswer, String suggestedAnswer) {
+    public void showFeedbackResult(String studentAnswer, String suggestedAnswer, int score, String suggetedResult,
+            ArrayList<String> passedKeywordList) {
         returnButton.setEnabled(false);
 
         System.out.println("the suggest answer is: " + suggestedAnswer);
+        // this.suggetedResult = suggetedResult;
 
         studentAnswerTextArea.setText(studentAnswer);
         suggestedAnswerTextArea.setText(suggestedAnswer);
@@ -167,6 +177,11 @@ public class FeedbackPage extends JDialog {
         boolean runCodeResult = showStudentRunCodeResult(studentAnswer);
         if (runCodeResult == true) {
             showCompareOutputResult(suggestedAnswer);
+            messageTextArea.append("\nThe passed keyword(s) is/are:\n");
+            for (String keyword : passedKeywordList) {
+                messageTextArea.append(keyword + "\n");
+            }
+            messageTextArea.append("\n Your score is: " + score + "\n");
         }
         returnButton.setEnabled(true);
 
@@ -178,9 +193,14 @@ public class FeedbackPage extends JDialog {
 
         if (studentAnswer.length() > 0) {
             messageTextArea.append("Your program is interpreting...\n");
-
-            studentAnswerRPC.saveCodeFile(studentAnswer);
-            boolean runStatus = studentAnswerRPC.runCode();
+            boolean runStatus = true;
+            // seperate as two situation, might fixed later
+            if (studentAnswer.contains("input()")) {
+                runStatus = true;
+            } else {
+                studentAnswerRPC.saveCodeFile(studentAnswer);
+                runStatus = studentAnswerRPC.runCode(1);
+            }
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong when running the program. \n");
@@ -206,14 +226,21 @@ public class FeedbackPage extends JDialog {
             System.out.println("The editor window's is empty.");
         }
         return runCodeResult;
+
     }
 
     public void showCompareOutputResult(String suggestedAnswer) {
+
+        boolean runStatus = false;
         if (suggestedAnswer.length() > 0) {
             messageTextArea.append("Your program output is compared with the one of the suggested answers. \n");
 
-            suggestedAnswerRPC.saveCodeFile(suggestedAnswer);
-            boolean runStatus = suggestedAnswerRPC.runCode();
+            if (suggestedAnswer.contains("input()")) {
+                runStatus = true;
+            } else {
+                studentAnswerRPC.saveCodeFile(suggestedAnswer);
+                runStatus = studentAnswerRPC.runCode(1);
+            }
 
             if (runStatus == false) {
                 messageTextArea.append("There is something wrong with the suggested answer. \n");
@@ -226,18 +253,18 @@ public class FeedbackPage extends JDialog {
                     String suggestedAnswerOutput = suggestedAnswerRPC.getOutputFromConsole();
                     String studentAnswerOutput = studentAnswerRPC.getOutputFromConsole();
                     if (studentAnswerOutput.equals(suggestedAnswerOutput)) {
-                        messageTextArea.append("Your program output is the same as the suggested answer");
+                        messageTextArea.append("Your program output is the same as the suggested answer\n");
                     } else {
-                        messageTextArea.append("Your program has some differences from the suggested answer");
+                        messageTextArea.append("Your program has some differences from the suggested answer\n");
                     }
 
                 } else {
-                    messageTextArea.append("There is syntax error in the suggested answer");
+                    messageTextArea.append("There is syntax error in the suggested answer\n");
                     messageTextArea.append(suggestedAnswerRPC.getErrorMessage());
                 }
             }
         } else {
-            messageTextArea.append("You haven't selected a question to answer");
+            messageTextArea.append("You haven't selected a question to answer\n");
         }
 
     }

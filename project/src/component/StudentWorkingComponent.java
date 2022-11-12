@@ -17,19 +17,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import methodAndTool.ProjectVariable;
+import methodAndTool.ColorSet;
 
-import methodAndTool.JTextPaneColorDocument;
 import view.PythonCodeCheckerPage;
 
 import javax.swing.event.*;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.Element;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-import javax.swing.text.TabSet;
-import javax.swing.text.TabStop;
 
 public class StudentWorkingComponent extends Box {
 
@@ -49,8 +43,10 @@ public class StudentWorkingComponent extends Box {
         JPanel studnetButtonPanel;
         JButton buttonSubmitAnswer = new JButton("Submit Answer");
         JButton buttonRunCode = new JButton("Run Code");
-        // JButton buttonShowFeedback = new JButton("Show Feedback");
-        private static JTextPane editTextPane;
+
+        JButton buttonInput = new JButton("Add Input");
+
+        public static JTextPane editTextPane;
 
         public static JTextArea terminalArea;
         String[] data;
@@ -77,36 +73,22 @@ public class StudentWorkingComponent extends Box {
                 lines.setEditable(false);
                 lines.setFont(myFont2);
 
-                PythonCodeCheckerPage.splitPane.setDividerLocation(900);
+                PythonCodeCheckerPage.splitPane.setDividerLocation(1100);
 
                 topBox = Box.createHorizontalBox();
 
                 questionLabel = new JLabel();
                 questionLabel.setText(getQusetionString());
                 questionLabel.setFont(myFont1);
-                questionLabel.setPreferredSize(new Dimension(900, 50));
+                questionLabel.setPreferredSize(new Dimension(1100, 50));
                 topBox.add(questionLabel);
                 midBox = Box.createHorizontalBox();
 
                 editTextPane = new JTextPane();
-
-                // colour
-                editTextPane.setDocument(new JTextPaneColorDocument());
-
-                // set tab size
-                TabStop[] tabs = new TabStop[1];
-                tabs[0] = new TabStop(16);
-
-                TabSet tabset = new TabSet(tabs);
-
-                StyleContext sc = StyleContext.getDefaultStyleContext();
-                AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-                                StyleConstants.TabSet, tabset);
-
-                editTextPane.setParagraphAttributes(aset, false);
-
                 editTextPane.setFont(myFont2);
-
+                // set color for textPane background
+                new ColorSet();
+                // add lines count
                 editTextPane.getDocument().addDocumentListener(new DocumentListener() {
                         public String getText() {
                                 int caretPosition = editTextPane.getDocument().getLength();
@@ -119,7 +101,6 @@ public class StudentWorkingComponent extends Box {
                                         } else {
                                                 text += i + System.getProperty("line.separator");
                                         }
-
                                 }
                                 return text;
                         }
@@ -139,10 +120,6 @@ public class StudentWorkingComponent extends Box {
                                 lines.setText(getText());
                         }
                 });
-
-                editTextPane.setBackground(new Color(48, 49, 52));
-                // make cursor white color
-                editTextPane.setCaretColor(Color.WHITE);
 
                 editScrollPane.setRowHeaderView(lines);
                 editScrollPane.getViewport().add(editTextPane);
@@ -184,15 +161,19 @@ public class StudentWorkingComponent extends Box {
 
                 // 按键栏
                 studnetButtonPanel = new JPanel();
-                studnetButtonPanel.setMaximumSize(new Dimension(800, 80));
+                studnetButtonPanel.setMaximumSize(new Dimension(10000, 80));
 
                 PCCP.Button_Item_SubmitAnswer(buttonSubmitAnswer);
                 PCCP.Button_Item_RunCode(buttonRunCode);
+
                 // PCCP.Button_Item_ShowFeedback(buttonShowFeedback);
 
+                studnetButtonPanel.add(Box.createHorizontalStrut(0));
                 studnetButtonPanel.add(buttonSubmitAnswer);
+                studnetButtonPanel.add(Box.createHorizontalStrut(100));
                 studnetButtonPanel.add(buttonRunCode);
-                // studnetButtonPanel.add(buttonShowFeedback);
+                studnetButtonPanel.add(Box.createHorizontalStrut(900));
+                studnetButtonPanel.add(buttonInput);
 
                 this.add(studnetButtonPanel, BorderLayout.SOUTH);
 
@@ -208,6 +189,10 @@ public class StudentWorkingComponent extends Box {
 
         public static String getEditAnswerString() {
                 return editTextPane.getText();
+        }
+
+        public static String getTerminal() {
+                return terminalArea.getText();
         }
 
 }

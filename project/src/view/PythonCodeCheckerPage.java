@@ -3,14 +3,12 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 
@@ -22,9 +20,13 @@ import javax.swing.JSplitPane;
 
 import JDBC.QNS.GroupTable.studentQns_T;
 import JDBC.dbConnection.PythonCodeChecker_db;
+
 import Type.markScheme;
 import component.ChooseQuestionComponent;
 import component.StudentWorkingComponent;
+import javaswingdev.chart.PieChart;
+import methodAndTool.ColorSet;
+
 import methodAndTool.MessagePrintString;
 import methodAndTool.ProjectVariable;
 import methodAndTool.RunPythonCode;
@@ -58,6 +60,7 @@ public class PythonCodeCheckerPage {
         // 设置菜单中物品 - OPERATION
         JMenuItem item_Submit = new JMenuItem("Submit Answer");
         JMenuItem item_Run = new JMenuItem("Run Code");
+        // JMenuItem addInput = new JMenuItem("Add Input");
         // JMenuItem item_Feedback = new JMenuItem("Show Feedback");
 
         // 设置菜单中物品 - SHOW QUESTION
@@ -68,21 +71,13 @@ public class PythonCodeCheckerPage {
         // 设置菜单中物品 - USER
         JMenuItem item_ChangeAccount = new JMenuItem("Change Account");
         JMenuItem item_ExitProgram = new JMenuItem("Exit Program");
+        JMenuItem item_ChangeColor_White = new JMenuItem("Change Background White Color");
+        JMenuItem item_ChangeColor_Black = new JMenuItem("Change Background Black Color");
 
         Font myFont1 = new Font("Arial", Font.PLAIN, 16);
 
         // 设置分割面板
         public static JSplitPane splitPane = new JSplitPane();
-
-        // Create feedback page dialog
-        FeedbackPage feedbackPage = new FeedbackPage("Feedback", frame);
-
-        public PythonCodeCheckerPage() {
-                // Feedback Page Setting
-                feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
-                                ScreenUtils.getDesignWindow_heigh());
-                feedbackPage.setLocationRelativeTo(frame);
-        }
 
         // 初始化，组装界面
         public void init() {
@@ -93,16 +88,12 @@ public class PythonCodeCheckerPage {
                 frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
                                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
                 frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
-                try {
-                        frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac
-                                                                                                           // 好像不太支持这个，Windows
-                        System.out.println("-- ImageIO is Working --");
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
-                frame.setResizable(true); // 窗口锁定
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                ScreenUtils su = new ScreenUtils();
+                frame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
+                // 好像不太支持这个，Windows
+                System.out.println("-- ImageIO is Working --");
+                frame.setResizable(false); // 窗口锁定
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 违规操作关闭
 
                 /**
                  * 组装零件
@@ -115,7 +106,6 @@ public class PythonCodeCheckerPage {
                 // Button_Item_ShowFeedback(item_Feedback);
                 manuStudent_Operation.add(item_Submit);
                 manuStudent_Operation.add(item_Run);
-                // manuStudent_Operation.add(item_Feedback);
 
                 ChooseQuestionComponent.Button_Item_PreviousQuestion(item_PreviousQuestion);
                 ChooseQuestionComponent.Button_Item_NextQuestion(item_NextQuestion);
@@ -125,8 +115,12 @@ public class PythonCodeCheckerPage {
 
                 Button_Item_ChangeAccount(item_ChangeAccount);
                 Button_Item_ExitProgram(item_ExitProgram);
+                Button_Item_ChangeBackgroundColor_White(item_ChangeColor_White);
+                Button_Item_ChangeBackgroundColor_Black(item_ChangeColor_Black);
                 manuStudent_User.add(item_ChangeAccount);
                 manuStudent_User.add(item_ExitProgram);
+                manuStudent_User.add(item_ChangeColor_White);
+                manuStudent_User.add(item_ChangeColor_Black);
 
                 // 菜单名加入菜单组
                 manuBarStudent.add(manuStudent_Operation);
@@ -134,7 +128,7 @@ public class PythonCodeCheckerPage {
                 manuBarStudent.add(manuStudent_User);
 
                 splitPane.setContinuousLayout(false); // 连续布局
-                splitPane.setDividerLocation(950); // 左右分屏初始位置
+                splitPane.setDividerLocation(1150); // 左右分屏初始位置
                 splitPane.setDividerSize(10); // 分割线宽度
 
                 // Right
@@ -172,6 +166,26 @@ public class PythonCodeCheckerPage {
                 });
         }
 
+        private void Button_Item_ChangeBackgroundColor_White(JMenuItem button) {
+                button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                new ColorSet().setCurrent_color_set(2);
+
+                        }
+                });
+        }
+
+        private void Button_Item_ChangeBackgroundColor_Black(JMenuItem button) {
+                button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                new ColorSet().setCurrent_color_set(1);
+
+                        }
+                });
+        }
+
         // 退出程序
         private void Button_Item_ExitProgram(JMenuItem button) {
                 button.addActionListener(new ActionListener() {
@@ -196,28 +210,95 @@ public class PythonCodeCheckerPage {
 
                                 int selectedRow = ChooseQuestionComponent.getSelectedRow();
 
-                                if (selectedRow >= 0) {
+                                if (selectedRow != -1) {
+
                                         final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        String temp = "";
-                                        temp = DIO.getData(selectedRow, 2).toString();
-                                        // System.out.println(temp);
 
-                                        final String suggestedAnswer = temp;
+                                        String emptyString = "";
+                                        for (int i = 0; i < solution.length(); i++) {
+                                                emptyString += " ";
+                                        }
 
-                                        Thread t = new Thread() {
-                                                public void run() {
-                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
+                                        if (!solution.equals(emptyString)) {
+                                                if (solution.contains("input()")) {
+                                                        RunPythonCode RP = new RunPythonCode();
+                                                        RP.saveCodeFile(solution);
+                                                        RP.runCode(DIO);
+
+                                                } else {
+                                                        // System.out.println("the selected row is: " + selectedRow);
+                                                        String id = (String) DIO.getData_id(selectedRow);
+                                                        // System.out.println(id);
+                                                        List<markScheme> mkl = new ArrayList<markScheme>();
+                                                        mkl = DIO.getSelectedMarkScheme(id);
+                                                        RunPythonCode RP = new RunPythonCode();
+                                                        RP.saveCodeFile(solution);
+                                                        RP.runCode(1);
+
+                                                        if (RP.getErrorMessage().equals("")) {
+
+                                                                String userAnswer = RP.getOutputFromConsole();
+                                                                String correctAnswer = DIO.getData(selectedRow, 3)
+                                                                                .toString();
+                                                                String suggestSolution = DIO.getData(selectedRow, 2)
+                                                                                .toString();
+
+                                                                int answerScore = PV
+                                                                                .StringToInt(DIO.getData(selectedRow, 4)
+                                                                                                .toString());
+                                                                int passed_answerScore = KA.getAnswerScore(userAnswer,
+                                                                                correctAnswer,
+                                                                                answerScore);
+
+                                                                int total_score = KA.getKeyWordSocre(solution,
+                                                                                userAnswer,
+                                                                                correctAnswer,
+                                                                                answerScore, mkl);
+
+                                                                PieChart keyword = PV.getKeywordPieChart(mkl,
+                                                                                answerScore);
+
+                                                                ArrayList<String> passedKeywordList = KA
+                                                                                .getPassedKeywordlist(solution,
+                                                                                                mkl);
+
+                                                                PieChart passKeyword = PV.getPassedPieChart(solution,
+                                                                                userAnswer,
+                                                                                correctAnswer, answerScore,
+                                                                                passed_answerScore,
+                                                                                mkl);
+
+                                                                ScorePage SP = new ScorePage(total_score,
+                                                                                passedKeywordList,
+                                                                                keyword, passKeyword,
+                                                                                solution, suggestSolution);
+
+                                                                MPS.SubmitSuccessToString(
+                                                                                StudentWorkingComponent.terminalArea);
+                                                                SP.init();
+
+                                                        } else {
+                                                                JFrame jf = new JFrame();
+                                                                JOptionPane.showMessageDialog(jf,
+                                                                                " ERROR !!");
+                                                                StudentWorkingComponent.terminalArea
+                                                                                .setText(">ErrorMessage: "
+                                                                                                + RP.getErrorMessage()
+                                                                                                + "\n");
+                                                        }
+
                                                 }
-                                        };
-                                        t.start();
 
-                                        // Make the pop up dialog center align to parent window
-                                        feedbackPage.setLocationRelativeTo(frame);
-                                        // Show the feedback dialog
-                                        feedbackPage.setVisible(true);
+                                        } else {
+                                                JFrame jf = new JFrame();
+                                                JOptionPane.showMessageDialog(jf,
+                                                                "EMPTY !!");
+                                        }
+
                                 } else {
                                         JFrame jf = new JFrame();
                                         JOptionPane.showMessageDialog(jf, "Please Select A Question");
+
                                 }
 
                         }
@@ -229,73 +310,19 @@ public class PythonCodeCheckerPage {
                 ((AbstractButton) button).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-                                String id = (String) DIO.getData_id(selectedRow);
-                                List<markScheme> mkl = new ArrayList<markScheme>();
-                                mkl = DIO.getSelectedMarkScheme(id);
-
+                                // String answer = RunPythonCode.outputFromConsole;
                                 final String solution = StudentWorkingComponent.getEditAnswerString();
                                 RunPythonCode RP = new RunPythonCode();
+
                                 RP.saveCodeFile(solution);
-                                RP.runCode();
+                                RP.runCode(2);
 
-                                if (RP.getErrorMessage().equals("")) {
-
-                                        int score = KA.getKeyWordSocre(solution, RP.getOutputFromConsole(),
-                                                        DIO.getData(selectedRow, 3).toString(),
-                                                        PV.StringToInt(DIO.getData(selectedRow, 4).toString()), mkl);
-
-                                        ArrayList<String> passedKeywordList = KA.getPassedKeywordlist(solution, mkl);
-
-                                        String finalOutput = RP.getOutputFromConsole() + "\n" + "Your Score is: "
-                                                        + score + "\n" + "passed keyword:" + "\n";
-
-                                        for (String keyword : passedKeywordList) {
-                                                finalOutput += keyword + "\n";
-                                        }
-
-                                        StudentWorkingComponent.terminalArea.setText(finalOutput);
-
+                                if (RP.getErrorMessage() != "") {
+                                        StudentWorkingComponent.terminalArea.setText("> " + RP.getErrorMessage());
                                 } else {
-                                        StudentWorkingComponent.terminalArea.setText(RP.getErrorMessage());
+                                        StudentWorkingComponent.terminalArea.setText("> " + RP.getOutputFromConsole());
                                 }
-                        }
-                });
-        }
 
-        // Show Feedback
-        public void Button_Item_ShowFeedback(Object button) {
-                ((AbstractButton) button).addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                                int selectedRow = ChooseQuestionComponent.getSelectedRow();
-
-                                if (selectedRow >= 0) {
-                                        final String solution = StudentWorkingComponent.getEditAnswerString();
-                                        String temp = "";
-                                        temp = DIO.getData(selectedRow, 2).toString();
-                                        // System.out.println(temp);
-
-                                        final String suggestedAnswer = temp;
-
-                                        Thread t = new Thread() {
-                                                public void run() {
-                                                        feedbackPage.showFeedbackResult(solution, suggestedAnswer);
-                                                }
-                                        };
-                                        t.start();
-
-                                        // Make the pop up dialog center align to parent window
-                                        feedbackPage.setLocationRelativeTo(frame);
-                                        // Show the feedback dialog
-                                        feedbackPage.setVisible(true);
-                                        System.out.println("-- The Show Feedback Button is Working --");
-                                } else {
-                                        JFrame jf = new JFrame();
-                                        JOptionPane.showMessageDialog(jf, "Please Select A Question");
-                                }
                         }
                 });
         }

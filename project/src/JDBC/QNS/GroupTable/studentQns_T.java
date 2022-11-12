@@ -71,6 +71,7 @@ public class studentQns_T extends Qns_T {
         }
     }
 
+    // retrun object for front end to search the value in 2d form
     public Object getData(int y, int x) {
         if (y > dblength) {
             System.out.println("column is out of index");

@@ -3,10 +3,9 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,8 +25,13 @@ public class HomePage {
 	// Home Page 提示语
 	private JLabel prompt_home = new JLabel("Welcome to Python Code Checker");
 	// Home Page 按键
-	private JButton button_Student = new JButton("I'm a Student");
-	private JButton button_Staff = new JButton("I'm a Staff");
+	java.net.URL url_student = getClass().getResource("/imgs/student_icon.png");
+	Icon student_icon = new ImageIcon(url_student);
+	private JButton button_Student = new JButton(student_icon);
+
+	java.net.URL url_staff = getClass().getResource("/imgs/staff_icon.png");
+	Icon staff_icon = new ImageIcon(url_staff);
+	private JButton button_Staff = new JButton(staff_icon);
 
 	// 初始化，组装界面
 	public void init() {
@@ -38,13 +42,10 @@ public class HomePage {
 		frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
 				(ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
 		frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
-		try {
-			frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac 好像不太支持这个，Windows
-																								// 咋样要试试。
-			// System.out.println("-- ImageIO is Working --");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ScreenUtils su = new ScreenUtils();
+		frame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
+																		// 咋样要试试。
+		// System.out.println("-- ImageIO is Working --");
 		frame.setResizable(false); // 窗口锁定
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,14 +63,14 @@ public class HomePage {
 		 * 组装零件
 		 */
 		prompt_home.setFont(myFont);
-		prompt_home.setBounds(150, 10, 600, 100);
+		prompt_home.setBounds(365, 70, 470, 100);
 		homePanel.add(prompt_home);
 
-		button_Student.setBounds(150, 200, 200, 200);
+		button_Student.setBounds(150, 320, 300, 200);
 		Button_Student_Listener(button_Student);
 		homePanel.add(button_Student);
 
-		button_Staff.setBounds(600, 200, 200, 200);
+		button_Staff.setBounds(750, 320, 300, 200);
 		Button_Staff_Listener(button_Staff);
 		homePanel.add(button_Staff);
 

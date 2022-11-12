@@ -111,7 +111,7 @@ public class PieChart extends JComponent {
         for (int i = 0; i < models.size(); i++) {
             ModelPieChart data = models.get(i);
             double angle = data.getValues() * 360 / totalValue;
-            //  Draw Text
+            // Draw Text
             double textSize = size / 2 * 0.75f;
             double textAngle = -(drawAngle - angle / 2);
             double cosX = Math.cos(Math.toRadians(textAngle));
@@ -124,7 +124,7 @@ public class PieChart extends JComponent {
             double textY = centerY + sinY * textSize + fm.getAscent() / 2;
             g2.setColor(Color.WHITE);
             g2.drawString(text, (float) textX, (float) textY);
-            //  Draw label
+            // Draw label
             if (hoverIndex == i) {
                 double labelSize = size / 2;
                 double labelX = centerX + cosX * labelSize;
@@ -139,8 +139,9 @@ public class PieChart extends JComponent {
         super.paintComponent(g);
     }
 
-    private void drawPopupLabel(Graphics2D g2, double size, double angle, double labelX, double labelY, String text, String detail) {
-        float fontSize = (float) (getFont().getSize() * size * 0.0035f);
+    private void drawPopupLabel(Graphics2D g2, double size, double angle, double labelX, double labelY, String text,
+            String detail) {
+        float fontSize = (float) (getFont().getSize() * size * 0.0025f);
         boolean up = !(angle > 0 && angle < 180);
         double space = size * 0.03f;
         double spaceV = size * 0.01f;

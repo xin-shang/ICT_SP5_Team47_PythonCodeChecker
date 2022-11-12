@@ -7,22 +7,22 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 
-public class JTextPaneColorDocument extends DefaultStyledDocument {
+public class JTextPaneColorDocument_2 extends DefaultStyledDocument {
 
     // cont是个空容器，下面用来设置容器包含内容
     final StyleContext cont = StyleContext.getDefaultStyleContext();
 
     final AttributeSet blueColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
-            new Color(3, 169, 244));
+            new Color(0, 0, 225));
 
-    final AttributeSet whiteColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.WHITE);
+    final AttributeSet blackColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.BLACK);
     final AttributeSet purpleColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
             new Color(170, 80, 153));
 
     final AttributeSet redColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
             new Color(255, 51, 51));
     final AttributeSet yellowColor = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground,
-            new Color(255, 255, 51));
+            new Color(153, 76, 0));
 
     private int findLastChar(String text, int index) {
         while (index < text.length()) {
@@ -73,7 +73,7 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                 "(\\W)*((\\(|\\)|\\{|\\}|\\[|\\]|\\=))")) {
             setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
         } else {
-            setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
+            setCharacterAttributes(leftIndex, rightIndex - leftIndex, blackColor, false);
         }
     }
 
@@ -109,7 +109,7 @@ public class JTextPaneColorDocument extends DefaultStyledDocument {
                         "((\\(|\\)|\\{|\\}|\\[|\\]|\\=))"))
                     setCharacterAttributes(leftIndex, rightIndex - leftIndex, redColor, false);
                 else
-                    setCharacterAttributes(leftIndex, rightIndex - leftIndex, whiteColor, false);
+                    setCharacterAttributes(leftIndex, rightIndex - leftIndex, blackColor, false);
                 leftIndex = rightIndex;
             }
             rightIndex++;

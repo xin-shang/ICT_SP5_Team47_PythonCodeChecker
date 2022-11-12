@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import JDBC.dbConnection.PythonCodeChecker_db;
 import methodAndTool.ProjectVariable;
 
+// parent class for the signle table
 public class STable_P {
     ProjectVariable PV = new ProjectVariable();
     PreparedStatement PreStmt = null;
@@ -15,6 +16,7 @@ public class STable_P {
     Connection conn;
     PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
+    // Count the table rows
     public int getRowsLength(Connection conn, String table) {
         try {
             String sql = "select count(*) from " + table;

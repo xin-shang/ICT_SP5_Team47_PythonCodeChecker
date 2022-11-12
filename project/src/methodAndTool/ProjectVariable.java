@@ -22,8 +22,6 @@ public class ProjectVariable {
 
 	public String filenameTemp;
 
-	private keywordAnalysis KA = new keywordAnalysis();
-
 	/**
 	 * 临时文件名称
 	 */
@@ -64,10 +62,10 @@ public class ProjectVariable {
 
 	public Font getUserTextfieldFontSize() {
 		if (getOSName().startsWith("Windows")) {
-			Font myFont3 = new Font("Arial", Font.PLAIN, 15);
+			Font myFont3 = new Font("Arial", Font.PLAIN, 16);
 			return myFont3;
 		} else {
-			Font myFont2 = new Font("Arial", Font.PLAIN, 14);
+			Font myFont2 = new Font("Arial", Font.PLAIN, 16);
 			return myFont2;
 		}
 	}
@@ -117,7 +115,6 @@ public class ProjectVariable {
 		} else {
 			return 0;
 		}
-
 	}
 
 	public boolean bcheckUserInputValue(boolean bmarkShceme, boolean question, boolean solution) {
@@ -196,39 +193,83 @@ public class ProjectVariable {
 		return SocreList;
 	}
 
-	public PieChart getKeywordPieChart(List<markScheme> mkl) {
+	public PieChart getKeywordPieChart(List<markScheme> mkl, int answerScore) {
+
 		PieChart keyword_pie = new PieChart();
 		int index = 0;
 		for (markScheme mk : mkl) {
+			// System.out.println(index);
+			// System.out.println(getColorSet().length);
 			if (index > getColorSet().length - 1) {
 				index = 0;
 			}
 			keyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorSet()[index]));
 			index++;
-
 		}
+
+		if (answerScore > 0) {
+			keyword_pie.addData(new ModelPieChart("Answer Score", answerScore, getColorSet()[index]));
+		}
+
 		return keyword_pie;
 	}
 
-	public PieChart getPassedPieChart(String solution, List<markScheme> mkl) {
+	public PieChart getPassedPieChart(String solution, String Useranswer, String CorrectAnswer, int answerScore,
+			int passed_answerScore,
+			List<markScheme> mkl) {
+		keywordAnalysis KA = new keywordAnalysis();
 		PieChart passedkeyword_pie = new PieChart();
 		List<String> passedKeyword = KA.getPassedKeywordlist(solution, mkl);
-		int index = 0;
-		for (markScheme mk : mkl) {
 
-			if (passedKeyword.contains(mk.getKeyword())) {
+		int index = 0;
+		int count = 0;
+		for (markScheme mk : mkl) {
+			for (String pw : passedKeyword) {
+				if (mk.getKeyword().equals(pw)) {
+					count++;
+				}
+			}
+			// System.out.println(mk.getKeyword());
+			if (count > 0) {
+				count = 0;
+				// System.out.println("your color is not grey");
 				if (index > getColorSet().length - 1) {
 					index = 0;
 				}
 				passedkeyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorSet()[index]));
 				index++;
 			} else {
+				// System.out.println("your color is grey");
 				passedkeyword_pie.addData(new ModelPieChart(mk.getKeyword(), mk.getScore(), getColorGrey()));
 				index++;
 			}
+
 		}
 
-		return null;
+		if (answerScore > 0) {
+			if (answerScore == passed_answerScore) {
+				passedkeyword_pie
+						.addData(new ModelPieChart("Passed Answer", passed_answerScore, getColorSet()[index]));
+			} else {
+
+				if (passed_answerScore == 0) {
+					passedkeyword_pie
+							.addData(new ModelPieChart("Missed Answer", answerScore,
+									getColorGrey()));
+				} else if (passed_answerScore < answerScore) {
+
+					passedkeyword_pie
+							.addData(new ModelPieChart("Missed Answer", answerScore - passed_answerScore,
+									getColorGrey()));
+					passedkeyword_pie
+							.addData(
+									new ModelPieChart("Passed Answer", passed_answerScore, getColorSet()[index]));
+				}
+			}
+
+		}
+
+		return passedkeyword_pie;
 	}
 
 	private Color getColorGrey() {
@@ -239,9 +280,9 @@ public class ProjectVariable {
 
 		Color[] colorSet = { new Color(255, 0, 0),
 				new Color(255, 128, 0),
-				new Color(255, 255, 0),
-				new Color(128, 255, 0),
-				new Color(0, 255, 0),
+				new Color(230, 230, 0),
+				new Color(76, 153, 0),
+				new Color(0, 153, 0),
 				new Color(0, 255, 128),
 				new Color(0, 0, 255),
 				new Color(127, 0, 255),

@@ -56,6 +56,7 @@ public class student_T {
         }
     }
 
+    // insert value for signle table
     public boolean inserRows(String username, String password) {
         try {
 

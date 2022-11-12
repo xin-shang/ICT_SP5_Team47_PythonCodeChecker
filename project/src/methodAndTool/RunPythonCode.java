@@ -3,14 +3,22 @@ package methodAndTool;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import JDBC.QNS.GroupTable.studentQns_T;
+import view.InputTerminalPage;
 
 public class RunPythonCode {
     private String codeFileName;
     private String pythonIntpreterFileName;
-    private String outputFromConsole;
-    private String errorMessage;
+    public static String outputFromConsole;
+    public static String errorMessage;
     WriteAndRead WAR = new WriteAndRead();
+    String codes;
 
     public RunPythonCode() {
         ProjectVariable PV = new ProjectVariable();
@@ -24,8 +32,6 @@ public class RunPythonCode {
         ProjectVariable PV = new ProjectVariable();
         pythonIntpreterFileName = PV.getPythonName();
         this.codeFileName = codeFileName;
-        outputFromConsole = "";
-        errorMessage = "";
     }
 
     public String getOutputFromConsole() {
@@ -37,22 +43,45 @@ public class RunPythonCode {
     }
 
     public void saveCodeFile(String codes) {
+        this.codes = codes;
         WriteAndRead WA = new WriteAndRead();
         WA.write2TextFileOutStream(codeFileName, codes);
     }
 
-    public boolean runCode() {
+    // 1: submit, 2: run, 3: add, 4: change
+    public boolean runCode(int state) {
+        boolean b_run;
+        if (codes.contains("input()")) {
+            b_run = runCode_Input(state);
 
+        } else {
+            b_run = runCode_NonInput();
+        }
+
+        return b_run;
+    }
+
+    // only for submit button, it might change it in the future
+    public void runCode(studentQns_T DIO) {
+        InputTerminalPage IT = new InputTerminalPage(25, 50, pythonIntpreterFileName, codeFileName, 1, DIO, codes);
+        Thread t = new Thread() {
+            public void run() {
+                IT.Init();
+            }
+        };
+        t.start();
+    }
+
+    public boolean runCode_NonInput() {
+        outputFromConsole = "";
+        errorMessage = "";
         ProcessBuilder processBuilder = new ProcessBuilder(pythonIntpreterFileName, codeFileName);
         boolean exitCode = true;
         String s;
-        errorMessage = "";
-        outputFromConsole = "";
 
         try {
             Process p = processBuilder.start();
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
             BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
             System.out.println("run code started");
             exitCode = p.waitFor(5, TimeUnit.SECONDS);
@@ -79,13 +108,22 @@ public class RunPythonCode {
                     }
                 }
                 if (errorMessage.equals("")) {
-                    while ((s = stdInput.readLine()) != null) {
-                        outputFromConsole = s + "\n";
+                    if (codes.contains("input()")) {
+                        JFrame jf = new JFrame();
+                        JOptionPane.showMessageDialog(jf, "Sorry, We Have Not Open input() For Current Version");
+                        return false;
+
+                    } else {
+                        while ((s = stdInput.readLine()) != null) {
+                            outputFromConsole += s + "\n";
+                        }
                     }
+
                 }
 
                 System.out.println("\nExited with error code: " + exitCode);
             }
+
             return exitCode;
 
         } catch (IOException e) {
@@ -99,4 +137,13 @@ public class RunPythonCode {
             return false;
         }
     }
+
+    public boolean runCode_Input(int state) {
+
+        new InputTerminalPage(25, 50, pythonIntpreterFileName, codeFileName, state).Init();
+
+        return InputTerminalPage.checkCodeError;
+
+    }
+
 }

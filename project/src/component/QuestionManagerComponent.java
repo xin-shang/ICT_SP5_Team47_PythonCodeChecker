@@ -70,6 +70,7 @@ public class QuestionManagerComponent extends Box {
 		// title 暂时写了四个，如果只写ID和题目也可以。评分点暂时看不到。点击查看后才能看到
 		// body 暂时写了6个，用来测试功能。
 		/* ——————————————————————————以下为测试用的数据———————————————————————— */
+
 		// 清空原有数据，保证列表中无内容
 		dataVector_Table.clear();
 		// 写入数据
@@ -102,6 +103,9 @@ public class QuestionManagerComponent extends Box {
 				/* return super.isCellEditable(row, column) */
 			}
 		};
+
+		// 行高
+		questionTable.setRowHeight(24);
 
 		// 每次选中一行
 		questionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

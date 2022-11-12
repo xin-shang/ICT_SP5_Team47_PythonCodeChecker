@@ -11,6 +11,7 @@ import JDBC.dbConnection.PythonCodeChecker_db;
 
 public class staff_T {
 
+    // static value to store who is logging the system
     static String Username_exit;
     String table = "staff";
     JFrame frame = new JFrame();
@@ -20,7 +21,6 @@ public class staff_T {
 
     public staff_T() {
         Username_exit = null;
-
     }
 
     public static String getUsername() {
@@ -64,6 +64,7 @@ public class staff_T {
         }
     }
 
+    // insert value for single table
     public boolean inserRows(String username, String password) {
         try {
 

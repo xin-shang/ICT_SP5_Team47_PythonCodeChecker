@@ -11,6 +11,8 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -92,6 +94,9 @@ public class ChooseQuestionComponent extends Box {
 			}
 		};
 
+		// 行高
+		chooseQuestionTable.setRowHeight(24);
+
 		// 每次选中一行
 		chooseQuestionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -112,22 +117,33 @@ public class ChooseQuestionComponent extends Box {
 		// 滚动条 套 列表 （questionTable）
 		JScrollPane scrollPane = new JScrollPane(chooseQuestionTable);
 
-		JPanel buttonStudentPanel = new JPanel();
-		buttonStudentPanel.setMaximumSize(new Dimension(800, 80));
+		// 左右
+		JPanel LR_JPanel = new JPanel();
+		LR_JPanel.setMaximumSize(new Dimension(100, 30));
 
-		previousButton = new JButton("<");
+		java.net.URL icon_left_url = getClass().getResource("/imgs/left_icon.png");
+		Icon icon_left = new ImageIcon(icon_left_url);
+		previousButton = new JButton(icon_left);
+		previousButton.setPreferredSize(new Dimension(30, 30));
 		Button_Item_PreviousQuestion(previousButton);
-		// buttonStudentPanel.add(previousButton);
+		LR_JPanel.add(previousButton);
+
+		java.net.URL icon_right_url = getClass().getResource("/imgs/right_icon.png");
+		Icon icon_right = new ImageIcon(icon_right_url);
+		nextButton = new JButton(icon_right);
+		nextButton.setPreferredSize(new Dimension(30, 30));
+		Button_Item_NextQuestion(nextButton);
+		LR_JPanel.add(nextButton);
+
+		JPanel buttonStudentPanel = new JPanel();
+		buttonStudentPanel.setMaximumSize(new Dimension(100, 25));
 
 		showQuestionButton = new JButton("Show");
 		Button_Item_ShowQuestionButton(showQuestionButton);
 		buttonStudentPanel.add(showQuestionButton);
 
-		nextButton = new JButton(">");
-		Button_Item_NextQuestion(nextButton);
-		// buttonStudentPanel.add(nextButton);
-
-		this.add(scrollPane);
+		this.add(LR_JPanel, BorderLayout.NORTH);
+		this.add(scrollPane, BorderLayout.CENTER);
 		this.add(buttonStudentPanel, BorderLayout.SOUTH);
 
 	}
@@ -169,6 +185,9 @@ public class ChooseQuestionComponent extends Box {
 							"This is the first Question");
 				} else {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() - 1);
+
+					rowNum = ChooseQuestionComponent.getSelectedRow();
+
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
 									+ getValueAt_Table(getSelectedRow(), 1)));
@@ -189,8 +208,12 @@ public class ChooseQuestionComponent extends Box {
 		((AbstractButton) button).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if (getSelectedRow() < studentQns_T.getDblength() - 1) {
 					setSelectedRow(chooseQuestionTable.getSelectedRow() + 1);
+
+					rowNum = ChooseQuestionComponent.getSelectedRow();
+
 					StudentWorkingComponent.setQuestionString(
 							WriteAndRead.readQuestion("Q" + (getSelectedRow() + 1) + ": "
 									+ getValueAt_Table(getSelectedRow(), 1)));

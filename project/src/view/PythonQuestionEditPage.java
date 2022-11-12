@@ -2,13 +2,11 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,7 +31,7 @@ public class PythonQuestionEditPage {
 	List<markScheme> mks;
 	// QuestionManagerComponent QMC = new QuestionManagerComponent();
 
-	String ArtUser = ScreenUtils.getBlankSpace(54);
+	String ArtUser = ScreenUtils.getBlankSpace(52);
 
 	/**
 	 * Python Question Edit Page
@@ -74,16 +72,12 @@ public class PythonQuestionEditPage {
 		frame.setLocation((ScreenUtils.getScreenWidth() - ScreenUtils.getDesignWindow_width()) / 2,
 				(ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2); // 窗口位置
 		frame.setSize(ScreenUtils.getDesignWindow_width(), ScreenUtils.getDesignWindow_heigh()); // 设置窗口（宽，高）
-		try {
-			frame.setIconImage(ImageIO.read(new File(ScreenUtils.getItemPath("PythonLogo")))); // Mac 好像不太支持这个，Windows
-			// 咋样要试试。
-			System.out.println("-- ImageIO is Working --");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ScreenUtils su = new ScreenUtils();
+		frame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
+		// 咋样要试试。
+		System.out.println("-- ImageIO is Working --");
 		frame.setResizable(false); // 窗口锁定
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 违规操作关闭
 
 		/**
 		 * 设置窗口内容
@@ -111,8 +105,8 @@ public class PythonQuestionEditPage {
 
 		// 分割面板
 		splitPane.setContinuousLayout(true); // 连续布局
-		splitPane.setDividerLocation(800); // 左右分屏初始位置
-		splitPane.setDividerSize(2); // 分割线宽度
+		splitPane.setDividerLocation(960); // 左右分屏初始位置
+		splitPane.setDividerSize(10); // 分割线宽度
 
 		// splitPane Left
 		splitPane.setLeftComponent(new QuestionManagerComponent(DIO, QKC));
@@ -179,6 +173,7 @@ public class PythonQuestionEditPage {
 			public void actionPerformed(ActionEvent e) {
 				//
 				splitPane.setLeftComponent(new QuestionManagerComponent(new staffQns_T(conn), QKC));
+				PythonQuestionEditPage.splitPane.setRightComponent(new QuestionDetailsComponent(DIO));
 				System.out.println("-- The Show Question Table Manu Button is Working --");
 			}
 		});
@@ -191,6 +186,7 @@ public class PythonQuestionEditPage {
 
 				// refresh keyword table
 				splitPane.setLeftComponent(new KeywordManagerComponent(QKC));
+
 				System.out.println("-- The Check Manu Button is Working --");
 
 			}
