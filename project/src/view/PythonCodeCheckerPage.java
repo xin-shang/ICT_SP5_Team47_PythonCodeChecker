@@ -262,8 +262,6 @@ public class PythonCodeCheckerPage {
                                                                                 .getPassedKeywordlist(solution,
                                                                                                 mkl);
 
-                                                  
-                                                            
                                                                 PieChart passKeyword = PV.getPassedPieChart(solution,
                                                                                 userAnswer,
                                                                                 correctAnswer, answerScore,
@@ -319,7 +317,11 @@ public class PythonCodeCheckerPage {
                                 RP.saveCodeFile(solution);
                                 RP.runCode(2);
 
-                                System.out.println(StudentWorkingComponent.getTerminal());
+                                if (RP.getErrorMessage() != "") {
+                                        StudentWorkingComponent.terminalArea.setText("> " + RP.getErrorMessage());
+                                } else {
+                                        StudentWorkingComponent.terminalArea.setText("> " + RP.getOutputFromConsole());
+                                }
 
                         }
                 });

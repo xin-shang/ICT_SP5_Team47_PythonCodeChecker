@@ -52,9 +52,6 @@ public class ScorePage extends JFrame implements ActionListener {
         this.suggestedAnswer = suggestedAnswer;
         this.passedKeywordList = passedKeywordList;
 
-
-
-
         // Feedback Page Setting
         feedbackPage.setSize(ScreenUtils.getDesignWindow_width(),
                 ScreenUtils.getDesignWindow_heigh());
@@ -69,10 +66,11 @@ public class ScorePage extends JFrame implements ActionListener {
         ScreenUtils su = new ScreenUtils();
 
         frame.setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
-        // 好像不太支持这个，Windows
-        System.out.println("-- ImageIO is Working --");
-        frame.setResizable(false); // 窗口锁定
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 违规操作关闭
+
+        // block the window size
+        frame.setResizable(false);
+        // possible to close the window when it is crash
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         Socre_label_1.setText("Score: " + score);
 

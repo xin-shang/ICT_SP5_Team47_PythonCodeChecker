@@ -35,27 +35,6 @@ public class question_T extends STable_P {
         }
     }
 
-    public boolean inserRows(Connection conn, String id, String user_id, String question) {
-        try {
-
-            String sql = "INSERT INTO " + table + " VALUES(?,?,?)";
-
-            PreStmt = conn.prepareStatement(sql);
-            // insert value
-            PreStmt.setString(1, id);
-            PreStmt.setString(2, user_id);
-            PreStmt.setString(3, question);
-            PreStmt.executeUpdate();
-
-            PreStmt.close();
-
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e);
-            return false;
-        }
-    }
-
     public boolean deletRows(Connection conn, String id) {
         try {
 
@@ -72,6 +51,7 @@ public class question_T extends STable_P {
         }
     }
 
+    // return the question id, if need.
     public String getQuestionID(Connection conn, String question) {
         try {
             String question_id = null;
@@ -115,6 +95,7 @@ public class question_T extends STable_P {
         }
     }
 
+    // check question is exit or not
     public boolean bCheckQuestion(Connection conn, String question) {
         try {
             boolean bQuestion = false;

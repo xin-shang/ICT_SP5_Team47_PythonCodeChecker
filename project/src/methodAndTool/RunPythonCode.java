@@ -32,7 +32,6 @@ public class RunPythonCode {
         ProjectVariable PV = new ProjectVariable();
         pythonIntpreterFileName = PV.getPythonName();
         this.codeFileName = codeFileName;
-
     }
 
     public String getOutputFromConsole() {
@@ -58,7 +57,7 @@ public class RunPythonCode {
         } else {
             b_run = runCode_NonInput();
         }
-        System.out.println(b_run);
+
         return b_run;
     }
 

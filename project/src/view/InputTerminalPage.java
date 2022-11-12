@@ -29,7 +29,11 @@ import methodAndTool.ScreenUtils;
 import methodAndTool.keywordAnalysis;
 
 public class InputTerminalPage extends JFrame {
+    // frame layout value
     private static final int GAP = 3;
+    private int rows;
+    private int cols;
+
     private JTextArea textarea;
     private JTextField textfield;
 
@@ -37,8 +41,6 @@ public class InputTerminalPage extends JFrame {
     ArrayList<String> inputstream = new ArrayList<String>();
     static ArrayList<String> errorstream = new ArrayList<>();
 
-    int rows;
-    int cols;
     public static int b_process_if_end;
     String pythonPath;
     String pythonIntpreterFileName;
@@ -132,16 +134,17 @@ public class InputTerminalPage extends JFrame {
 
     public void Init() {
 
+        // set frame logo
         ScreenUtils su = new ScreenUtils();
         setIconImage(su.getItemPath("PythonLogo").getImage()); // Mac
         textarea = prepareTextArea(rows, cols);
         textfield = prepareTextField(cols, textarea);
 
+        // set frame layout
         jp.setLayout(new BorderLayout(GAP, GAP));
         jp.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
         jp.add(new JScrollPane(textarea), BorderLayout.CENTER);
         jp.add(textfield, BorderLayout.SOUTH);
-
         this.setTitle("Terminal");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().add(jp);
@@ -151,12 +154,13 @@ public class InputTerminalPage extends JFrame {
                 (ScreenUtils.getScreenHeight() - ScreenUtils.getDesignWindow_heigh()) / 2);
         setVisible(true);
 
+        // set welcome text
         textarea.append("Detected keyword \"input()\", please input your first value: ");
 
     }
 
+    // return the value to different situation: output
     private void setAnswer_output(String string_output) {
-
         // submit
         if (state == 1) {
             StudentWorkingComponent.terminalArea.setText(string_output + "\n");
@@ -184,6 +188,7 @@ public class InputTerminalPage extends JFrame {
         }
     }
 
+    // return the value to different situation: error
     private void setError_output(String error) {
         JFrame jf = new JFrame();
         // submit
@@ -221,6 +226,7 @@ public class InputTerminalPage extends JFrame {
         return output;
     }
 
+    // transfer list to string: output
     private String getOutput(ArrayList<String> output) throws IOException, InterruptedException {
         inputstream = runCode(pythonIntpreterFileName, pythonPath, output);
         String string_output = "";
@@ -230,6 +236,7 @@ public class InputTerminalPage extends JFrame {
         return string_output;
     }
 
+    // transfer list to string: error
     private String getError(ArrayList<String> error) {
         String error_output = "";
         for (String s : error) {
@@ -238,6 +245,7 @@ public class InputTerminalPage extends JFrame {
         return error_output;
     }
 
+    // button for keyboard: enter
     private JTextField prepareTextField(int cols, JTextArea textArea) {
         JTextField textField = new JTextField(cols);
         textField.addActionListener(new TextFieldListener(textArea));
@@ -252,6 +260,7 @@ public class InputTerminalPage extends JFrame {
         return textArea;
     }
 
+    // enter listener
     private class TextFieldListener implements ActionListener {
 
         private JTextArea textArea;
@@ -263,12 +272,9 @@ public class InputTerminalPage extends JFrame {
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
-                // System.out.println(progrocessEndCount);
 
                 JTextComponent textComponent = (JTextComponent) evt.getSource();
-
                 String text = textComponent.getText();
-                // clear the textfield
                 textComponent.setText("");
                 // add the input value inside the list
                 output.add(text);
@@ -334,6 +340,7 @@ public class InputTerminalPage extends JFrame {
             throws IOException, InterruptedException {
         // make sure every loop for errorstream is clear
         errorstream.clear();
+        // a value to simulate the process waitfor
         int waitfor = 1;
         int inputCount = userinput.size();
         ArrayList<String> lines_result = new ArrayList<>();

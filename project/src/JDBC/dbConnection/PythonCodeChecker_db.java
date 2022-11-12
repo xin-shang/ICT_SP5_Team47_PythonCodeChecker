@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 public class PythonCodeChecker_db {
 
+    // method to connect the MYSQL
     public Connection get_connection() {
         Connection connection = null;
 

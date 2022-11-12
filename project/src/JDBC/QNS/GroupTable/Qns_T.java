@@ -30,6 +30,7 @@ public class Qns_T {
 
     PythonCodeChecker_db pb = new PythonCodeChecker_db();
 
+    // Receive keyword from the MYSQL
     public List<markScheme> getSelectedMarkScheme(String questionID) {
         try {
 

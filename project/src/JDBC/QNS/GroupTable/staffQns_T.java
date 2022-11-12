@@ -10,6 +10,7 @@ import java.util.List;
 import JDBC.Login.staff_T;
 import Type.QnS;
 
+// parent class for the staff
 public class staffQns_T extends Qns_T {
 
     List<QnS> qnsDB;
@@ -24,13 +25,13 @@ public class staffQns_T extends Qns_T {
         userid = staff_T.getUsername();
         System.out.println("staffQNS");
         qnsDB = getStaffQns(conn, userid);
-
     }
 
     public List<QnS> getQNS() {
         return this.qnsDB;
     }
 
+    // return all the value would needed for staff page and store in a the QnS list
     private List<QnS> getStaffQns(Connection conn, String staffID) {
         List<QnS> qnsDB = new ArrayList<QnS>();
         try {
@@ -183,6 +184,7 @@ public class staffQns_T extends Qns_T {
         return rowlength;
     }
 
+    // retrun object for front end to search the value in 2d form
     public Object getData(int y, int x) {
         if (y > dblength) {
             System.out.println("column is out of index");

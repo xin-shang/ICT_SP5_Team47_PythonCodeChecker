@@ -19,28 +19,24 @@ public class keywordAnalysis {
         int score = 0;
         score += getAnswerScore(answer, correctAnswer, answerScore);
         MPS.CalculatingMarkToString(StudentWorkingComponent.terminalArea);
-      
+
         // mkl loop each markscheme(mk)
         for (markScheme mk : mkl) {
             String keyword;
-         
-            if (mk.getKeyword().equals("input")){
+            if (mk.getKeyword().equals("input")) {
                 keyword = mk.getKeyword() + "()";
 
-            }
-            else if(mk.getKeyword().equals("in")){
+            } else if (mk.getKeyword().equals("in")) {
                 keyword = mk.getKeyword() + " ";
-         
+
                 System.out.println(keyword);
-            }
-            else{
+            } else {
                 keyword = mk.getKeyword();
-       
+
             }
-       
+
             boolean bcheck = solution.contains(keyword);
 
-    
             if (bcheck == true) {
 
                 score += mk.getScore();
@@ -167,24 +163,20 @@ public class keywordAnalysis {
 
         // mkl loop each markscheme(mk)
         for (markScheme mk : mkl) {
-          
 
             String keyword;
-         
-            if (mk.getKeyword().equals("input")){
+
+            if (mk.getKeyword().equals("input")) {
                 keyword = mk.getKeyword() + "()";
 
-            }
-            else if(mk.getKeyword().equals("in")){
+            } else if (mk.getKeyword().equals("in")) {
                 keyword = mk.getKeyword() + " ";
-         
+
                 System.out.println(keyword);
-            }
-            else{
+            } else {
                 keyword = mk.getKeyword();
-       
+
             }
-       
 
             boolean bcheck = solution.contains(keyword);
             if (bcheck == true) {
