@@ -87,8 +87,8 @@ The building environment is base on **JAVA JDK 19** and **PYTHON3.10.5**.
 -  **Change Background White Color**: demo color set.
 -  **Change Background Black Color**: demo color set.
 
--  **<**: previous question.
--  **>**: next question.
+- **<**: previous question.
+- **>**: next question.
 
--  **Submit Question**: sumit code and get a result(score&feedback).
--  **Run Code**: run code and get a output.
+- **Submit Question**: sumit code and get a result(score&feedback).
+- **Run Code**: run code and get a output.
