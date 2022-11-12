@@ -73,22 +73,22 @@ The building environment is base on **JAVA JDK 19** and **PYTHON3.10.5**.
 
 ## STUDENT PAGE
 **OPERATION:**
-**Submit Answer**: sumit code and get a result(score&feedback).
-**Run Code**: run code and get a output.
+-  **Submit Answer**: sumit code and get a result(score&feedback).
+-  **Run Code**: run code and get a output.
 
 
 **SHOW QUESTION**:
-**Preview Question**: switch to the previous question.
-**Next Question**: switch to the next question.
+-  **Preview Question**: switch to the previous question.
+-  **Next Question**: switch to the next question.
 
 **USER**:
-**Change Account**: return to the home page.
-**Exit Programe**: exit application.
-**Change Background White Color**: demo color set.
-**Change Background Black Color**: demo color set.
+-  **Change Account**: return to the home page.
+-  **Exit Programe**: exit application.
+-  **Change Background White Color**: demo color set.
+-  **Change Background Black Color**: demo color set.
 
-**<**: previous question.
-**>**: next question.
+-  **<**: previous question.
+-  **>**: next question.
 
-**Submit Question**: sumit code and get a result(score&feedback).
-**Run Code**: run code and get a output.
+-  **Submit Question**: sumit code and get a result(score&feedback).
+-  **Run Code**: run code and get a output.
