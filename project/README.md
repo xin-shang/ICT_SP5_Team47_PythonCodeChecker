@@ -93,3 +93,10 @@ The building environment is base on **JAVA JDK 19** and **PYTHON3.10.5**.
 
 - **Submit Question**: sumit code and get a result(score&feedback).
 - **Run Code**: run code and get a output.
+
+**Feedback Page**:
+
+Once an answer has been submitted, the system terminal will then show if there are any form of errors.
+
+It will then come up with the score page, proceed to click on the “Feedback” button. It will compare the student’s answers and the suggested answer. The student will know what they can improve on whilst showing how many marks they have got. 
+The terminal will also show the users what keywords have been passed through the system.
